@@ -14,4 +14,4 @@
 
 ###
 
-slack - github 연동 테스트
+aws ec-2연결 테스트
