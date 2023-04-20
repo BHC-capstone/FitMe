@@ -48,15 +48,4 @@ connection.query('SELECT * from Users', (error, rows, fields) => {
 
 connection.end();
 
-// app.get('*', async (req, res, next) => {
-//   try {
-//     const _users = await users.findAll({});
-//     console.log('db test');
-//     console.log(_users);
-//   } catch (err) {
-//     console.error(err);
-//     next(err);
-//   }
-// });
-
 module.exports = app;
