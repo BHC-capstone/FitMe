@@ -7,7 +7,6 @@ router.post('/signup', async function (req, res) {
   if (
     (req.body.username,
     req.body.password,
-    req.body.password2,
     req.body.email,
     req.body.age,
     req.body.gender)
@@ -17,9 +16,8 @@ router.post('/signup', async function (req, res) {
     });
 
     if (userInfo != undefined) res.send('이미 존재하는 아이디 입니다.');
-    else if (req.body.password != req.body.password2)
-      res.send('입력된 비밀번호가 서로 다릅니다.');
     else {
+      console.log(req.body);
       const result = await users.create({
         username: req.body.username,
         password: req.body.password,
@@ -27,7 +25,6 @@ router.post('/signup', async function (req, res) {
         age: req.body.age,
         gender: req.body.gender,
       });
-      users.create(result);
       res.send('회원가입을 환영합니다!');
     }
   } else {

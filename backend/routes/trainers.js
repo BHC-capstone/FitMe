@@ -27,7 +27,6 @@ router.post('/signup', async function (req, res) {
         age: req.body.age,
         gender: req.body.gender,
       });
-      trainers.create(result);
       res.send('회원가입을 환영합니다!');
     }
   } else {
