@@ -11,20 +11,12 @@
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "^4.18.2",
+    "express-mysql-session": "^3.0.0",
+    "express-session": "^1.17.3",
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
-<<<<<<< HEAD
-    "nodemon": "^2.0.22"
-  },
-  "main": "app.js",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": ""
-=======
     "mysql2": "^3.2.3",
     "sequelize": "^6.31.0",
     "sequelize-auto": "^0.8.8"
   }
->>>>>>> 4beb06f91004275abc56782a887efe244eacfb9c
 }

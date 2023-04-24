@@ -12,6 +12,7 @@ var _points = require("./points");
 var _pt_reservations = require("./pt_reservations");
 var _schedules = require("./schedules");
 var _sequelizemeta = require("./sequelizemeta");
+var _sessions = require("./sessions");
 var _trainer_cert = require("./trainer_cert");
 var _trainer_exp = require("./trainer_exp");
 var _trainers = require("./trainers");
@@ -31,6 +32,7 @@ function initModels(sequelize) {
   var pt_reservations = _pt_reservations(sequelize, DataTypes);
   var schedules = _schedules(sequelize, DataTypes);
   var sequelizemeta = _sequelizemeta(sequelize, DataTypes);
+  var sessions = _sessions(sequelize, DataTypes);
   var trainer_cert = _trainer_cert(sequelize, DataTypes);
   var trainer_exp = _trainer_exp(sequelize, DataTypes);
   var trainers = _trainers(sequelize, DataTypes);
@@ -51,6 +53,7 @@ function initModels(sequelize) {
     pt_reservations,
     schedules,
     sequelizemeta,
+    sessions,
     trainer_cert,
     trainer_exp,
     trainers,

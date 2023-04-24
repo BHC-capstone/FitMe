@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
-const { users } = require('../models');
+const { trainers } = require('../models');
 
-// uesr signup
+// trainer signup
 router.post('/signup', async function (req, res) {
   if (
     (req.body.username,
@@ -12,22 +12,22 @@ router.post('/signup', async function (req, res) {
     req.body.age,
     req.body.gender)
   ) {
-    const userInfo = await users.findOne({
+    const trainerInfo = await trainers.findOne({
       where: { username: req.body.username, password: req.body.password },
     });
 
-    if (userInfo != undefined) res.send('이미 존재하는 아이디 입니다.');
+    if (trainerInfo != undefined) res.send('이미 존재하는 아이디 입니다.');
     else if (req.body.password != req.body.password2)
       res.send('입력된 비밀번호가 서로 다릅니다.');
     else {
-      const result = await users.create({
+      const result = await trainers.create({
         username: req.body.username,
         password: req.body.password,
         email: req.body.email,
         age: req.body.age,
         gender: req.body.gender,
       });
-      users.create(result);
+      trainers.create(result);
       res.send('회원가입을 환영합니다!');
     }
   } else {
@@ -36,13 +36,14 @@ router.post('/signup', async function (req, res) {
   }
 });
 
-// user login
+// trainer login
 router.post('/login', async function (req, res) {
   if (req.body.username && req.body.password) {
-    const userInfo = await users.findOne({
+    const trainerInfo = await trainers.findOne({
       where: { username: req.body.username, password: req.body.password },
     });
-    if (userInfo != undefined) {
+
+    if (trainerInfo != undefined) {
       req.session.loggedin = true;
       req.session.username = req.body.username;
       res.redirect('/');
@@ -56,7 +57,7 @@ router.post('/login', async function (req, res) {
   }
 });
 
-// user logout
+// trainers logout
 router.get('/logout', function (req, res) {
   req.session.loggedin = false;
   res.send('성공적으로 로그아웃되었습니다');
