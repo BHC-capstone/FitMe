@@ -3,61 +3,38 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mysql = require('mysql');
-const cors = require('cors');
 
-var { users, trainers } = require('./models/index');
 
-const { sequelize } = require('./models/index');
-
-//for serssion
-var session = require('express-session');
-var MySQLStore = require('express-mysql-session')(session);
-
-var app = express();
-
-var options = {
-  host: 'localhost',
-  port: 3306,
-  user: 'root',
-  password: '1234',
-  database: 'FitMe',
-};
-
-var sessionStore = new MySQLStore(options);
-
-app.use(
-  session({
-    secret: 'FitMe',
-    resave: false,
-    saveUninitialized: true,
-    store: sessionStore,
-  })
-);
-app.use(cors());
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-//routers
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var trainersRouter = require('./routes/trainers');
 
+var app = express();
+
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/trainers', trainersRouter);
-app.use(usersRouter);
+app.use('./trainers', trainersRouter);
 
-sequelize
-  .sync({ force: false })
-  .then(() => {
-    console.log('데이터베이스 연결 성공');
+const connection = mysql.createConnection({
+    host     : 'localhost',
+    user     : 'root',
+    password : '1234',
+    database : 'FitMe'
   })
-  .catch((err) => {
-    console.error(err);
+
+  connection.connect();
+
+  connection.query('SELECT * from Users', (error, rows, fields) => {
+    if (error) throw error;
+    console.log('User info is: ', rows);
   });
+  
+  connection.end();
 
 module.exports = app;
