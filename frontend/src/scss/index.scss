@@ -3,25 +3,22 @@
     padding: 20px;
     button {
         margin-top: 20px;
-      }
-  }
-  
-  .panel {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    padding: 30px;
-    max-width: 500px;
-    margin: 0 auto;
-  }
-  
-  .panel button + button {
-    margin-left: 10px;
-  }
-  
-  .panel h2 {
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  
-  
+    }
+}
+.panel {
+background-color: #fff;
+border-radius: 10px;
+box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+padding: 30px;
+max-width: 500px;
+margin: 0 auto;
+}
+
+.panel button + button {
+margin-left: 10px;
+}
+
+.panel h2 {
+text-align: center;
+margin-bottom: 30px;
+}

@@ -1,19 +1,19 @@
-import React from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { Container, Form, Button } from 'react-bootstrap';
+import React from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Container, Form, Button } from "react-bootstrap";
 
-function SignUpPage() {
+function TrainerSignUpPage() {
   const navigate = useNavigate();
 
-  const [email, setEmail] = React.useState('');
-  const [username, setUsername] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [passwordCheck, setPasswordCheck] = React.useState('');
-  const [gender, setGender] = React.useState('');
-  const [age, setAge] = React.useState('');
+  const [email, setEmail] = React.useState("");
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [passwordCheck, setPasswordCheck] = React.useState("");
+  const [gender, setGender] = React.useState("");
+  const [age, setAge] = React.useState("");
   const [certificationFile, setCertificationFile] = React.useState(null);
-  const [introduction, setIntroduction] = React.useState('');
+  const [introduction, setIntroduction] = React.useState("");
 
   const onChangeEmail = (e) => {
     setEmail(e.target.value);
@@ -44,7 +44,7 @@ function SignUpPage() {
   const onSubmit = (e) => {
     e.preventDefault();
     if (password !== passwordCheck) {
-      return setPasswordCheck('');
+      return setPasswordCheck("");
     }
 
     const body = {
@@ -57,10 +57,10 @@ function SignUpPage() {
       introduction,
     };
     axios
-      .post('http://localhost:4000/trainers/signup', body)
+      .post("http://localhost:4000/trainers/signup", body)
       .then((res) => {
         if (res.data.success) {
-          navigate('/login');
+          navigate("/login");
         } else {
           alert(res.data.message);
         }
@@ -71,7 +71,7 @@ function SignUpPage() {
   };
 
   const goSignUp = () => {
-    navigate('/signup');
+    navigate("/signup");
   };
 
   return (
@@ -163,4 +163,4 @@ function SignUpPage() {
   );
 }
 
-export default SignUpPage;
+export default TrainerSignUpPage;
