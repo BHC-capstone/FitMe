@@ -1,24 +1,32 @@
 var express = require('express');
 var router = express.Router();
 const { trainers } = require('../models');
+const { users } = require('../models');
 
-//persnal training accept
-router.post('/accept', (req, res) => {
+// pt 요청 수락 
+router.post('/accept', async (req, res) => {
     const { id, trainerId } = req.body;
-    const sql = `UPDATE personal_trainings SET trainerId = ${trainerId} WHERE id = ${id}`;
-    db.query(sql, (err, result) => {
-        if (err) throw err;
-        res.status(200).json({ data: null, message: '성공적으로 수락되었습니다.' });
-    });
+    try{
+    await trainers.update(
+        { trainerId: trainerId },
+        { where: { id: id } }
+    );
+    res.status(200).json({ data: null, message: '성공적으로 수락되었습니다.' });
+    }
+    catch(err){
+        console.log(err);
+    }
 });
 
-// personal training reject
-router.post('/reject', (req, res) => {
+// pt 요청 거절 
+router.post('/reject', async (req, res) => {
     const { id } = req.body;
-    const sql = `DELETE FROM personal_trainings WHERE id = ${id}`;
-    db.query(sql, (err, result) => {
-        if (err) throw err;
-        res.status(200).json({ data: null, message: '성공적으로 거절되었습니다.' });
+    try{
+    await trainers.destroy({ where: { id: id } });
+    res.status(200).json({ data: null, message: '성공적으로 거절되었습니다.' });
     }
-    );
+    catch(err){
+        console.log(err);
+    }
 });
+

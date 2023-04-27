@@ -13,6 +13,7 @@ router.post('/signup', async function (req, res) {
     req.body.age,
     req.body.gender)
   ) {
+    try{
     const trainerInfo = await trainers.findOne({
       where: { username: req.body.username, password: req.body.password },
     });
@@ -27,6 +28,9 @@ router.post('/signup', async function (req, res) {
         gender: req.body.gender,
       });
       res.status(200).json({ data: null, message: '회원가입을 환영합니다' });
+    }}
+    catch(err){
+      console.log(err);
     }
   } else {
     res.status(400).json({ data: null, message: '모든 정보를 입력하세요' });
@@ -36,6 +40,7 @@ router.post('/signup', async function (req, res) {
 // trainer login
 router.post('/login', async function (req, res) {
   if (req.body.username && req.body.password) {
+    try{
     const trainerInfo = await trainers.findOne({
       where: { username: req.body.username, password: req.body.password },
     });
@@ -47,6 +52,10 @@ router.post('/login', async function (req, res) {
       res.end();
     } else {
       res.status(401).json({ data: null, message: '로그인 정보가 일치하지 않습니다' });
+    }
+    }
+    catch(err){
+      console.log(err);
     }
   } else {
     res.status(400).json({ data: null, message: '아이디와 비밀번호를 입력하세요' });
@@ -62,6 +71,7 @@ router.get('/logout', function (req, res) {
 // trainer delete
 router.post('/withdraw', async function (req, res) {
   if (req.body.username && req.body.password) {
+    try{
     const trainerInfo = await trainers.findOne({
       where: { username: req.body.username, password: req.body.password },
     });
@@ -73,6 +83,10 @@ router.post('/withdraw', async function (req, res) {
     } else {
       res.status(401).json({ data: null, message: '아이디와 비밀번호를 확인하세요' });
     }
+    }
+    catch(err){
+      console.log(err);
+    }
   } else {
     res.status(400).json({ data: null, message: '아이디와 비밀번호를 입력하세요' });
   }
@@ -80,15 +94,21 @@ router.post('/withdraw', async function (req, res) {
 
 // trainer info
 router.get('/profile/:userid', async function (req, res) {
+  try{
   const trainerInfo = await trainers.findOne({
     where: { username: req.params.userid },
   });
   res.status(200).json({ data: trainerInfo, message: '' });
+}
+  catch(err){
+    console.log(err);
+  }
 });
 
 // trainer info change
 router.post('/profile/changeProfile/:userid', async function (req, res) {
   if (req.session.loggedin) {
+    try{
     const trinersInfo = await trainers.findOne({
       where: { username: req.params.userid },
     });
@@ -106,6 +126,9 @@ router.post('/profile/changeProfile/:userid', async function (req, res) {
       { where: { username: req.params.userid } }
     );
     res.status(200).json({ data: null, message: '성공적으로 변경되었습니다.' });
+  }}
+  catch(err){
+    console.log(err);
   }
   } else { 
     res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
@@ -124,7 +147,8 @@ router.get('/trainerlist', async function (req, res) {
 
 // trainer search
 router.get('/trainerlist/${}', async function (req, res) {
-    const trainerInfo = await trainers.findOne({
+  try{  
+  const trainerInfo = await trainers.findOne({
         where: { name: req.body.name },
     });
     if (trainerInfo != undefined) {
@@ -132,18 +156,27 @@ router.get('/trainerlist/${}', async function (req, res) {
     } else {
       res.status(200).json({ data: null, message: '검색결과가 없습니다' });
     }
+  }
+  catch(err){
+    console.log(err);
+  }
 });
 
 // trainer revenue
 router.get('/revenue', async function (req, res) {
 if (req.session.loggedin) {
+  try{
   const trainerInfo = await trainers.findOne({
     where: { username: req.session.username },
   });
   res.status(200).json({ data: trainerInfo.point, message: '' });
-} else {
+  } 
+  catch(err){
+    console.log(err);
+  }}
+  else {
   res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
-}
+  }
 });
 
 

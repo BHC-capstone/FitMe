@@ -11,22 +11,28 @@ router.post('/signup', async function (req, res) {
     req.body.age,
     req.body.gender)
   ) {
-    const userInfo = await users.findOne({
-      where: { username: req.body.username, password: req.body.password },
-    });
-
-    if (userInfo != undefined) res.status(409).json({ data: result, message: '이미 존재하는 아이디입니다' });
-    else {
-      console.log(req.body);
-      const result = await users.create({
-        username: req.body.username,
-        password: req.body.password,
-        email: req.body.email,
-        age: req.body.age,
-        gender: req.body.gender,
+    try {
+      const userInfo = await users.findOne({
+        where: { username: req.body.username, password: req.body.password },
       });
-      res.status(200).json({ data: null, message: '회원가입을 환영합니다' });
+  
+      if (userInfo != undefined) res.status(409).json({ data: result, message: '이미 존재하는 아이디입니다' });
+      else {
+        console.log(req.body);
+        const result = await users.create({
+          username: req.body.username,
+          password: req.body.password,
+          email: req.body.email,
+          age: req.body.age,
+          gender: req.body.gender,
+        });
+        res.status(200).json({ data: null, message: '회원가입을 환영합니다' });
+      }
     }
+    catch(err){
+      console.log(err);
+    }
+
   } else {
     res.status(400).json({ data: null, message: '모든 정보를 입력하세요' });
   }
@@ -35,6 +41,7 @@ router.post('/signup', async function (req, res) {
 // user login
 router.post('/login', async function (req, res) {
   if (req.body.username && req.body.password) {
+    try{
     const userInfo = await users.findOne({
       where: { username: req.body.username, password: req.body.password },
     });
@@ -45,6 +52,10 @@ router.post('/login', async function (req, res) {
       res.end();
     } else {
       res.status(401).json({ data: null, message: '로그인 정보가 일치하지 않습니다' });
+    }
+    }
+    catch(err){
+      console.log(err);
     }
   } else {
     res.status(400).json({ data: null, message: '아이디와 비밀번호를 입력하세요' });
@@ -60,6 +71,7 @@ router.get('/logout', function (req, res) {
 // user delete
 router.post('/withdraw', async function (req, res) {
   if (req.body.username && req.body.password) {
+    try{
     const userInfo = await users.findOne({
       where: { username: req.body.username, password: req.body.password },
     });
@@ -70,6 +82,10 @@ router.post('/withdraw', async function (req, res) {
       res.status(200).json({ data: null, message: '성공적으로 탈퇴되었습니다' });
     } else {
       res.status(401).json({ data: null, message: '아이디와 비밀번호를 확인하세요' });
+      }
+    }
+    catch(err){
+      console.log(err);
     }
   } else {
     res.status(400).json({ data: null, message: '아이디와 비밀번호를 입력하세요' });
@@ -78,22 +94,29 @@ router.post('/withdraw', async function (req, res) {
 
 // user info
 router.get('/profile/:userid', async function (req, res) {
+  try{
   const userInfo = await users.findOne({
     where: { username: req.params.userid },
   });
   res.status(200).json({ data: userInfo, message: '' });
+  }
+  catch(err){
+    console.log(err);
+  }
 });
 
 
 // user info update
 router.post('/profile/changeProfile/:userid', async function (req, res) {
   if (req.session.loggedin) {
+    try{
     const userInfo = await users.findOne({
       where: { username: req.params.userid },
     });
     if (req.body.password != req.body.password2)
     res.status(401).json({ data: null, message: '입력된 비밀번호가 서로 다릅니다.' });
   else {
+    try{
     await users.update(
       {
         username: req.body.username,
@@ -105,6 +128,13 @@ router.post('/profile/changeProfile/:userid', async function (req, res) {
       { where: { username: req.params.userid } }
     );
     res.status(200).json({ data: null, message: '성공적으로 변경되었습니다.' });
+    }
+    catch(err){
+      console.log(err);
+    }
+  }}
+  catch(err){
+    console.log(err);
   }
   } else { 
     res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
@@ -116,11 +146,16 @@ router.post('/profile/changeProfile/:userid', async function (req, res) {
 // user point info
 router.get('/point', async function (req, res) {
   if (req.session.loggedin) {
+    try{
     const userInfo = await users.findOne({
       where: { username: req.session.username },
     });
     res.status(200).json({ data: userInfo.point, message: '' });
-  } else {
+  }
+  catch(err){
+    console.log(err);
+  }}
+   else {
     res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
   }
 });
