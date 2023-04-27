@@ -15,7 +15,7 @@ router.post('/signup', async function (req, res) {
       where: { username: req.body.username, password: req.body.password },
     });
 
-    if (userInfo != undefined) res.send('이미 존재하는 아이디 입니다.');
+    if (userInfo != undefined) res.status(409).json({ data: result, message: '이미 존재하는 아이디입니다' });
     else {
       console.log(req.body);
       const result = await users.create({
@@ -25,11 +25,10 @@ router.post('/signup', async function (req, res) {
         age: req.body.age,
         gender: req.body.gender,
       });
-      res.send('회원가입을 환영합니다!');
+      res.status(200).json({ data: null, message: '회원가입을 환영합니다' });
     }
   } else {
-    res.send('모든 정보를 입력하세요');
-    res.end();
+    res.status(400).json({ data: null, message: '모든 정보를 입력하세요' });
   }
 });
 
@@ -45,19 +44,17 @@ router.post('/login', async function (req, res) {
       res.redirect('/');
       res.end();
     } else {
-      res.send('로그인 정보가 일치하지 않습니다.');
+      res.status(401).json({ data: null, message: '로그인 정보가 일치하지 않습니다' });
     }
   } else {
-    res.send('아이디와 비밀번호를 입력하세요!');
-    res.end();
+    res.status(400).json({ data: null, message: '아이디와 비밀번호를 입력하세요' });
   }
 });
 
 // user logout
 router.get('/logout', function (req, res) {
   req.session.loggedin = false;
-  res.send('성공적으로 로그아웃되었습니다');
-  res.end();
+  res.status(200).json({ data: null, message: '성공적으로 로그아웃되었습니다' });
 });
 
 // user delete
@@ -70,15 +67,12 @@ router.post('/withdraw', async function (req, res) {
       await users.destroy({
         where: { username: req.body.username, password: req.body.password },
       });
-      res.send('성공적으로 탈퇴되었습니다.');
-      res.end();
+      res.status(200).json({ data: null, message: '성공적으로 탈퇴되었습니다' });
     } else {
-      res.send('아이디와 비밀번호를 확인하세요!');
-      res.end();
+      res.status(401).json({ data: null, message: '아이디와 비밀번호를 확인하세요' });
     }
   } else {
-    res.send('아이디와 비밀번호를 입력하세요!');
-    res.end();
+    res.status(400).json({ data: null, message: '아이디와 비밀번호를 입력하세요' });
   }
 });
 
@@ -87,8 +81,7 @@ router.get('/profile/:userid', async function (req, res) {
   const userInfo = await users.findOne({
     where: { username: req.params.userid },
   });
-  res.send(userInfo);
-  res.end();
+  res.status(200).json({ data: userInfo, message: '' });
 });
 
 
@@ -99,7 +92,7 @@ router.post('/profile/changeProfile/:userid', async function (req, res) {
       where: { username: req.params.userid },
     });
     if (req.body.password != req.body.password2)
-    res.send('입력된 비밀번호가 서로 다릅니다.');
+    res.status(401).json({ data: null, message: '입력된 비밀번호가 서로 다릅니다.' });
   else {
     await users.update(
       {
@@ -111,12 +104,10 @@ router.post('/profile/changeProfile/:userid', async function (req, res) {
       },
       { where: { username: req.params.userid } }
     );
-    res.send('성공적으로 변경되었습니다.');
-    res.end();
+    res.status(200).json({ data: null, message: '성공적으로 변경되었습니다.' });
   }
   } else { 
-    res.send('로그인이 필요합니다.');
-    res.end();
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
   }
 });
 
@@ -128,11 +119,9 @@ router.get('/point', async function (req, res) {
     const userInfo = await users.findOne({
       where: { username: req.session.username },
     });
-    res.send(userInfo.point);
-    res.end();
+    res.status(200).json({ data: userInfo.point, message: '' });
   } else {
-    res.send('로그인이 필요합니다.');
-    res.end();
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
   }
 });
 

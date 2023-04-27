@@ -8,7 +8,7 @@ router.post('/accept', (req, res) => {
     const sql = `UPDATE personal_trainings SET trainerId = ${trainerId} WHERE id = ${id}`;
     db.query(sql, (err, result) => {
         if (err) throw err;
-        res.send('성공적으로 수락되었습니다.');
+        res.status(200).json({ data: null, message: '성공적으로 수락되었습니다.' });
     });
 });
 
@@ -18,7 +18,7 @@ router.post('/reject', (req, res) => {
     const sql = `DELETE FROM personal_trainings WHERE id = ${id}`;
     db.query(sql, (err, result) => {
         if (err) throw err;
-        res.send('성공적으로 거절되었습니다.');
+        res.status(200).json({ data: null, message: '성공적으로 거절되었습니다.' });
     }
     );
 });
