@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -31,6 +29,10 @@
         "projectId": "d392a502-91d9-4fc1-b4d8-9ed15c527ece"
       }
     },
-    "owner": "pjm2476"
+    "owner": "pjm2476",
+
+    "packagerOpts": {
+      "sourceExts": ["js", "json", "ts", "tsx", "jsx"]
+    }
   }
 }
