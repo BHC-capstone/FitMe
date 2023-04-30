@@ -1,17 +1,17 @@
-import React from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { Container, Form, Button } from 'react-bootstrap';
+import React from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Container, Form, Button } from "react-bootstrap";
 
 function SignUpPage() {
   const navigate = useNavigate();
 
-  const [email, setEmail] = React.useState('');
-  const [username, setUsername] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [passwordCheck, setPasswordCheck] = React.useState('');
-  const [gender, setGender] = React.useState('');
-  const [age, setAge] = React.useState('');
+  const [email, setEmail] = React.useState("");
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [passwordCheck, setPasswordCheck] = React.useState("");
+  const [gender, setGender] = React.useState("");
+  const [age, setAge] = React.useState("");
 
   const onChangeEmail = (e) => {
     setEmail(e.target.value);
@@ -36,7 +36,7 @@ function SignUpPage() {
   const onSubmit = (e) => {
     e.preventDefault();
     if (password !== passwordCheck) {
-      return setPasswordCheck('');
+      return setPasswordCheck("");
     }
 
     const body = {
@@ -47,10 +47,10 @@ function SignUpPage() {
       gender,
     };
     axios
-      .post('http://localhost:4000/users/signup', body)
+      .post("http://localhost:4000/users/signup", body)
       .then((res) => {
         if (res.data.success) {
-          navigate('/login');
+          navigate("/login");
         } else {
           alert(res.data.message);
         }
@@ -61,7 +61,7 @@ function SignUpPage() {
   };
 
   const goTrainerSignUp = () => {
-    navigate('/trainer-signup');
+    navigate("/trainer-signup");
   };
 
   return (
@@ -75,6 +75,7 @@ function SignUpPage() {
               placeholder="Enter email"
               value={email}
               onChange={onChangeEmail}
+              required
             />
           </Form.Group>
           <Form.Group controlId="formBasicUsername">
@@ -84,6 +85,7 @@ function SignUpPage() {
               placeholder="Enter username"
               value={username}
               onChange={onChangeUsername}
+              required
             />
           </Form.Group>
           <Form.Group controlId="formBasicPassword">
@@ -93,6 +95,7 @@ function SignUpPage() {
               placeholder="Password"
               value={password}
               onChange={onChangePassword}
+              required
             />
           </Form.Group>
           <Form.Group controlId="formBasicPasswordCheck">
@@ -102,6 +105,7 @@ function SignUpPage() {
               placeholder="Password Check"
               value={passwordCheck}
               onChange={onChangePasswordCheck}
+              required
             />
           </Form.Group>
           <Form.Group controlId="formBasicGender">

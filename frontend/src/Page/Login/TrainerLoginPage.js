@@ -25,7 +25,7 @@ export default function LoginPage() {
     };
 
     axios
-      .post("http://localhost:4000/users/login", body)
+      .post("http://localhost:4000/trainers/login", body)
       .then((res) => {
         if (res.data.success) {
           console.log(res);
@@ -39,8 +39,8 @@ export default function LoginPage() {
       });
   };
 
-  const goTrainerLogin = () => {
-    navigate("/trainer-login");
+  const goUserLogin = () => {
+    navigate("/login");
   };
 
   return (
@@ -72,8 +72,8 @@ export default function LoginPage() {
           <Button type="submit" variant="primary">
             로그인
           </Button>
-          <Button type="submit" variant="secondary" onClick={goTrainerLogin}>
-            트레이너 로그인
+          <Button type="submit" variant="secondary" onClick={goUserLogin}>
+            일반 사용자 로그인
           </Button>
         </Form>
       </Container>
