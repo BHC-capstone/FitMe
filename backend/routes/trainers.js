@@ -6,26 +6,32 @@ const { trainers } = require('../models');
 // trainer signup
 router.post('/signup', async function (req, res) {
   if (
-    (req.body.username,
-    req.body.password,
-    req.body.password2,
-    req.body.email,
-    req.body.age,
-    req.body.gender)
+    (req.body.email,
+     req.body.userid,
+     req.body.username,
+     req.body.password,
+     req.body.age,
+     req.body.gender,
+     req.body.phnumber,
+     req.body.introduction
+    )
   ) {
     try{
     const trainerInfo = await trainers.findOne({
-      where: { username: req.body.username, password: req.body.password },
+      where: { userid: req.body.userid, password: req.body.password },
     });
 
     if (trainerInfo != undefined) res.status(409).send('이미 존재하는 아이디입니다');
     else {
       const result = await trainers.create({
+        email: req.body.email,
+        userid: req.body.userid,
         username: req.body.username,
         password: req.body.password,
-        email: req.body.email,
         age: req.body.age,
         gender: req.body.gender,
+        phnumber: req.body.phnumber,
+        introduction: req.body.introduction
       });
       res.status(200).json({ data: null, message: '회원가입을 환영합니다' });
     }}
@@ -39,15 +45,15 @@ router.post('/signup', async function (req, res) {
 
 // trainer login
 router.post('/login', async function (req, res) {
-  if (req.body.username && req.body.password) {
+  if (req.body.userid && req.body.password) {
     try{
     const trainerInfo = await trainers.findOne({
-      where: { username: req.body.username, password: req.body.password },
+      where: { userid: req.body.userid, password: req.body.password },
     });
 
     if (trainerInfo != undefined) {
       req.session.loggedin = true;
-      req.session.username = req.body.username;
+      req.session.userid = req.body.userid;
       res.redirect('/');
       res.end();
     } else {
@@ -70,14 +76,14 @@ router.get('/logout', function (req, res) {
 
 // trainer delete
 router.post('/withdraw', async function (req, res) {
-  if (req.body.username && req.body.password) {
+  if (req.body.userid && req.body.password) {
     try{
     const trainerInfo = await trainers.findOne({
-      where: { username: req.body.username, password: req.body.password },
+      where: { userid: req.body.userid, password: req.body.password },
     });
     if (trainerInfo != undefined) {
       await trainers.destroy({
-        where: { username: req.body.username, password: req.body.password },
+        where: { userid: req.body.userid, password: req.body.password },
       });
       res.status(200).json({ data: null, message: '성공적으로 탈퇴되었습니다' });
     } else {
@@ -96,7 +102,7 @@ router.post('/withdraw', async function (req, res) {
 router.get('/profile/:userid', async function (req, res) {
   try{
   const trainerInfo = await trainers.findOne({
-    where: { username: req.params.userid },
+    where: { userid: req.params.userid },
   });
   res.status(200).json({ data: trainerInfo, message: '' });
 }
@@ -110,20 +116,23 @@ router.post('/profile/changeProfile/:userid', async function (req, res) {
   if (req.session.loggedin) {
     try{
     const trinersInfo = await trainers.findOne({
-      where: { username: req.params.userid },
+      where: { userid: req.params.userid },
     });
     if (req.body.password != req.body.password2)
     res.status(401).json({ data: null, message: '입력된 비밀번호가 서로 다릅니다.' });
   else {
     await trainers.update(
       {
+        email: req.body.email,
+        userid: req.body.userid,
         username: req.body.username,
         password: req.body.password,
-        email: req.body.email,
         age: req.body.age,
         gender: req.body.gender,
+        phnumber: req.body.phnumber,
+        introduction: req.body.introduction
       },
-      { where: { username: req.params.userid } }
+      { where: { userid: req.params.userid } }
     );
     res.status(200).json({ data: null, message: '성공적으로 변경되었습니다.' });
   }}
@@ -149,7 +158,7 @@ router.get('/trainerlist', async function (req, res) {
 router.get('/trainerlist/${}', async function (req, res) {
   try{  
   const trainerInfo = await trainers.findOne({
-        where: { name: req.body.name },
+        where: { userid: req.body.userid },
     });
     if (trainerInfo != undefined) {
       res.status(200).json({ data: trainerInfo, message: '' });
@@ -167,7 +176,7 @@ router.get('/revenue', async function (req, res) {
 if (req.session.loggedin) {
   try{
   const trainerInfo = await trainers.findOne({
-    where: { username: req.session.username },
+    where: { userid: req.session.userid },
   });
   res.status(200).json({ data: trainerInfo.point, message: '' });
   } 

@@ -8,12 +8,12 @@ const { requests } = require('../models');
 router.post('/request', (req, res) => {
     if (req.session.loggedin) {
         users.findOne({
-            where: { username: req.params.userid },
+            where: { userid: req.params.userid },
         }).then((requestInfo) => {
         if (requestInfo != undefined) {
             const newRequest = {
-            username: req.body.username,
-            trainer: req.body.trainer,
+            userid: req.body.userid,
+            trainerid: req.body.trainerid,
             date: req.body.date,
             time: req.body.time,
             request: req.body.request,
@@ -34,11 +34,11 @@ router.post('/request', (req, res) => {
 router.post('/request/delete', (req, res) => {
     if (req.session.loggedin) {
         users.findOne({
-            where: { username: req.params.userid },
+            where: { userid: req.params.userid },
         }).then((requestInfo) => {
         if (requestInfo != undefined) {
             requests.destroy({
-            where: { username: req.body.username, request: req.body.request },
+            where: { userid: req.body.userid, request: req.body.request },
             });
             res.status(200).json({ data: null, message: '성공적으로 삭제되었습니다.' });
         } else {
@@ -59,10 +59,11 @@ router.post('/request/accept', (req, res) => {
         if (requestInfo != undefined) {
             requests.update(
             {
-                request: req.body.request,
+                response: req.body.response,
+                accept: req.body.accept,
             },
             {
-                where: { username: req.params.userid },
+                where: { userid: req.params.userid },
             }
             );
             res.status(200).json({ data: null, message: '성공적으로 수락되었습니다.' });
@@ -80,15 +81,16 @@ router.post('/request/accept', (req, res) => {
 router.post('/request/reject', (req, res) => {
     if (req.session.loggedin) {
         trainers.findOne({
-            where: { username: req.params.userid },
+            where: { userid: req.params.userid },
         }).then((requestInfo) => {
         if (requestInfo != undefined) {
             requests.update(
             {
-                request: req.body.request,
+                response: req.body.response,
+                accept: req.body.accept,
             },
             {
-                where: { username: req.params.userid },
+                where: { userid: req.params.userid },
             }
             );
             res.status(200).json({ data: null, message: '성공적으로 거절되었습니다.' });
