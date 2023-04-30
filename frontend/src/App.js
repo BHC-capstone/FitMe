@@ -27,7 +27,7 @@ function App() {
           </ul>
         </nav>
         <Routes history={history}>
-          <Route path="/" element={<SignUpPage />} />
+          <Route path="/" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/trainer-signup" element={<TrainerSignUpPage />} />
           <Route path="/login" element={<LoginPage />} />
