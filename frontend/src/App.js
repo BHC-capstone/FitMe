@@ -10,6 +10,7 @@ import TrainerSignUpPage from './Page/Register/TrainerSignUpPage';
 import TrainerLoginPage from './Page/Login/TrainerLoginPage';
 import TrainerList from './Page/Trainer/TrainerList';
 import Trainerdetail from './Page/Trainer/Trainerdetail';
+import BottomNav from './components/BottomNav';
 
 const history = createBrowserHistory();
 
