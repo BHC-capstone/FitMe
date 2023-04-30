@@ -14,21 +14,17 @@ router.post('/request', (req, res) => {
             trainer: req.body.trainer,
             date: req.body.date,
             time: req.body.time,
-            place: req.body.place,
             request: req.body.request,
             };
             requests.create(newRequest).then(() => {
-            res.send('성공적으로 신청되었습니다.');
-            res.end();
+            res.status(200).json({ data: null, message: '성공적으로 신청되었습니다.' });
             });
         } else {
-            res.send('아이디와 비밀번호를 확인하세요!');
-            res.end();
+            res.status(401).json({ data: null, message: '' });
         }
         });
     } else {
-        res.send('아이디와 비밀번호를 입력하세요!');
-        res.end();
+        res.status(401).json({ data: null, message: '' });
     }
     });
 
@@ -42,15 +38,12 @@ router.post('/request/delete', (req, res) => {
             requests.destroy({
             where: { username: req.body.username, request: req.body.request },
             });
-            res.send('성공적으로 삭제되었습니다.');
-            res.end();
+            res.status(200).json({ data: null, message: '성공적으로 삭제되었습니다.' });
         } else {
-            res.send('아이디와 비밀번호를 확인하세요!');
-            res.end();
+            res.status(401).json({ data: null, message: '' });
         }
         });
     } else {
-        res.send('아이디와 비밀번호를 입력하세요!');
-        res.end();
+        res.status(401).json({ data: null, message: '' });
     }
     });
