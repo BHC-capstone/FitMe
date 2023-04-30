@@ -150,14 +150,13 @@ router.post('/profile/changeProfile/:userid', async function (req, res) {
 router.get('/trainerlist', async function (req, res) {
   try{const trainerInfo = await trainers.findAll({
     attributes: ['username','age', 'gender', 'introduction', 'phonenumber', 'email', 'review_avg'],
-    offset: 0,
-    limit: 10,
   });
   res.status(200).json({ data: trainerInfo, message: '' });}
   catch(err){
     console.log(err);
   }
 });
+
 
 
 // trainer search
