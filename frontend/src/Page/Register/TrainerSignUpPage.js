@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
 
-function SignUpPage() {
+function TrainerSignUpPage() {
   const navigate = useNavigate();
 
   const [email, setEmail] = React.useState('');
@@ -180,4 +180,4 @@ function SignUpPage() {
   );
 }
 
-export default SignUpPage;
+export default TrainerSignUpPage;
