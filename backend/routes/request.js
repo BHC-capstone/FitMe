@@ -1,17 +1,19 @@
 var express = require('express');
 var router = express.Router();
 const { users } = require('../models');
+const { trainers } = require('../models');
+const { requests } = require('../models');
 
 // pt 요청
 router.post('/request', (req, res) => {
-    if (req.body.username && req.body.password) {
+    if (req.session.loggedin) {
         users.findOne({
-        where: { username: req.body.username, password: req.body.password },
-        }).then((userInfo) => {
-        if (userInfo != undefined) {
+            where: { userid: req.params.userid },
+        }).then((requestInfo) => {
+        if (requestInfo != undefined) {
             const newRequest = {
-            username: req.body.username,
-            trainer: req.body.trainer,
+            userid: req.body.userid,
+            trainerid: req.body.trainerid,
             date: req.body.date,
             time: req.body.time,
             request: req.body.request,
@@ -30,13 +32,13 @@ router.post('/request', (req, res) => {
 
 // pt 요청 삭제
 router.post('/request/delete', (req, res) => {
-    if (req.body.username && req.body.password) {
+    if (req.session.loggedin) {
         users.findOne({
-        where: { username: req.body.username, password: req.body.password },
-        }).then((userInfo) => {
-        if (userInfo != undefined) {
+            where: { userid: req.params.userid },
+        }).then((requestInfo) => {
+        if (requestInfo != undefined) {
             requests.destroy({
-            where: { username: req.body.username, request: req.body.request },
+            where: { userid: req.body.userid, request: req.body.request },
             });
             res.status(200).json({ data: null, message: '성공적으로 삭제되었습니다.' });
         } else {
@@ -47,3 +49,58 @@ router.post('/request/delete', (req, res) => {
         res.status(401).json({ data: null, message: '' });
     }
     });
+
+// pt 요청 수락
+router.post('/request/accept', (req, res) => {
+    if (req.session.loggedin) {
+        trainers.findOne({
+            where: { username: req.params.userid },
+        }).then((requestInfo) => {
+        if (requestInfo != undefined) {
+            requests.update(
+            {
+                response: req.body.response,
+                accept: req.body.accept,
+            },
+            {
+                where: { userid: req.params.userid },
+            }
+            );
+            res.status(200).json({ data: null, message: '성공적으로 수락되었습니다.' });
+        } else {
+            res.status(401).json({ data: null, message: '' });
+        }
+        });
+    } else {
+        res.status(401).json({ data: null, message: '' });
+    }
+    }
+);
+
+// pt 요청 거절
+router.post('/request/reject', (req, res) => {
+    if (req.session.loggedin) {
+        trainers.findOne({
+            where: { userid: req.params.userid },
+        }).then((requestInfo) => {
+        if (requestInfo != undefined) {
+            requests.update(
+            {
+                response: req.body.response,
+                accept: req.body.accept,
+            },
+            {
+                where: { userid: req.params.userid },
+            }
+            );
+            res.status(200).json({ data: null, message: '성공적으로 거절되었습니다.' });
+        } else {
+            res.status(401).json({ data: null, message: '' });
+        }
+        });
+    } else {
+        res.status(401).json({ data: null, message: '' });
+    }
+    }
+);
+
