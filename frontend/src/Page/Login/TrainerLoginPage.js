@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { Container, Form, Button } from 'react-bootstrap';
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Container, Form, Button } from "react-bootstrap";
 
 export default function LoginPage() {
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  const onUsernameHandler = event => {
+  const onUsernameHandler = (event) => {
     setUsername(event.currentTarget.value);
   };
-  const onPasswordHandler = event => {
+  const onPasswordHandler = (event) => {
     setPassword(event.currentTarget.value);
   };
 
-  const onSubmitHandler = event => {
+  const onSubmitHandler = (event) => {
     event.preventDefault();
 
     const body = {
@@ -25,8 +25,8 @@ export default function LoginPage() {
     };
 
     axios
-      .post('http://localhost:4000/users/login', body)
-      .then(res => {
+      .post("http://localhost:4000/trainers/login", body)
+      .then((res) => {
         if (res.data.success) {
           console.log(res);
           // navigate("/main");
@@ -34,13 +34,13 @@ export default function LoginPage() {
           alert(res.data.message);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
-  const goTrainerLogin = () => {
-    navigate('/trainer-login');
+  const goUserLogin = () => {
+    navigate("/login");
   };
 
   return (
@@ -72,8 +72,8 @@ export default function LoginPage() {
           <Button type="submit" variant="primary">
             로그인
           </Button>
-          <Button type="submit" variant="secondary" onClick={goTrainerLogin}>
-            트레이너 로그인
+          <Button type="submit" variant="secondary" onClick={goUserLogin}>
+            일반 사용자 로그인
           </Button>
         </Form>
       </Container>

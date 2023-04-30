@@ -1,50 +1,50 @@
-import React from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { Container, Form, Button } from "react-bootstrap";
+import React from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { Container, Form, Button } from 'react-bootstrap';
 
 function TrainerSignUpPage() {
   const navigate = useNavigate();
 
-  const [email, setEmail] = React.useState("");
-  const [username, setUsername] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [passwordCheck, setPasswordCheck] = React.useState("");
-  const [gender, setGender] = React.useState("");
-  const [age, setAge] = React.useState("");
+  const [email, setEmail] = React.useState('');
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [passwordCheck, setPasswordCheck] = React.useState('');
+  const [gender, setGender] = React.useState('');
+  const [age, setAge] = React.useState('');
   const [certificationFile, setCertificationFile] = React.useState(null);
-  const [introduction, setIntroduction] = React.useState("");
+  const [introduction, setIntroduction] = React.useState('');
 
-  const onChangeEmail = (e) => {
+  const onChangeEmail = e => {
     setEmail(e.target.value);
   };
-  const onChangeUsername = (e) => {
+  const onChangeUsername = e => {
     setUsername(e.target.value);
   };
-  const onChangePassword = (e) => {
+  const onChangePassword = e => {
     setPassword(e.target.value);
   };
-  const onChangePasswordCheck = (e) => {
+  const onChangePasswordCheck = e => {
     setPasswordCheck(e.target.value);
   };
-  const onChangeGender = (e) => {
+  const onChangeGender = e => {
     setGender(e.target.value);
   };
-  const onChangeAge = (e) => {
+  const onChangeAge = e => {
     setAge(e.target.value);
   };
-  const onChangeCertificationFile = (e) => {
+  const onChangeCertificationFile = e => {
     setCertificationFile(e.target.files[0]);
   };
-  const onChangeIntroduction = (e) => {
+  const onChangeIntroduction = e => {
     setIntroduction(e.target.value);
   };
 
   // eslint-disable-next-line consistent-return
-  const onSubmit = (e) => {
+  const onSubmit = e => {
     e.preventDefault();
     if (password !== passwordCheck) {
-      return setPasswordCheck("");
+      return setPasswordCheck('');
     }
 
     const body = {
@@ -53,25 +53,42 @@ function TrainerSignUpPage() {
       password,
       age,
       gender,
-      certificationFile,
       introduction,
     };
-    axios
-      .post("http://localhost:4000/trainers/signup", body)
-      .then((res) => {
-        if (res.data.success) {
-          navigate("/login");
-        } else {
-          alert(res.data.message);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+    // axios
+    //   .post('http://localhost:4000/trainers/signup', body)
+    //   .then((res) => {
+    //     if (res.data.success) {
+    //       navigate('/login');
+    //     } else {
+    //       alert(res.data.message);
+    //     }
+    //   })
+
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('username', username);
+    formData.append('password', password);
+    formData.append('age', age);
+    formData.append('gender', gender);
+    formData.append('introduction', introduction);
+    formData.append('certificationFile', certificationFile);
+
+    axios({
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      url: 'http://localhost:4000/trainers/signup',
+      data: formData,
+      method: 'POST',
+    }).catch(err => {
+      console.log(err);
+    });
   };
 
   const goSignUp = () => {
-    navigate("/signup");
+    navigate('/signup');
   };
 
   return (

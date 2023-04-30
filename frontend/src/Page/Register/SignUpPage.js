@@ -75,6 +75,7 @@ function SignUpPage() {
               placeholder="Enter email"
               value={email}
               onChange={onChangeEmail}
+              required
             />
           </Form.Group>
           <Form.Group controlId="formBasicUsername">
@@ -84,6 +85,7 @@ function SignUpPage() {
               placeholder="Enter username"
               value={username}
               onChange={onChangeUsername}
+              required
             />
           </Form.Group>
           <Form.Group controlId="formBasicPassword">
@@ -93,6 +95,7 @@ function SignUpPage() {
               placeholder="Password"
               value={password}
               onChange={onChangePassword}
+              required
             />
           </Form.Group>
           <Form.Group controlId="formBasicPasswordCheck">
@@ -102,6 +105,7 @@ function SignUpPage() {
               placeholder="Password Check"
               value={passwordCheck}
               onChange={onChangePasswordCheck}
+              required
             />
           </Form.Group>
           <Form.Group controlId="formBasicGender">
