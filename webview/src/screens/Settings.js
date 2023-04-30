@@ -1,7 +1,8 @@
 import React from 'react';
-import {View} from 'react-native';
+import WebView from 'react-native-webview';
 
 const Home = () => {
-  return <View></View>;
+  return <WebView source={{ uri: 'https://naver.com' }} />;
 };
+
 export default Home;
