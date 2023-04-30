@@ -11,10 +11,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    user_id: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
     username: {
       type: DataTypes.STRING(255),
       allowNull: true
@@ -29,10 +25,6 @@ module.exports = function(sequelize, DataTypes) {
     },
     gender: {
       type: DataTypes.STRING(10),
-      allowNull: true
-    },
-    phonenumber: {
-      type: DataTypes.STRING(255),
       allowNull: true
     }
   }, {
