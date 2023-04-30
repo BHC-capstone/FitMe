@@ -1,59 +1,69 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from "react";
-import styled from "styled-components";
+import styled from 'styled-components';
 
-
-const TrainerList = (props) => {
+function TrainerList(props) {
   const [posts, setPosts] = useState([]);
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/posts")
-      .then((res) => res.json())
-      .then((data) => setPosts(data));
+    fetch('https://jsonplaceholder.typicode.com/posts')
+      .then(res => res.json())
+      .then(data => setPosts(data));
   }, []);
 
-  const [search, setSearch] = useState("");
-  const onChange = (e) => {
-        setSearch(e.target.value)
-    }
-  const filterTitle = posts.filter((p) => {
-    return p.title.toLocaleLowerCase().includes(search.toLocaleLowerCase())
-  })
-  const sort_star_func = () =>{
-    let tempArray = Array.from(posts);
-    tempArray.sort((b, a) => a.id-b.id);
-    setPosts(tempArray)
-  }
-	return (
-		<Layout>
-        <Layout>
-          <p1>트레이너 목록</p1>
-          <input type="text" value ={search} onChange = {onChange} placeholder="트레이너 이름 검색" />
-          <button className="sort_star" onClick={sort_star_func}>별점 순으로 정렬 기능</button>
-          <button>홀트</button>
-          <button>헬스</button>
-        </Layout>
-        {filterTitle.map(posts => 
+  const [search, setSearch] = useState('');
+  const onChange = e => {
+    setSearch(e.target.value);
+  };
+  const filterTitle = posts.filter(p => {
+    return p.title.toLocaleLowerCase().includes(search.toLocaleLowerCase());
+  });
+  const sortStarFunc = () => {
+    const tempArray = Array.from(posts);
+    tempArray.sort((b, a) => a.id - b.id);
+    setPosts(tempArray);
+  };
+  return (
+    <Layout>
+      <Layout>
+        <p1>트레이너 목록</p1>
+        <input
+          type="text"
+          value={search}
+          onChange={onChange}
+          placeholder="트레이너 이름 검색"
+        />
+        <button type="button" className="sort_star" onClick={sortStarFunc}>
+          별점 순으로 정렬 기능
+        </button>
+        <button type="button">홀트</button>
+        <button type="button">헬스</button>
+      </Layout>
+      {filterTitle.map(post => (
         <div>
-          <BoxOne onclick="location.href={'/trainer_info/'+${posts.id}};">
-          <article key={posts.id}>
-            <h3>
-              {posts.id}. {posts.title}
-            </h3>
-            <p>{posts.body}</p>
-            <Link to={"/trainer_info/"+posts.id}><li>바로가기</li></Link>
-            <Link to={{pathname: "/trainer_info/"+posts.id, state: { id : posts.id }}}>
-              바로가기2
-            </Link>
-          </article>
+          <BoxOne onclick="location.href={'/trainer_info/'+${post.id}};">
+            <article key={post.id}>
+              <h3>
+                {post.id}. {post.title}
+              </h3>
+              <p>{post.body}</p>
+              <Link to={`/trainer_info/${post.id}`}>
+                <li>바로가기</li>
+              </Link>
+              <Link
+                to={{
+                  pathname: `/trainer_info/${post.id}`,
+                  state: { id: posts.id },
+                }}
+              >
+                바로가기2
+              </Link>
+            </article>
           </BoxOne>
-        </div>)}
+        </div>
+      ))}
     </Layout>
-
-	);
-	
-};
-
+  );
+}
 
 const Layout = styled.div`
   display: flex;
@@ -68,6 +78,5 @@ const BoxOne = styled.div`
   height: 200px;
   cursor: pointer;
 `;
-
 
 export default TrainerList;
