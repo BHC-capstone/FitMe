@@ -12,6 +12,7 @@ import TrainerList from './page/Trainer/TrainerList';
 import Trainerdetail from './page/Trainer/Trainerdetail';
 import BottomNav from './components/bottomNav';
 import Tabs from './components/myPageTabs';
+import UserEdit from './page/myPage/UserInfoEdit';
 
 const history = createBrowserHistory();
 
@@ -32,6 +33,7 @@ function App() {
         </nav>
         <Routes history={history}>
           <Route path="/mypage/*" element={<Tabs />} />
+          <Route path="/mypage/edit" element={<UserEdit />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/trainer-signup" element={<TrainerSignUpPage />} />
           <Route path="/login" element={<LoginPage />} />
