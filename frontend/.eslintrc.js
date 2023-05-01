@@ -5,24 +5,28 @@ module.exports = {
     node: true,
   },
   extends: [
-    "airbnb",
+    'airbnb',
     // {"prettier/react",}
-    "eslint:recommended",
-    "plugin:prettier/recommended",
-    "react-app",
-    "prettier",
+    'eslint:recommended',
+    'plugin:prettier/recommended',
+    'react-app',
+    'prettier',
   ],
-  plugins: ["prettier"],
+  plugins: ['prettier'],
   rules: {
-    "import/np-resolved": "off",
-    "import/no-extraneous-dependencies": "off",
-    "react/jsx-filename-extension": ["error", { extensions: [".js", ".jsx"] }],
-    "jsx-a11y/label-has-associated-control": [
+    'import/np-resolved': 'off',
+    'import/no-extraneous-dependencies': 'off',
+    'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx'] }],
+    'jsx-a11y/label-has-associated-control': [
       2,
       {
-        labelAttributes: ["htmlFor"],
+        labelAttributes: ['htmlFor'],
       },
     ],
-    "prettier/prettier": "error",
+    'prettier/prettier': 'error'{
+      "endOfLine": "auto"
+    },
+    'arrow-body-style': 'off',
+    'prefer-arrow-callback': 'off',
   },
 };

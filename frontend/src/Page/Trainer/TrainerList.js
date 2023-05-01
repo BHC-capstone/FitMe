@@ -1,11 +1,11 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+
 import styled from 'styled-components';
 import { Card, Rate } from 'antd';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const TrainerList = props => {
+function TrainerList(props) {
   const navigate = useNavigate();
 
   const [trainers, setTrainers] = useState([]);
@@ -25,7 +25,7 @@ const TrainerList = props => {
     return p.username.toLocaleLowerCase().includes(search.toLocaleLowerCase());
   });
   const sort_star_func = () => {
-    let tempArray = Array.from(trainers);
+    const tempArray = Array.from(trainers);
     tempArray.sort((b, a) => a.id - b.id);
     setTrainers(tempArray);
   };
@@ -91,7 +91,7 @@ const TrainerList = props => {
       ))}
     </Layout>
   );
-};
+}
 
 const Layout = styled.div`
   display: flex;
