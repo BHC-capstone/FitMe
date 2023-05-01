@@ -1,9 +1,11 @@
 import React from 'react';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
 
 function SignUpPage() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [email, setEmail] = React.useState('');
@@ -79,7 +81,7 @@ function SignUpPage() {
             />
           </Form.Group>
           <Form.Group controlId="formBasicUsername">
-            <Form.Label>아이디</Form.Label>
+            <Form.Label>이름</Form.Label>
             <Form.Control
               type="text"
               placeholder="Enter username"
@@ -114,6 +116,7 @@ function SignUpPage() {
               <option value="">선택하세요</option>
               <option value="male">남성</option>
               <option value="female">여성</option>
+              <option value="others">기타</option>
             </Form.Control>
           </Form.Group>
 

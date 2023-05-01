@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
+import { loginTrainer } from '../../_actions/userAction';
 
-export default function LoginPage() {
+export default function LoginPage(props) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [username, setUsername] = useState('');
@@ -24,14 +26,12 @@ export default function LoginPage() {
       password,
     };
 
-    axios
-      .post('http://localhost:4000/trainers/login', body)
+    dispatch(loginTrainer(body))
       .then(res => {
-        if (res.data.success) {
-          console.log(res);
-          // navigate("/main");
+        if (res.payload.loginSuccess) {
+          navigate('/');
         } else {
-          alert(res.data.message);
+          alert(res.payload.message);
         }
       })
       .catch(err => {
@@ -69,10 +69,10 @@ export default function LoginPage() {
             />
           </Form.Group>
 
-          <Button type="submit" variant="primary">
+          <Button type="submit" variant="info">
             로그인
           </Button>
-          <Button type="submit" variant="secondary" onClick={goUserLogin}>
+          <Button type="button" variant="warning" onClick={goUserLogin}>
             일반 사용자 로그인
           </Button>
         </Form>

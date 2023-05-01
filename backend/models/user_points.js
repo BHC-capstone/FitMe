@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('pt_reservations', {
+  return sequelize.define('user_points', {
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -10,33 +10,13 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    trainer_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    date: {
-      type: DataTypes.DATEONLY,
-      allowNull: true
-    },
-    time: {
-      type: DataTypes.TIME,
-      allowNull: true
-    },
-    request: {
-      type: DataTypes.TEXT,
-      allowNull: true
-    },
-    response: {
-      type: DataTypes.TEXT,
-      allowNull: true
-    },
-    accept: {
+    amount: {
       type: DataTypes.INTEGER,
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'pt_reservations',
+    tableName: 'user_points',
     timestamps: false,
     indexes: [
       {
