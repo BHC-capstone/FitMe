@@ -1,16 +1,17 @@
-import React from 'react';
+/* import React from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 
 export default function MainPage() {
+  const navigate = useNavigate();
+  
   const onClickHandler = () => {
     axios.get('users/logout').then(response => {
       if (response.data.success) {
-        console.log(props.history);
-        props.history.push('/login');
+        navigate('/login');
       } else {
-        alert('Error');
+        alert(res.payload.message);
       }
     });
   };
@@ -33,3 +34,4 @@ export default function MainPage() {
     </nav>
   );
 }
+ */

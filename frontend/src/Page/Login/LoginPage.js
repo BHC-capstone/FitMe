@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../../../_actions/userAction';
 import { Container, Form, Button } from 'react-bootstrap';
+import { loginUser } from '../../_actions/userAction';
 
-export default function LoginPage() {
+export default function LoginPage(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

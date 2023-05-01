@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
 import { loginTrainer } from '../../_actions/userAction';
 
-export default function LoginPage() {
+export default function LoginPage(props) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [username, setUsername] = useState('');
@@ -37,7 +38,7 @@ export default function LoginPage() {
         console.log(err);
       });
   };
-s
+
   const goUserLogin = () => {
     navigate('/login');
   };

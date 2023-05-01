@@ -6,7 +6,6 @@ module.exports = {
   },
   extends: [
     'airbnb',
-    // {"prettier/react",}
     'eslint:recommended',
     'plugin:prettier/recommended',
     'react-app',
@@ -23,9 +22,12 @@ module.exports = {
         labelAttributes: ['htmlFor'],
       },
     ],
-    'prettier/prettier': 'error'{
-      "endOfLine": "auto"
-    },
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
     'arrow-body-style': 'off',
     'prefer-arrow-callback': 'off',
   },

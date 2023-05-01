@@ -7,10 +7,10 @@ import {
   LOGOUT,
 } from './types';
 
-const USER_URL = '/users';
-const TRAINER_URL = '/trainers';
+// const USER_URL = '/users';
+// const TRAINER_URL = '/trainers';
 
-//일반사용자 회원가입
+// 일반사용자 회원가입
 export function registerUser(dataToSubmit) {
   const request = axios
     .post('/api/users/register', dataToSubmit)
@@ -23,7 +23,7 @@ export function registerUser(dataToSubmit) {
   };
 }
 
-//일반사용자 로그인
+// 일반사용자 로그인
 export function loginUser(dataToSubmit) {
   const request = axios
     .post('/api/users/login', dataToSubmit)
@@ -36,7 +36,7 @@ export function loginUser(dataToSubmit) {
   };
 }
 
-//트레이너 회원가입
+// 트레이너 회원가입
 export function registerTrainer(dataToSubmit) {
   const request = axios
     .post('/api/trainers/tregister', dataToSubmit)
@@ -49,7 +49,7 @@ export function registerTrainer(dataToSubmit) {
   };
 }
 
-//트레이너 로그인
+// 트레이너 로그인
 export function loginTrainer(dataToSubmit) {
   const request = axios
     .post('/api/trainers/login', dataToSubmit)
@@ -64,7 +64,7 @@ export function loginTrainer(dataToSubmit) {
 
 // export function logout() {
 //   const data = axios.post(USER_URL + '/auth')
-//.then(reponse => Response.data);
+// .then(reponse => Response.data);
 //
 //   return {
 //     type: LOGOUT,
