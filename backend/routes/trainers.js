@@ -7,7 +7,7 @@ const { trainers } = require('../models');
 router.post('/signup', async function (req, res) {
   if (
     (req.body.email,
-     req.body.user_id,
+     req.body.trainer_id,
      req.body.username,
      req.body.password,
      req.body.age,
@@ -99,10 +99,10 @@ router.post('/withdraw', async function (req, res) {
 });
 
 // trainer info
-router.get('/profile/:userid', async function (req, res) {
+router.get('/profile/:user_id', async function (req, res) {
   try{
   const trainerInfo = await trainers.findOne({
-    where: { user_id: req.params.userid },
+    where: { user_id: req.params.user_id },
   });
   res.status(200).json({ data: trainerInfo, message: '' });
 }
@@ -112,11 +112,11 @@ router.get('/profile/:userid', async function (req, res) {
 });
 
 // trainer info change
-router.post('/profile/changeProfile/:userid', async function (req, res) {
+router.post('/profile/changeProfile/:user_id', async function (req, res) {
   if (req.session.loggedin) {
     try{
     const trinersInfo = await trainers.findOne({
-      where: { userid: req.params.userid },
+      where: { user_id: req.params.user_id },
     });
     if (req.body.password != req.body.password2)
     res.status(401).json({ data: null, message: '입력된 비밀번호가 서로 다릅니다.' });
@@ -132,7 +132,7 @@ router.post('/profile/changeProfile/:userid', async function (req, res) {
         phonenumber: req.body.phnumber,
         introduction: req.body.introduction
       },
-      { where: { userid: req.params.userid } }
+      { where: { user_id: req.params.user_id } }
     );
     res.status(200).json({ data: null, message: '성공적으로 변경되었습니다.' });
   }}
@@ -148,8 +148,8 @@ router.post('/profile/changeProfile/:userid', async function (req, res) {
 
 // trainerlist paging
 router.get('/trainerlist', async function (req, res) {
-  try{const trainerInfo = await trainers.findAll({
-    attributes: ['username','age', 'gender', 'introduction', 'phonenumber', 'email', 'review_avg'],
+  try{const trainerInfo = await trainers.find({
+    attributes: ['user_id','username','age', 'gender', 'introduction', 'phonenumber', 'email', 'review_avg'],
   });
   res.status(200).json({ data: trainerInfo, message: '' });}
   catch(err){
@@ -157,7 +157,17 @@ router.get('/trainerlist', async function (req, res) {
   }
 });
 
-
+// trainer detail
+router.get('/trainerlist/:user_id', async function (req, res) {
+  try{const trainerInfo = await trainers.findOne({
+    where: { user_id: req.params.user_id },
+    attribute: ['username','age', 'gender', 'phonenumber','email','introduction', 'carrer', 'review_avg']
+  });
+  res.status(200).json({ data: trainerInfo, message: '' });}
+  catch(err){
+    console.log(err);
+  }
+});
 
 // trainer search
 router.get('/trainerlist/${}', async function (req, res) {
@@ -177,7 +187,7 @@ router.get('/trainerlist/${}', async function (req, res) {
 });
 
 // trainer revenue
-router.get('/revenue', async function (req, res) {
+router.get('/revenue/:user_id', async function (req, res) {
 if (req.session.loggedin) {
   try{
   const trainerInfo = await trainers.findOne({
