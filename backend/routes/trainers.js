@@ -173,8 +173,8 @@ router.get('/trainerlist/:id', async function (req, res) {
 // trainer search
 router.get('/trainerlist/${}', async function (req, res) {
   try{  
-  const trainerInfo = await trainers.findOne({
-        where: { id: req.params.id },
+  const trainerInfo = await trainers.findAll({
+        where: { usernaem: req.params.username },
     });
     if (trainerInfo != undefined) {
       res.status(200).json({ data: trainerInfo, message: '' });
