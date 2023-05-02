@@ -11,15 +11,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-<<<<<<< HEAD
     password: {
-=======
-    user_id: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    username: {
->>>>>>> db63c381c0cd1d9cb453303281ed2b429108fba4
       type: DataTypes.STRING(255),
       allowNull: true
     },
