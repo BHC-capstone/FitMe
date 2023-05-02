@@ -1,42 +1,44 @@
-import React from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { Container, Form, Button } from "react-bootstrap";
+import React from 'react';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { Container, Form, Button } from 'react-bootstrap';
 
 function SignUpPage() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [email, setEmail] = React.useState("");
-  const [username, setUsername] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [passwordCheck, setPasswordCheck] = React.useState("");
-  const [gender, setGender] = React.useState("");
-  const [age, setAge] = React.useState("");
+  const [email, setEmail] = React.useState('');
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [passwordCheck, setPasswordCheck] = React.useState('');
+  const [gender, setGender] = React.useState('');
+  const [age, setAge] = React.useState('');
 
-  const onChangeEmail = (e) => {
+  const onChangeEmail = e => {
     setEmail(e.target.value);
   };
-  const onChangeUsername = (e) => {
+  const onChangeUsername = e => {
     setUsername(e.target.value);
   };
-  const onChangePassword = (e) => {
+  const onChangePassword = e => {
     setPassword(e.target.value);
   };
-  const onChangePasswordCheck = (e) => {
+  const onChangePasswordCheck = e => {
     setPasswordCheck(e.target.value);
   };
-  const onChangeGender = (e) => {
+  const onChangeGender = e => {
     setGender(e.target.value);
   };
-  const onChangeAge = (e) => {
+  const onChangeAge = e => {
     setAge(e.target.value);
   };
 
   // eslint-disable-next-line consistent-return
-  const onSubmit = (e) => {
+  const onSubmit = e => {
     e.preventDefault();
     if (password !== passwordCheck) {
-      return setPasswordCheck("");
+      return setPasswordCheck('');
     }
 
     const body = {
@@ -47,21 +49,21 @@ function SignUpPage() {
       gender,
     };
     axios
-      .post("http://localhost:4000/users/signup", body)
-      .then((res) => {
+      .post('http://localhost:4000/users/signup', body)
+      .then(res => {
         if (res.data.success) {
-          navigate("/login");
+          navigate('/login');
         } else {
           alert(res.data.message);
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
 
   const goTrainerSignUp = () => {
-    navigate("/trainer-signup");
+    navigate('/trainer-signup');
   };
 
   return (

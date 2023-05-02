@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
+import { loginUser } from '../../_actions/userAction';
 
-export default function LoginPage() {
+export default function LoginPage(props) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [username, setUsername] = useState('');
@@ -24,14 +26,12 @@ export default function LoginPage() {
       password,
     };
 
-    axios
-      .post('http://localhost:4000/users/login', body)
+    dispatch(loginUser(body))
       .then(res => {
-        if (res.data.success) {
-          console.log(res);
-          // navigate("/main");
+        if (res.payload.loginSuccess) {
+          navigate('/');
         } else {
-          alert(res.data.message);
+          alert(res.payload.message);
         }
       })
       .catch(err => {
@@ -50,6 +50,7 @@ export default function LoginPage() {
           <Form.Group className="mb-3">
             <Form.Label>아이디</Form.Label>
             <Form.Control
+              id="id"
               type="text"
               placeholder="아이디를 입력하세요."
               value={username}
@@ -61,6 +62,7 @@ export default function LoginPage() {
           <Form.Group className="mb-3">
             <Form.Label>비밀번호</Form.Label>
             <Form.Control
+              id="password"
               type="password"
               placeholder="비밀번호를 입력하세요."
               value={password}
@@ -69,10 +71,10 @@ export default function LoginPage() {
             />
           </Form.Group>
 
-          <Button type="submit" variant="primary">
+          <Button type="submit" variant="info">
             로그인
           </Button>
-          <Button type="submit" variant="secondary" onClick={goTrainerLogin}>
+          <Button type="button" variant="warning" onClick={goTrainerLogin}>
             트레이너 로그인
           </Button>
         </Form>

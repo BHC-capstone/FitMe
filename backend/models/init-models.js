@@ -8,7 +8,11 @@ var _exercise_routines = require("./exercise_routines");
 var _expertises = require("./expertises");
 var _feedbacks = require("./feedbacks");
 var _meal_plan = require("./meal_plan");
+<<<<<<< HEAD
 var _pt_requests = require("./pt_requests");
+=======
+var _pt_reservations = require("./pt_reservations");
+>>>>>>> db63c381c0cd1d9cb453303281ed2b429108fba4
 var _schedules = require("./schedules");
 var _trainer_cert = require("./trainer_cert");
 var _trainer_exp = require("./trainer_exp");
@@ -28,7 +32,11 @@ function initModels(sequelize) {
   var expertises = _expertises(sequelize, DataTypes);
   var feedbacks = _feedbacks(sequelize, DataTypes);
   var meal_plan = _meal_plan(sequelize, DataTypes);
+<<<<<<< HEAD
   var pt_requests = _pt_requests(sequelize, DataTypes);
+=======
+  var pt_reservations = _pt_reservations(sequelize, DataTypes);
+>>>>>>> db63c381c0cd1d9cb453303281ed2b429108fba4
   var schedules = _schedules(sequelize, DataTypes);
   var trainer_cert = _trainer_cert(sequelize, DataTypes);
   var trainer_exp = _trainer_exp(sequelize, DataTypes);
@@ -49,7 +57,11 @@ function initModels(sequelize) {
     expertises,
     feedbacks,
     meal_plan,
+<<<<<<< HEAD
     pt_requests,
+=======
+    pt_reservations,
+>>>>>>> db63c381c0cd1d9cb453303281ed2b429108fba4
     schedules,
     trainer_cert,
     trainer_exp,
