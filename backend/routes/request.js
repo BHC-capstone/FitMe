@@ -5,7 +5,7 @@ const { trainers } = require('../models');
 const { pt_requests } = require('../models');
 
 // pt 요청
-router.post('/request/:id', (req, res) => {
+router.post('/ptrequest/:id', (req, res) => {
     if (req.session.loggedin) {
         users.findOne({
             where: { id: req.params.id },
@@ -31,7 +31,7 @@ router.post('/request/:id', (req, res) => {
     });
 
 // pt 요청 삭제
-router.post('/request/delete/:id', (req, res) => {
+router.post('/delete/:id', (req, res) => {
     if (req.session.loggedin) {
         users.findOne({
             where: { id: req.params.id },
@@ -51,7 +51,7 @@ router.post('/request/delete/:id', (req, res) => {
     });
 
 // pt 요청 수락
-router.post('/request/accept/:id', (req, res) => {
+router.post('/accept/:id', (req, res) => {
     if (req.session.loggedin) {
         trainers.findOne({
             where: { id: req.params.id },
@@ -78,7 +78,7 @@ router.post('/request/accept/:id', (req, res) => {
 );
 
 // pt 요청 거절
-router.post('/request/reject/:id', (req, res) => {
+router.post('/reject/:id', (req, res) => {
     if (req.session.loggedin) {
         trainers.findOne({
             where: { id: req.params.id },
