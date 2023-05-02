@@ -7,7 +7,7 @@ function TrainerSignUpPage() {
   const navigate = useNavigate();
 
   const [email, setEmail] = React.useState('');
-  const [username, setUsername] = React.useState('');
+  const [name, setName] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [passwordCheck, setPasswordCheck] = React.useState('');
   const [gender, setGender] = React.useState('');
@@ -18,8 +18,8 @@ function TrainerSignUpPage() {
   const onChangeEmail = e => {
     setEmail(e.target.value);
   };
-  const onChangeUsername = e => {
-    setUsername(e.target.value);
+  const onChangeName = e => {
+    setName(e.target.value);
   };
   const onChangePassword = e => {
     setPassword(e.target.value);
@@ -49,7 +49,7 @@ function TrainerSignUpPage() {
 
     const body = {
       email,
-      username,
+      name,
       password,
       age,
       gender,
@@ -68,7 +68,7 @@ function TrainerSignUpPage() {
 
     const formData = new FormData();
     formData.append('email', email);
-    formData.append('username', username);
+    formData.append('name', name);
     formData.append('password', password);
     formData.append('age', age);
     formData.append('gender', gender);
@@ -104,15 +104,6 @@ function TrainerSignUpPage() {
               onChange={onChangeEmail}
             />
           </Form.Group>
-          <Form.Group controlId="formBasicUsername">
-            <Form.Label>이름</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter username"
-              value={username}
-              onChange={onChangeUsername}
-            />
-          </Form.Group>
           <Form.Group controlId="formBasicPassword">
             <Form.Label>패스워드</Form.Label>
             <Form.Control
@@ -129,6 +120,15 @@ function TrainerSignUpPage() {
               placeholder="Password Check"
               value={passwordCheck}
               onChange={onChangePasswordCheck}
+            />
+          </Form.Group>
+          <Form.Group controlId="formBasicname">
+            <Form.Label>이름</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter name"
+              value={name}
+              onChange={onChangeName}
             />
           </Form.Group>
           <Form.Group controlId="formBasicGender">

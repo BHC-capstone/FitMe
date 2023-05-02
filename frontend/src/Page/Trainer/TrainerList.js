@@ -22,7 +22,7 @@ function TrainerList(props) {
     setSearch(e.target.value);
   };
   const filterTitle = trainers.filter(p => {
-    return p.username.toLocaleLowerCase().includes(search.toLocaleLowerCase());
+    return p.name.toLocaleLowerCase().includes(search.toLocaleLowerCase());
   });
   const sortStarFunc = () => {
     const tempArray = Array.from(trainers);
@@ -58,7 +58,7 @@ function TrainerList(props) {
               title={trainer.name}
               description={
                 <>
-                  <p>Name : {trainer.username}</p>
+                  <p>Name : {trainer.name}</p>
                   <p>Age: {trainer.age}</p>
                   <p>Gender: {trainer.gender}</p>
                   <p>Introduction: {trainer.introduction}</p>

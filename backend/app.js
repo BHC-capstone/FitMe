@@ -4,6 +4,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mysql = require('mysql');
 const cors = require('cors');
+const session = require('express-session');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -11,12 +12,27 @@ var trainersRouter = require('./routes/trainers');
 
 var app = express();
 app.use(cors());
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(
+  session({
+    secret: '@codestates',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      domain: 'localhost',
+      path: '/',
+      maxAge: 24 * 6 * 60 * 10000,
+      sameSite: 'none',
+      httpOnly: true,
+      secure: true,
+    },
+  })
+);
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
