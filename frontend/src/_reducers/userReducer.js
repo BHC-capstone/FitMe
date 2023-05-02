@@ -7,7 +7,18 @@ import {
   LOGOUT,
 } from '../_actions/types';
 
-export default function user(state, action) {
+const initialState = {
+  user: {
+    isLoggedIn: false,
+    data: null,
+  },
+  trainer: {
+    isLoggedIn: false,
+    data: null,
+  },
+};
+
+const user = (state = initialState, action = {}) => {
   switch (action.type) {
     case LOGIN_USER:
       return { ...state, loginSuccess: action.payload };
@@ -21,4 +32,6 @@ export default function user(state, action) {
     default:
       return state;
   }
-}
+};
+
+export default user;
