@@ -1,74 +1,45 @@
 var express = require('express');
 var router = express.Router();
 const { trainers } = require('../models');
-const multerS3 = require('multer-s3');
-const dotenv = require('dotenv');
-const multer = require('multer');
-const AWS = require('aws-sdk');
-
-//AWS s3 관련
-dotenv.config();
-const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: 'ap-northeast-2',
-});
-
-const upload = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: 'fitme-s3',
-    acl: 'public-read',
-    contentType: multerS3.AUTO_CONTENT_TYPE,
-    key: function (req, file, cb) {
-      cb(null, `${Date.now()}_${file.originalname}`);
-    },
-  }),
-});
 
 // trainer signup
-router.post(
-  '/signup',
-  upload.single('certificationFile'),
-  async function (req, res) {
-    console.log(req.body);
-
-    if (req.body.email && req.body.password) {
+router.post('/signup', async function (req, res) {
+  if (
+    (req.body.email,
+    req.body.name,
+    req.body.password,
+    req.body.age,
+    req.body.gender,
+    // req.body.phonenumber,
+    req.body.introduction)
+  ) {
+    try {
       const trainerInfo = await trainers.findOne({
-        where: {
-          email: req.body.email,
-          password: req.body.password,
-        },
+        where: { email: req.body.email },
+        attributes: ['email'],
       });
 
       if (trainerInfo != undefined)
         res.status(409).send('이미 존재하는 아이디입니다');
       else {
-        try {
-          const result = await trainers.create({
-            name: req.body.name,
-            password: req.body.password,
-            email: req.body.email,
-            age: req.body.age,
-            gender: req.body.gender,
-            introduction: req.body.introduction,
-          });
-        } catch (err) {
-          console.log(err);
-        }
-        res.status(200).json({
-          data: null,
-          message: '회원가입을 환영합니다',
+        const result = await trainers.create({
+          email: req.body.email,
+          name: req.body.name,
+          password: req.body.password,
+          age: req.body.age,
+          gender: req.body.gender,
+          // phonenumber: req.body.phonenumber,
+          introduction: req.body.introduction,
         });
+        res.status(200).json({ data: null, message: '회원가입을 환영합니다' });
       }
-    } else {
-      res.status(400).json({
-        data: null,
-        message: '모든 정보를 입력하세요',
-      });
+    } catch (err) {
+      console.log(err);
     }
+  } else {
+    res.status(400).json({ data: null, message: '모든 정보를 입력하세요' });
   }
-);
+});
 
 // trainer login
 router.post('/login', async function (req, res) {
@@ -80,7 +51,7 @@ router.post('/login', async function (req, res) {
 
       if (trainerInfo != undefined) {
         req.session.loggedin = true;
-        req.session.id = trainerInfo.id;
+        req.session.email = req.body.email;
         res.redirect('/');
         res.end();
       } else {
@@ -107,39 +78,44 @@ router.get('/logout', function (req, res) {
 });
 
 // trainer delete
-router.post('/withdraw', async function (req, res) {
-  if (req.body.user_id && req.body.password) {
+router.post('/withdraw/:id', async function (req, res) {
+  if (req.session.loggedin) {
     try {
       const trainerInfo = await trainers.findOne({
-        where: { user_id: req.body.user_id, password: req.body.password },
+        where: { id: req.body.id },
       });
       if (trainerInfo != undefined) {
         await trainers.destroy({
-          where: { user_id: req.body.user_id, password: req.body.password },
+          where: { id: req.body.id },
         });
         res
           .status(200)
           .json({ data: null, message: '성공적으로 탈퇴되었습니다' });
-      } else {
-        res
-          .status(401)
-          .json({ data: null, message: '아이디와 비밀번호를 확인하세요' });
       }
     } catch (err) {
       console.log(err);
     }
   } else {
-    res
-      .status(400)
-      .json({ data: null, message: '아이디와 비밀번호를 입력하세요' });
+    res.status(400).json({ data: null, message: '로그인 하세요' });
   }
 });
 
 // trainer info
-router.get('/profile/:userid', async function (req, res) {
+router.get('/profile/:id', async function (req, res) {
   try {
     const trainerInfo = await trainers.findOne({
-      where: { user_id: req.params.userid },
+      where: { id: req.params.id },
+      attributes: [
+        'id',
+        'email',
+        'name',
+        'age',
+        'gender',
+        'phonenumber',
+        'introduction',
+        'carrer',
+        'review_avg',
+      ],
     });
     res.status(200).json({ data: trainerInfo, message: '' });
   } catch (err) {
@@ -148,11 +124,11 @@ router.get('/profile/:userid', async function (req, res) {
 });
 
 // trainer info change
-router.post('/profile/changeProfile/:userid', async function (req, res) {
+router.post('/profile/changeProfile/:id', async function (req, res) {
   if (req.session.loggedin) {
     try {
       const trinersInfo = await trainers.findOne({
-        where: { userid: req.params.userid },
+        where: { id: req.params.id },
       });
       if (req.body.password != req.body.password2)
         res
@@ -162,7 +138,6 @@ router.post('/profile/changeProfile/:userid', async function (req, res) {
         await trainers.update(
           {
             email: req.body.email,
-            user_id: req.body.user_id,
             name: req.body.name,
             password: req.body.password,
             age: req.body.age,
@@ -170,7 +145,7 @@ router.post('/profile/changeProfile/:userid', async function (req, res) {
             phonenumber: req.body.phnumber,
             introduction: req.body.introduction,
           },
-          { where: { userid: req.params.userid } }
+          { where: { id: req.params.id } }
         );
         res
           .status(200)
@@ -187,8 +162,10 @@ router.post('/profile/changeProfile/:userid', async function (req, res) {
 // trainerlist paging
 router.get('/trainerlist', async function (req, res) {
   try {
-    const trainerInfo = await trainers.findAll({
+    const trainerInfo = await trainers.find({
       attributes: [
+        'id',
+        'trainer_id',
         'name',
         'age',
         'gender',
@@ -204,11 +181,39 @@ router.get('/trainerlist', async function (req, res) {
   }
 });
 
+// trainer detail
+router.get('/trainerlist/:id', async function (req, res) {
+  try {
+    const trainerInfo_detail = await trainers.findOne({
+      where: { id: req.params.id },
+      attributes: [
+        'id',
+        'name',
+        'age',
+        'gender',
+        'phonenumber',
+        'email',
+        'introduction',
+        'career',
+        'review_avg',
+      ],
+    });
+    const trainer_reviews = await trainer_review.findAll({
+      where: { trainer_id: req.params.id },
+    });
+    res
+      .status(200)
+      .json({ data: { trainerInfo_detail, trainer_reviews }, message: '' });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 // trainer search
 router.get('/trainerlist/${}', async function (req, res) {
   try {
-    const trainerInfo = await trainers.findOne({
-      where: { user_id: req.body.user_id },
+    const trainerInfo = await trainers.findAll({
+      where: { name: req.params.name },
     });
     if (trainerInfo != undefined) {
       res.status(200).json({ data: trainerInfo, message: '' });
@@ -221,13 +226,13 @@ router.get('/trainerlist/${}', async function (req, res) {
 });
 
 // trainer revenue
-router.get('/revenue', async function (req, res) {
+router.get('/revenue/:id', async function (req, res) {
   if (req.session.loggedin) {
     try {
-      const trainerInfo = await trainers.findOne({
-        where: { user_id: req.session.user_id },
+      const trainer_point_amount = await trainer_points.findOne({
+        where: { trainer_id: req.params.id },
       });
-      res.status(200).json({ data: trainerInfo.point, message: '' });
+      res.status(200).json({ data: trainer_point_amount, message: '' });
     } catch (err) {
       console.log(err);
     }

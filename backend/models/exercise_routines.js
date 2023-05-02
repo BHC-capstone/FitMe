@@ -18,6 +18,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: true
     },
+    content: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
     user_video_url: {
       type: DataTypes.STRING(255),
       allowNull: true

@@ -14,11 +14,27 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    name: {
+    breakfast: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    lunch: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    dinner: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    breakfast_image: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    image: {
+    lunch_image: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    dinner_image: {
       type: DataTypes.STRING(255),
       allowNull: true
     }
