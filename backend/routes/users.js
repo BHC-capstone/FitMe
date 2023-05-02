@@ -6,7 +6,6 @@ const { users } = require('../models');
 router.post('/signup', async function (req, res) {
   if (
     (req.body.email,
-    req.body.user_id,
     req.body.username,
     req.body.password,
     req.body.age,
@@ -15,7 +14,8 @@ router.post('/signup', async function (req, res) {
   ) {
     try {
       const userInfo = await users.findOne({
-        where: { user_id: req.body.user_id, password: req.body.password },
+        where: { email: req.body.email },
+        attributes: ['email'],
       });
   
       if (userInfo != undefined) res.status(409).json({ data: result, message: '이미 존재하는 아이디입니다' });
@@ -23,7 +23,6 @@ router.post('/signup', async function (req, res) {
         console.log(req.body);
         const result = await users.create({
           email: req.body.email,
-          user_id: req.body.user_id,
           username: req.body.username,
           password: req.body.password,
           age: req.body.age,
@@ -44,14 +43,14 @@ router.post('/signup', async function (req, res) {
 
 // user login
 router.post('/login', async function (req, res) {
-  if (req.body.user_id && req.body.password) {
+  if (req.body.email && req.body.password) {
     try{
     const userInfo = await users.findOne({
-      where: { user_id: req.body.user_id, password: req.body.password },
+      where: { email: req.body.email, password: req.body.password },
     });
     if (userInfo != undefined) {
       req.session.loggedin = true;
-      req.session.user_id = req.body.user_id;
+      req.session.email = req.body.email;
       res.redirect('/');
       res.end();
     } else {
@@ -73,34 +72,33 @@ router.get('/logout', function (req, res) {
 });
 
 // user delete
-router.post('/withdraw', async function (req, res) {
-  if (req.body.user_id && req.body.password) {
+router.post('/withdraw:id', async function (req, res) {
+  if (req.session.loggedin) {
     try{
     const userInfo = await users.findOne({
-      where: { userid: req.body.userid, password: req.body.password },
+      where: { id: req.body.id },
     });
     if (userInfo != undefined) {
       await users.destroy({
-        where: { user_id: req.body.user_id, password: req.body.password },
+        where: { id: req.body.id },
       });
       res.status(200).json({ data: null, message: '성공적으로 탈퇴되었습니다' });
-    } else {
-      res.status(401).json({ data: null, message: '아이디와 비밀번호를 확인하세요' });
-      }
+    }
     }
     catch(err){
       console.log(err);
     }
   } else {
-    res.status(400).json({ data: null, message: '아이디와 비밀번호를 입력하세요' });
+    res.status(400).json({ data: null, message: '로그인 하세요' });
   }
 });
 
 // user info
-router.get('/profile/:user_id', async function (req, res) {
+router.get('/profile/:id', async function (req, res) {
   try{
   const userInfo = await users.findOne({
-    where: { user_id: req.params.user_id },
+    where: { id: req.params.id },
+    attributes: ['id','email','username','age', 'gender', 'phonenumber'],
   });
   res.status(200).json({ data: userInfo, message: '' });
   }
@@ -111,11 +109,11 @@ router.get('/profile/:user_id', async function (req, res) {
 
 
 // user info update
-router.post('/profile/changeProfile/:user_id', async function (req, res) {
+router.post('/profile/changeProfile/:id', async function (req, res) {
   if (req.session.loggedin) {
     try{
     const userInfo = await users.findOne({
-      where: { user_id: req.params.user_id },
+      where: { id: req.params.id },
     });
     if (req.body.password != req.body.password2)
     res.status(401).json({ data: null, message: '입력된 비밀번호가 서로 다릅니다.' });
@@ -124,14 +122,13 @@ router.post('/profile/changeProfile/:user_id', async function (req, res) {
     await users.update(
       {
         email: req.body.email,
-        user_id: req.body.userid,
         username: req.body.username,
         password: req.body.password,
         age: req.body.age,
         gender: req.body.gender,
         phonenumber: req.body.phnumber,
       },
-      { where: { user_id: req.params.user_id } }
+      { where: { id: req.params.id } }
     );
     res.status(200).json({ data: null, message: '성공적으로 변경되었습니다.' });
     }
@@ -150,13 +147,13 @@ router.post('/profile/changeProfile/:user_id', async function (req, res) {
 
 
 // user point info
-router.get('/userpoint', async function (req, res) {
+router.get('/userpoint/:id', async function (req, res) {
   if (req.session.loggedin) {
     try{
-    const userInfo = await users.findOne({
-      where: { user_id: req.session.user_id },
+    const user_point_amount = await user_points.findOne({
+      where: { user_id: req.params.id },
     });
-    res.status(200).json({ data: userInfo.point, message: '' });
+    res.status(200).json({ data: user_point_amount, message: '' });
   }
   catch(err){
     console.log(err);
