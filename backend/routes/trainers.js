@@ -174,7 +174,7 @@ router.get('/trainerlist/:id', async function (req, res) {
 router.get('/trainerlist/${}', async function (req, res) {
   try{  
   const trainerInfo = await trainers.findAll({
-        where: { usernaem: req.params.username },
+        where: { username: req.params.username },
     });
     if (trainerInfo != undefined) {
       res.status(200).json({ data: trainerInfo, message: '' });
