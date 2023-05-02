@@ -52,7 +52,6 @@ router.post('/login', async function (req, res) {
       if (trainerInfo != undefined) {
         req.session.loggedin = true;
         req.session.email = req.body.email;
-        res.redirect('/');
         res.end();
       } else {
         res
@@ -162,16 +161,15 @@ router.post('/profile/changeProfile/:id', async function (req, res) {
 // trainerlist paging
 router.get('/trainerlist', async function (req, res) {
   try {
-    const trainerInfo = await trainers.find({
+    const trainerInfo = await trainers.findAll({
       attributes: [
         'id',
-        'trainer_id',
+        'email',
         'name',
         'age',
         'gender',
         'introduction',
         'phonenumber',
-        'email',
         'review_avg',
       ],
     });

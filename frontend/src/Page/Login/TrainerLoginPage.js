@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
@@ -8,11 +9,11 @@ export default function LoginPage(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const onUsernameHandler = event => {
-    setUsername(event.currentTarget.value);
+  const onEmailHandler = event => {
+    setEmail(event.currentTarget.value);
   };
   const onPasswordHandler = event => {
     setPassword(event.currentTarget.value);
@@ -22,21 +23,35 @@ export default function LoginPage(props) {
     event.preventDefault();
 
     const body = {
-      username,
+      email,
       password,
     };
 
-    dispatch(loginTrainer(body))
+    axios
+      .post('http://localhost:4000/trainers/login', body)
       .then(res => {
-        if (res.payload.loginSuccess) {
+        console.log(res);
+        if (res.status === 200) {
           navigate('/');
         } else {
-          alert(res.payload.message);
+          alert(res.data.message);
         }
       })
       .catch(err => {
         console.log(err);
       });
+
+    // dispatch(loginTrainer(body))
+    //   .then(res => {
+    //     if (res.payload.loginSuccess) {
+    //       navigate('/');
+    //     } else {
+    //       alert(res.payload.message);
+    //     }
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
   };
 
   const goUserLogin = () => {
@@ -48,12 +63,12 @@ export default function LoginPage(props) {
       <Container className="panel">
         <Form onSubmit={onSubmitHandler}>
           <Form.Group className="mb-3">
-            <Form.Label>아이디</Form.Label>
+            <Form.Label>이메일</Form.Label>
             <Form.Control
               type="text"
-              placeholder="아이디를 입력하세요."
-              value={username}
-              onChange={onUsernameHandler}
+              placeholder="이메일을 입력하세요."
+              value={email}
+              onChange={onEmailHandler}
               required
             />
           </Form.Group>

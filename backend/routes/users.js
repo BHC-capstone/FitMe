@@ -45,6 +45,8 @@ router.post('/signup', async function (req, res) {
 
 // user login
 router.post('/login', async function (req, res) {
+  console.log(req.body.email);
+  console.log(req.body.password);
   if (req.body.email && req.body.password) {
     try {
       const userInfo = await users.findOne({
@@ -53,7 +55,6 @@ router.post('/login', async function (req, res) {
       if (userInfo != undefined) {
         req.session.loggedin = true;
         req.session.email = req.body.email;
-        res.redirect('/');
         res.end();
       } else {
         res
