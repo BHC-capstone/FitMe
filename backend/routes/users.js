@@ -6,7 +6,7 @@ const { users } = require('../models');
 router.post('/signup', async function (req, res) {
   if (
     (req.body.email,
-    req.body.username,
+    req.body.name,
     req.body.password,
     req.body.age,
     req.body.gender,
@@ -23,7 +23,7 @@ router.post('/signup', async function (req, res) {
         console.log(req.body);
         const result = await users.create({
           email: req.body.email,
-          username: req.body.username,
+          name: req.body.name,
           password: req.body.password,
           age: req.body.age,
           gender: req.body.gender,
@@ -98,7 +98,7 @@ router.get('/profile/:id', async function (req, res) {
   try{
   const userInfo = await users.findOne({
     where: { id: req.params.id },
-    attributes: ['id','email','username','age', 'gender', 'phonenumber'],
+    attributes: ['id','email','name','age', 'gender', 'phonenumber'],
   });
   res.status(200).json({ data: userInfo, message: '' });
   }
@@ -122,7 +122,7 @@ router.post('/profile/changeProfile/:id', async function (req, res) {
     await users.update(
       {
         email: req.body.email,
-        username: req.body.username,
+        name: req.body.name,
         password: req.body.password,
         age: req.body.age,
         gender: req.body.gender,
