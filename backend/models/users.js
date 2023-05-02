@@ -11,11 +11,11 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    username: {
+    password: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    password: {
+    name: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
@@ -25,6 +25,10 @@ module.exports = function(sequelize, DataTypes) {
     },
     gender: {
       type: DataTypes.STRING(10),
+      allowNull: true
+    },
+    phonenumber: {
+      type: DataTypes.STRING(255),
       allowNull: true
     }
   }, {

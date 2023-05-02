@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('exercise_routines', {
+  return sequelize.define('user_points', {
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -10,29 +10,13 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    trainer_id: {
+    amount: {
       type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    name: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    content: {
-      type: DataTypes.TEXT,
-      allowNull: true
-    },
-    user_video_url: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    guide_video_url: {
-      type: DataTypes.STRING(255),
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'exercise_routines',
+    tableName: 'user_points',
     timestamps: false,
     indexes: [
       {

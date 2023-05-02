@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('meal_plan', {
+  return sequelize.define('pt_requests', {
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -14,33 +14,29 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    breakfast: {
+    date: {
+      type: DataTypes.DATEONLY,
+      allowNull: true
+    },
+    time: {
+      type: DataTypes.TIME,
+      allowNull: true
+    },
+    request: {
       type: DataTypes.TEXT,
       allowNull: true
     },
-    lunch: {
+    response: {
       type: DataTypes.TEXT,
       allowNull: true
     },
-    dinner: {
-      type: DataTypes.TEXT,
-      allowNull: true
-    },
-    breakfast_image: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    lunch_image: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    dinner_image: {
-      type: DataTypes.STRING(255),
+    accept: {
+      type: DataTypes.INTEGER,
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'meal_plan',
+    tableName: 'pt_requests',
     timestamps: false,
     indexes: [
       {
