@@ -3,10 +3,8 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
-import {
-  loginTrainer,
-  logoutTrainer,
-} from '../../redux/_reducers/trainerSlice';
+
+import { loginTrainer, logoutTrainer } from '../../redux/_reducers/userSlice';
 
 export default function LoginPage(props) {
   const dispatch = useDispatch();
@@ -35,7 +33,8 @@ export default function LoginPage(props) {
       .then(res => {
         console.log(res);
         if (res.status === 200) {
-          navigate('/');
+          dispatch(loginTrainer(res.data.data));
+          navigate('/mypage');
         } else {
           alert(res.data.message);
         }

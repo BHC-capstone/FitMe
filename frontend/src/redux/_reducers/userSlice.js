@@ -16,16 +16,32 @@ export const userSlice = createSlice({
     loginUser: (state, action) => {
       state.id = action.payload.id;
       state.isLogin = true;
+      state.isTrainer = false;
       return state;
     },
-    logoutUser: state => {
+    logoutUser: (state, action) => {
       state.id = '';
       state.isLogIn = false;
+      state.isTrainer = false;
+      return state;
+    },
+
+    loginTrainer: (state, action) => {
+      state.id = action.payload.id;
+      state.isLogin = true;
+      state.isTrainer = true;
+      return state;
+    },
+    logoutTrainer: (state, action) => {
+      state.id = '';
+      state.isLogin = false;
+      state.isTrainer = false;
       return state;
     },
   },
 });
 
-export const { loginUser, logoutUser } = userSlice.actions;
+export const { loginUser, logoutUser, loginTrainer, logoutTrainer } =
+  userSlice.actions;
 
 export default userSlice.reducer;
