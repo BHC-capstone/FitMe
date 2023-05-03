@@ -5,15 +5,15 @@ import { useNavigate } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
 import { loginUser, logoutUser } from '../../redux/_reducers/userSlice';
 
-export default function LoginPage() {
+export default function LoginPage(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [userid, setUserId] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const onUserIdHandler = event => {
-    setUserId(event.currentTarget.value);
+  const onEmailHandler = event => {
+    setEmail(event.currentTarget.value);
   };
   const onPasswordHandler = event => {
     setPassword(event.currentTarget.value);
@@ -21,15 +21,25 @@ export default function LoginPage() {
 
   const onSubmitHandler = event => {
     event.preventDefault();
-
     const body = {
-      userid,
+      email,
       password,
     };
 
-    const login = e => {
-      dispatch(loginUser(body));
-    };
+    axios
+      .post('http://localhost:4000/users/login', body)
+      .then(res => {
+        console.log(res);
+        if (res.status === 200) {
+          console.log(res.data.data);
+          dispatch(loginUser(res.data.data));
+        } else {
+          alert(res.data.message);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const goTrainerLogin = () => {
@@ -44,10 +54,10 @@ export default function LoginPage() {
             <Form.Label>이메일</Form.Label>
             <Form.Control
               id="id"
-              type="id"
-              placeholder="아이디를 입력하세요."
-              value={userid}
-              onChange={onUserIdHandler}
+              type="text"
+              placeholder="이메일을 입력하세요."
+              value={email}
+              onChange={onEmailHandler}
               required
             />
           </Form.Group>

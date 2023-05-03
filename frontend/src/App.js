@@ -2,6 +2,8 @@ import './App.css';
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './scss/index.scss';
+import { useSelector } from 'react-redux';
+
 import { Routes, Route, Link } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 // import MainPage from './Page/Main/MainPage';
@@ -16,6 +18,8 @@ import BottomNav from './components/BottomNav';
 const history = createBrowserHistory();
 
 function App() {
+  const user = useSelector(state => state.user);
+
   return (
     <div className="App">
       <BottomNav />

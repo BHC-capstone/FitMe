@@ -8,15 +8,15 @@ import {
   logoutTrainer,
 } from '../../redux/_reducers/trainerSlice';
 
-export default function TrainerLoginPage() {
+export default function LoginPage(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [userid, setUserId] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const onUserIdHandler = event => {
-    setUserId(event.currentTarget.value);
+  const onEmailHandler = event => {
+    setEmail(event.currentTarget.value);
   };
   const onPasswordHandler = event => {
     setPassword(event.currentTarget.value);
@@ -26,13 +26,35 @@ export default function TrainerLoginPage() {
     event.preventDefault();
 
     const body = {
-      userid,
+      email,
       password,
     };
 
-    const login = e => {
-      dispatch(loginTrainer(body));
-    };
+    axios
+      .post('http://localhost:4000/trainers/login', body)
+      .then(res => {
+        console.log(res);
+        if (res.status === 200) {
+          navigate('/');
+        } else {
+          alert(res.data.message);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+    // dispatch(loginTrainer(body))
+    //   .then(res => {
+    //     if (res.payload.loginSuccess) {
+    //       navigate('/');
+    //     } else {
+    //       alert(res.payload.message);
+    //     }
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
   };
 
   const goUserLogin = () => {
@@ -46,11 +68,10 @@ export default function TrainerLoginPage() {
           <Form.Group className="mb-3">
             <Form.Label>이메일</Form.Label>
             <Form.Control
-              id="id"
-              type="id"
-              placeholder="아이디를 입력하세요."
-              value={userid}
-              onChange={onUserIdHandler}
+              type="text"
+              placeholder="이메일을 입력하세요."
+              value={email}
+              onChange={onEmailHandler}
               required
             />
           </Form.Group>

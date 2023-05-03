@@ -3,10 +3,9 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   trainer: {
+    isTrainer: true,
     isLogin: false,
-    username: '',
-    user_id: '',
-    password: '',
+    id: '',
   },
 };
 
@@ -16,15 +15,11 @@ export const trainerSlice = createSlice({
   reducers: {
     loginTrainer: (state, action) => {
       state.isLogin = true;
-      state.user_name = action.payload.user_name;
-      state.user_id = action.payload.user_id;
-      state.password = action.payload.password;
+      state.id = action.payload.id;
     },
     logoutTrainer: state => {
       state.isLogIn = false;
-      state.user_name = null;
-      state.user_id = null;
-      state.password = null;
+      state.id = '';
     },
   },
 });
