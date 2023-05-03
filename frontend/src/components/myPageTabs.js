@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import UserInfoTab from '../page/myPage/UserInfoTab';
 import StatisticsTab from '../page/myPage/StatisticsTab';
@@ -7,6 +8,9 @@ import '../scss/tabs.scss';
 import BottomNav from './bottomNav';
 
 function Tabs() {
+  const user = useSelector(state => state.user);
+  const dispatch = useDispatch();
+
   const [activeTab, setActiveTab] = useState(1);
   const navigate = useNavigate();
   const location = useLocation();
@@ -58,7 +62,7 @@ function Tabs() {
         </li>
       </ul>
       <div className="tab-content">
-        {activeTab === 1 && <UserInfoTab />}
+        {activeTab === 1 && <UserInfoTab loginedUser={user} />}
         {activeTab === 2 && <StatisticsTab />}
         {activeTab === 3 && <PaymentHistoryTab />}
       </div>

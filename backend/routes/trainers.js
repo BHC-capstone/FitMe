@@ -50,9 +50,7 @@ router.post('/login', async function (req, res) {
       });
 
       if (trainerInfo != undefined) {
-        req.session.loggedin = true;
-        req.session.email = req.body.email;
-        res.end();
+        res.status(200).json({ data: trainerInfo, message: '로그인 성공' });
       } else {
         res
           .status(401)

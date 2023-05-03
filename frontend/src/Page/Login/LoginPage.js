@@ -31,8 +31,8 @@ export default function LoginPage(props) {
       .then(res => {
         console.log(res);
         if (res.status === 200) {
-          console.log(res.data.data);
           dispatch(loginUser(res.data.data));
+          navigate('/mypage');
         } else {
           alert(res.data.message);
         }

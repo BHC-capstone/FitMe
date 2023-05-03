@@ -45,17 +45,13 @@ router.post('/signup', async function (req, res) {
 
 // user login
 router.post('/login', async function (req, res) {
-  console.log(req.body.email);
-  console.log(req.body.password);
   if (req.body.email && req.body.password) {
     try {
       const userInfo = await users.findOne({
         where: { email: req.body.email, password: req.body.password },
       });
       if (userInfo != undefined) {
-        req.session.loggedin = true;
-        req.session.email = req.body.email;
-        res.end();
+        res.status(200).json({ data: userInfo, message: '로그인 성공' });
       } else {
         res
           .status(401)
