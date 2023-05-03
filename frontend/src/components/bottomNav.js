@@ -9,7 +9,7 @@ function BottomNav() {
     <div>
       <nav className="wrapper">
         <div>
-          <Link to="/" className="nav-link">
+          <Link to="/trainer-list" className="nav-link">
             <FontAwesomeIcon icon="home" />
           </Link>
         </div>
@@ -19,7 +19,7 @@ function BottomNav() {
           </Link>
         </div>
         <div>
-          <Link to="/signup" className="nav-link">
+          <Link to="/ptrequest" className="nav-link">
             <FontAwesomeIcon icon="pen-to-square" />
           </Link>
         </div>
