@@ -24,7 +24,7 @@ function BottomNav() {
           </Link>
         </div>
         <div>
-          <Link to="/trainer-signup" className="nav-link">
+          <Link to="/mypage" className="nav-link">
             <FontAwesomeIcon icon="user" />
           </Link>
         </div>
