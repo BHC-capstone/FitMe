@@ -1,18 +1,29 @@
-import React, { useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 import styled from 'styled-components';
+import Starpoint from '../../components/Starpoint';
 
 function Trainerdetail() {
   const { id } = useParams();
-  const location = useLocation();
+  const [trainer, setTrainer] = useState({});
   const [currentTab, clickTab] = useState(0);
-
+  const [star, setStar] = useState(1);
   const menuArr = [
-    { name: 'Tab1', content: 'Tab menu ONE' },
-    { name: 'Tab2', content: 'Tab menu TWO' },
-    { name: 'Tab3', content: 'Tab menu THREE' },
+    { name: '자기 소개', content: `${trainer.introduction}` },
+    { name: '프로필', content: 'Tab menu TWO' },
+    { name: '리뷰', content: 'Tab menu THREE' },
   ];
+
+  useEffect(() => {
+    axios.get(`http://localhost:4000/trainers/profile/${id}`).then(res => {
+      console.log(res.data.data);
+      setTrainer(res.data.data);
+    });
+  }, []);
 
   const selectMenuHandler = index => {
     // parameter로 현재 선택한 인덱스 값을 전달해야 하며, 이벤트 객체(event)는 쓰지 않는다
@@ -21,14 +32,21 @@ function Trainerdetail() {
   };
   return (
     <>
-      <h3>{id}번 상품 페이지 입니다.</h3>
-      <ul>
-        <li>dlfm : {location.hash}</li>
-        <li>pathname : {location.pathname}</li>
-        <li>search : {location.search}</li>
-        <li>state : {location.state}</li>
-        <li>key : {location.key}</li>
-      </ul>
+      <Upbox>
+        <Box1>
+          <Imageposition>image</Imageposition>
+          <Nameblock className="a">{trainer.name}</Nameblock>
+          <Nameblock>별점 </Nameblock>
+          <Starpoint init={star} />
+          <Nameblock className="b">
+            {trainer.gender} {trainer.age}세
+          </Nameblock>
+        </Box1>
+        <Box2>
+          <Emailblock>E-mail : {trainer.email}</Emailblock>
+          <Emailblock>PhoneNumber : {trainer.phonenumber}</Emailblock>
+        </Box2>
+      </Upbox>
       <TabMenu>
         {menuArr.map((el, index) => (
           // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
@@ -48,9 +66,65 @@ function Trainerdetail() {
     </>
   );
 }
+const Upbox = styled.ul`
+  background-color: #111654;
+  color: rgb(255, 255, 255);
+  height: 500px;
+`;
+const Box1 = styled.div`
+  background-color: #111654;
+  height: 400px;
+`;
+const Box2 = styled.div`
+  background-color: #111654;
+  height: 100px;
+`;
+const Imageposition = styled.div`
+  width: 280px;
+  height: 360px;
+
+  padding-top: calc(100% / 20);
+  padding-bottom: calc(100% / 20);
+  margin-left: calc(100% / 10);
+  background-color: #ffffff;
+  display: flex;
+  float: left;
+`;
+const Nameblock = styled.text`
+  letter-spacing: 5px;
+  word-spacing: 20px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding-left: 50px;
+  padding-top: calc(100% / 20);
+
+  &.a {
+    letter-spacing: 20px;
+    font-size: 50px;
+    font-weight: bold;
+  }
+  &.b {
+    padding-top: calc(100% / 40);
+    font-size: 15px;
+    font-weight: normal;
+    float: left;
+  }
+`;
+const Emailblock = styled.text`
+  letter-spacing: 5px;
+  font-weight: lighter;
+  color: white;
+  margin-left: calc(100% / 10);
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-left: 140px;
+`;
 const TabMenu = styled.ul`
-  background-color: #dcdcdc;
-  color: rgb(232, 234, 237);
+  background-color: #ffffff;
+  color: rgb(21, 20, 20);
   font-weight: bold;
   display: flex;
   flex-direction: row;
@@ -58,9 +132,10 @@ const TabMenu = styled.ul`
   list-style: none;
   margin-bottom: 7rem;
   margin-top: 10px;
+  border-bottom: solid 1px;
+  border-bottom-color: #d1d1d1;
 
   .submenu {
-    // 기본 Tabmenu 에 대한 CSS를 구현
     display: flex;
     /* justify-content: space-between;
     width: 380px;
@@ -73,9 +148,7 @@ const TabMenu = styled.ul`
   }
 
   .focused {
-    //선택된 Tabmenu 에만 적용되는 CSS를 구현
-    background-color: rgb(255, 255, 255);
-    color: rgb(21, 20, 20);
+    border-bottom: solid 3px;
   }
 
   & div.desc {
@@ -86,5 +159,4 @@ const TabMenu = styled.ul`
 const Desc = styled.div`
   text-align: center;
 `;
-// http://localhost:3000/trainer_info/1?search=productName&q=demo#test
 export default Trainerdetail;

@@ -1,45 +1,75 @@
 var express = require('express');
 var router = express.Router();
 const { trainers } = require('../models');
+const multerS3 = require('multer-s3');
+const dotenv = require('dotenv');
+const multer = require('multer');
+const AWS = require('aws-sdk');
+
+//AWS s3 관련
+dotenv.config();
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: 'ap-northeast-2',
+});
+
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'fitme-s3',
+    acl: 'public-read',
+    contentType: multerS3.AUTO_CONTENT_TYPE,
+    key: function (req, file, cb) {
+      cb(null, `${Date.now()}_${file.originalname}`);
+    },
+  }),
+});
 
 // trainer signup
-router.post('/signup', async function (req, res) {
-  if (
-    (req.body.email,
-    req.body.name,
-    req.body.password,
-    req.body.age,
-    req.body.gender,
-    // req.body.phonenumber,
-    req.body.introduction)
-  ) {
-    try {
+router.post(
+  '/signup',
+  upload.single('certificationFile'),
+  async function (req, res) {
+    console.log(req.body);
+
+    if (req.body.email && req.body.password) {
       const trainerInfo = await trainers.findOne({
-        where: { email: req.body.email },
-        attributes: ['email'],
+        where: {
+          email: req.body.email,
+          password: req.body.password,
+        },
       });
 
       if (trainerInfo != undefined)
         res.status(409).send('이미 존재하는 아이디입니다');
       else {
-        const result = await trainers.create({
-          email: req.body.email,
-          name: req.body.name,
-          password: req.body.password,
-          age: req.body.age,
-          gender: req.body.gender,
-          // phonenumber: req.body.phonenumber,
-          introduction: req.body.introduction,
+        try {
+          const result = await trainers.create({
+            name: req.body.name,
+            password: req.body.password,
+            email: req.body.email,
+            age: req.body.age,
+            gender: req.body.gender,
+            phonenumber: req.body.phonenumber,
+            introduction: req.body.introduction,
+          });
+        } catch (err) {
+          console.log(err);
+        }
+        res.status(200).json({
+          data: null,
+          message: '회원가입을 환영합니다',
         });
-        res.status(200).json({ data: null, message: '회원가입을 환영합니다' });
       }
-    } catch (err) {
-      console.log(err);
+    } else {
+      res.status(400).json({
+        data: null,
+        message: '모든 정보를 입력하세요',
+      });
     }
-  } else {
-    res.status(400).json({ data: null, message: '모든 정보를 입력하세요' });
   }
-});
+);
 
 // trainer login
 router.post('/login', async function (req, res) {

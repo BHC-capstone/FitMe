@@ -10,8 +10,8 @@ router.post('/signup', async function (req, res) {
     req.body.name,
     req.body.password,
     req.body.age,
-    req.body.gender)
-    // req.body.phonenumber
+    req.body.gender,
+    req.body.phonenumber)
   ) {
     try {
       const userInfo = await users.findOne({

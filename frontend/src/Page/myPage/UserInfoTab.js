@@ -5,15 +5,19 @@ import '../../scss/userInfoTab.scss';
 
 function UserInfoTab({ loginedUser }) {
   const [user, setUser] = React.useState(null);
-
   useEffect(() => {
     const fetchUser = async () => {
-      if (!loginedUser) {
-        return;
+      let response = null;
+      {
+        loginedUser.isTrainer === false
+          ? (response = await axios.get(
+              `http://localhost:4000/users/profile/${loginedUser.id}`,
+            ))
+          : (response = await axios.get(
+              `http://localhost:4000/trainers/profile/${loginedUser.id}`,
+            ));
       }
-      const response = await axios.get(
-        `http://localhost:4000/users/profile/${loginedUser.id}`,
-      );
+      console.log(response.data);
       if (response.data !== null) {
         setUser(response.data);
       }
@@ -21,9 +25,6 @@ function UserInfoTab({ loginedUser }) {
     fetchUser();
   }, []);
 
-  if (!loginedUser.id) {
-    return <div>먼저 로그인해주세요.</div>;
-  }
   if (!user) {
     return <div>회원정보 Loading...</div>;
   }
@@ -50,7 +51,7 @@ function UserInfoTab({ loginedUser }) {
         </li>
       </ul>
       <div className="user-info-actions">
-        <Link to={{ pathname: '/mypage/edit', state: { user: loginedUser } }}>
+        <Link to="/mypage/edit">
           <button type="button" className="btn btn-primary">
             회원정보 수정
           </button>
