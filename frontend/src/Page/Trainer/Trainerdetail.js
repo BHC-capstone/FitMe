@@ -22,14 +22,15 @@ function Trainerdetail() {
   };
   return (
     <>
-      <h3>{id}번 상품 페이지 입니다.</h3>
-      <ul>
-        <li>dlfm : {location.hash}</li>
-        <li>pathname : {location.pathname}</li>
-        <li>search : {location.search}</li>
-        <li>state : {location.state}</li>
-        <li>key : {location.key}</li>
-      </ul>
+      <Upbox>
+        <ul>
+          <li>dlfm : {location.hash}</li>
+          <li>pathname : {location.pathname}</li>
+          <li>search : {location.search}</li>
+          <li>state : {location.state}</li>
+          <li>key : {location.key}</li>
+        </ul>
+      </Upbox>
       <TabMenu>
         {menuArr.map((el, index) => (
           <li
@@ -48,9 +49,14 @@ function Trainerdetail() {
     </>
   );
 }
+const Upbox = styled.ul`
+  background-color: #111654;
+  color: rgb(255, 255, 255);
+  height: 300px;
+`;
 const TabMenu = styled.ul`
-  background-color: #dcdcdc;
-  color: rgb(232, 234, 237);
+  background-color: #ffffff;
+  color: rgb(21, 20, 20);
   font-weight: bold;
   display: flex;
   flex-direction: row;
@@ -58,9 +64,11 @@ const TabMenu = styled.ul`
   list-style: none;
   margin-bottom: 7rem;
   margin-top: 10px;
+  border-bottom: solid 1px;
+  border-bottom-color: #d1d1d1;
 
   .submenu {
-    // 기본 Tabmenu 에 대한 CSS를 구현
+    // 湲곕낯 Tabmenu �� ���� CSS瑜� 援ы쁽
     display: flex;
     /* justify-content: space-between;
     width: 380px;
@@ -73,9 +81,8 @@ const TabMenu = styled.ul`
   }
 
   .focused {
-    //선택된 Tabmenu 에만 적용되는 CSS를 구현
-    background-color: rgb(255, 255, 255);
-    color: rgb(21, 20, 20);
+    //�좏깮�� Tabmenu �먮쭔 �곸슜�섎뒗 CSS瑜� 援ы쁽
+    border-bottom: solid 3px;
   }
 
   & div.desc {
@@ -86,5 +93,4 @@ const TabMenu = styled.ul`
 const Desc = styled.div`
   text-align: center;
 `;
-// http://localhost:3000/trainer_info/1?search=productName&q=demo#test
 export default Trainerdetail;

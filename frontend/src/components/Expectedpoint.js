@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import propTypes from 'prop-types';
 
+// eslint-disable-next-line react/prop-types
 function Expectedpoint({ startDate, endDate }) {
   return (
     <div>
@@ -11,6 +12,7 @@ function Expectedpoint({ startDate, endDate }) {
           <Boxep>
             {Math.floor(
               Math.ceil(
+                // eslint-disable-next-line react/prop-types
                 (endDate.getTime() - startDate.getTime()) /
                   (1000 * 60 * 60 * 24),
               ) *
