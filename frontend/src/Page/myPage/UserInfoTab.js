@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import '../../scss/userInfoTab.scss';
 
 function UserInfoTab({ loginedUser }) {
   const [user, setUser] = React.useState(null);
   useEffect(() => {
     const fetchUser = async () => {
-      const response = await axios.get(
-        `http://localhost:4000/users/profile/${loginedUser.id}`,
-      );
+      let response = null;
+      {
+        loginedUser.isTrainer === false
+          ? (response = await axios.get(
+              `http://localhost:4000/users/profile/${loginedUser.id}`,
+            ))
+          : (response = await axios.get(
+              `http://localhost:4000/trainers/profile/${loginedUser.id}`,
+            ));
+      }
+      console.log(response.data);
       if (response.data !== null) {
         setUser(response.data);
       }
@@ -56,8 +63,5 @@ function UserInfoTab({ loginedUser }) {
     </div>
   );
 }
-UserInfoTab.propsTypes = {
-  loginedUser: PropTypes.node.isRequired,
-};
 
 export default UserInfoTab;

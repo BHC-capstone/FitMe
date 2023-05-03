@@ -28,7 +28,7 @@ router.post('/signup', async function (req, res) {
           password: req.body.password,
           age: req.body.age,
           gender: req.body.gender,
-          // phonenumber: req.body.phonenumber,
+          phonenumber: req.body.phonenumber,
           introduction: req.body.introduction,
         });
         res.status(200).json({ data: null, message: '회원가입을 환영합니다' });
