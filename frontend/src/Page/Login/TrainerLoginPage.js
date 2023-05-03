@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
-import { loginTrainer } from '../../_actions/userAction';
 
-export default function LoginPage(props) {
+export default function TrainerLoginPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -26,17 +25,17 @@ export default function LoginPage(props) {
       password,
     };
 
-    dispatch(loginTrainer(body))
-      .then(res => {
-        if (res.payload.loginSuccess) {
-          navigate('/');
-        } else {
-          alert(res.payload.message);
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    // dispatch(loginTrainer(body))
+    //   .then(res => {
+    //     if (res.payload.loginSuccess) {
+    //       navigate('/');
+    //     } else {
+    //       alert(res.payload.message);
+    //     }
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
   };
 
   const goUserLogin = () => {

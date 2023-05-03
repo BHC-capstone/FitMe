@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './scss/index.scss';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
-import { Provider } from 'react-redux';
 // import MainPage from './Page/Main/MainPage';
 import SignUpPage from './Page/Register/SignUpPage';
 import LoginPage from './Page/Login/LoginPage';

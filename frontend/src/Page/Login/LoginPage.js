@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
-import { loginUser } from '../../_actions/userAction';
+import { loginUser } from '../../redux/_reducers/userSlice';
 
-export default function LoginPage(props) {
+export default function LoginPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState('');
+  const [userid, setUserId] = useState('');
   const [password, setPassword] = useState('');
 
-  const onUsernameHandler = event => {
-    setUsername(event.currentTarget.value);
+  const onUserIdHandler = event => {
+    setUserId(event.currentTarget.value);
   };
   const onPasswordHandler = event => {
     setPassword(event.currentTarget.value);
@@ -22,7 +22,7 @@ export default function LoginPage(props) {
     event.preventDefault();
 
     const body = {
-      username,
+      userid,
       password,
     };
 
@@ -51,10 +51,10 @@ export default function LoginPage(props) {
             <Form.Label>아이디</Form.Label>
             <Form.Control
               id="id"
-              type="text"
+              type="id"
               placeholder="아이디를 입력하세요."
-              value={username}
-              onChange={onUsernameHandler}
+              value={userid}
+              onChange={onUserIdHandler}
               required
             />
           </Form.Group>
