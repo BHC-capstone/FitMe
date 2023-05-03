@@ -22,48 +22,23 @@ function UserInfoTab() {
   }
 
   return (
-    // <div className="user-info-tab">
-    //   <h2>회원정보</h2>
-    //   <p>유저번호: {user.data.id}</p>
-    //   <p>아이디: {user.data.user_id}</p>
-    //   <p>유저이름: {user.data.username}</p>
-    //   <p>유저나이: {user.data.age}</p>
-    //   <p>이메일: {user.data.email}</p>
-    //   <p>성별: {user.data.gender}</p>
-    //   <p>전화번호: {user.data.phonenumber}</p>
-    //   <Link to="/mypage/edit">
-    //     <button type="button" className="btn btn-primary">
-    //       회원정보 수정
-    //     </button>
-    //   </Link>
-    //   <button type="button" className="btn btn-primary">
-    //     회원 탈퇴
-    //   </button>
-    // </div>
     <div className="user-info-tab">
       <h2 className="user-info-tab-title">회원정보</h2>
       <ul className="user-info-list">
         <li className="user-info-item">
-          <span className="user-info-label">유저번호:</span> {user.data.id}
+          <span className="user-info-label">이메일:</span> {user.data.email}
         </li>
         <li className="user-info-item">
-          <span className="user-info-label">아이디:</span> {user.data.user_id}
-        </li>
-        <li className="user-info-item">
-          <span className="user-info-label">유저이름:</span>{' '}
-          {user.data.username}
+          <span className="user-info-label">유저이름:</span> {user.data.name}
         </li>
         <li className="user-info-item">
           <span className="user-info-label">유저나이:</span> {user.data.age}
         </li>
         <li className="user-info-item">
-          <span className="user-info-label">이메일:</span> {user.data.email}
-        </li>
-        <li className="user-info-item">
           <span className="user-info-label">성별:</span> {user.data.gender}
         </li>
         <li className="user-info-item">
-          <span className="user-info-label">전화번호:</span>{' '}
+          <span className="user-info-label">전화번호:</span>
           {user.data.phonenumber}
         </li>
       </ul>
@@ -73,7 +48,7 @@ function UserInfoTab() {
             회원정보 수정
           </button>
         </Link>
-        <button type="button" className="btn btn-primary">
+        <button type="button" className="btn btn-danger">
           회원 탈퇴
         </button>
       </div>

@@ -3,6 +3,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    button {
+      margin-left: 20px;
+      margin-top: 10px;
+    }
     
     ul {
       margin: 0;
@@ -29,9 +34,9 @@
           border-top: none;
         }
         
-        &:last-child {
-          border-bottom: none;
-        }
+        // &:last-child {
+        //   border-bottom: none;
+        // }
         
         span {
           color: #666;
