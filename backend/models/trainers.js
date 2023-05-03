@@ -11,11 +11,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    trainer_id: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    username: {
+    name: {
       type: DataTypes.STRING(255),
       allowNull: true
     },

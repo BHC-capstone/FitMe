@@ -9,7 +9,7 @@ function SignUpPage() {
   const navigate = useNavigate();
 
   const [email, setEmail] = React.useState('');
-  const [username, setUsername] = React.useState('');
+  const [name, setName] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [passwordCheck, setPasswordCheck] = React.useState('');
   const [gender, setGender] = React.useState('');
@@ -18,8 +18,8 @@ function SignUpPage() {
   const onChangeEmail = e => {
     setEmail(e.target.value);
   };
-  const onChangeUsername = e => {
-    setUsername(e.target.value);
+  const onChangeName = e => {
+    setName(e.target.value);
   };
   const onChangePassword = e => {
     setPassword(e.target.value);
@@ -43,7 +43,7 @@ function SignUpPage() {
 
     const body = {
       email,
-      username,
+      name,
       password,
       age,
       gender,
@@ -80,16 +80,6 @@ function SignUpPage() {
               required
             />
           </Form.Group>
-          <Form.Group controlId="formBasicUsername">
-            <Form.Label>이름</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter username"
-              value={username}
-              onChange={onChangeUsername}
-              required
-            />
-          </Form.Group>
           <Form.Group controlId="formBasicPassword">
             <Form.Label>패스워드</Form.Label>
             <Form.Control
@@ -110,6 +100,17 @@ function SignUpPage() {
               required
             />
           </Form.Group>
+          <Form.Group controlId="formBasicUsername">
+            <Form.Label>이름</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter Name"
+              value={name}
+              onChange={onChangeName}
+              required
+            />
+          </Form.Group>
+
           <Form.Group controlId="formBasicGender">
             <Form.Label>성별</Form.Label>
             <Form.Control as="select" onChange={onChangeGender}>

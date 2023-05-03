@@ -22,9 +22,9 @@ function TrainerList(props) {
     setSearch(e.target.value);
   };
   const filterTitle = trainers.filter(p => {
-    return p.username.toLocaleLowerCase().includes(search.toLocaleLowerCase());
+    return p.name.toLocaleLowerCase().includes(search.toLocaleLowerCase());
   });
-  const sortstarfunc = () => {
+  const sortStarFunc = () => {
     const tempArray = Array.from(trainers);
     tempArray.sort((b, a) => a.id - b.id);
     setTrainers(tempArray);
@@ -39,7 +39,7 @@ function TrainerList(props) {
           onChange={onChange}
           placeholder="트레이너 이름 검색"
         />
-        <button type="button" className="sortstar" onClick={sortstarfunc}>
+        <button type="button" className="sort_star" onClick={sortStarFunc}>
           별점 순으로 정렬 기능
         </button>
         <button type="button">홀트</button>
@@ -58,7 +58,7 @@ function TrainerList(props) {
               title={trainer.name}
               description={
                 <>
-                  <p>Name : {trainer.username}</p>
+                  <p>Name : {trainer.name}</p>
                   <p>Age: {trainer.age}</p>
                   <p>Gender: {trainer.gender}</p>
                   <p>Introduction: {trainer.introduction}</p>
