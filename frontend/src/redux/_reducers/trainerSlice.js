@@ -2,7 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  user: {
+  trainer: {
     isLogin: false,
     username: '',
     user_id: '',
@@ -10,17 +10,17 @@ const initialState = {
   },
 };
 
-export const userSlice = createSlice({
-  name: 'user',
+export const trainerSlice = createSlice({
+  name: 'trainer',
   initialState,
   reducers: {
-    loginUser: (state, action) => {
+    loginTrainer: (state, action) => {
       state.isLogin = true;
       state.user_name = action.payload.user_name;
       state.user_id = action.payload.user_id;
       state.password = action.payload.password;
     },
-    logoutUser: state => {
+    logoutTrainer: state => {
       state.isLogIn = false;
       state.user_name = null;
       state.user_id = null;
@@ -29,6 +29,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { loginUser, logoutUser } = userSlice.actions;
+export const { loginTrainer, logoutTrainer } = trainerSlice.actions;
 
-export default userSlice.reducer;
+export default trainerSlice.reducer;

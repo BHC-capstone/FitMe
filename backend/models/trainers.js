@@ -11,11 +11,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    user_id: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    username: {
+    name: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
@@ -41,6 +37,14 @@ module.exports = function(sequelize, DataTypes) {
     },
     carrer: {
       type: DataTypes.TEXT,
+      allowNull: true
+    },
+    review_avg: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    review_count: {
+      type: DataTypes.INTEGER,
       allowNull: true
     }
   }, {

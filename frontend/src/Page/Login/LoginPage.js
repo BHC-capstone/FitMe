@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
-import { loginUser } from '../../redux/_reducers/userSlice';
+import { loginUser, logoutUser } from '../../redux/_reducers/userSlice';
 
 export default function LoginPage() {
   const dispatch = useDispatch();
@@ -26,17 +27,9 @@ export default function LoginPage() {
       password,
     };
 
-    dispatch(loginUser(body))
-      .then(res => {
-        if (res.payload.loginSuccess) {
-          navigate('/');
-        } else {
-          alert(res.payload.message);
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    const login = e => {
+      dispatch(loginUser(body));
+    };
   };
 
   const goTrainerLogin = () => {
@@ -48,7 +41,7 @@ export default function LoginPage() {
       <Container className="panel">
         <Form onSubmit={onSubmitHandler}>
           <Form.Group className="mb-3">
-            <Form.Label>아이디</Form.Label>
+            <Form.Label>이메일</Form.Label>
             <Form.Control
               id="id"
               type="id"

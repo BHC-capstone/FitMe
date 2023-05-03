@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
+import {
+  loginTrainer,
+  logoutTrainer,
+} from '../../redux/_reducers/trainerSlice';
 
 export default function TrainerLoginPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState('');
+  const [userid, setUserId] = useState('');
   const [password, setPassword] = useState('');
 
-  const onUsernameHandler = event => {
-    setUsername(event.currentTarget.value);
+  const onUserIdHandler = event => {
+    setUserId(event.currentTarget.value);
   };
   const onPasswordHandler = event => {
     setPassword(event.currentTarget.value);
@@ -21,21 +26,13 @@ export default function TrainerLoginPage() {
     event.preventDefault();
 
     const body = {
-      username,
+      userid,
       password,
     };
 
-    // dispatch(loginTrainer(body))
-    //   .then(res => {
-    //     if (res.payload.loginSuccess) {
-    //       navigate('/');
-    //     } else {
-    //       alert(res.payload.message);
-    //     }
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+    const login = e => {
+      dispatch(loginTrainer(body));
+    };
   };
 
   const goUserLogin = () => {
@@ -47,12 +44,13 @@ export default function TrainerLoginPage() {
       <Container className="panel">
         <Form onSubmit={onSubmitHandler}>
           <Form.Group className="mb-3">
-            <Form.Label>아이디</Form.Label>
+            <Form.Label>이메일</Form.Label>
             <Form.Control
-              type="text"
+              id="id"
+              type="id"
               placeholder="아이디를 입력하세요."
-              value={username}
-              onChange={onUsernameHandler}
+              value={userid}
+              onChange={onUserIdHandler}
               required
             />
           </Form.Group>
