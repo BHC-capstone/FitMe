@@ -4,6 +4,7 @@ import UserInfoTab from '../page/myPage/UserInfoTab';
 import StatisticsTab from '../page/myPage/StatisticsTab';
 import PaymentHistoryTab from '../page/myPage/PaymentHistoryTab';
 import '../scss/tabs.scss';
+import BottomNav from './bottomNav';
 
 function Tabs() {
   const [activeTab, setActiveTab] = useState(1);

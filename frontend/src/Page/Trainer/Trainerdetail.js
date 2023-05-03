@@ -31,9 +31,11 @@ function Trainerdetail() {
       </ul>
       <TabMenu>
         {menuArr.map((el, index) => (
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
           <li
             className={index === currentTab ? 'submenu focused' : 'submenu'}
             onClick={() => selectMenuHandler(index)}
+            onKeyDown={() => selectMenuHandler(index)}
           >
             {el.name}
           </li>

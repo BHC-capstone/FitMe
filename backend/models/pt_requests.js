@@ -1,59 +1,42 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('trainers', {
+  return sequelize.define('pt_requests', {
     id: {
-      autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    email: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    trainer_id: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    username: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    password: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    age: {
+    user_id: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    gender: {
-      type: DataTypes.STRING(10),
+    trainer_id: {
+      type: DataTypes.INTEGER,
       allowNull: true
     },
-    phonenumber: {
-      type: DataTypes.STRING(255),
+    date: {
+      type: DataTypes.DATEONLY,
       allowNull: true
     },
-    introduction: {
+    time: {
+      type: DataTypes.TIME,
+      allowNull: true
+    },
+    request: {
       type: DataTypes.TEXT,
       allowNull: true
     },
-    carrer: {
+    response: {
       type: DataTypes.TEXT,
       allowNull: true
     },
-    review_avg: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    review_count: {
+    accept: {
       type: DataTypes.INTEGER,
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'trainers',
+    tableName: 'pt_requests',
     timestamps: false,
     indexes: [
       {

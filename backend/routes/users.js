@@ -97,10 +97,10 @@ router.post('/withdraw', async function (req, res) {
 });
 
 // user info
-router.get('/profile/:userid', async function (req, res) {
+router.get('/profile/:user_id', async function (req, res) {
   try{
   const userInfo = await users.findOne({
-    where: { userid: req.params.userid },
+    where: { user_id: req.params.user_id },
   });
   res.status(200).json({ data: userInfo, message: '' });
   }
@@ -111,11 +111,11 @@ router.get('/profile/:userid', async function (req, res) {
 
 
 // user info update
-router.post('/profile/changeProfile/:userid', async function (req, res) {
+router.post('/profile/changeProfile/:user_id', async function (req, res) {
   if (req.session.loggedin) {
     try{
     const userInfo = await users.findOne({
-      where: { userid: req.params.userid },
+      where: { userid: req.params.user_id },
     });
     if (req.body.password != req.body.password2)
     res.status(401).json({ data: null, message: '입력된 비밀번호가 서로 다릅니다.' });
@@ -124,14 +124,14 @@ router.post('/profile/changeProfile/:userid', async function (req, res) {
     await users.update(
       {
         email: req.body.email,
-        user_id: req.body.userid,
+        user_id: req.body.user_id,
         username: req.body.username,
         password: req.body.password,
         age: req.body.age,
         gender: req.body.gender,
         phonenumber: req.body.phnumber,
       },
-      { where: { userid: req.params.userid } }
+      { where: { userid: req.params.user_id } }
     );
     res.status(200).json({ data: null, message: '성공적으로 변경되었습니다.' });
     }

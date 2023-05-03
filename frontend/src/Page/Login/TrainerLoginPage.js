@@ -26,17 +26,17 @@ export default function LoginPage(props) {
       password,
     };
 
-    dispatch(loginTrainer(body))
-      .then(res => {
-        if (res.payload.loginSuccess) {
-          navigate('/');
-        } else {
-          alert(res.payload.message);
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    //   dispatch(loginTrainer(body))
+    //     .then(res => {
+    //       if (res.payload.loginSuccess) {
+    //         navigate('/');
+    //       } else {
+    //         alert(res.payload.message);
+    //       }
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //     });
   };
 
   const goUserLogin = () => {
