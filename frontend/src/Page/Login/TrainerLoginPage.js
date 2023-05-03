@@ -4,10 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
 
-import {
-  loginTrainer,
-  logoutTrainer,
-} from '../../redux/_reducers/trainerSlice';
+import { loginTrainer, logoutTrainer } from '../../redux/_reducers/userSlice';
 
 export default function LoginPage(props) {
   const dispatch = useDispatch();
