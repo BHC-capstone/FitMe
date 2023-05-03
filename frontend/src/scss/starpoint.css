@@ -1,0 +1,22 @@
+.star {
+    position: relative;
+    font-size: 2rem;
+    color: #ddd;
+    text-align: left;
+    padding-left: 50px;
+    display: flex;
+  }
+  
+
+  
+  .star span {
+    width: 0%;
+    position: absolute; 
+    left: 0;
+    color: red;
+    overflow: hidden;
+    pointer-events: none;
+    text-align: left;
+    padding-left: 50px;
+    display: flex;
+  }

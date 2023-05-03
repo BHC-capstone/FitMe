@@ -1,18 +1,17 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
-
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import Starpoint from '../../components/Starpoint';
 
 function Trainerdetail() {
   const { id } = useParams();
-  const location = useLocation();
   const [currentTab, clickTab] = useState(0);
-
+  const [star, setStar] = useState(1);
   const menuArr = [
-    { name: 'Tab1', content: 'Tab menu ONE' },
-    { name: 'Tab2', content: 'Tab menu TWO' },
-    { name: 'Tab3', content: 'Tab menu THREE' },
+    { name: '자기 소개', content: 'Tab menu ONE' },
+    { name: '프로필', content: 'Tab menu TWO' },
+    { name: '리뷰', content: 'Tab menu THREE' },
   ];
 
   const selectMenuHandler = index => {
@@ -22,14 +21,19 @@ function Trainerdetail() {
   };
   return (
     <>
+      <h3>{id}번 상품 페이지 입니다.</h3>
       <Upbox>
-        <ul>
-          <li>dlfm : {location.hash}</li>
-          <li>pathname : {location.pathname}</li>
-          <li>search : {location.search}</li>
-          <li>state : {location.state}</li>
-          <li>key : {location.key}</li>
-        </ul>
+        <Box1>
+          <Imageposition>안녕</Imageposition>
+          <Nameblock className="a">박범수</Nameblock>
+          <Nameblock>별점 </Nameblock>
+          <Starpoint init={star} />
+          <Nameblock className="b">남 27세</Nameblock>
+        </Box1>
+        <Box2>
+          <Emailblock>E-mail : poj4639@ajou.ac.kr</Emailblock>
+          <Emailblock>PhoneNumber : 010 - 3381 - 4639</Emailblock>
+        </Box2>
       </Upbox>
       <TabMenu>
         {menuArr.map((el, index) => (
@@ -52,7 +56,58 @@ function Trainerdetail() {
 const Upbox = styled.ul`
   background-color: #111654;
   color: rgb(255, 255, 255);
-  height: 300px;
+  height: 500px;
+`;
+const Box1 = styled.div`
+  background-color: #111654;
+  height: 400px;
+`;
+const Box2 = styled.div`
+  background-color: #111654;
+  height: 100px;
+`;
+const Imageposition = styled.div`
+  width: 280px;
+  height: 360px;
+
+  padding-top: calc(100% / 20);
+  padding-bottom: calc(100% / 20);
+  margin-left: calc(100% / 10);
+  background-color: #ffffff;
+  display: flex;
+  float: left;
+`;
+const Nameblock = styled.text`
+  letter-spacing: 5px;
+  word-spacing: 20px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding-left: 50px;
+  padding-top: calc(100% / 20);
+
+  &.a {
+    letter-spacing: 20px;
+    font-size: 50px;
+    font-weight: bold;
+  }
+  &.b {
+    padding-top: calc(100% / 40);
+    font-size: 15px;
+    font-weight: normal;
+    float: left;
+  }
+`;
+const Emailblock = styled.text`
+  letter-spacing: 5px;
+  font-weight: lighter;
+  color: white;
+  margin-left: calc(100% / 10);
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-left: 140px;
 `;
 const TabMenu = styled.ul`
   background-color: #ffffff;
@@ -68,7 +123,6 @@ const TabMenu = styled.ul`
   border-bottom-color: #d1d1d1;
 
   .submenu {
-    // 湲곕낯 Tabmenu �� ���� CSS瑜� 援ы쁽
     display: flex;
     /* justify-content: space-between;
     width: 380px;
@@ -81,7 +135,6 @@ const TabMenu = styled.ul`
   }
 
   .focused {
-    //�좏깮�� Tabmenu �먮쭔 �곸슜�섎뒗 CSS瑜� 援ы쁽
     border-bottom: solid 3px;
   }
 
