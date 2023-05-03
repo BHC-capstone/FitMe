@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import '../../scss/userInfoTab.scss';
 
 function UserInfoTab({ loginedUser }) {
   const [user, setUser] = React.useState(null);
+
   useEffect(() => {
     const fetchUser = async () => {
+      if (!loginedUser) {
+        return;
+      }
       const response = await axios.get(
         `http://localhost:4000/users/profile/${loginedUser.id}`,
       );
@@ -18,6 +21,9 @@ function UserInfoTab({ loginedUser }) {
     fetchUser();
   }, []);
 
+  if (!loginedUser.id) {
+    return <div>먼저 로그인해주세요.</div>;
+  }
   if (!user) {
     return <div>회원정보 Loading...</div>;
   }
@@ -44,7 +50,7 @@ function UserInfoTab({ loginedUser }) {
         </li>
       </ul>
       <div className="user-info-actions">
-        <Link to="/mypage/edit">
+        <Link to={{ pathname: '/mypage/edit', state: { user: loginedUser } }}>
           <button type="button" className="btn btn-primary">
             회원정보 수정
           </button>
@@ -56,8 +62,5 @@ function UserInfoTab({ loginedUser }) {
     </div>
   );
 }
-UserInfoTab.propsTypes = {
-  loginedUser: PropTypes.node.isRequired,
-};
 
 export default UserInfoTab;

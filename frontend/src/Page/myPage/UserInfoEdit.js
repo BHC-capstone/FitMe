@@ -1,68 +1,164 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function UserEdit() {
+function UserEdit({ props }) {
+  const loginedUser = useSelector(state => state.user);
+  console.log(loginedUser);
   const navigate = useNavigate();
-  const [user, setUser] = useState({
-    username: '김재현',
-    email: 'kjh77k@ajou.ac.kr',
-    phone: '010-1234-5678',
+  const [formData, setFormData] = useState({
+    email: '',
+    name: '',
+    age: '',
+    gender: '',
+    phoneNumber: '',
+    password: '',
+    password2: '',
   });
 
-  const handleInputChange = event => {
-    const { name, value } = event.target;
-    setUser(prevUser => ({ ...prevUser, [name]: value }));
-  };
+  useEffect(() => {
+    async function fetchUserData() {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/users/profile/${loginedUser.id}`,
+        );
+        const { data } = response.data;
+        setFormData({
+          email: data.email,
+          name: data.name,
+          age: data.age,
+          gender: data.gender,
+          phoneNumber: data.phonenumber,
+          password: '',
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchUserData();
+  }, [loginedUser.id]);
 
-  const handleSubmit = event => {
+  function handleSubmit(event) {
     event.preventDefault();
-    // axios.post('/api/user', user).then(res => {
-    //   if (res.data.success) {
-    //     navigate('/mypage');
-    //   } else {
-    //     alert(res.data.message);
-    //   }
-    // });
-    navigate('/mypage');
-    alert(`Saved ${user.username}`);
-  };
-
+    if (formData.password !== formData.password2) {
+      alert('비밀번호가 일치하지 않습니다.');
+    } else {
+      axios
+        .post(
+          `http://localhost:4000/users/profile/changeProfile/${loginedUser.id}`,
+          {
+            email: formData.email,
+            name: formData.name,
+            age: formData.age,
+            gender: formData.gender,
+            phoneNumber: formData.phoneNumber,
+            password: formData.password,
+            password2: formData.password2,
+          },
+        )
+        .then(response => {
+          alert(response.data.message);
+          navigate('/mypage');
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+  }
+  function handleChange(event) {
+    const { name, value } = event.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
+  }
   return (
-    <div className="user-edit-tab">
-      <h2>회원정보 수정</h2>
+    <div className="container my-5">
+      <h1>회원 정보 수정</h1>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="password">비밀번호</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={user.password}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="email">이메일</label>
           <input
             type="email"
+            className="form-control"
             id="email"
             name="email"
-            value={user.email}
-            onChange={handleInputChange}
+            value={formData.email}
+            onChange={handleChange}
           />
         </div>
-        <div>
-          <label htmlFor="phone">전화번호</label>
+        <div className="form-group">
+          <label htmlFor="name">이름</label>
           <input
-            type="tel"
-            id="phone"
-            name="phone"
-            value={user.phone}
-            onChange={handleInputChange}
+            type="text"
+            className="form-control"
+            id="name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
           />
         </div>
-        <button type="submit">저장</button>
+        <div className="form-group">
+          <label htmlFor="age">나이</label>
+          <input
+            type="number"
+            className="form-control"
+            id="age"
+            name="age"
+            value={formData.age}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="gender">성별</label>
+          <select
+            className="form-control"
+            id="gender"
+            name="gender"
+            value={formData.gender}
+            onChange={handleChange}
+          >
+            <option value="male">남성</option>
+            <option value="female">여성</option>
+          </select>
+        </div>
+        <div className="form-group">
+          <label htmlFor="phnumber">전화번호</label>
+          <input
+            type="text"
+            className="form-control"
+            id="phnumber"
+            name="phnumber"
+            value={formData.phoneNumber}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">비밀번호</label>
+          <input
+            type="password"
+            className="form-control"
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password2">비밀번호 확인</label>
+          <input
+            type="password"
+            className="form-control"
+            id="password2"
+            name="password2"
+            value={formData.password2}
+            onChange={handleChange}
+          />
+        </div>
+        <button type="submit" className="btn btn-primary">
+          변경하기
+        </button>
       </form>
     </div>
   );
