@@ -8,6 +8,7 @@ function TrainerSignUpPage() {
 
   const [email, setEmail] = React.useState('');
   const [name, setName] = React.useState('');
+  const [phonenumber, setPhonenumber] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [passwordCheck, setPasswordCheck] = React.useState('');
   const [gender, setGender] = React.useState('');
@@ -39,6 +40,9 @@ function TrainerSignUpPage() {
   const onChangeIntroduction = e => {
     setIntroduction(e.target.value);
   };
+  const onChangePhonenumber = e => {
+    setPhonenumber(e.target.value);
+  };
 
   // eslint-disable-next-line consistent-return
   const onSubmit = e => {
@@ -51,6 +55,7 @@ function TrainerSignUpPage() {
       email,
       name,
       password,
+      phonenumber,
       age,
       gender,
       introduction,
@@ -70,6 +75,7 @@ function TrainerSignUpPage() {
     formData.append('email', email);
     formData.append('name', name);
     formData.append('password', password);
+    formData.append('phonenumber', phonenumber);
     formData.append('age', age);
     formData.append('gender', gender);
     formData.append('introduction', introduction);
@@ -129,6 +135,16 @@ function TrainerSignUpPage() {
               placeholder="Enter name"
               value={name}
               onChange={onChangeName}
+            />
+          </Form.Group>
+          <Form.Group controlId="formBasicPhonenumber">
+            <Form.Label>전화번호</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter Phonenumber"
+              value={phonenumber}
+              onChange={onChangePhonenumber}
+              required
             />
           </Form.Group>
           <Form.Group controlId="formBasicGender">
