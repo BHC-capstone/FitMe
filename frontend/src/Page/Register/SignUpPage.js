@@ -10,6 +10,7 @@ function SignUpPage() {
 
   const [email, setEmail] = React.useState('');
   const [name, setName] = React.useState('');
+  const [phonenumber, setPhonenumber] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [passwordCheck, setPasswordCheck] = React.useState('');
   const [gender, setGender] = React.useState('');
@@ -33,6 +34,9 @@ function SignUpPage() {
   const onChangeAge = e => {
     setAge(e.target.value);
   };
+  const onChangePhonenumber = e => {
+    setPhonenumber(e.target.value);
+  };
 
   // eslint-disable-next-line consistent-return
   const onSubmit = e => {
@@ -44,6 +48,7 @@ function SignUpPage() {
     const body = {
       email,
       name,
+      phonenumber,
       password,
       age,
       gender,
@@ -107,6 +112,16 @@ function SignUpPage() {
               placeholder="Enter Name"
               value={name}
               onChange={onChangeName}
+              required
+            />
+          </Form.Group>
+          <Form.Group controlId="formBasicPhonenumber">
+            <Form.Label>전화번호</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter Phonenumber"
+              value={phonenumber}
+              onChange={onChangePhonenumber}
               required
             />
           </Form.Group>
