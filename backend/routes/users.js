@@ -10,8 +10,8 @@ router.post('/signup', async function (req, res) {
     req.body.name,
     req.body.password,
     req.body.age,
-    req.body.gender)
-    // req.body.phonenumber
+    req.body.gender,
+    req.body.phonenumber)
   ) {
     try {
       const userInfo = await users.findOne({
@@ -113,41 +113,42 @@ router.get('/profile/:id', async function (req, res) {
 
 // user info update
 router.post('/profile/changeProfile/:id', async function (req, res) {
-  if (req.session.loggedin) {
-    try {
-      const userInfo = await users.findOne({
-        where: { id: req.params.id },
-      });
-      if (req.body.password != req.body.password2)
+  // if (req.session.loggedin) {
+  try {
+    const userInfo = await users.findOne({
+      where: { id: req.params.id },
+    });
+    if (req.body.password != req.body.password2)
+      res
+        .status(401)
+        .json({ data: null, message: '입력된 비밀번호가 서로 다릅니다.' });
+    else {
+      try {
+        console.log(req.body);
+        await users.update(
+          {
+            email: req.body.email,
+            name: req.body.name,
+            password: req.body.password,
+            age: req.body.age,
+            gender: req.body.gender,
+            phonenumber: req.body.phonenumber,
+          },
+          { where: { id: req.params.id } }
+        );
         res
-          .status(401)
-          .json({ data: null, message: '입력된 비밀번호가 서로 다릅니다.' });
-      else {
-        try {
-          await users.update(
-            {
-              email: req.body.email,
-              name: req.body.name,
-              password: req.body.password,
-              age: req.body.age,
-              gender: req.body.gender,
-              phonenumber: req.body.phnumber,
-            },
-            { where: { id: req.params.id } }
-          );
-          res
-            .status(200)
-            .json({ data: null, message: '성공적으로 변경되었습니다.' });
-        } catch (err) {
-          console.log(err);
-        }
+          .status(200)
+          .json({ data: null, message: '성공적으로 변경되었습니다.' });
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
     }
-  } else {
-    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+  } catch (err) {
+    console.log(err);
   }
+  // } else {
+  //   res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+  // }
 });
 
 // user point info

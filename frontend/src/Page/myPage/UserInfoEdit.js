@@ -12,7 +12,7 @@ function UserEdit({ props }) {
     name: '',
     age: '',
     gender: '',
-    phoneNumber: '',
+    phonenumber: '',
     password: '',
     password2: '',
   });
@@ -29,7 +29,7 @@ function UserEdit({ props }) {
           name: data.name,
           age: data.age,
           gender: data.gender,
-          phoneNumber: data.phonenumber,
+          phonenumber: data.phonenumber,
           password: '',
         });
       } catch (error) {
@@ -40,6 +40,7 @@ function UserEdit({ props }) {
   }, [loginedUser.id]);
 
   function handleSubmit(event) {
+    console.log(formData.phonenumber);
     event.preventDefault();
     if (formData.password !== formData.password2) {
       alert('비밀번호가 일치하지 않습니다.');
@@ -52,7 +53,7 @@ function UserEdit({ props }) {
             name: formData.name,
             age: formData.age,
             gender: formData.gender,
-            phoneNumber: formData.phoneNumber,
+            phonenumber: formData.phonenumber,
             password: formData.password,
             password2: formData.password2,
           },
@@ -124,13 +125,13 @@ function UserEdit({ props }) {
           </select>
         </div>
         <div className="form-group">
-          <label htmlFor="phnumber">전화번호</label>
+          <label htmlFor="phonenumber">전화번호</label>
           <input
             type="text"
             className="form-control"
-            id="phnumber"
-            name="phnumber"
-            value={formData.phoneNumber}
+            id="phonenumber"
+            name="phonenumber"
+            value={formData.phonenumber}
             onChange={handleChange}
           />
         </div>
