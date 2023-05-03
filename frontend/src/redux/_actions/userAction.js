@@ -1,12 +1,3 @@
-import axios from 'axios';
-import {
-  LOGIN_USER,
-  REGISTER_USER,
-  LOGIN_TRAINER,
-  REGISTER_TRAINER,
-  LOGOUT,
-} from './types';
-
 // const USER_URL = '/users';
 // const TRAINER_URL = '/trainers';
 
