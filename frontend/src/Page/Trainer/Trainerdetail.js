@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 
@@ -34,6 +35,7 @@ function Trainerdetail() {
           <li
             className={index === currentTab ? 'submenu focused' : 'submenu'}
             onClick={() => selectMenuHandler(index)}
+            onKeyDown={() => selectMenuHandler(index)}
           >
             {el.name}
           </li>
