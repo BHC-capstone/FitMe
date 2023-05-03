@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { Provider } from 'react-redux';
 // import MainPage from './Page/Main/MainPage';
+
 import SignUpPage from './page/Register/SignUpPage';
 import LoginPage from './page/Login/LoginPage';
 import TrainerSignUpPage from './page/Register/TrainerSignUpPage';
