@@ -12,7 +12,7 @@ import TrainerSignUpPage from './page/Register/TrainerSignUpPage';
 import TrainerLoginPage from './page/Login/TrainerLoginPage';
 import TrainerList from './page/Trainer/TrainerList';
 import Trainerdetail from './page/Trainer/Trainerdetail';
-import BottomNav from './components/bottomNav';
+import BottomNav from './components/BottomNav';
 import Tabs from './components/myPageTabs';
 import UserEdit from './page/myPage/UserInfoEdit';
 import WithdrawPage from './page/myPage/UserDeletePage';
