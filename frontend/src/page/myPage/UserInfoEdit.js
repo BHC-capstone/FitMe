@@ -20,9 +20,17 @@ function UserEdit({ props }) {
   useEffect(() => {
     async function fetchUserData() {
       try {
-        const response = await axios.get(
-          `http://localhost:4000/users/profile/${loginedUser.id}`,
-        );
+        let response = null;
+        {
+          loginedUser.isTrainer === false
+            ? (response = await axios.get(
+                `http://localhost:4000/users/profile/${loginedUser.id}`,
+              ))
+            : (response = await axios.get(
+                `http://localhost:4000/trainers/profile/${loginedUser.id}`,
+              ));
+        }
+
         const { data } = response.data;
         setFormData({
           email: data.email,
@@ -45,19 +53,22 @@ function UserEdit({ props }) {
     if (formData.password !== formData.password2) {
       alert('비밀번호가 일치하지 않습니다.');
     } else {
+      let url = null;
+      {
+        loginedUser.isTrainer === false
+          ? (url = `http://localhost:4000/users/profile/changeProfile/${loginedUser.id}`)
+          : (url = `http://localhost:4000/trainers/profile/changeProfile/${loginedUser.id}`);
+      }
       axios
-        .post(
-          `http://localhost:4000/users/profile/changeProfile/${loginedUser.id}`,
-          {
-            email: formData.email,
-            name: formData.name,
-            age: formData.age,
-            gender: formData.gender,
-            phonenumber: formData.phonenumber,
-            password: formData.password,
-            password2: formData.password2,
-          },
-        )
+        .post(url, {
+          email: formData.email,
+          name: formData.name,
+          age: formData.age,
+          gender: formData.gender,
+          phonenumber: formData.phonenumber,
+          password: formData.password,
+          password2: formData.password2,
+        })
         .then(response => {
           alert(response.data.message);
           navigate('/mypage');

@@ -32,7 +32,7 @@ router.post("/signup", async function (req, res) {
                     password: req.body.password,
                     age: req.body.age,
                     gender: req.body.gender,
-                    // phonenumber: req.body.phonenumber,
+                    phonenumber: req.body.phonenumber,
                 });
                 res.status(200).json({
                     data: null,
@@ -86,26 +86,29 @@ router.get("/logout", function (req, res) {
 });
 
 // user delete
-router.post("/withdraw:id", async function (req, res) {
-    if (req.session.loggedin) {
-        try {
-            const userInfo = await users.findOne({
-                where: { id: req.body.id },
-            });
-            if (userInfo != undefined) {
+router.post("/withdraw/:id", async function (req, res) {
+    try {
+        const userInfo = await users.findOne({
+            where: { id: req.params.id },
+        });
+        if (userInfo != undefined) {
+            if (req.body.password == userInfo.password) {
                 await users.destroy({
-                    where: { id: req.body.id },
+                    where: { id: req.params.id },
                 });
                 res.status(200).json({
                     data: null,
                     message: "성공적으로 탈퇴되었습니다",
                 });
+            } else {
+                res.status(401).json({
+                    data: null,
+                    message: "비밀번호가 일치하지 않습니다",
+                });
             }
-        } catch (err) {
-            console.log(err);
         }
-    } else {
-        res.status(400).json({ data: null, message: "로그인 하세요" });
+    } catch (err) {
+        console.log(err);
     }
 });
 
