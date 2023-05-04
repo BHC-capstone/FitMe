@@ -16,6 +16,7 @@ import Trainerdetail from './page/Trainer/Trainerdetail';
 import BottomNav from './components/bottomNav';
 import Tabs from './components/myPageTabs';
 import Ptrequest from './page/Trainer/Ptrequest';
+import CalendarPart from './page/Main/CalenderPart';
 
 const history = createBrowserHistory();
 
@@ -43,6 +44,7 @@ function App() {
         <Route path="/trainer-info/:id" element={<Trainerdetail />} />
         <Route path="/mypage" element={<Tabs />} />
         <Route path="/ptrequest" element={<Ptrequest />} />
+        <Route path="/calendar" element={<CalendarPart />} />
       </Routes>
     </div>
   );
