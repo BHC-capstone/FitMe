@@ -88,9 +88,11 @@ function TrainerSignUpPage() {
       url: 'http://localhost:4000/trainers/signup',
       data: formData,
       method: 'POST',
-    }).catch(err => {
-      console.log(err);
-    });
+    })
+      .then(navigate('/login'))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const goSignUp = () => {
