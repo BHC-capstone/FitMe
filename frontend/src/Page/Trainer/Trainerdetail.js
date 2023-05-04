@@ -32,7 +32,7 @@ export default function Trainerdetail() {
     clickTab(index);
   };
   return (
-    <>
+    <Container fluid className="panel">
       <Upbox>
         <Box1>
           <Imageposition>이미지</Imageposition>
@@ -64,7 +64,7 @@ export default function Trainerdetail() {
         <p>{menuArr[currentTab].content}</p>
       </Desc>
       <div />
-    </>
+    </Container>
   );
 }
 const Upbox = styled.ul`

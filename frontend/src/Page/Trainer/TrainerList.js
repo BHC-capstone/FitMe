@@ -32,10 +32,10 @@ export default function TrainerList(props) {
   return (
     <Layout>
       <Layout>
-        <Container fluid>
-          <Row>
-            <Head1>트레이너 목록</Head1>
-          </Row>
+        <Container>
+          <Head1>트레이너 목록</Head1>
+        </Container>
+        <Container fluid className="panel">
           <Stack gap={2}>
             <Row>
               <div>

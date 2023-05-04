@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
-
+import styled from 'styled-components';
 import { loginTrainer, logoutTrainer } from '../../redux/_reducers/userSlice';
 
 export default function LoginPage(props) {
@@ -50,6 +50,9 @@ export default function LoginPage(props) {
 
   return (
     <div className="login">
+      <Container>
+        <Head1>트레이너 로그인</Head1>
+      </Container>
       <Container className="panel">
         <Form onSubmit={onSubmitHandler}>
           <Form.Group className="mb-3">
@@ -87,3 +90,15 @@ export default function LoginPage(props) {
     </div>
   );
 }
+
+const Head1 = styled.div`
+  color: rgb(21, 20, 20);
+  font-weight: bold;
+  font-size: 30px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 20px;
+`;

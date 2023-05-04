@@ -10,7 +10,7 @@ function Expectedpoint({ startDate, endDate }) {
       <Boxr>
         <Boxc>
           <div>예상 비용</div>
-          <Boxep>
+          <Boxep1>
             {Math.floor(
               Math.ceil(
                 (endDate.getTime() - startDate.getTime()) /
@@ -18,18 +18,18 @@ function Expectedpoint({ startDate, endDate }) {
               ) *
                 (2 / 7),
             )}
-          </Boxep>
+          </Boxep1>
         </Boxc>
         <Boxc>
           <div>현재 보유 포인트</div>
-          <Boxep>100</Boxep>
+          <Boxep2>100</Boxep2>
         </Boxc>
       </Boxr>
       <Boxr>
         <Button type="submit" variant="info">
           결제
         </Button>
-        <Button type="submit" variant="info">
+        <Button type="submit" variant="warning">
           충전
         </Button>
       </Boxr>
@@ -46,8 +46,9 @@ const Boxr = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 100px;
+  height: fit-content;
   text-align: center;
+  margin-top: 25px;
 `;
 const Boxc = styled.div`
   display: flex;
@@ -61,12 +62,22 @@ const Boxc = styled.div`
   background-color: rgb(233, 233, 233);
   padding: 10px;
 `;
-const Boxep = styled.div`
+const Boxep1 = styled.div`
   width: 90px;
   height: 24px;
   font-weight: 400;
   font-size: 16px;
   background-color: #0dcaf0;
+  color: black;
+  border-radius: 10px;
+  text-align: center;
+`;
+const Boxep2 = styled.div`
+  width: 90px;
+  height: 24px;
+  font-weight: 400;
+  font-size: 16px;
+  background-color: #ffc107;
   color: black;
   border-radius: 10px;
   text-align: center;

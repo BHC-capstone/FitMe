@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Container, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import styled from 'styled-components';
 
 export default function TrainerSignUpPage() {
   const navigate = useNavigate();
@@ -99,6 +100,9 @@ export default function TrainerSignUpPage() {
 
   return (
     <div className="signup">
+      <Container>
+        <Head1>트레이너회원가입</Head1>
+      </Container>
       <Container fluid className="panel">
         <Form>
           <Form.Group controlId="formBasicEmail">
@@ -128,44 +132,55 @@ export default function TrainerSignUpPage() {
               onChange={onChangePasswordCheck}
             />
           </Form.Group>
-          <Form.Group controlId="formBasicname">
-            <Form.Label>이름</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter name"
-              value={name}
-              onChange={onChangeName}
-            />
-          </Form.Group>
-          <Form.Group controlId="formBasicPhonenumber">
-            <Form.Label>전화번호</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter Phonenumber"
-              value={phonenumber}
-              onChange={onChangePhonenumber}
-              required
-            />
-          </Form.Group>
-          <Form.Group controlId="formBasicGender">
-            <Form.Label>성별</Form.Label>
-            <Form.Control as="select" onChange={onChangeGender}>
-              <option value="">선택하세요</option>
-              <option value="male">남성</option>
-              <option value="female">여성</option>
-              <option value="others">기타</option>
-            </Form.Control>
-          </Form.Group>
-
-          <Form.Group controlId="formBasicAge">
-            <Form.Label>나이</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder="Enter age"
-              value={age}
-              onChange={onChangeAge}
-            />
-          </Form.Group>
+          <Row>
+            <Col md="5">
+              <Form.Group controlId="formBasicname">
+                <Form.Label>이름</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter name"
+                  value={name}
+                  onChange={onChangeName}
+                />
+              </Form.Group>
+            </Col>
+            <Col md="7">
+              <Form.Group controlId="formBasicPhonenumber">
+                <Form.Label>전화번호</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Phonenumber"
+                  value={phonenumber}
+                  onChange={onChangePhonenumber}
+                  required
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Form.Group controlId="formBasicGender">
+                <Form.Label>성별</Form.Label>
+                <Form.Control as="select" onChange={onChangeGender}>
+                  <option value="">선택하세요</option>
+                  <option value="male">남성</option>
+                  <option value="female">여성</option>
+                  <option value="others">기타</option>
+                </Form.Control>
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group controlId="formBasicAge">
+                <Form.Label>나이</Form.Label>
+                <Form.Control
+                  type="number"
+                  placeholder="Enter age"
+                  value={age}
+                  onChange={onChangeAge}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
           <Form.Group controlId="formBasicCertificationFile">
             <Form.Label>자격증 파일</Form.Label>
             <Form.Control
@@ -195,3 +210,15 @@ export default function TrainerSignUpPage() {
     </div>
   );
 }
+
+const Head1 = styled.div`
+  color: rgb(21, 20, 20);
+  font-weight: bold;
+  font-size: 30px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 20px;
+`;

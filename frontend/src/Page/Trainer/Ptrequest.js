@@ -13,41 +13,43 @@ export default function Ptrequest() {
   const [endDate, setEndDate] = useState(new Date());
 
   return (
-    <div>
+    <Layout>
       <Head1>PT 신청</Head1>
-      <Boxr>
-        <Boxc>
-          <Head2>PT 시작일</Head2>
-          <StyledDatePicker
-            locale={ko}
-            selected={startDate}
-            dateFormat="yyyy/MM/dd"
-            onChange={date => setStartDate(date)}
-            selectsStart
-            startDate={startDate}
-            endDate={endDate}
-            minDate={new Date()}
-            showDisabledMonthNavigation
-          />
-        </Boxc>
-        <Boxc>
-          <Head2>PT 종료일</Head2>
-          <StyledDatePicker
-            locale={ko}
-            selected={endDate}
-            dateFormat="yyyy/MM/dd"
-            onChange={date => setEndDate(date)}
-            selectsEnd
-            startDate={startDate}
-            endDate={endDate}
-            minDate={new Date()}
-            showDisabledMonthNavigation
-          />
-        </Boxc>
-      </Boxr>
+      <Container fluid className="panel">
+        <Boxr>
+          <Boxc>
+            <Head2>PT 시작일</Head2>
+            <StyledDatePicker
+              locale={ko}
+              selected={startDate}
+              dateFormat="yyyy/MM/dd"
+              onChange={date => setStartDate(date)}
+              selectsStart
+              startDate={startDate}
+              endDate={endDate}
+              minDate={new Date()}
+              showDisabledMonthNavigation
+            />
+          </Boxc>
+          <Boxc>
+            <Head2>PT 종료일</Head2>
+            <StyledDatePicker
+              locale={ko}
+              selected={endDate}
+              dateFormat="yyyy/MM/dd"
+              onChange={date => setEndDate(date)}
+              selectsEnd
+              startDate={startDate}
+              endDate={endDate}
+              minDate={new Date()}
+              showDisabledMonthNavigation
+            />
+          </Boxc>
+        </Boxr>
 
-      <Expectedpoint startDate={startDate} endDate={endDate} />
-    </div>
+        <Expectedpoint startDate={startDate} endDate={endDate} />
+      </Container>
+    </Layout>
   );
 }
 // <div>{Math.floor(Math.ceil((endDate.getTime()-startDate.getTime())/(1000*60*60*24))*(2/7))}</div>
@@ -70,7 +72,7 @@ const Boxr = styled.div`
   height: 200px;
   text-align: center;
   background-color: #0dcaf0;
-  padding: 20px;
+  border-radius: 10px;
 `;
 const Boxc = styled.div`
   display: flex;
@@ -78,7 +80,6 @@ const Boxc = styled.div`
   justify-content: space-around;
   align-items: center;
   text-align: center;
-  padding: 20px;
 `;
 const Head2 = styled.text`
     color: rgb(21,20,20);
@@ -100,4 +101,12 @@ const StyledDatePicker = styled(DatePicker)`
   color: black;
   border-radius: 10px;
   text-align: center;
+`;
+
+const Layout = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
 `;

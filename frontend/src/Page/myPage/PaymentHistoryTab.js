@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Container } from 'react-bootstrap';
 
 function PaymentHistoryTab() {
   const [payments, setPayments] = useState([]);
@@ -33,16 +34,18 @@ function PaymentHistoryTab() {
   }
 
   return (
-    <div className="payment-history-tab">
-      <h2>결제내역</h2>
-      {payments.map(payment => (
-        <div key={payment.id}>
-          <p>결제일자: {payment.date}</p>
-          <p>결제금액: {payment.amount}</p>
-          <p>결제수단: {payment.method}</p>
-        </div>
-      ))}
-    </div>
+    <Container fluid className="panel">
+      <div className="payment-history-tab">
+        <h2>결제내역</h2>
+        {payments.map(payment => (
+          <div key={payment.id}>
+            <p>결제일자: {payment.date}</p>
+            <p>결제금액: {payment.amount}</p>
+            <p>결제수단: {payment.method}</p>
+          </div>
+        ))}
+      </div>
+    </Container>
   );
 }
 
