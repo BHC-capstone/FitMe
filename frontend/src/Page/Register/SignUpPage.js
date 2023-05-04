@@ -56,11 +56,8 @@ function SignUpPage() {
     axios
       .post('http://localhost:4000/users/signup', body)
       .then(res => {
-        if (res.data.success) {
-          navigate('/login');
-        } else {
-          alert(res.data.message);
-        }
+        navigate('/login');
+        alert(res.data.message);
       })
       .catch(err => {
         console.log(err);

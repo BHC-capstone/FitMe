@@ -31,7 +31,7 @@ router.post('/signup', async function (req, res) {
           password: req.body.password,
           age: req.body.age,
           gender: req.body.gender,
-          // phonenumber: req.body.phonenumber,
+          phonenumber: req.body.phonenumber,
         });
         res.status(200).json({ data: null, message: '회원가입을 환영합니다' });
       }
@@ -76,7 +76,7 @@ router.get('/logout', function (req, res) {
 });
 
 // user delete
-router.post('/withdraw:id', async function (req, res) {
+router.post('/withdraw/:id', async function (req, res) {
   if (req.session.loggedin) {
     try {
       const userInfo = await users.findOne({
