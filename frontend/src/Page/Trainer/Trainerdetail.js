@@ -2,12 +2,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { Container, Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 
 import styled from 'styled-components';
 import Starpoint from '../../components/Starpoint';
 
-function Trainerdetail() {
+export default function Trainerdetail() {
   const { id } = useParams();
   const [trainer, setTrainer] = useState({});
   const [currentTab, clickTab] = useState(0);
@@ -34,7 +35,7 @@ function Trainerdetail() {
     <>
       <Upbox>
         <Box1>
-          <Imageposition>image</Imageposition>
+          <Imageposition>이미지</Imageposition>
           <Nameblock className="a">{trainer.name}</Nameblock>
           <Nameblock>별점 </Nameblock>
           <Starpoint init={star} />
@@ -159,4 +160,3 @@ const TabMenu = styled.ul`
 const Desc = styled.div`
   text-align: center;
 `;
-export default Trainerdetail;

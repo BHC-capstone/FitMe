@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
 
-function TrainerSignUpPage() {
+export default function TrainerSignUpPage() {
   const navigate = useNavigate();
 
   const [email, setEmail] = React.useState('');
@@ -99,7 +99,7 @@ function TrainerSignUpPage() {
 
   return (
     <div className="signup">
-      <Container className="panel">
+      <Container fluid className="panel">
         <Form>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>이메일</Form.Label>
@@ -184,16 +184,14 @@ function TrainerSignUpPage() {
             />
           </Form.Group>
 
-          <Button variant="primary" type="submit" onClick={onSubmit}>
-            Submit
+          <Button variant="info" type="submit" onClick={onSubmit}>
+            제출
           </Button>
-          <Button variant="secondary" type="submit" onClick={goSignUp}>
-            일반 회원가입으로 이동
+          <Button variant="warning" type="button" onClick={goSignUp}>
+            일반 회원가입
           </Button>
         </Form>
       </Container>
     </div>
   );
 }
-
-export default TrainerSignUpPage;

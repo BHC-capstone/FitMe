@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './scss/index.scss';
 import { Routes, Route, Link } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
+
 // import MainPage from './Page/Main/MainPage';
 import SignUpPage from './Page/Register/SignUpPage';
 import LoginPage from './Page/Login/LoginPage';
@@ -12,6 +13,8 @@ import TrainerLoginPage from './Page/Login/TrainerLoginPage';
 import TrainerList from './Page/Trainer/TrainerList';
 import Trainerdetail from './Page/Trainer/Trainerdetail';
 import Ptrequest from './Page/Trainer/Ptrequest';
+
+import TopNav from './components/TopNav';
 import BottomNav from './components/BottomNav';
 import Tabs from './components/myPageTabs';
 
@@ -20,17 +23,8 @@ const history = createBrowserHistory();
 function App() {
   return (
     <div className="App">
+      <TopNav />
       <BottomNav />
-      <nav>
-        <ul>
-          <li>
-            <Link to="/signup">SignUp</Link>
-          </li>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-        </ul>
-      </nav>
       <Routes history={history}>
         <Route path="/" element={<SignUpPage />} />
         <Route path="/signup" element={<SignUpPage />} />

@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
 
-function SignUpPage() {
+export default function SignUpPage() {
   // const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -146,16 +146,14 @@ function SignUpPage() {
             />
           </Form.Group>
 
-          <Button variant="primary" type="submit" onClick={onSubmit}>
-            Submit
+          <Button variant="info" type="submit" onClick={onSubmit}>
+            제출
           </Button>
-          <Button variant="secondary" type="submit" onClick={goTrainerSignUp}>
-            트레이너로 회원가입
+          <Button variant="warning" type="button" onClick={goTrainerSignUp}>
+            트레이너 회원가입
           </Button>
         </Form>
       </Container>
     </div>
   );
 }
-
-export default SignUpPage;
