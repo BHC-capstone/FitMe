@@ -2,19 +2,18 @@ import './App.css';
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './scss/index.scss';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
-import { Provider } from 'react-redux';
 // import MainPage from './Page/Main/MainPage';
-import SignUpPage from './page/Register/SignUpPage';
-import LoginPage from './page/Login/LoginPage';
-import TrainerSignUpPage from './page/Register/TrainerSignUpPage';
-import TrainerLoginPage from './page/Login/TrainerLoginPage';
-import TrainerList from './page/Trainer/TrainerList';
-import Trainerdetail from './page/Trainer/Trainerdetail';
-import BottomNav from './components/bottomNav';
+import SignUpPage from './Page/Register/SignUpPage';
+import LoginPage from './Page/Login/LoginPage';
+import TrainerSignUpPage from './Page/Register/TrainerSignUpPage';
+import TrainerLoginPage from './Page/Login/TrainerLoginPage';
+import TrainerList from './Page/Trainer/TrainerList';
+import Trainerdetail from './Page/Trainer/Trainerdetail';
+import Ptrequest from './Page/Trainer/Ptrequest';
+import BottomNav from './components/BottomNav';
 import Tabs from './components/myPageTabs';
-import Ptrequest from './page/Trainer/Ptrequest';
 
 const history = createBrowserHistory();
 

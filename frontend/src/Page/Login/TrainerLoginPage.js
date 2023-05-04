@@ -42,18 +42,6 @@ export default function LoginPage(props) {
       .catch(err => {
         console.log(err);
       });
-
-    // dispatch(loginTrainer(body))
-    //   .then(res => {
-    //     if (res.payload.loginSuccess) {
-    //       navigate('/');
-    //     } else {
-    //       alert(res.payload.message);
-    //     }
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
   };
 
   const goUserLogin = () => {
@@ -67,7 +55,8 @@ export default function LoginPage(props) {
           <Form.Group className="mb-3">
             <Form.Label>이메일</Form.Label>
             <Form.Control
-              type="text"
+              id="email"
+              type="email"
               placeholder="이메일을 입력하세요."
               value={email}
               onChange={onEmailHandler}
@@ -78,6 +67,7 @@ export default function LoginPage(props) {
           <Form.Group className="mb-3">
             <Form.Label>비밀번호</Form.Label>
             <Form.Control
+              id="password"
               type="password"
               placeholder="비밀번호를 입력하세요."
               value={password}

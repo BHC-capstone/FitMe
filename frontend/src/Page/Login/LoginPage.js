@@ -53,8 +53,8 @@ export default function LoginPage(props) {
           <Form.Group className="mb-3">
             <Form.Label>이메일</Form.Label>
             <Form.Control
-              id="id"
-              type="text"
+              id="email"
+              type="email"
               placeholder="이메일을 입력하세요."
               value={email}
               onChange={onEmailHandler}

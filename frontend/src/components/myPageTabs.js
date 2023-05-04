@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
-import UserInfoTab from '../page/myPage/UserInfoTab';
-import StatisticsTab from '../page/myPage/StatisticsTab';
-import PaymentHistoryTab from '../page/myPage/PaymentHistoryTab';
+import UserInfoTab from '../Page/myPage/UserInfoTab';
+import StatisticsTab from '../Page/myPage/StatisticsTab';
+import PaymentHistoryTab from '../Page/myPage/PaymentHistoryTab';
 import '../scss/tabs.scss';
-import BottomNav from './bottomNav';
+import BottomNav from './BottomNav';
 
 function Tabs() {
   const user = useSelector(state => state.user);
