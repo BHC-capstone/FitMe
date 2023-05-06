@@ -150,7 +150,7 @@ router.get("/profile/:id", async function (req, res) {
                 "gender",
                 "phonenumber",
                 "introduction",
-                "carrer",
+                "career",
                 "review_avg",
             ],
         });
