@@ -3,6 +3,7 @@ var router = express.Router();
 const { users, user_points } = require('../models');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+const { sequelize } = require('../models');
 
 // uesr signup
 router.post('/signup', async function (req, res) {
@@ -26,7 +27,9 @@ router.post('/signup', async function (req, res) {
       });
 
       if (userInfo != undefined)
-        res.status(409).json({ data: result, message: '이미 존재하는 아이디입니다' });
+        res
+          .status(409)
+          .json({ data: result, message: '이미 존재하는 아이디입니다' });
       else {
         console.log(req.body);
         const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
@@ -37,13 +40,16 @@ router.post('/signup', async function (req, res) {
           age: req.body.age,
           gender: req.body.gender,
           phonenumber: req.body.phonenumber,
-          transaction, 
+          transaction,
         });
-        
-        const userPoint = await user_points.create({
-          user_id: user.id, 
-          amount: 0 
-        }, { transaction }); 
+
+        const userPoint = await user_points.create(
+          {
+            user_id: user.id,
+            amount: 0,
+          },
+          { transaction }
+        );
 
         await transaction.commit();
 
@@ -65,19 +71,28 @@ router.post('/signup', async function (req, res) {
 router.post('/login', async function (req, res) {
   if (req.body.email && req.body.password) {
     try {
-      const userInfo = await users.findOne({  
-        where: { email: req.body.email},
+      const userInfo = await users.findOne({
+        where: { email: req.body.email },
       });
       if (userInfo != undefined) {
-        const isPasswordValid = await bcrypt.compare(req.body.password, userInfo.password);
+        const isPasswordValid = await bcrypt.compare(
+          req.body.password,
+          userInfo.password
+        );
         if (isPasswordValid) {
-          res.status(200).json({ data: userInfo, message: '로그인에 성공하였습니다' });
+          res
+            .status(200)
+            .json({ data: userInfo, message: '로그인에 성공하였습니다' });
+        } else {
+          res
+            .status(401)
+            .json({ data: null, message: '로그인 정보가 일치하지 않습니다' });
+        }
       } else {
-        res.status(401).json({ data: null, message: '로그인 정보가 일치하지 않습니다' });
+        res
+          .status(401)
+          .json({ data: null, message: '로그인 정보가 일치하지 않습니다' });
       }
-    } else {
-      res.status(401).json({ data: null, message: '로그인 정보가 일치하지 않습니다' });
-    }
     } catch (err) {
       console.log(err);
     }
@@ -98,25 +113,25 @@ router.get('/logout', function (req, res) {
 
 // user delete
 router.post('/withdraw:id', async function (req, res) {
-//  if (req.session.loggedin) {
-    try {
-      const userInfo = await users.findOne({
+  //  if (req.session.loggedin) {
+  try {
+    const userInfo = await users.findOne({
+      where: { id: req.body.id },
+    });
+    if (userInfo != undefined) {
+      await users.destroy({
         where: { id: req.body.id },
       });
-      if (userInfo != undefined) {
-        await users.destroy({
-          where: { id: req.body.id },
-        });
-        res
-          .status(200)
-          .json({ data: null, message: '성공적으로 탈퇴되었습니다' });
-      }
-    } catch (err) {
-      console.log(err);
+      res
+        .status(200)
+        .json({ data: null, message: '성공적으로 탈퇴되었습니다' });
     }
-//  } else {
-//    res.status(400).json({ data: null, message: '로그인 하세요' });
-//  }
+  } catch (err) {
+    console.log(err);
+  }
+  //  } else {
+  //    res.status(400).json({ data: null, message: '로그인 하세요' });
+  //  }
 });
 
 // user info
@@ -174,18 +189,18 @@ router.post('/profile/changeProfile/:id', async function (req, res) {
 
 // user point info
 router.get('/userpoint/:id', async function (req, res) {
-//  if (req.session.loggedin) {
-    try {
-      const user_point_amount = await user_points.findOne({
-        where: { user_id: req.params.id },
-      });
-      res.status(200).json({ data: user_point_amount, message: '' });
-    } catch (err) {
-      console.log(err);
-    }
-//  } else {
-//    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
-//  }
+  //  if (req.session.loggedin) {
+  try {
+    const user_point_amount = await user_points.findOne({
+      where: { user_id: req.params.id },
+    });
+    res.status(200).json({ data: user_point_amount, message: '' });
+  } catch (err) {
+    console.log(err);
+  }
+  //  } else {
+  //    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+  //  }
 });
 
 module.exports = router;
