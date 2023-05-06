@@ -5,15 +5,15 @@ const { trainers } = require('../models');
 const { pt_requests } = require('../models');
 
 // pt 요청
-router.post('/ptrequest/:id', (req, res) => {
-    if (req.session.loggedin) {
+router.post('/request', (req, res) => {
+//    if (req.session.loggedin) {
         users.findOne({
-            where: { id: req.params.id },
+            where: { userid: req.params.userid },
         }).then((requestInfo) => {
         if (requestInfo != undefined) {
             const newRequest = {
-            user_id: req.body.user_id,
-            trainer_id: req.body.trainer_id,
+            userid: req.body.userid,
+            trainerid: req.body.trainerid,
             date: req.body.date,
             time: req.body.time,
             request: req.body.request,
@@ -25,36 +25,36 @@ router.post('/ptrequest/:id', (req, res) => {
             res.status(401).json({ data: null, message: '' });
         }
         });
-    } else {
-        res.status(401).json({ data: null, message: '' });
-    }
-    });
+//    } else {
+//        res.status(401).json({ data: null, message: '' });
+//    }
+});
 
 // pt 요청 삭제
-router.post('/delete/:id', (req, res) => {
-    if (req.session.loggedin) {
+router.post('/request/delete', (req, res) => {
+//    if (req.session.loggedin) {
         users.findOne({
-            where: { id: req.params.id },
+            where: { userid: req.params.userid },
         }).then((requestInfo) => {
         if (requestInfo != undefined) {
             pt_requests.destroy({
-            where: { user_id: req.body.id, request: req.body.request },
+            where: { userid: req.body.userid, request: req.body.request },
             });
             res.status(200).json({ data: null, message: '성공적으로 삭제되었습니다.' });
         } else {
             res.status(401).json({ data: null, message: '' });
         }
         });
-    } else {
-        res.status(401).json({ data: null, message: '' });
-    }
-    });
+//    } else {
+//        res.status(401).json({ data: null, message: '' });
+//    }
+});
 
 // pt 요청 수락
-router.post('/accept/:id', (req, res) => {
-    if (req.session.loggedin) {
+router.post('/request/accept', (req, res) => {
+//    if (req.session.loggedin) {
         trainers.findOne({
-            where: { id: req.params.id },
+            where: { username: req.params.userid },
         }).then((requestInfo) => {
         if (requestInfo != undefined) {
             pt_requests.update(
@@ -63,7 +63,7 @@ router.post('/accept/:id', (req, res) => {
                 accept: req.body.accept,
             },
             {
-                where: { id: req.params.id },
+                where: { userid: req.params.userid },
             }
             );
             res.status(200).json({ data: null, message: '성공적으로 수락되었습니다.' });
@@ -71,17 +71,16 @@ router.post('/accept/:id', (req, res) => {
             res.status(401).json({ data: null, message: '' });
         }
         });
-    } else {
-        res.status(401).json({ data: null, message: '' });
-    }
-    }
-);
+//    } else {
+//        res.status(401).json({ data: null, message: '' });
+//    }
+});
 
 // pt 요청 거절
-router.post('/reject/:id', (req, res) => {
-    if (req.session.loggedin) {
+router.post('/request/reject', (req, res) => {
+//    if (req.session.loggedin) {
         trainers.findOne({
-            where: { id: req.params.id },
+            where: { userid: req.params.userid },
         }).then((requestInfo) => {
         if (requestInfo != undefined) {
             pt_requests.update(
@@ -90,7 +89,7 @@ router.post('/reject/:id', (req, res) => {
                 accept: req.body.accept,
             },
             {
-                where: { id: req.params.id },
+                where: { userid: req.params.userid },
             }
             );
             res.status(200).json({ data: null, message: '성공적으로 거절되었습니다.' });
@@ -98,9 +97,8 @@ router.post('/reject/:id', (req, res) => {
             res.status(401).json({ data: null, message: '' });
         }
         });
-    } else {
-        res.status(401).json({ data: null, message: '' });
-    }
-    }
-);
+//    } else {
+//        res.status(401).json({ data: null, message: '' });
+//    }
+});
 
