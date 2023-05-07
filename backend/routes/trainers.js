@@ -314,5 +314,21 @@ router.get('/checkptrequest/:id', async function (req, res) {
 //  }
 });
 
+// check pt request detail
+router.get('/checkptrequest/detail/:id/:user_id)', async function (req, res) {
+//    if (req.session.loggedin) {
+        try{
+        const check_pt_detail = await trainer_manage.findAll({
+          where: { trainer_id: req.params.id, user_id: req.params.user_id },
+        });
+        res.status(200).json({ data: check_pt_detail, message: '' });
+        }
+        catch(err){
+            console.log(err);
+        }
+//    else {
+//        res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+//    }
+});
 
 module.exports = router;
