@@ -48,7 +48,8 @@ function UserInfoTab({ loginedUser }) {
           <span className="user-info-label">유저나이:</span> {user.data.age}
         </li>
         <li className="user-info-item">
-          <span className="user-info-label">성별:</span> {user.data.gender}
+          <span className="user-info-label">성별:</span>{' '}
+          {user.data.gender === 'female' ? '여성' : '남성'}
         </li>
         <li className="user-info-item">
           <span className="user-info-label">전화번호:</span>
