@@ -5,53 +5,44 @@ var logger = require('morgan');
 const mysql = require('mysql');
 const cors = require('cors');
 const session = require('express-session');
+const sessionStore = session.MemoryStore();
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var trainersRouter = require('./routes/trainers');
 
 var app = express();
-app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(cookieParser());
 app.use(
   session({
-    secret: '@codestates',
+    secret: 'FitMe',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
       domain: 'localhost',
       path: '/',
       maxAge: 24 * 6 * 60 * 10000,
       sameSite: 'none',
       httpOnly: true,
-      secure: true,
+      secure: false,
     },
+    store: sessionStore,
   })
 );
 
-app.use('/', indexRouter);
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'OPTIONS'],
+    credentials: true,
+  })
+);
+
 app.use('/users', usersRouter);
 app.use('/trainers', trainersRouter);
-
-// const connection = mysql.createConnection({
-//     host     : 'localhost',
-//     user     : 'root',
-//     password : '1234',
-//     database : 'FitMe'
-//   })
-
-//   connection.connect();
-
-//   connection.query('SELECT * from Users', (error, rows, fields) => {
-//     if (error) throw error;
-//     console.log('User info is: ', rows);
-//   });
-
-//   connection.end();
 
 module.exports = app;

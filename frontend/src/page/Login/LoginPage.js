@@ -7,6 +7,8 @@ import styled from 'styled-components';
 import { loginUser, logoutUser } from '../../redux/_reducers/userSlice';
 
 export default function LoginPage(props) {
+  axios.defaults.withCredentials = true;
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -20,19 +22,23 @@ export default function LoginPage(props) {
     setPassword(event.currentTarget.value);
   };
 
-  const onSubmitHandler = event => {
+  const onSubmitHandler = async event => {
     event.preventDefault();
     const body = {
       email,
       password,
     };
 
-    axios
-      .post('http://localhost:4000/users/login', body)
+    const response = await axios.post(
+      'http://localhost:4000/users/login',
+      body,
+      { withCredentials: true },
+    );
+    await axios
+      .get('http://localhost:4000/users/session', { withCredentials: true })
       .then(res => {
-        console.log(res);
-        if (res.status === 200) {
-          dispatch(loginUser(res.data.data));
+        if (res.status === 200 && response.status === 200) {
+          dispatch(loginUser(response.data.data));
           navigate('/mypage');
         } else {
           alert(res.data.message);

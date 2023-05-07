@@ -4,6 +4,61 @@ const { users, user_points } = require('../models');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const { sequelize } = require('../models');
+const session = require('express-session');
+const sessionStore = require('../sessionStore');
+const cors = require('cors');
+
+router.use(
+  session({
+    secret: 'FitMe',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      domain: 'localhost',
+      path: '/',
+      maxAge: 24 * 6 * 60 * 10000,
+      sameSite: 'none',
+      httpOnly: true,
+      secure: false,
+    },
+    store: sessionStore,
+  })
+);
+
+router.options('/login', (req, res) => {
+  res.set({
+    'Access-Control-Allow-Origin': corsOptions.origin,
+    'Access-Control-Allow-Methods': 'POST',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Credentials': true,
+  });
+  res.send();
+});
+
+const isAuthenticated = (req, res, next) => {
+  sessionStore.get(req.cookies.sessionId, (error, session) => {
+    if (error) {
+      res.status(401).json({ data: null, message: '로그인 되어있지 않음' });
+    }
+    if (!session) {
+      if (session.loggedin) {
+        next();
+      }
+    }
+  });
+};
+
+//request session info
+router.get('/session', async function (req, res) {
+  sessionStore.get(req.cookies.sessionId, (error, session) => {
+    if (error) {
+      res.status(401).json({ data: null, message: '로그인 되어있지 않음' });
+    }
+    if (!session) {
+      res.status(200).json({ data: session, message: '로그인 되어있음' });
+    }
+  });
+});
 
 // uesr signup
 router.post('/signup', async function (req, res) {
@@ -69,6 +124,10 @@ router.post('/signup', async function (req, res) {
 
 // user login
 router.post('/login', async function (req, res) {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Methods', 'POST');
+
   if (req.body.email && req.body.password) {
     try {
       const userInfo = await users.findOne({
@@ -80,9 +139,24 @@ router.post('/login', async function (req, res) {
           userInfo.password
         );
         if (isPasswordValid) {
-          res
-            .status(200)
-            .json({ data: userInfo, message: '로그인에 성공하였습니다' });
+          req.session.loggedin = true;
+          req.session.save((err) => {
+            if (err) {
+              console.log(err);
+              res.status(500).json({ data: null, message: '세션 저장 실패' });
+            } else {
+              console.log(req.session.id);
+              res.cookie('sessionId', req.session.id, {
+                httpOnly: true,
+                secure: false,
+                maxAge: 1000 * 60 * 60 * 24,
+              });
+              res
+                .status(200)
+                .json({ data: userInfo, message: '로그인에 성공하였습니다' });
+            }
+          });
+          console.log(req.session);
         } else {
           res
             .status(401)
@@ -105,10 +179,14 @@ router.post('/login', async function (req, res) {
 
 // user logout
 router.get('/logout', function (req, res) {
-  req.session.loggedin = false;
-  res
-    .status(200)
-    .json({ data: null, message: '성공적으로 로그아웃되었습니다' });
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).json({ message: '세션 삭제에 실패하였습니다.' });
+    }
+    res
+      .status(200)
+      .json({ data: null, message: '성공적으로 로그아웃되었습니다' });
+  });
 });
 
 // user delete
@@ -135,7 +213,9 @@ router.post('/withdraw:id', async function (req, res) {
 });
 
 // user info
-router.get('/profile/:id', async function (req, res) {
+router.get('/profile/:id', isAuthenticated, async function (req, res) {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  console.log('test');
   try {
     const userInfo = await users.findOne({
       where: { id: req.params.id },

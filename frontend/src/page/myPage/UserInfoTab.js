@@ -6,6 +6,13 @@ import LogoutButton from '../../components/LogoutButton';
 
 function UserInfoTab({ loginedUser }) {
   const [user, setUser] = React.useState(null);
+  const config = {
+    withCredentials: true,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
   useEffect(() => {
     const fetchUser = async () => {
       if (!loginedUser.id) {
@@ -16,9 +23,11 @@ function UserInfoTab({ loginedUser }) {
         loginedUser.isTrainer === false
           ? (response = await axios.get(
               `http://localhost:4000/users/profile/${loginedUser.id}`,
+              config,
             ))
           : (response = await axios.get(
               `http://localhost:4000/trainers/profile/${loginedUser.id}`,
+              config,
             ));
       }
       if (response.data !== null) {
