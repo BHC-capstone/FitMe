@@ -20,7 +20,7 @@ export default function Trainerdetail() {
   ];
 
   useEffect(() => {
-    axios.get(`http://localhost:4000/trainers/profile/${id}`).then(res => {
+    axios.get(`https://localhost:4000/trainers/profile/${id}`).then(res => {
       console.log(res.data.data);
       setTrainer(res.data.data);
     });

@@ -1,6 +1,7 @@
 # Created by https://www.toptal.com/developers/gitignore/api/node,react,reactnative,database
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,react,reactnative,database
 
+*.pem
 ### Database ###
 *.accdb
 *.db

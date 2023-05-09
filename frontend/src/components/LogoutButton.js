@@ -11,7 +11,7 @@ function LogoutButton() {
   const handleLogout = () => {
     dispatch(logoutUser());
     // axios
-    //   .post('http://localhost:4000/users/logout', body)
+    //   .post('https://localhost:4000/users/logout', body)
     //   .then(res => {
     //     console.log(res);
     //     if (res.status === 200) {

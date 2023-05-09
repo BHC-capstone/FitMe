@@ -15,10 +15,16 @@ function UserInfoTab({ loginedUser }) {
       {
         loginedUser.isTrainer === false
           ? (response = await axios.get(
-              `http://localhost:4000/users/profile/${loginedUser.id}`,
+              `https://localhost:4000/users/profile/${loginedUser.id}`,
+              {
+                withCredentials: true,
+              },
             ))
           : (response = await axios.get(
-              `http://localhost:4000/trainers/profile/${loginedUser.id}`,
+              `https://localhost:4000/trainers/profile/${loginedUser.id}`,
+              {
+                withCredentials: true,
+              },
             ));
       }
       if (response.data !== null) {
