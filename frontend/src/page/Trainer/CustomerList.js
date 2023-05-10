@@ -4,25 +4,31 @@ import { Container, Stack, Row, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../../scss/cardLayout.scss';
+import { useSelector } from 'react-redux';
 import TagList from '../../components/TagList';
 
-function CustomerList(props) {
+function CustomerList() {
+  const loginedUser = useSelector(state => state.user);
   const navigate = useNavigate();
 
-  const [trainers, setTrainers] = useState([]);
+  const [customers, setCustomers] = useState([]);
+  const [customerName, setCustomerName] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:4000/trainers/trainerlist').then(res => {
-      setTrainers(res.data.data);
-    });
+    axios
+      .get(`http://localhost:4000/manage/checkptuserlist/${loginedUser.id}`)
+      .then(res => {
+        setCustomers(res.data.data);
+      });
   }, []);
 
   const [search, setSearch] = useState('');
   const onChange = e => {
     setSearch(e.target.value);
   };
-  const filterTitle = trainers.filter(p => {
-    return p.name.toLocaleLowerCase().includes(search.toLocaleLowerCase());
+  const filterTitle = customers.filter(p => {
+    // return p.name.toLocaleLowerCase().includes(search.toLocaleLowerCase());
+    return p.user_id;
   });
   return (
     <div className="cardLayout">
@@ -48,27 +54,27 @@ function CustomerList(props) {
         </Container>
       </div>
 
-      {filterTitle.map(trainer => (
+      {filterTitle.map(customer => (
         <div>
           <Card
-            onClick={() => navigate(`/trainer-info/${trainer.id}`)}
-            key={trainer.id}
+            onClick={() => navigate(`/customer-management/${customer.user_id}`)}
+            key={customer.id}
             hoverable
             style={{ width: 300, margin: 20 }}
           >
             <Card.Meta
-              //   title={trainer.name}
+              //   title={customer.name}
               description={
                 <>
                   <p
                     style={{ display: 'flex', justifyContent: 'space-between' }}
                   >
                     <span style={{ fontWeight: 'bold' }}>이름:</span>{' '}
-                    {trainer.name}
+                    {customer.user_id}
                     <span style={{ fontWeight: 'bold', marginLeft: '1rem' }}>
                       남은 pt 횟수:
                     </span>{' '}
-                    {trainer.age}
+                    {customer.remain_pt_count}
                   </p>
                   <p>
                     <TagList />
@@ -79,13 +85,13 @@ function CustomerList(props) {
                     <span style={{ fontWeight: 'bold' }}>
                       최근 피드백 일자:
                     </span>{' '}
-                    {trainer.gender}
+                    {customer.last_feedback_date}
                   </p>
                   <p
                     style={{ display: 'flex', justifyContent: 'space-between' }}
                   >
                     <span style={{ fontWeight: 'bold' }}>최근 운동 일자:</span>{' '}
-                    {trainer.introduction}
+                    {customer.last_exercise_date}
                   </p>
                 </>
               }

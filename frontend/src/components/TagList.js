@@ -1,50 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { Tag } from 'antd';
+import axios from 'axios';
 
-function TagList() {
+function TagList({ userId }) {
   const [tags, setTags] = useState([]);
+  console.log('In TagList component');
 
   useEffect(() => {
     const fetchTags = async () => {
-      //   const response = await fetch('/api/tags');
-      //   const data = await response.json();
-      const data = [
-        {
-          id: 1,
-          name: '태그1',
-          color: 'red',
-        },
-        {
-          id: 2,
-          name: '태그2',
-          color: 'blue',
-        },
-        {
-          id: 3,
-          name: '태그3',
-          color: 'green',
-        },
-        {
-          id: 4,
-          name: '태그4',
-          color: 'yellow',
-        },
-        {
-          id: 5,
-          name: '태그5',
-          color: 'orange',
-        },
-      ];
-      setTags(data);
+      axios
+        .get(`http://localhost:4000/manage/tag/${userId}`)
+        .then(res => {
+          setTags(res.data.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     };
+    console.log('Before fetchTags');
     fetchTags();
-  }, []);
+    console.log('After fetchTags');
+  }, [userId]);
 
   return (
     <p>
       {tags.map(tag => (
-        <Tag key={tag.id} color={tag.color}>
-          {tag.name}
+        <Tag key={tag.tag_name} color={tag.tag_color}>
+          {tag.tag_name}
         </Tag>
       ))}
     </p>

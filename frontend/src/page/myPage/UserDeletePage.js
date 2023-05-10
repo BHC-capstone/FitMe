@@ -16,6 +16,7 @@ function WithdrawPage() {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    console.log('user_id : ', loginedUser.id, '삭제 시도');
     try {
       let url = null;
       {

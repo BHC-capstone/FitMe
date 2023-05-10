@@ -9,6 +9,7 @@ const session = require('express-session');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var trainersRouter = require('./routes/trainers');
+var manageRouter = require('./routes/manage');
 
 var app = express();
 app.use(cors());
@@ -37,6 +38,7 @@ app.use(
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/trainers', trainersRouter);
+app.use('/manage', manageRouter);
 
 // const connection = mysql.createConnection({
 //     host     : 'localhost',
