@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { trainers, trainer_points, pt_requests, trainer_manage, user_tag } = require('../models');
+const { trainers, users, trainer_points, pt_requests, trainer_manage, user_tag } = require('../models');
 
 // check pt user list
 router.get('/checkptuserlist/:id', async function (req, res) {
@@ -8,7 +8,11 @@ router.get('/checkptuserlist/:id', async function (req, res) {
       const check_pt_user_list = await trainer_manage.findAll({
         where: { trainer_id: req.params.id },
       });
-      res.status(200).json({ data: check_pt_user_list, message: '' });
+      const user_name = await users.findOne({
+        where: { id: check_pt_user_list.user_id },
+        attributes: ['name'],
+      });
+      res.status(200).json({ data: [check_pt_user_list, user_name], message: '' });
     } catch (err) {
       console.log(err);
     }
