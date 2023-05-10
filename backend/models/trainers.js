@@ -35,7 +35,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.TEXT,
       allowNull: true
     },
-    carrer: {
+    career: {
       type: DataTypes.TEXT,
       allowNull: true
     },

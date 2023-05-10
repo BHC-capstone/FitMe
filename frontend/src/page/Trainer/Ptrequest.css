@@ -1,0 +1,18 @@
+.calendar {
+  position: absolute;
+  width: 280px;
+  left: 50%;
+  top: 50%;
+  margin: -145px 0px 0px -140px;
+  background: #fff;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.ui-datepicker-header {
+  height: 50px;
+  line-height: 50px;
+  color: rgb(43, 165, 247);
+  margin-bottom: 10px;
+}

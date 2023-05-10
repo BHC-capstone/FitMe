@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Container, Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import styled from 'styled-components';
-import { Button } from 'react-bootstrap';
 import Starpoint from '../../components/Starpoint';
 
 function Trainerdetail() {
@@ -36,10 +36,10 @@ function Trainerdetail() {
     clickTab(index);
   };
   return (
-    <>
+    <Container fluid className="panel">
       <Upbox>
         <Box1>
-          <Imageposition>image</Imageposition>
+          <Imageposition>이미지</Imageposition>
           <Nameblock className="a">{trainer.name}</Nameblock>
           <Nameblock>별점 </Nameblock>
           <Starpoint starpoint={star} />
@@ -71,7 +71,7 @@ function Trainerdetail() {
         <p>{menuArr[currentTab].content}</p>
       </Desc>
       <div />
-    </>
+    </Container>
   );
 }
 

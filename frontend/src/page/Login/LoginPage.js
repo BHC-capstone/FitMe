@@ -3,9 +3,12 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
+import styled from 'styled-components';
 import { loginUser, logoutUser } from '../../redux/_reducers/userSlice';
 
 export default function LoginPage(props) {
+  axios.defaults.withCredentials = true;
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -19,19 +22,23 @@ export default function LoginPage(props) {
     setPassword(event.currentTarget.value);
   };
 
-  const onSubmitHandler = event => {
+  const onSubmitHandler = async event => {
     event.preventDefault();
     const body = {
       email,
       password,
     };
 
-    axios
-      .post('http://localhost:4000/users/login', body)
+    const response = await axios.post(
+      'http://localhost:4000/users/login',
+      body,
+      { withCredentials: true },
+    );
+    await axios
+      .get('http://localhost:4000/users/session', { withCredentials: true })
       .then(res => {
-        console.log(res);
-        if (res.status === 200) {
-          dispatch(loginUser(res.data.data));
+        if (res.status === 200 && response.status === 200) {
+          dispatch(loginUser(response.data.data));
           navigate('/mypage');
         } else {
           alert(res.data.message);
@@ -48,13 +55,16 @@ export default function LoginPage(props) {
 
   return (
     <div className="login">
+      <Container>
+        <Head1>일반 사용자 로그인</Head1>
+      </Container>
       <Container className="panel">
         <Form onSubmit={onSubmitHandler}>
           <Form.Group className="mb-3">
             <Form.Label>이메일</Form.Label>
             <Form.Control
-              id="id"
-              type="text"
+              id="email"
+              type="email"
               placeholder="이메일을 입력하세요."
               value={email}
               onChange={onEmailHandler}
@@ -85,3 +95,15 @@ export default function LoginPage(props) {
     </div>
   );
 }
+
+const Head1 = styled.div`
+  color: rgb(21, 20, 20);
+  font-weight: bold;
+  font-size: 30px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 20px;
+`;

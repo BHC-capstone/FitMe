@@ -2,21 +2,36 @@ import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import '../../scss/Calendar.css';
 import styled from 'styled-components';
+import DietTab from '../../components/DietTab';
+import ExerciseTab from '../../components/ExerciseTab';
+import FeedbackTab from '../../components/FeedbackTab';
 
-function CalendarPart() {
+function CalendarPart({ userid }) {
   const [dateinfo, onChange] = useState(new Date());
   const [currentTab, clickTab] = useState(0);
   const menuArr = [
-    { name: '식단', content: '1' }, // dateinfo 정보를 통해 axios로 해당 날짜의 식단 데이터 넣으면 완료
-    { name: '운동 루틴', content: 'Tab menu TWO' }, // dateinfo 정보를 통해 axios로 해당 날짜의 운동 루틴 데이터 넣으면 완료
-    { name: '트레이너 피드백	', content: 'Tab menu THREE' }, // dateinfo 정보를 통해 axios로 해당 날짜의 피드백 데이터 넣으면 완료
+    { name: '식단', content: <DietTab userid={userid} date={dateinfo} /> }, // dateinfo 정보를 통해 axios로 해당 날짜의 식단 데이터 넣으면 완료
+    {
+      name: '운동 루틴',
+      content: <ExerciseTab userid={userid} date={dateinfo} />,
+    }, // dateinfo 정보를 통해 axios로 해당 날짜의 운동 루틴 데이터 넣으면 완료
+    {
+      name: '트레이너 피드백	',
+      content: <FeedbackTab userid={userid} date={dateinfo} />,
+    }, // dateinfo 정보를 통해 axios로 해당 날짜의 피드백 데이터 넣으면 완료
   ];
   const selectMenuHandler = index => {
     clickTab(index);
   };
   return (
     <div>
-      <Calendar onChange={onChange} value={dateinfo} />
+      <Calendar
+        formatDay={(location, date) =>
+          date.toLocaleString('en', { day: 'numeric' })
+        }
+        onChange={onChange}
+        value={dateinfo}
+      />
       <TabMenu>
         {menuArr.map((el, index) => (
           // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
@@ -31,7 +46,6 @@ function CalendarPart() {
       </TabMenu>
       <Desc>
         <p>{menuArr[currentTab].content}</p>
-        <div>{dateinfo.getDate()}일의 정보</div>
       </Desc>
     </div>
   );
@@ -55,7 +69,7 @@ const TabMenu = styled.ul`
     /* justify-content: space-between;
     width: 380px;
     heigth: 30px; */
-    width: calc(100% / 3);
+    width: calc(50% / 3);
     padding: 10px;
     font-size: 15px;
     transition: 0.5s;

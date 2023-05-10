@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-
+import { Container, Stack, Row, Col, Form, Button } from 'react-bootstrap';
 import styled from 'styled-components';
 import { Card, Rate } from 'antd';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function TrainerList(props) {
+export default function TrainerList(props) {
   const navigate = useNavigate();
 
   const [trainers, setTrainers] = useState([]);
@@ -32,18 +32,47 @@ function TrainerList(props) {
   return (
     <Layout>
       <Layout>
-        <p>트레이너 목록</p>
-        <input
-          type="text"
-          value={search}
-          onChange={onChange}
-          placeholder="트레이너 이름 검색"
-        />
-        <button type="button" className="sort_star" onClick={sortStarFunc}>
-          별점 순으로 정렬 기능
-        </button>
-        <button type="button">홀트</button>
-        <button type="button">헬스</button>
+        <Container>
+          <Head1>트레이너 목록</Head1>
+        </Container>
+        <Container fluid className="panel">
+          <Stack gap={2}>
+            <Row>
+              <div>
+                <Form>
+                  <Form.Control
+                    type="text"
+                    value={search}
+                    onChange={onChange}
+                    placeholder="트레이너 이름 검색"
+                  />
+                </Form>
+              </div>
+            </Row>
+            <Row>
+              <Col sm>
+                <Button type="button" variant="info">
+                  홈트
+                </Button>
+              </Col>
+              <Col sm>
+                <Button type="button" variant="info">
+                  헬스
+                </Button>
+              </Col>
+              <Col sm>
+                <Button
+                  type="button"
+                  className="sort_star"
+                  variant="warning"
+                  onClick={sortStarFunc}
+                >
+                  별점
+                </Button>
+              </Col>
+            </Row>
+          </Stack>
+        </Container>
       </Layout>
 
       {filterTitle.map(trainer => (
@@ -100,11 +129,20 @@ const Layout = styled.div`
   max-width: 800px;
   margin: 0 auto;
 `;
-const BoxOne = styled.div`
-  background-color: #cf6a87;
-  width: 1000px;
-  height: 200px;
-  cursor: pointer;
+// const BoxOne = styled.div`
+//   background-color: #cf6a87;
+//   width: 1000px;
+//   height: 200px;
+//   cursor: pointer;
+// `;
+const Head1 = styled.div`
+  color: rgb(21, 20, 20);
+  font-weight: bold;
+  font-size: 30px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 20px;
 `;
-
-export default TrainerList;

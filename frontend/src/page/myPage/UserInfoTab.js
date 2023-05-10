@@ -2,29 +2,43 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import '../../scss/userInfoTab.scss';
+import LogoutButton from '../../components/LogoutButton';
 
 function UserInfoTab({ loginedUser }) {
   const [user, setUser] = React.useState(null);
+  const config = {
+    withCredentials: true,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
   useEffect(() => {
     const fetchUser = async () => {
+      if (!loginedUser.id) {
+        return;
+      }
       let response = null;
       {
         loginedUser.isTrainer === false
           ? (response = await axios.get(
               `http://localhost:4000/users/profile/${loginedUser.id}`,
+              config,
             ))
           : (response = await axios.get(
               `http://localhost:4000/trainers/profile/${loginedUser.id}`,
+              config,
             ));
       }
-      console.log(response.data);
       if (response.data !== null) {
         setUser(response.data);
       }
     };
     fetchUser();
   }, []);
-
+  if (!loginedUser.id) {
+    return <div>로그인 후 이용해주세요.</div>;
+  }
   if (!user) {
     return <div>회원정보 Loading...</div>;
   }
@@ -56,9 +70,12 @@ function UserInfoTab({ loginedUser }) {
             회원정보 수정
           </button>
         </Link>
-        <button type="button" className="btn btn-danger">
-          회원 탈퇴
-        </button>
+        <Link to="/mypage/withdraw">
+          <button type="button" className="btn btn-danger">
+            회원 탈퇴
+          </button>
+        </Link>
+        <LogoutButton />
       </div>
     </div>
   );
