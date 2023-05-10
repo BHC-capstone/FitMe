@@ -92,11 +92,12 @@ router.post('/accept/:trainer_id/:id', (req, res) => {
             trainer_id: requestInfo.trainer_id,
             total_pt_count: requestInfo.count,
             remain_pt_count: requestInfo.count,
+            manage_memo: requestInfo.request,
           };
           trainer_manage.create(trainerManage).then(() => {
             res.status(200).json({ data: null, message: '성공적으로 수락되었습니다.' });
           }).catch((error) => {
-            res.status(500).json({ data: null, message: error.message });
+            res.status(500).json({ data: null, message: 'trainerManage insert 오류' });
           });
         }).catch((error) => {
           res.status(500).json({ data: null, message: error.message });
