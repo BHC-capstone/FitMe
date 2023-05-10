@@ -28,10 +28,10 @@ router.get('/checkptuserdetail/:user_id/:id', async function (req, res) {
 
 
 // user tag api
-router.get('/tag/:id', async function (req, res) {
+router.get('/tag/:user_id', async function (req, res) {
     try {
         const tagInfo = await user_tag.findAll({
-            where: { id: req.params.id },
+            where: { user_id: req.params.user_id },
         });
         if (tagInfo != undefined) {
             res.status(200).json({ data: tagInfo, message: '' });
