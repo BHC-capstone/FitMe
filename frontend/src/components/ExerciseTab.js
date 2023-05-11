@@ -13,7 +13,7 @@ function ExerciseTab({ userid, date }) {
   };
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/exerciseroutine/${userid}/${date}`)
+      .get(`https://localhost:4000/exerciseroutine/${userid}/${date}`)
       .then(res => {
         setExerdate(res.data.data);
         console.log(res.data.data);

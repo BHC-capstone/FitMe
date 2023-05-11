@@ -7,7 +7,7 @@ function TagList({ userId, closeable }) {
   console.log('In TagList component');
   function deleteTag(tagId) {
     axios
-      .post(`http://localhost:4000/manage/deletetag/${tagId}`)
+      .post(`https://localhost:4000/manage/deletetag/${tagId}`)
       .then(res => {
         console.log(res);
         console.log(res.data);
@@ -20,7 +20,7 @@ function TagList({ userId, closeable }) {
   useEffect(() => {
     const fetchTags = async () => {
       axios
-        .get(`http://localhost:4000/manage/tag/${userId}`)
+        .get(`https://localhost:4000/manage/tag/${userId}`)
         .then(res => {
           setTags(res.data.data);
         })

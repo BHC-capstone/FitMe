@@ -8,7 +8,7 @@ function RequestManage(isTrainer) {
 
   const fetchRequests = async () => {
     const response = await axios.get(
-      `http://localhost:4000/request/checklists/${loginedUser.id}`,
+      `https://localhost:4000/request/checklists/${loginedUser.id}`,
     );
     setRequests(response.data.data);
   };
@@ -24,7 +24,7 @@ function RequestManage(isTrainer) {
   const handleAccept = async (trainerId, requestId) => {
     try {
       await axios.post(
-        `http://localhost:4000/request/accept/${trainerId}/${requestId}`,
+        `https://localhost:4000/request/accept/${trainerId}/${requestId}`,
         {
           response: '수락',
         },
@@ -38,7 +38,7 @@ function RequestManage(isTrainer) {
   const handleReject = async (trainerId, requestId) => {
     try {
       await axios.post(
-        `http://localhost:4000/request/reject/${trainerId}/${requestId}`,
+        `https://localhost:4000/request/reject/${trainerId}/${requestId}`,
         {
           response: '거절',
         },

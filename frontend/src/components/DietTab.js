@@ -16,7 +16,7 @@ function DietTab({ userid, date }) {
     불가능하게 할지 토론할 부분이 있어, 구현이 크게 오래걸리지 않는
     부분이므로 잠시 보류함 */
   useEffect(() => {
-    axios.get(`http://localhost:4000/mealplan/${userid}/${date}`).then(res => {
+    axios.get(`https://localhost:4000/mealplan/${userid}/${date}`).then(res => {
       setDietdate(res.data.data);
       console.log(res.data.data);
     });
