@@ -60,7 +60,7 @@ router.post('/delete/:user_id/:id', (req, res) => {
 });
 
 // trainer pt 요청 조회
-router.get('/checklist/:id', (req, res) => {
+router.get('/checklists/:id', (req, res) => {
     pt_requests.findAll({
         where: { trainer_id: req.params.id },
     }).then((requestInfo) => {
