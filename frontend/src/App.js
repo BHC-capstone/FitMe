@@ -25,7 +25,7 @@ const history = createBrowserHistory();
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" style={{ marginBottom: '45px' }}>
       <TopNav />
       <BottomNav />
       <Routes history={history}>

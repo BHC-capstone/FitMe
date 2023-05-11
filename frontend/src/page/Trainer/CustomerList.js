@@ -77,7 +77,7 @@ function CustomerList() {
                     {customer.remain_pt_count}
                   </p>
                   <p>
-                    <TagList />
+                    <TagList userId={customer.user_id} closeable={false} />
                   </p>
                   <p
                     style={{ display: 'flex', justifyContent: 'space-between' }}

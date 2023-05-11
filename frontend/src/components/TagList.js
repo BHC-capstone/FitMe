@@ -2,9 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { Tag } from 'antd';
 import axios from 'axios';
 
-function TagList({ userId }) {
+function TagList({ userId, closeable }) {
   const [tags, setTags] = useState([]);
   console.log('In TagList component');
+  function deleteTag(tagId) {
+    axios
+      .post(`http://localhost:4000/manage/deletetag/${tagId}`)
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 
   useEffect(() => {
     const fetchTags = async () => {
@@ -17,18 +28,37 @@ function TagList({ userId }) {
           console.log(error);
         });
     };
-    console.log('Before fetchTags');
     fetchTags();
-    console.log('After fetchTags');
   }, [userId]);
 
   return (
     <p>
-      {tags.map(tag => (
-        <Tag key={tag.tag_name} color={tag.tag_color}>
-          {tag.tag_name}
-        </Tag>
-      ))}
+      {tags.map(
+        tag =>
+          closeable ? (
+            <Tag
+              closable
+              onClose={() => deleteTag(tag.id)}
+              key={tag.tag_name}
+              color={tag.tag_color}
+            >
+              {tag.tag_name}
+            </Tag>
+          ) : (
+            <Tag key={tag.tag_name} color={tag.tag_color}>
+              {tag.tag_name}
+            </Tag>
+          ),
+
+        // <Tag
+        //   closable
+        //   onClose={() => deleteTag(tag.id)}
+        //   key={tag.tag_name}
+        //   color={tag.tag_color}
+        // >
+        //   {tag.tag_name}
+        // </Tag>
+      )}
     </p>
   );
 }

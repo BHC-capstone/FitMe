@@ -1,4 +1,4 @@
-import { Card, Tag, Input, Button } from 'antd';
+import { Card, Tag, Input, Button, Form, Select } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -16,6 +16,8 @@ function CustomerDetail() {
     memo: '',
   });
   const loginedUser = useSelector(state => state.user);
+  const [form] = Form.useForm();
+  const [color, setColor] = useState('');
 
   useEffect(() => {
     axios
@@ -47,6 +49,34 @@ function CustomerDetail() {
         console.log(error);
       });
   }
+  const onColorChange = value => {
+    switch (value) {
+      case '건강':
+        setColor('orange');
+        break;
+      case '알러지':
+        setColor('red');
+        break;
+      case '기타':
+        setColor('brown');
+        break;
+      default:
+    }
+  };
+
+  const onFinish = values => {
+    axios
+      .post(`http://localhost:4000/manage/maketag/${id}/${loginedUser.id}`, {
+        tag_name: values['tag name'],
+        tag_color: color,
+      })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   return (
     <div>
@@ -61,7 +91,31 @@ function CustomerDetail() {
                 </span>{' '}
               </p>
               <p>
-                <TagList userId={id} />
+                <Form onFinish={onFinish}>
+                  태그 추가
+                  <Form.Item name="tag name" rules={[{ required: true }]}>
+                    <Input />
+                  </Form.Item>
+                  <Form.Item name="tag color" rules={[{ required: true }]}>
+                    <Select
+                      placeholder="종류 선택"
+                      onChange={onColorChange}
+                      allowClear
+                    >
+                      <Select.Option value="건강">건강</Select.Option>
+                      <Select.Option value="알러지">알러지</Select.Option>
+                      <Select.Option value="기타">기타</Select.Option>
+                    </Select>
+                  </Form.Item>
+                  <Form.Item>
+                    <Button type="primary" htmlType="submit">
+                      추가
+                    </Button>
+                  </Form.Item>
+                </Form>
+              </p>
+              <p>
+                <TagList userId={id} closeable />
               </p>
               <p style={{ fontWeight: 'bold', marginBottom: 0 }}>
                 <div style={{ float: 'center' }}>회원메모</div>
