@@ -2,7 +2,7 @@ import './App.css';
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './scss/index.scss';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 
 // import MainPage from './page/Main/MainPage';
@@ -16,13 +16,16 @@ import Ptrequest from './page/Trainer/Ptrequest';
 import UserEdit from './page/myPage/UserInfoEdit';
 import TopNav from './components/TopNav';
 import BottomNav from './components/BottomNav';
-import Tabs from './components/myPageTabs';
+import Tabs from './page/myPage/myPageTabs';
+import CustomerList from './page/Trainer/CustomerList';
+import CustomerDetail from './page/Trainer/CustomerDetail';
+import WithdrawPage from './page/myPage/UserDeletePage';
 
 const history = createBrowserHistory();
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" style={{ marginBottom: '45px' }}>
       <TopNav />
       <BottomNav />
       <Routes history={history}>
@@ -33,9 +36,12 @@ function App() {
         <Route path="/trainer-login" element={<TrainerLoginPage />} />
         <Route path="/trainer-list" element={<TrainerList />} />
         <Route path="/trainer-info/:id" element={<Trainerdetail />} />
-        <Route path="/mypage" element={<Tabs />} />
+        <Route path="/mypage/*" element={<Tabs />} />
+        <Route path="/mypage/withdraw" element={<WithdrawPage />} />
         <Route path="/ptrequest" element={<Ptrequest />} />
         <Route path="/mypage/edit" element={<UserEdit />} />
+        <Route path="/customer-list" element={<CustomerList />} />
+        <Route path="/customer-management/:id" element={<CustomerDetail />} />
       </Routes>
     </div>
   );

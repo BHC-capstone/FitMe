@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 
 function UserEdit({ props }) {
   const loginedUser = useSelector(state => state.user);
-  console.log(loginedUser);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',

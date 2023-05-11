@@ -113,15 +113,15 @@ router.get('/logout', function (req, res) {
 });
 
 // user delete
-router.post('/withdraw:id', async function (req, res) {
+router.post('/withdraw/:id', async function (req, res) {
   //  if (req.session.loggedin) {
   try {
     const userInfo = await users.findOne({
-      where: { id: req.body.id },
+      where: { id: req.params.id },
     });
     if (userInfo != undefined) {
       await users.destroy({
-        where: { id: req.body.id },
+        where: { id: req.params.id },
       });
       res
         .status(200)

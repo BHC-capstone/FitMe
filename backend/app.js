@@ -11,6 +11,7 @@ const https = require('https');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var trainersRouter = require('./routes/trainers');
+var manageRouter = require('./routes/manage');
 
 const PORT = process.env.PORT || 4000;
 
@@ -48,6 +49,7 @@ app.use(
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/trainers', trainersRouter);
+app.use('/manage', manageRouter);
 
 let server;
 // 인증서 파일들이 존재하는 경우에만 https 프로토콜을 사용하는 서버를 실행

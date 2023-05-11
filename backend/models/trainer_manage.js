@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('pt_requests', {
+  return sequelize.define('trainer_manage', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -15,33 +15,33 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    date: {
-      type: DataTypes.DATEONLY,
-      allowNull: true
-    },
-    count: {
+    tag_id: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    request: {
+    last_exercise_date: {
+      type: DataTypes.DATEONLY,
+      allowNull: true
+    },
+    last_feedback_date: {
+      type: DataTypes.DATEONLY,
+      allowNull: true
+    },
+    total_pt_count: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    remain_pt_count: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    manage_memo: {
       type: DataTypes.TEXT,
-      allowNull: true
-    },
-    response: {
-      type: DataTypes.TEXT,
-      allowNull: true
-    },
-    days: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    accept: {
-      type: DataTypes.BOOLEAN,
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'pt_requests',
+    tableName: 'trainer_manage',
     timestamps: false,
     indexes: [
       {

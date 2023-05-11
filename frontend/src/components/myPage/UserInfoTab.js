@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import '../../scss/userInfoTab.scss';
-import LogoutButton from '../../components/LogoutButton';
+import LogoutButton from './LogoutButton';
 
 function UserInfoTab({ loginedUser }) {
   const [user, setUser] = React.useState(null);
@@ -54,7 +54,8 @@ function UserInfoTab({ loginedUser }) {
           <span className="user-info-label">유저나이:</span> {user.data.age}
         </li>
         <li className="user-info-item">
-          <span className="user-info-label">성별:</span> {user.data.gender}
+          <span className="user-info-label">성별:</span>{' '}
+          {user.data.gender === 'female' ? '여성' : '남성'}
         </li>
         <li className="user-info-item">
           <span className="user-info-label">전화번호:</span>

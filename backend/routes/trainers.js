@@ -146,7 +146,7 @@ router.get('/logout', function (req, res) {
 // trainer delete
 router.post('/withdraw/:id', async function (req, res) {
   try {
-    const trainerInfo = await trainers.findOne({
+    const trainerInfo = await trainers.findOne({  
       where: { id: req.params.id },
     });
     if (trainerInfo != undefined) {
