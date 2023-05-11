@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import '../../scss/userInfoTab.scss';
-import LogoutButton from '../../components/LogoutButton';
+import LogoutButton from './LogoutButton';
 
 function UserInfoTab({ loginedUser }) {
   const [user, setUser] = React.useState(null);

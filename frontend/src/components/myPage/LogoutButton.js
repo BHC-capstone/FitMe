@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { loginUser, logoutUser } from '../redux/_reducers/userSlice';
+import { loginUser, logoutUser } from '../../redux/_reducers/userSlice';
 
 function LogoutButton() {
   const dispatch = useDispatch();

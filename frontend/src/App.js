@@ -16,7 +16,7 @@ import Ptrequest from './page/Trainer/Ptrequest';
 import UserEdit from './page/myPage/UserInfoEdit';
 import TopNav from './components/TopNav';
 import BottomNav from './components/BottomNav';
-import Tabs from './components/myPageTabs';
+import Tabs from './page/myPage/myPageTabs';
 import CustomerList from './page/Trainer/CustomerList';
 import CustomerDetail from './page/Trainer/CustomerDetail';
 import WithdrawPage from './page/myPage/UserDeletePage';

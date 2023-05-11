@@ -1,19 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
-import UserInfoTab from '../page/myPage/UserInfoTab';
-import StatisticsTab from '../page/myPage/StatisticsTab';
-import PaymentHistoryTab from '../page/myPage/PaymentHistoryTab';
-import '../scss/tabs.scss';
-import BottomNav from './BottomNav';
+import UserInfoTab from '../../components/myPage/UserInfoTab';
+import StatisticsTab from '../../components/myPage/StatisticsTab';
+import PaymentHistoryTab from '../../components/myPage/PaymentHistoryTab';
+import TabMenu from '../../components/TabMenu';
+import '../../scss/tabs.scss';
 
 function Tabs() {
   const user = useSelector(state => state.user);
-  const dispatch = useDispatch();
 
   const [activeTab, setActiveTab] = useState(1);
+  const [currentTab, clickTab] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
+  const menuArr = [
+    { name: '회원정보', content: <UserInfoTab loginedUser={user} /> },
+    { name: '통계페이지', content: <StatisticsTab /> },
+    { name: '결제내역', content: <PaymentHistoryTab /> },
+    { name: 'PT요청 관리', content: 'PT요청 관리' },
+  ];
+  const selectMenuHandler = index => {
+    clickTab(index);
+  };
 
   useEffect(() => {
     const tab = parseInt(location.pathname.split('/').pop(), 10);
@@ -66,8 +75,23 @@ function Tabs() {
         {activeTab === 2 && <StatisticsTab />}
         {activeTab === 3 && <PaymentHistoryTab />}
       </div>
+      <TabMenu
+        menuArr={menuArr}
+        currentTab={currentTab}
+        selectMenuHandler={selectMenuHandler}
+      >
+        {menuArr.map((el, index) => (
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+          <li
+            className={index === currentTab ? 'submenu focused' : 'submenu'}
+            onClick={() => selectMenuHandler(index)}
+            onKeyDown={() => selectMenuHandler(index)}
+          >
+            {el.name}
+          </li>
+        ))}
+      </TabMenu>
     </div>
   );
 }
-
 export default Tabs;
