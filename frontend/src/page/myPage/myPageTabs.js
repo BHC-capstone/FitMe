@@ -5,6 +5,7 @@ import UserInfoTab from '../../components/myPage/UserInfoTab';
 import StatisticsTab from '../../components/myPage/StatisticsTab';
 import PaymentHistoryTab from '../../components/myPage/PaymentHistoryTab';
 import TabMenu from '../../components/TabMenu';
+import RequestManage from '../../components/myPage/RequestManage';
 import '../../scss/tabs.scss';
 
 function Tabs() {
@@ -18,7 +19,7 @@ function Tabs() {
     { name: '회원정보', content: <UserInfoTab loginedUser={user} /> },
     { name: '통계페이지', content: <StatisticsTab /> },
     { name: '결제내역', content: <PaymentHistoryTab /> },
-    { name: 'PT요청 관리', content: 'PT요청 관리' },
+    { name: 'PT요청 관리', content: <RequestManage /> },
   ];
   const selectMenuHandler = index => {
     clickTab(index);
