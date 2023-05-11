@@ -28,7 +28,9 @@ export default function LoginPage(props) {
     };
 
     axios
-      .post('http://localhost:4000/users/login', body)
+      .post('https://localhost:4000/users/login', body, {
+        withCredentials: true,
+      })
       .then(res => {
         console.log(res);
         if (res.status === 200) {

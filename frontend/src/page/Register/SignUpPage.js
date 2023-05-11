@@ -55,7 +55,7 @@ export default function SignUpPage() {
       gender,
     };
     axios
-      .post('http://localhost:4000/users/signup', body)
+      .post('https://localhost:4000/users/signup', body)
       .then(res => {
         navigate('/login');
         alert(res.data.message);

@@ -11,7 +11,7 @@ export default function TrainerList(props) {
   const [trainers, setTrainers] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:4000/trainers/trainerlist').then(res => {
+    axios.get('https://localhost:4000/trainers/trainerlist').then(res => {
       setTrainers(res.data.data);
       console.log(res.data.data);
     });

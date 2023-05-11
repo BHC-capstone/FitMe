@@ -20,6 +20,7 @@ import Tabs from './page/myPage/myPageTabs';
 import CustomerList from './page/Trainer/CustomerList';
 import CustomerDetail from './page/Trainer/CustomerDetail';
 import WithdrawPage from './page/myPage/UserDeletePage';
+import CalendarPart from './page/Main/CalenderPart';
 
 const history = createBrowserHistory();
 
@@ -42,6 +43,7 @@ function App() {
         <Route path="/mypage/edit" element={<UserEdit />} />
         <Route path="/customer-list" element={<CustomerList />} />
         <Route path="/customer-management/:id" element={<CustomerDetail />} />
+        <Route path="/calendar" element={<CalendarPart />} />
       </Routes>
     </div>
   );

@@ -16,7 +16,7 @@ function CustomerList() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/manage/checkptuserlist/${loginedUser.id}`)
+      .get(`https://localhost:4000/manage/checkptuserlist/${loginedUser.id}`)
       .then(res => {
         setCustomers(res.data.data);
       });

@@ -80,9 +80,10 @@ router.post('/login', async function (req, res) {
           userInfo.password
         );
         if (isPasswordValid) {
-          res
-            .status(200)
-            .json({ data: userInfo, message: '로그인에 성공하였습니다' });
+          req.session.save(function () {
+            req.session.loggedin = true;
+            res.json({ data: userInfo, message: '로그인에 성공하였습니다' });
+          });
         } else {
           res
             .status(401)
@@ -136,6 +137,7 @@ router.post('/withdraw/:id', async function (req, res) {
 
 // user info
 router.get('/profile/:id', async function (req, res) {
+  console.log(req.session.loggedin);
   try {
     const userInfo = await users.findOne({
       where: { id: req.params.id },

@@ -23,7 +23,7 @@ function CustomerDetail() {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:4000/manage/checkptuserdetail/${id}/${loginedUser.id}`,
+        `https://localhost:4000/manage/checkptuserdetail/${id}/${loginedUser.id}`,
       )
       .then(response => {
         setCustomer({
@@ -40,9 +40,12 @@ function CustomerDetail() {
 
   function handleMemoSubmit(event) {
     axios
-      .post(`http://localhost:4000/manage/updatememo/${id}/${loginedUser.id}`, {
-        memo: customer.memo,
-      })
+      .post(
+        `https://localhost:4000/manage/updatememo/${id}/${loginedUser.id}`,
+        {
+          memo: customer.memo,
+        },
+      )
       .then(response => {
         console.log(response);
       })
@@ -67,7 +70,7 @@ function CustomerDetail() {
 
   const onFinish = values => {
     axios
-      .post(`http://localhost:4000/manage/maketag/${id}/${loginedUser.id}`, {
+      .post(`https://localhost:4000/manage/maketag/${id}/${loginedUser.id}`, {
         tag_name: values['tag name'],
         tag_color: color,
       })
