@@ -9,7 +9,7 @@ function Expectedpoint({ startDate, endDate }) {
     <div>
       <Boxr>
         <Boxc>
-          <div>예상 비용</div>
+          <div>pt 횟수</div>
           <Boxep1>
             {Math.floor(
               Math.ceil(
