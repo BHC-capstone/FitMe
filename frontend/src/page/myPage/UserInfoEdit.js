@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 
 function UserEdit({ props }) {
   const loginedUser = useSelector(state => state.user);
-  console.log(loginedUser);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
@@ -24,10 +23,10 @@ function UserEdit({ props }) {
         {
           loginedUser.isTrainer === false
             ? (response = await axios.get(
-                `http://localhost:4000/users/profile/${loginedUser.id}`,
+                `https://localhost:4000/users/profile/${loginedUser.id}`,
               ))
             : (response = await axios.get(
-                `http://localhost:4000/trainers/profile/${loginedUser.id}`,
+                `https://localhost:4000/trainers/profile/${loginedUser.id}`,
               ));
         }
 
@@ -56,8 +55,8 @@ function UserEdit({ props }) {
       let url = null;
       {
         loginedUser.isTrainer === false
-          ? (url = `http://localhost:4000/users/profile/changeProfile/${loginedUser.id}`)
-          : (url = `http://localhost:4000/trainers/profile/changeProfile/${loginedUser.id}`);
+          ? (url = `https://localhost:4000/users/profile/changeProfile/${loginedUser.id}`)
+          : (url = `https://localhost:4000/trainers/profile/changeProfile/${loginedUser.id}`);
       }
       axios
         .post(url, {

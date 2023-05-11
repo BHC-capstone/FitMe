@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('user_points', {
+  return sequelize.define('user_tag', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -11,13 +11,21 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    amount: {
+    trainer_id: {
       type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    tag_name: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    tag_color: {
+      type: DataTypes.TEXT,
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'user_points',
+    tableName: 'user_tag',
     timestamps: false,
     indexes: [
       {

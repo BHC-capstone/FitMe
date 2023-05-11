@@ -2,9 +2,10 @@ import React from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Container, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import styled from 'styled-components';
 
-function SignUpPage() {
+export default function SignUpPage() {
   // const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -54,7 +55,7 @@ function SignUpPage() {
       gender,
     };
     axios
-      .post('http://localhost:4000/users/signup', body)
+      .post('https://localhost:4000/users/signup', body)
       .then(res => {
         navigate('/login');
         alert(res.data.message);
@@ -70,6 +71,9 @@ function SignUpPage() {
 
   return (
     <div className="signup">
+      <Container>
+        <Head1>일반 사용자 회원가입</Head1>
+      </Container>
       <Container className="panel">
         <Form>
           <Form.Group controlId="formBasicEmail">
@@ -102,52 +106,61 @@ function SignUpPage() {
               required
             />
           </Form.Group>
-          <Form.Group controlId="formBasicUsername">
-            <Form.Label>이름</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter Name"
-              value={name}
-              onChange={onChangeName}
-              required
-            />
-          </Form.Group>
-          <Form.Group controlId="formBasicPhonenumber">
-            <Form.Label>전화번호</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter Phonenumber"
-              value={phonenumber}
-              onChange={onChangePhonenumber}
-              required
-            />
-          </Form.Group>
+          <Row>
+            <Col md="5">
+              <Form.Group controlId="formBasicname">
+                <Form.Label>이름</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter name"
+                  value={name}
+                  onChange={onChangeName}
+                />
+              </Form.Group>
+            </Col>
+            <Col md="7">
+              <Form.Group controlId="formBasicPhonenumber">
+                <Form.Label>전화번호</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Phonenumber"
+                  value={phonenumber}
+                  onChange={onChangePhonenumber}
+                  required
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Form.Group controlId="formBasicGender">
+                <Form.Label>성별</Form.Label>
+                <Form.Control as="select" onChange={onChangeGender}>
+                  <option value="">선택하세요</option>
+                  <option value="male">남성</option>
+                  <option value="female">여성</option>
+                  <option value="others">기타</option>
+                </Form.Control>
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group controlId="formBasicAge">
+                <Form.Label>나이</Form.Label>
+                <Form.Control
+                  type="number"
+                  placeholder="Enter age"
+                  value={age}
+                  onChange={onChangeAge}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
 
-          <Form.Group controlId="formBasicGender">
-            <Form.Label>성별</Form.Label>
-            <Form.Control as="select" onChange={onChangeGender}>
-              <option value="">선택하세요</option>
-              <option value="male">남성</option>
-              <option value="female">여성</option>
-              <option value="others">기타</option>
-            </Form.Control>
-          </Form.Group>
-
-          <Form.Group controlId="formBasicAge">
-            <Form.Label>나이</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder="Enter age"
-              value={age}
-              onChange={onChangeAge}
-            />
-          </Form.Group>
-
-          <Button variant="primary" type="submit" onClick={onSubmit}>
-            Submit
+          <Button variant="info" type="submit" onClick={onSubmit}>
+            제출
           </Button>
-          <Button variant="secondary" type="submit" onClick={goTrainerSignUp}>
-            트레이너로 회원가입
+          <Button variant="warning" type="button" onClick={goTrainerSignUp}>
+            트레이너 회원가입
           </Button>
         </Form>
       </Container>
@@ -155,4 +168,14 @@ function SignUpPage() {
   );
 }
 
-export default SignUpPage;
+const Head1 = styled.div`
+  color: rgb(21, 20, 20);
+  font-weight: bold;
+  font-size: 30px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 20px;
+`;

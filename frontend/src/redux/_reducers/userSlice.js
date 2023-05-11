@@ -21,7 +21,7 @@ export const userSlice = createSlice({
     },
     logoutUser: (state, action) => {
       state.id = '';
-      state.isLogIn = false;
+      state.isLogin = false;
       state.isTrainer = false;
       return state;
     },

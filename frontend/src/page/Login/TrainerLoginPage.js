@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
-
+import styled from 'styled-components';
 import { loginTrainer, logoutTrainer } from '../../redux/_reducers/userSlice';
 
 export default function LoginPage(props) {
@@ -29,7 +29,9 @@ export default function LoginPage(props) {
     };
 
     axios
-      .post('http://localhost:4000/trainers/login', body)
+      .post('https://localhost:4000/trainers/login', body, {
+        withCredentials: true,
+      })
       .then(res => {
         console.log(res);
         if (res.status === 200) {
@@ -42,18 +44,6 @@ export default function LoginPage(props) {
       .catch(err => {
         console.log(err);
       });
-
-    // dispatch(loginTrainer(body))
-    //   .then(res => {
-    //     if (res.payload.loginSuccess) {
-    //       navigate('/');
-    //     } else {
-    //       alert(res.payload.message);
-    //     }
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
   };
 
   const goUserLogin = () => {
@@ -62,12 +52,16 @@ export default function LoginPage(props) {
 
   return (
     <div className="login">
+      <Container>
+        <Head1>트레이너 로그인</Head1>
+      </Container>
       <Container className="panel">
         <Form onSubmit={onSubmitHandler}>
           <Form.Group className="mb-3">
             <Form.Label>이메일</Form.Label>
             <Form.Control
-              type="text"
+              id="email"
+              type="email"
               placeholder="이메일을 입력하세요."
               value={email}
               onChange={onEmailHandler}
@@ -78,6 +72,7 @@ export default function LoginPage(props) {
           <Form.Group className="mb-3">
             <Form.Label>비밀번호</Form.Label>
             <Form.Control
+              id="password"
               type="password"
               placeholder="비밀번호를 입력하세요."
               value={password}
@@ -97,3 +92,15 @@ export default function LoginPage(props) {
     </div>
   );
 }
+
+const Head1 = styled.div`
+  color: rgb(21, 20, 20);
+  font-weight: bold;
+  font-size: 30px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 20px;
+`;

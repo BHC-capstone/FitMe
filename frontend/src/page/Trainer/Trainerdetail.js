@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Container, Form, Button } from 'react-bootstrap';
 import axios from 'axios';
-
 import styled from 'styled-components';
 import Starpoint from '../../components/Starpoint';
 
@@ -17,12 +17,17 @@ function Trainerdetail() {
     { name: '프로필', content: 'Tab menu TWO' },
     { name: '리뷰', content: 'Tab menu THREE' },
   ];
+  const navigate = useNavigate();
 
+  const navigateToRequest = () => {
+    navigate('/ptrequest');
+  };
   useEffect(() => {
-    axios.get(`http://localhost:4000/trainers/profile/${id}`).then(res => {
+    axios.get(`https://localhost:4000/trainers/profile/${id}`).then(res => {
       console.log(res.data.data);
       setTrainer(res.data.data);
     });
+    setStar(3.5);
   }, []);
 
   const selectMenuHandler = index => {
@@ -31,13 +36,13 @@ function Trainerdetail() {
     clickTab(index);
   };
   return (
-    <>
+    <Container fluid className="panel">
       <Upbox>
         <Box1>
-          <Imageposition>image</Imageposition>
+          <Imageposition>이미지</Imageposition>
           <Nameblock className="a">{trainer.name}</Nameblock>
           <Nameblock>별점 </Nameblock>
-          <Starpoint init={star} />
+          <Starpoint starpoint={star} />
           <Nameblock className="b">
             {trainer.gender} {trainer.age}세
           </Nameblock>
@@ -45,6 +50,9 @@ function Trainerdetail() {
         <Box2>
           <Emailblock>E-mail : {trainer.email}</Emailblock>
           <Emailblock>PhoneNumber : {trainer.phonenumber}</Emailblock>
+          <Button1 size="large" onClick={navigateToRequest}>
+            PT 신청
+          </Button1>
         </Box2>
       </Upbox>
       <TabMenu>
@@ -63,9 +71,10 @@ function Trainerdetail() {
         <p>{menuArr[currentTab].content}</p>
       </Desc>
       <div />
-    </>
+    </Container>
   );
 }
+
 const Upbox = styled.ul`
   background-color: #111654;
   color: rgb(255, 255, 255);
@@ -78,6 +87,7 @@ const Box1 = styled.div`
 const Box2 = styled.div`
   background-color: #111654;
   height: 100px;
+  //border: 2px solid;
 `;
 const Imageposition = styled.div`
   width: 280px;
@@ -121,6 +131,9 @@ const Emailblock = styled.text`
   flex-direction: column;
   text-align: left;
   margin-left: 140px;
+  //border: 2px solid;
+  width: 700px;
+  float: left;
 `;
 const TabMenu = styled.ul`
   background-color: #ffffff;
@@ -158,5 +171,13 @@ const TabMenu = styled.ul`
 
 const Desc = styled.div`
   text-align: center;
+`;
+
+const Button1 = styled(Button)`
+  float: right;
+  margin-right: 100px;
+  margin-top: 0px;
+  vertical-align: top;
+  //border: 3px solid white;
 `;
 export default Trainerdetail;

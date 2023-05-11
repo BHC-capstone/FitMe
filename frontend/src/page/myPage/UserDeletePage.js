@@ -16,12 +16,13 @@ function WithdrawPage() {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    console.log('user_id : ', loginedUser.id, '삭제 시도');
     try {
       let url = null;
       {
         loginedUser.isTrainer === false
-          ? (url = `http://localhost:4000/users/withdraw/${loginedUser.id}`)
-          : (url = `http://localhost:4000/trainers/withdraw/${loginedUser.id}`);
+          ? (url = `https://localhost:4000/users/withdraw/${loginedUser.id}`)
+          : (url = `https://localhost:4000/trainers/withdraw/${loginedUser.id}`);
       }
       const response = await axios.post(url, {
         password,
