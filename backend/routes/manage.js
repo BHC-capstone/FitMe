@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { trainers, trainer_points, pt_requests, trainer_manage, user_tag } = require('../models');
+const { trainers, trainer_points, pt_requests, trainer_manage, user_tag, users } = require('../models');
 
 // check pt user list
 // router.get('/checkptuserlist/:id', async function (req, res) {
@@ -20,8 +20,10 @@ router.get('/checkptuserlist/:id', async function (req, res) {
         include: {
           model: users,
           attributes: ['name'],
+          where: {id: trainer_manage.user_id}
         },
       });
+      console.log(check_pt_user_list);
       const userListWithNames = check_pt_user_list.map((item) => {
         const { name } = item.user;
         return { ...item.toJSON(), name };
