@@ -3,7 +3,7 @@ var router = express.Router();
 const { trainers } = require('../models');
 const { users } = require('../models');
 const { pt_requests } = require('../models');
-const { exercise_routine } = require('../models');
+const { exercise_routine, schedules } = require('../models');
 const { meal_plan } = require('../models');
 const multerS3 = require('multer-s3');
 const dotenv = require('dotenv');
@@ -172,3 +172,6 @@ router.post('/mealpicture/:id', upload.fields([
 //        }
         }
     );
+
+
+module.exports = router;
