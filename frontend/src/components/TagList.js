@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Tag } from 'antd';
 import axios from 'axios';
 
-function TagList({ userId, closeable }) {
+function TagList({ userId, closeable, tagcount }) {
   const [tags, setTags] = useState([]);
   console.log('In TagList component');
   function deleteTag(tagId) {
@@ -29,7 +29,7 @@ function TagList({ userId, closeable }) {
         });
     };
     fetchTags();
-  }, [userId]);
+  }, [tagcount]);
 
   return (
     <p>

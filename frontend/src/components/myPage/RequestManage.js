@@ -78,17 +78,17 @@ function RequestManage(isTrainer) {
                   <>
                     <button
                       type="button"
-                      //   onClick={() =>
-                      //     handleAccept(request.trainer_id, request.id)
-                      //   }
+                      onClick={() =>
+                        handleAccept(request.trainer_id, request.id)
+                      }
                     >
                       수락
                     </button>
                     <button
                       type="button"
-                      //   onClick={() =>
-                      //     handleReject(request.trainer_id, request.id)
-                      //   }
+                      onClick={() =>
+                        handleReject(request.trainer_id, request.id)
+                      }
                     >
                       거절
                     </button>

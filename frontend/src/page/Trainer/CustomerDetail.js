@@ -8,6 +8,7 @@ import TagList from '../../components/TagList';
 const { TextArea } = Input;
 
 function CustomerDetail() {
+  const [tags, setTags] = useState(0);
   const { id } = useParams();
   const [customer, setCustomer] = useState({
     name: '',
@@ -72,6 +73,7 @@ function CustomerDetail() {
       })
       .then(response => {
         console.log(response);
+        setTags(tags + 1);
       })
       .catch(error => {
         console.log(error);
@@ -115,7 +117,7 @@ function CustomerDetail() {
                 </Form>
               </p>
               <p>
-                <TagList userId={id} closeable />
+                <TagList userId={id} closeable tagcount={tags} />
               </p>
               <p style={{ fontWeight: 'bold', marginBottom: 0 }}>
                 <div style={{ float: 'center' }}>회원메모</div>
