@@ -37,13 +37,16 @@ function DietTab({ userid, date }) {
   function onBreakfastChange(event) {
     setImageBreakfast(event.target.files[0]);
     const formData = new FormData();
-    formData.append('img', ImageBreakfast);
-    axios
-      .post('', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
+    formData.append('img', event.target.files[0]);
+
+    axios({
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      url: `https://localhost:4000/calender/mealpicture/${userid}/${date}/breakfast`,
+      data: formData,
+      method: 'POST',
+    })
       .then(res => {
         console.log(res);
       })
@@ -57,11 +60,15 @@ function DietTab({ userid, date }) {
     const formData = new FormData();
     formData.append('img', ImageLunch);
     axios
-      .post('', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
+      .post(
+        `https://localhost:4000/calender/mealpicture/${userid}/${date}/lunch`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
         },
-      })
+      )
       .then(res => {
         console.log(res);
       })
@@ -75,11 +82,15 @@ function DietTab({ userid, date }) {
     const formData = new FormData();
     formData.append('img', ImageDinner);
     axios
-      .post('', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
+      .post(
+        `https://localhost:4000/calender/mealplan/${userid}/${date}/dinner`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
         },
-      })
+      )
       .then(res => {
         console.log(res);
       })
