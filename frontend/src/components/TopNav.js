@@ -10,6 +10,7 @@ import {
 } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import LogoutButton from './myPage/LogoutButton';
 
 export default function TopNav() {
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ export default function TopNav() {
             <Nav.Link className="me-2" href="/mypage">
               <Button variant="info">마이페이지</Button>
             </Nav.Link>
+            <LogoutButton />
           </Navbar.Collapse>
         )}
       </Container>

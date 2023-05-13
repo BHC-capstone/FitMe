@@ -1,18 +1,39 @@
 var express = require('express');
 var router = express.Router();
-const { trainers, trainer_points, pt_requests, trainer_manage, user_tag } = require('../models');
+const { trainers, trainer_points, pt_requests, trainer_manage, user_tag, users } = require('../models');
 
 // check pt user list
+// router.get('/checkptuserlist/:id', async function (req, res) {
+//     try {
+//       const check_pt_user_list = await trainer_manage.findAll({
+//         where: { trainer_id: req.params.id },
+//       });
+//       res.status(200).json({ data: check_pt_user_list, message: '' });
+//     } catch (err) {
+//       console.log(err);
+//     }
+// });
 router.get('/checkptuserlist/:id', async function (req, res) {
     try {
       const check_pt_user_list = await trainer_manage.findAll({
         where: { trainer_id: req.params.id },
+        include: {
+          model: users,
+          attributes: ['name'],
+          where: {id: trainer_manage.user_id}
+        },
       });
-      res.status(200).json({ data: check_pt_user_list, message: '' });
+      console.log(check_pt_user_list);
+      const userListWithNames = check_pt_user_list.map((item) => {
+        const { name } = item.user;
+        return { ...item.toJSON(), name };
+      });
+  
+      res.status(200).json({ data: userListWithNames, message: '' });
     } catch (err) {
       console.log(err);
     }
-});
+  });
 
 // check pt user detail
 router.get('/checkptuserdetail/:user_id/:id', async function (req, res) {

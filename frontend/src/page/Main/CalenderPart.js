@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import Calendar from 'react-calendar';
 import '../../scss/Calendar.css';
 import styled from 'styled-components';
@@ -6,11 +7,16 @@ import DietTab from '../../components/DietTab';
 import ExerciseTab from '../../components/ExerciseTab';
 import FeedbackTab from '../../components/FeedbackTab';
 
-function CalendarPart({ userid }) {
+function CalendarPart() {
+  const loginedUser = useSelector(state => state.user);
   const [dateinfo, onChange] = useState(new Date());
   const [currentTab, clickTab] = useState(0);
+  const userid = loginedUser.id;
   const menuArr = [
-    { name: '식단', content: <DietTab userid={userid} date={dateinfo} /> }, // dateinfo 정보를 통해 axios로 해당 날짜의 식단 데이터 넣으면 완료
+    {
+      name: '식단',
+      content: <DietTab userid={userid} date={dateinfo.toLocaleDateString()} />,
+    }, // dateinfo 정보를 통해 axios로 해당 날짜의 식단 데이터 넣으면 완료
     {
       name: '운동 루틴',
       content: <ExerciseTab userid={userid} date={dateinfo} />,
@@ -27,7 +33,7 @@ function CalendarPart({ userid }) {
     <div>
       <Calendar
         formatDay={(location, date) =>
-          date.toLocaleString('en', { day: 'numeric' })
+          date.toLocaleDateString('en', { day: 'numeric' })
         }
         onChange={onChange}
         value={dateinfo}
@@ -36,6 +42,8 @@ function CalendarPart({ userid }) {
         {menuArr.map((el, index) => (
           // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
           <li
+            // eslint-disable-next-line react/no-array-index-key
+            key={index}
             className={index === currentTab ? 'submenu focused' : 'submenu'}
             onClick={() => selectMenuHandler(index)}
             onKeyDown={() => selectMenuHandler(index)}
@@ -45,7 +53,7 @@ function CalendarPart({ userid }) {
         ))}
       </TabMenu>
       <Desc>
-        <p>{menuArr[currentTab].content}</p>
+        <div>{menuArr[currentTab].content}</div>
       </Desc>
     </div>
   );
