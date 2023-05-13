@@ -1,6 +1,11 @@
 var express = require('express');
 var router = express.Router();
-const { trainers, trainer_points, pt_requests } = require('../models');
+const {
+  trainers,
+  trainer_points,
+  pt_requests,
+  certifications,
+} = require('../models');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const multerS3 = require('multer-s3');
@@ -9,30 +14,16 @@ const multer = require('multer');
 const AWS = require('aws-sdk');
 const { sequelize } = require('../models');
 
+const imageUpload = require('../modules/s3upload').upload;
+const s3 = require('../modules/s3upload').s3;
+
 //AWS s3 관련
 dotenv.config();
-const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: 'ap-northeast-2',
-});
-
-const upload = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: 'fitme-s3',
-    acl: 'public-read',
-    contentType: multerS3.AUTO_CONTENT_TYPE,
-    key: function (req, file, cb) {
-      cb(null, `${Date.now()}_${file.originalname}`);
-    },
-  }),
-});
 
 // trainer signup
 router.post(
   '/signup',
-  upload.single('certificationFile'),
+  imageUpload.single('certificationFile'),
   async function (req, res) {
     console.log(req.body);
     if (
@@ -71,6 +62,25 @@ router.post(
             phonenumber: req.body.phonenumber,
             introduction: req.body.introduction,
           });
+
+          const uploadParams = {
+            acl: 'public-read',
+            ContentType: 'image/png',
+            Bucket: 'fitme-s3',
+            Body: req.file.buffer,
+            Key: `certifications/` + trainer.id + '.' + req.file.originalname,
+          };
+
+          const result = await s3.upload(uploadParams).promise();
+          console.log(result.Location);
+
+          const certification = await certifications.create(
+            {
+              name: req.file.originalname,
+              image_url: result.Location,
+            },
+            { transaction }
+          );
 
           const trainerPoint = await trainer_points.create(
             {
@@ -146,7 +156,7 @@ router.get('/logout', function (req, res) {
 // trainer delete
 router.post('/withdraw/:id', async function (req, res) {
   try {
-    const trainerInfo = await trainers.findOne({  
+    const trainerInfo = await trainers.findOne({
       where: { id: req.params.id },
     });
     if (trainerInfo != undefined) {

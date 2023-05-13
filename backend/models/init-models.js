@@ -9,6 +9,7 @@ var _feedbacks = require("./feedbacks");
 var _meal_plan = require("./meal_plan");
 var _pt_requests = require("./pt_requests");
 var _schedules = require("./schedules");
+var _sessions = require("./sessions");
 var _trainer_cert = require("./trainer_cert");
 var _trainer_exp = require("./trainer_exp");
 var _trainer_manage = require("./trainer_manage");
@@ -30,6 +31,7 @@ function initModels(sequelize) {
   var meal_plan = _meal_plan(sequelize, DataTypes);
   var pt_requests = _pt_requests(sequelize, DataTypes);
   var schedules = _schedules(sequelize, DataTypes);
+  var sessions = _sessions(sequelize, DataTypes);
   var trainer_cert = _trainer_cert(sequelize, DataTypes);
   var trainer_exp = _trainer_exp(sequelize, DataTypes);
   var trainer_manage = _trainer_manage(sequelize, DataTypes);
@@ -54,6 +56,7 @@ function initModels(sequelize) {
     meal_plan,
     pt_requests,
     schedules,
+    sessions,
     trainer_cert,
     trainer_exp,
     trainer_manage,
