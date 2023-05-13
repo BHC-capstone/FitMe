@@ -7,6 +7,18 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    trainer_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    date: {
+      type: DataTypes.DATEONLY,
+      allowNull: true
+    },
     name: {
       type: DataTypes.STRING(255),
       allowNull: true

@@ -31,6 +31,7 @@ router.post('/ptrequest/:trainer_id/:id', (req, res) => {
 
 // user pt 요청 조회
 router.get('/checklist/:id', (req, res) => {
+        if (req.session.loggedin){
         pt_requests.findAll({
             where: { user_id: req.params.id },
         }).then((requestInfo) => {
@@ -40,6 +41,9 @@ router.get('/checklist/:id', (req, res) => {
             res.status(401).json({ data: null, message: '' });
         }
         });
+    } else {
+        res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+    }
 });
 
 
@@ -59,8 +63,30 @@ router.post('/delete/:user_id/:id', (req, res) => {
         });
 });
 
+
+// trainer pt 요청 조회
+router.get('/checklists/', (req, res) => {
+  if (req.session.loggedin){
+  pt_requests.findAll({
+      where: { trainer_id: req.params.id },
+  }).then((requestInfo) => {
+  if (requestInfo != undefined) {
+      res.status(200).json({ data: requestInfo, message: '' });
+  } else {
+      res.status(401).json({ data: null, message: '' });
+  }
+  });
+} else { 
+  console.log('checklists');
+  res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+}
+
+});
+
 // trainer pt 요청 조회
 router.get('/checklists/:id', (req, res) => {
+    if (req.session.loggedin){
+      console.log('check');
     pt_requests.findAll({
         where: { trainer_id: req.params.id },
     }).then((requestInfo) => {
@@ -70,7 +96,13 @@ router.get('/checklists/:id', (req, res) => {
         res.status(401).json({ data: null, message: '' });
     }
     });
+} else { 
+    console.log('checklists');
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+}
 });
+
+
 
 // pt 요청 수락
 router.post('/accept/:trainer_id/:id', (req, res) => {
