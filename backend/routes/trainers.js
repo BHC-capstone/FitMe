@@ -5,6 +5,7 @@ const {
   trainer_points,
   pt_requests,
   certifications,
+  trainer_cert,
 } = require('../models');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -27,12 +28,12 @@ router.post(
   async function (req, res) {
     console.log(req.body);
     if (
-      (req.body.email,
-      req.body.name,
-      req.body.password,
-      req.body.age,
-      req.body.gender,
-      req.body.phonenumber)
+      req.body.email &&
+      req.body.name &&
+      req.body.password &&
+      req.body.age &&
+      req.body.gender &&
+      req.body.phonenumber
     ) {
       let transaction;
       try {
@@ -46,7 +47,7 @@ router.post(
         if (trainerInfo != undefined)
           res
             .status(409)
-            .json({ data: result, message: '이미 존재하는 아이디입니다.' });
+            .json({ data: trainerInfo, message: '이미 존재하는 아이디입니다.' });
         else {
           console.log(req.body);
           const hashedPassword = await bcrypt.hash(
@@ -89,6 +90,14 @@ router.post(
             },
             { transaction }
           );
+
+          const trainer_cert = await trainer_cert.create(
+            {
+              trainer_id: trainer.id,
+              certification_id: certification.id,
+            },
+            { transaction }
+          )
 
           await transaction.commit();
           res
@@ -155,6 +164,7 @@ router.get('/logout', function (req, res) {
 
 // trainer delete
 router.post('/withdraw/:id', async function (req, res) {
+  if (req.session.loggedin){
   try {
     const trainerInfo = await trainers.findOne({
       where: { id: req.params.id },
@@ -178,10 +188,13 @@ router.post('/withdraw/:id', async function (req, res) {
   } catch (err) {
     console.log(err);
   }
+} else {
+}
 });
 
 // trainer info
 router.get('/profile/:id', async function (req, res) {
+  if (req.session.loggedin){
   try {
     const trainerInfo = await trainers.findOne({
       where: { id: req.params.id },
@@ -201,10 +214,14 @@ router.get('/profile/:id', async function (req, res) {
   } catch (err) {
     console.log(err);
   }
+} else {
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+}
 });
 
 // trainer info change
 router.post('/profile/changeProfile/:id', async function (req, res) {
+  if (req.session.loggedin){
   try {
     const trinersInfo = await trainers.findOne({
       where: { id: req.params.id },
@@ -235,10 +252,14 @@ router.post('/profile/changeProfile/:id', async function (req, res) {
   } catch (err) {
     console.log(err);
   }
+} else {
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+}
 });
 
 // trainerlist paging
 router.get('/trainerlist', async function (req, res) {
+  if (req.session.loggedin){
   try {
     const trainerInfo = await trainers.findAll({
       attributes: [
@@ -256,10 +277,14 @@ router.get('/trainerlist', async function (req, res) {
   } catch (err) {
     console.log(err);
   }
+} else {
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+}
 });
 
 // trainer detail
 router.get('/trainerlist/:id', async function (req, res) {
+  if (req.session.loggedin){
   try {
     const trainerInfo_detail = await trainers.findOne({
       where: { id: req.params.id },
@@ -285,10 +310,12 @@ router.get('/trainerlist/:id', async function (req, res) {
   } catch (err) {
     console.log(err);
   }
+}
 });
 
 // trainer search
 router.get('/trainerlist/:name', async function (req, res) {
+  if (req.session.loggedin){
   try {
     const trainerInfo = await trainers.findAll({
       where: { name: req.params.name },
@@ -304,6 +331,9 @@ router.get('/trainerlist/:name', async function (req, res) {
   } catch (err) {
     console.log(err);
   }
+} else {
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+}
 });
 
 // trainer revenue
@@ -324,7 +354,7 @@ router.get('/revenue/:id', async function (req, res) {
 
 // check pt request list
 router.get('/checkptrequest/:id', async function (req, res) {
-  //  if (req.session.loggedin) {
+   if (req.session.loggedin) {
   try {
     const check_pt_list = await pt_requests.findAll({
       where: { trainer_id: req.params.id },
@@ -333,9 +363,9 @@ router.get('/checkptrequest/:id', async function (req, res) {
   } catch (err) {
     console.log(err);
   }
-  //  } else {
-  //    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
-  //  }
+   } else {
+     res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+   }
 });
 
 module.exports = router;

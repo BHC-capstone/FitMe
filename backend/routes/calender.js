@@ -17,7 +17,7 @@ dotenv.config();
 
 // check meal plan
 router.get('/mealplan/:id/:date', async (req, res) => {
-  //    if (req.session.loggedin) {
+     if (req.session.loggedin) {
   try {
     const { id, date } = req.params;
     const mealPlanDate = await schedules.findOne({
@@ -37,22 +37,18 @@ router.get('/mealplan/:id/:date', async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-  //    } else {
-  //      res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
-  //    }
+     } else {
+       res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+     }
 });
 
 // check exercise routine
 router.get('/exerciseroutine/:id/:date', async (req, res) => {
-  //    if (req.session.loggedin) {
+     if (req.session.loggedin) {
   try {
     const { id, date } = req.params;
-    const exerciseRoutineDate = await schedules.findOne({
-      where: { user_id: id, date: date },
-      attributes: ['routine_id'],
-    });
-    const exerciseRoutine = await exercise_routine.findOne({
-      where: { id: exerciseRoutineDate.routine_id },
+    const exerciseRoutine = await exercise_routine.findAll({
+      where: { user_id: id, date: date},
     });
     if (exerciseRoutine) {
       res.status(200).json({ data: exerciseRoutine, message: '' });
@@ -65,9 +61,9 @@ router.get('/exerciseroutine/:id/:date', async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-  //    } else {
-  //      res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
-  //    }
+     } else {
+       res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+     }
 });
 
 // upload mealplan picture
@@ -75,7 +71,7 @@ router.post(
   '/mealpicture/:id/:date/:meal',
   imageUpload.single('img'),
   async (req, res) => {
-    //    if (req.session.loggedin) {
+       if (req.session.loggedin) {
     try {
       const { id, date } = req.params;
 
@@ -156,9 +152,9 @@ router.post(
     } catch (err) {
       console.log(err);
     }
-    //    } else {
-    //      res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
-    //    }
+       } else {
+         res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+       }
   }
 );
 
@@ -167,7 +163,7 @@ router.post(
   '/exercisevideo/:id',
   imageUpload.fields([{ name: 'video', maxCount: 1 }]),
   async (req, res) => {
-    //        if (req.session.loggedin) {
+    if (req.session.loggedin) {
     try {
       const { id, date } = req.params;
       const exerciseRoutineDate = await schedules.findOne({
@@ -210,9 +206,9 @@ router.post(
     } catch (err) {
       console.log(err);
     }
-    //        } else {
-    //            res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
-    //        }
+           } else {
+               res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+           }
   }
 );
 

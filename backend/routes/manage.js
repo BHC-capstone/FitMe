@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const { trainers, trainer_points, pt_requests, trainer_manage, user_tag, users } = require('../models');
+const { Op, literal } = require('sequelize');
 
 // check pt user list
 // router.get('/checkptuserlist/:id', async function (req, res) {
@@ -14,13 +15,18 @@ const { trainers, trainer_points, pt_requests, trainer_manage, user_tag, users }
 //     }
 // });
 router.get('/checkptuserlist/:id', async function (req, res) {
+    if (req.session.loggedin) {
     try {
       const check_pt_user_list = await trainer_manage.findAll({
         where: { trainer_id: req.params.id },
         include: {
           model: users,
           attributes: ['name'],
-          where: {id: trainer_manage.user_id}
+          where: {
+            id: {
+              [Op.eq]: literal('`trainer_manage`.`user_id`')
+            }
+          }
         },
       });
       console.log(check_pt_user_list);
@@ -33,10 +39,14 @@ router.get('/checkptuserlist/:id', async function (req, res) {
     } catch (err) {
       console.log(err);
     }
+    } else {
+        res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+    }
   });
 
 // check pt user detail
 router.get('/checkptuserdetail/:user_id/:id', async function (req, res) {
+  if (req.session.loggedin){
   try {
     const check_pt_user_detail = await trainer_manage.findOne({
       where: { trainer_id: req.params.id, user_id: req.params.user_id },
@@ -45,6 +55,9 @@ router.get('/checkptuserdetail/:user_id/:id', async function (req, res) {
   } catch (err) {
     console.log(err);
   }
+} else {
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+}
 });
 
 // user tag api
