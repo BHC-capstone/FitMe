@@ -74,7 +74,7 @@ const NavTabLink = styled.a`
 
 const TabContent = styled.div`
   padding: 1rem;
-  border: 1px solid #dee2e6;
+  //border: 1px solid #dee2e6;
   border-top: none;
 `;
 

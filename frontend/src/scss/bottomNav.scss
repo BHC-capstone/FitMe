@@ -1,22 +1,22 @@
-.wrapper{
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 45px;
-    background-color: #fff;
-    border-top: 2px solid #ccc;
-    z-index: 999;
+.wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 45px;
+  background-color: #fff;
+  // border-top: 2px solid #ccc;
+  z-index: 999;
 }
-nav{
-    overflow: hidden;
+nav {
+  overflow: hidden;
 }
 
 nav > div {
-    text-align: center;
-    float:left;
-    width:25%;
-    
-    height: 45px;
-    line-height: 45px;
+  text-align: center;
+  float: left;
+  width: 25%;
+
+  height: 45px;
+  line-height: 45px;
 }

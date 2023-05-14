@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Calendar from 'react-calendar';
-import '../../scss/Calendar.css';
+import '../../scss/calendar.scss';
 import styled from 'styled-components';
+import { Container } from 'react-bootstrap';
 import DietTab from '../../components/DietTab';
 import ExerciseTab from '../../components/ExerciseTab';
 import FeedbackTab from '../../components/FeedbackTab';
@@ -30,7 +31,7 @@ function CalendarPart() {
     clickTab(index);
   };
   return (
-    <div>
+    <Container fluid className="panel">
       <Calendar
         formatDay={(location, date) =>
           date.toLocaleDateString('en', { day: 'numeric' })
@@ -55,7 +56,7 @@ function CalendarPart() {
       <Desc>
         <div>{menuArr[currentTab].content}</div>
       </Desc>
-    </div>
+    </Container>
   );
 }
 
@@ -74,7 +75,7 @@ const TabMenu = styled.ul`
 
   .submenu {
     display: flex;
-    /* justify-content: space-between;
+    justify-content: space-between;
     width: 380px;
     heigth: 30px; */
     width: calc(50% / 3);

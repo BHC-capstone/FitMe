@@ -6,8 +6,9 @@ import { Routes, Route } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 
 // import MainPage from './page/Main/MainPage';
-import SignUpPage from './page/Register/SignUpPage';
-import LoginPage from './page/Login/LoginPage';
+import LandingPage from './page/Register/LandingPage';
+import UserSignUpPage from './page/Register/UserSignUpPage';
+import UserLoginPage from './page/Login/UserLoginPage';
 import TrainerSignUpPage from './page/Register/TrainerSignUpPage';
 import TrainerLoginPage from './page/Login/TrainerLoginPage';
 import TrainerList from './page/Trainer/TrainerList';
@@ -24,16 +25,17 @@ import CalendarPart from './page/Main/CalenderPart';
 
 const history = createBrowserHistory();
 
-function App() {
+export default function App() {
   return (
-    <div className="App" style={{ marginBottom: '45px' }}>
+    <div className="App">
       <TopNav />
       <BottomNav />
       <Routes history={history}>
-        <Route path="/" element={<SignUpPage />} />
-        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/signup" element={<LandingPage />} />
+        <Route path="/user-signup" element={<UserSignUpPage />} />
         <Route path="/trainer-signup" element={<TrainerSignUpPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/user-login" element={<UserLoginPage />} />
         <Route path="/trainer-login" element={<TrainerLoginPage />} />
         <Route path="/trainer-list" element={<TrainerList />} />
         <Route path="/trainer-info/:id" element={<Trainerdetail />} />
@@ -48,5 +50,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

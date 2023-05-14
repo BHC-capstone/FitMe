@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
 import UserInfoTab from '../../components/myPage/UserInfoTab';
 import StatisticsTab from '../../components/myPage/StatisticsTab';
 import PaymentHistoryTab from '../../components/myPage/PaymentHistoryTab';
@@ -38,24 +39,26 @@ function Tabs() {
   };
 
   return (
-    <div className="tabs-container container">
-      <TabMenu
-        menuArr={menuArr}
-        currentTab={currentTab}
-        selectMenuHandler={selectMenuHandler}
-      >
-        {menuArr.map((el, index) => (
-          // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
-          <li
-            className={index === currentTab ? 'submenu focused' : 'submenu'}
-            onClick={() => selectMenuHandler(index)}
-            onKeyDown={() => selectMenuHandler(index)}
-          >
-            {el.name}
-          </li>
-        ))}
-      </TabMenu>
-    </div>
+    <Container fluid className="panel">
+      <div className="tabs-container container">
+        <TabMenu
+          menuArr={menuArr}
+          currentTab={currentTab}
+          selectMenuHandler={selectMenuHandler}
+        >
+          {menuArr.map((el, index) => (
+            // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+            <li
+              className={index === currentTab ? 'submenu focused' : 'submenu'}
+              onClick={() => selectMenuHandler(index)}
+              onKeyDown={() => selectMenuHandler(index)}
+            >
+              {el.name}
+            </li>
+          ))}
+        </TabMenu>
+      </div>
+    </Container>
   );
 }
 export default Tabs;

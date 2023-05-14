@@ -1,0 +1,89 @@
+// Core Fonts
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gowun+Dodum&family=Hahmlet:wght@500;600&family=Nanum+Brush+Script&family=Nanum+Gothic&family=Nanum+Myeongjo&family=Nanum+Pen+Script&family=Sunflower:wght@500&display=swap');
+$font-family: 'Black Han Sans', sans-serif;
+$font-family: 'Gowun Dodum', sans-serif;
+$font-family: 'Hahmlet', serif;
+$font-family: 'Nanum Brush Script', cursive;
+$font-family: 'Nanum Gothic', sans-serif;
+$font-family: 'Nanum Myeongjo', serif;
+$font-family: 'Nanum Pen Script', cursive;
+$font-family: 'Sunflower', sans-serif;
+
+// Core Colors
+$primary: #2ba5f7;
+$secondary: #f5a302;
+$info: #0dcaf0;
+$danger: #f64e60;
+$success: #0bb7af;
+$warning: #ffc107;
+$dark: #343a40;
+$light: #eaf2fb;
+
+$txt: #172850;
+$txt2: #878fa6;
+$bg: #ecf2f4;
+$bg2: #ccdaed;
+$border: #eff1f5;
+
+$darkTxt: rgba(255, 255, 255, 0.9);
+$darkBg: #3d434c;
+$darkBg2: #373b43;
+$darkBg3: #464c59;
+$darkBorder: rgba(0, 0, 0, 0.3);
+
+$theme-colors: (
+  'primary': $primary,
+  'secondary': $secondary,
+  'success': $success,
+  'info': $info,
+  'warning': $warning,
+  'danger': $danger,
+  'light': $light,
+  'dark': $dark,
+  'light-primary': #d6e4f3,
+  'light-success': #d5f3f2,
+  'light-info': #d3edfa,
+  'light-warning': #f8ecdc,
+  'light-danger': #f8dddd,
+);
+
+// scss-docs-start gray-color-variables
+$white: #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #eef5f9 !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #757e85 !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #1e2a35 !default;
+$black: #000 !default;
+
+/*******************/
+// Theme Text Contrast
+/********************/
+$min-contrast-ratio: 2;
+
+/*******************/
+// Theme body bg & text color
+/********************/
+$body-bg: $gray-200 !default;
+$body-color: $gray-900 !default;
+
+/*******************/
+// Theme common variable
+/********************/
+$border-radius: 0.3rem !default;
+$box-shadow: 0 0.5rem 1rem rgba($black, 0.05);
+$headings-font-weight: 600 !default;
+
+$card-border-width: 0 !default;
+$card-box-shadow: $box-shadow !default;
+$grid-gutter-width: 1.85rem !default;
+
+$input-bg: $white !default;
+/*******************/
+// Theme btn
+/********************/
+$btn-focus-width: 0px;

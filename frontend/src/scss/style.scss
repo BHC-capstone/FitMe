@@ -1,0 +1,8 @@
+// core colors, fonts
+@import 'vars';
+
+@import './node_modules/bootstrap/scss/bootstrap';
+
+// 사이드바와 컨테이너
+@import './layout/sidebar';
+@import './layout/container';

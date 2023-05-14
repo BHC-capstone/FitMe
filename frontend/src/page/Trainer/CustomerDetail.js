@@ -1,4 +1,5 @@
-import { Card, Tag, Input, Button, Form, Select } from 'antd';
+import { Card, Tag, Form, Input, Select } from 'antd';
+import { Container, Button, Row, Col } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -84,7 +85,7 @@ function CustomerDetail() {
   };
 
   return (
-    <div>
+    <Container className="panel">
       <Card>
         <Card.Meta
           title={customer.name}
@@ -96,64 +97,61 @@ function CustomerDetail() {
                 </span>{' '}
               </p>
               <p>
-                <Form onFinish={onFinish}>
-                  태그 추가
-                  <Form.Item name="tag name" rules={[{ required: true }]}>
-                    <Input />
-                  </Form.Item>
-                  <Form.Item name="tag color" rules={[{ required: true }]}>
-                    <Select
-                      placeholder="종류 선택"
-                      onChange={onColorChange}
-                      allowClear
-                    >
-                      <Select.Option value="건강">건강</Select.Option>
-                      <Select.Option value="알러지">알러지</Select.Option>
-                      <Select.Option value="기타">기타</Select.Option>
-                    </Select>
-                  </Form.Item>
-                  <Form.Item>
-                    <Button type="primary" htmlType="submit">
-                      추가
-                    </Button>
-                  </Form.Item>
-                </Form>
+                <Row className="mb-3">
+                  <Form onFinish={onFinish}>
+                    태그 추가
+                    <Col>
+                      <Form.Item name="tag name" rules={[{ required: true }]}>
+                        <Input />
+                      </Form.Item>
+                    </Col>
+                    <Col>
+                      <Form.Item name="tag color" rules={[{ required: true }]}>
+                        <Select
+                          placeholder="종류 선택"
+                          onChange={onColorChange}
+                          allowClear
+                        >
+                          <Select.Option value="건강">건강</Select.Option>
+                          <Select.Option value="알러지">알러지</Select.Option>
+                          <Select.Option value="기타">기타</Select.Option>
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                    <Form.Item>
+                      <Button type="primary" htmlType="submit">
+                        추가
+                      </Button>
+                    </Form.Item>
+                  </Form>
+                </Row>
               </p>
               <p>
                 <TagList userId={id} closeable tagcount={tags} />
               </p>
               <p style={{ fontWeight: 'bold', marginBottom: 0 }}>
                 <div style={{ float: 'center' }}>회원메모</div>
-                <Button
-                  type="primary"
-                  style={{ marginRight: 8, float: 'right' }}
-                  onClick={() => handleMemoSubmit()}
-                >
+                <TextArea
+                  value={customer.memo}
+                  autoSize={{ minRows: 4, maxRows: 10 }}
+                  style={{ marginBottom: 16 }}
+                  onChange={e =>
+                    setCustomer({ ...customer, memo: e.target.value })
+                  }
+                />
+                <Button variant="primary" onClick={() => handleMemoSubmit()}>
                   메모 저장
                 </Button>
               </p>
-
-              <TextArea
-                value={customer.memo}
-                autoSize={{ minRows: 4, maxRows: 10 }}
-                style={{ marginBottom: 16 }}
-                onChange={e =>
-                  setCustomer({ ...customer, memo: e.target.value })
-                }
-              />
               <p />
-              <Button type="primary" style={{ marginRight: 8 }}>
-                캘린더
-              </Button>
-              <Button>피드백</Button>
-              <Button type="danger" style={{ marginLeft: 'auto' }}>
-                회원관리
-              </Button>
+              <Button variant="primary">캘린더</Button>
+              <Button variant="secondary">피드백</Button>
+              <Button variant="danger">회원관리</Button>
             </>
           }
         />
       </Card>
-    </div>
+    </Container>
   );
 }
 

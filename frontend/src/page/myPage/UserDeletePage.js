@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Container, Button, Stack } from 'react-bootstrap';
+import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { loginUser, logoutUser } from '../../redux/_reducers/userSlice';
+import { logoutUser } from '../../redux/_reducers/userSlice';
 
 function WithdrawPage() {
   const [password, setPassword] = useState('');
@@ -36,28 +38,44 @@ function WithdrawPage() {
   };
 
   return (
-    <div>
-      <h1>회원탈퇴 페이지</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="password">비밀번호:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <button type="submit">회원탈퇴</button>
-      </form>
-      <Link to="/mypage">
-        <button type="button" className="btn btn-primary">
-          취소하기
-        </button>
-      </Link>
-    </div>
+    <Container className="panel">
+      <Head1>회원 탈퇴</Head1>
+      <Stack gap={2} className="col-md-5 mx-auto">
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="password">비밀번호: </label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <Button variant="danger" type="submit">
+            회원탈퇴
+          </Button>
+        </form>
+        <Link to="/mypage">
+          <Button type="button" variant="secondary">
+            취소하기
+          </Button>
+        </Link>
+      </Stack>
+    </Container>
   );
 }
 
 export default WithdrawPage;
+
+const Head1 = styled.div`
+  color: rgb(21, 20, 20);
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 30px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 10px;
+`;
