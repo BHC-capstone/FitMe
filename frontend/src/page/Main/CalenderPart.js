@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Calendar from 'react-calendar';
-import '../../scss/Calendar.css';
+import '../../scss/calendar.scss';
 import styled from 'styled-components';
+import { Container } from 'react-bootstrap';
 import DietTab from '../../components/DietTab';
 import ExerciseTab from '../../components/ExerciseTab';
 import FeedbackTab from '../../components/FeedbackTab';
@@ -25,28 +26,30 @@ function CalendarPart({ userid }) {
   };
   return (
     <div>
-      <Calendar
-        formatDay={(location, date) =>
-          date.toLocaleString('en', { day: 'numeric' })
-        }
-        onChange={onChange}
-        value={dateinfo}
-      />
-      <TabMenu>
-        {menuArr.map((el, index) => (
-          // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
-          <li
-            className={index === currentTab ? 'submenu focused' : 'submenu'}
-            onClick={() => selectMenuHandler(index)}
-            onKeyDown={() => selectMenuHandler(index)}
-          >
-            {el.name}
-          </li>
-        ))}
-      </TabMenu>
-      <Desc>
-        <p>{menuArr[currentTab].content}</p>
-      </Desc>
+      <Container fluid className="panel">
+        <Calendar
+          formatDay={(location, date) =>
+            date.toLocaleString('en', { day: 'numeric' })
+          }
+          onChange={onChange}
+          value={dateinfo}
+        />
+        <TabMenu>
+          {menuArr.map((el, index) => (
+            // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+            <li
+              className={index === currentTab ? 'submenu focused' : 'submenu'}
+              onClick={() => selectMenuHandler(index)}
+              onKeyDown={() => selectMenuHandler(index)}
+            >
+              {el.name}
+            </li>
+          ))}
+        </TabMenu>
+        <Desc>
+          <p>{menuArr[currentTab].content}</p>
+        </Desc>
+      </Container>
     </div>
   );
 }
@@ -66,7 +69,7 @@ const TabMenu = styled.ul`
 
   .submenu {
     display: flex;
-    /* justify-content: space-between;
+    justify-content: space-between;
     width: 380px;
     heigth: 30px; */
     width: calc(50% / 3);

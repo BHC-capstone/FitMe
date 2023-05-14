@@ -1,25 +1,30 @@
-.signup {
-  background-color: #ffffff;
-  padding: 20px;
-  button {
-    margin-top: 20px;
-  }
-}
+@import 'style';
 
-.login {
-  background-color: #ffffff;
-  padding: 20px;
-  button {
-    margin-top: 20px;
-  }
-}
 .panel {
+  overflow: auto;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  padding: 30px;
+  padding: 25px;
   max-width: 500px;
+  max-height: 80%;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   margin: 0 auto;
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.4);
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+  }
 }
 
 .panel button + button {
@@ -29,4 +34,39 @@
 .panel h2 {
   text-align: center;
   margin-bottom: 30px;
+}
+
+$sidebar-width: 260px;
+$sidebar-color: #fff;
+
+.pageWrapper {
+  min-height: 100vh;
+}
+.contentArea {
+  flex-grow: 1;
+}
+.wrapper {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.card {
+  box-shadow: $card-box-shadow;
+  margin-bottom: 30px;
+}
+
+.circle-box {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  border-radius: 100%;
+  &.lg-box {
+    width: 60px;
+    height: 60px;
+    font-size: 21px;
+    line-height: 60px;
+  }
+}
+.button-group .btn {
+  margin: 3px;
 }

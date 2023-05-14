@@ -1,10 +1,11 @@
 import { Card, Rate, Tag } from 'antd';
 import React, { useState, useEffect } from 'react';
-import { Container, Stack, Row, Form } from 'react-bootstrap';
+import { Container, Stack, Row, Col, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../../scss/cardLayout.scss';
 import { useSelector } from 'react-redux';
+import styled from 'styled-components';
 import TagList from '../../components/TagList';
 
 function CustomerList() {
@@ -33,22 +34,20 @@ function CustomerList() {
   return (
     <div className="cardLayout">
       <div className="cardLayout">
-        <Container>
-          <h2>관리중인 회원 목록</h2>
-        </Container>
         <Container fluid className="panel">
+          <Head1>관리중인 회원 목록</Head1>
           <Stack gap={2}>
-            <Row>
-              <div>
+            <Row className="justify-content-md-center">
+              <Col md="10">
                 <Form>
                   <Form.Control
                     type="text"
                     value={search}
                     onChange={onChange}
-                    placeholder="회원 이름 검색"
+                    placeholder="트레이너 이름 검색"
                   />
                 </Form>
-              </div>
+              </Col>
             </Row>
           </Stack>
         </Container>
@@ -115,3 +114,15 @@ function CustomerList() {
   );
 }
 export default CustomerList;
+
+const Head1 = styled.div`
+  color: rgb(21, 20, 20);
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 30px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 10px;
+`;
