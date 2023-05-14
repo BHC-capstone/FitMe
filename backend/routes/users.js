@@ -9,11 +9,11 @@ const { sequelize } = require('../models');
 router.post('/signup', async function (req, res) {
   console.log(req.body);
   if (
-    (req.body.email,
-    req.body.name,
-    req.body.password,
-    req.body.age,
-    req.body.gender,
+    (req.body.email &&
+    req.body.name &&
+    req.body.password &&
+    req.body.age &&
+    req.body.gender &&
     req.body.phonenumber)
   ) {
     let transaction;

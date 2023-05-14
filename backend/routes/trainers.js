@@ -130,7 +130,10 @@ router.post('/login', async function (req, res) {
           trainerInfo.password
         );
         if (isPasswordValid) {
-          res.status(200).json({ data: trainerInfo, message: '로그인 성공' });
+          req.session.save(function () {
+            req.session.loggedin = true;
+            res.json({ data: trainerInfo, message: '로그인에 성공하였습니다' });
+          });
         } else {
           res
             .status(401)
