@@ -4,7 +4,6 @@ import axios from 'axios';
 
 function TagList({ userId, closeable, tagcount }) {
   const [tags, setTags] = useState([]);
-  console.log('In TagList component');
   function deleteTag(tagId) {
     axios
       .post(`https://localhost:4000/manage/deletetag/${tagId}`)

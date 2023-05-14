@@ -2,14 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 
-function RequestManage(isTrainer) {
+function RequestManage() {
   const [requests, setRequests] = useState(null);
   const loginedUser = useSelector(state => state.user);
-
+  const isTrainer = loginedUser.isTrainer.toString();
   const fetchRequests = async () => {
-    const response = await axios.get(
-      `https://localhost:4000/request/checklists/${loginedUser.id}`,
-    );
+    const response =
+      isTrainer === 'true'
+        ? await axios.get(
+            `https://localhost:4000/request/checklists/${loginedUser.id}`,
+          )
+        : await axios.get(
+            `https://localhost:4000/request/checklist/${loginedUser.id}`,
+          );
     setRequests(response.data.data);
   };
 
@@ -27,6 +32,20 @@ function RequestManage(isTrainer) {
         `https://localhost:4000/request/accept/${trainerId}/${requestId}`,
         {
           response: '수락',
+        },
+      );
+      fetchRequests();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleCancel = async (userId, requestId) => {
+    try {
+      await axios.post(
+        `https://localhost:4000/request/cancel/${userId}/${requestId}`,
+        {
+          response: '취소',
         },
       );
       fetchRequests();
@@ -61,7 +80,7 @@ function RequestManage(isTrainer) {
             <th>요청 내용</th>
             <th>응답</th>
             <th>상태</th>
-            <th>수락/거절</th>
+            <th>{isTrainer === 'true' ? '수락/거절' : '요청취소'}</th>
           </tr>
         </thead>
         <tbody>
@@ -74,7 +93,7 @@ function RequestManage(isTrainer) {
               <td>{request.response}</td>
               <td>{request.accept ? '수락됨' : '미응답'}</td>
               <td>
-                {!request.accept && (
+                {!request.accept && isTrainer === 'true' && (
                   <>
                     <button
                       type="button"
@@ -93,6 +112,14 @@ function RequestManage(isTrainer) {
                       거절
                     </button>
                   </>
+                )}
+                {!request.accept && isTrainer !== 'true' && (
+                  <button
+                    type="button"
+                    onClick={() => handleCancel(request.user_id, request.id)}
+                  >
+                    취소
+                  </button>
                 )}
               </td>
             </tr>

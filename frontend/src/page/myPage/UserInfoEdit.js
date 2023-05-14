@@ -87,6 +87,15 @@ function UserEdit({ props }) {
   return (
     <div className="container my-5">
       <h1>회원 정보 수정</h1>
+      {loginedUser.isTrainer === true ? (
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={() => navigate('/mypage/certificate')}
+        >
+          트레이너 자격관리
+        </button>
+      ) : null}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="email">이메일</label>

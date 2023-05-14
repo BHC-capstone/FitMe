@@ -21,6 +21,7 @@ import CustomerList from './page/Trainer/CustomerList';
 import CustomerDetail from './page/Trainer/CustomerDetail';
 import WithdrawPage from './page/myPage/UserDeletePage';
 import CalendarPart from './page/Main/CalenderPart';
+import CertificateManage from './page/myPage/Trainer/CertificateManage';
 
 const history = createBrowserHistory();
 
@@ -37,8 +38,9 @@ function App() {
         <Route path="/trainer-login" element={<TrainerLoginPage />} />
         <Route path="/trainer-list" element={<TrainerList />} />
         <Route path="/trainer-info/:id" element={<Trainerdetail />} />
-        <Route path="/mypage/*" element={<Tabs />} />
+        <Route path="/mypage" element={<Tabs />} />
         <Route path="/mypage/withdraw" element={<WithdrawPage />} />
+        <Route path="/mypage/certificate" element={<CertificateManage />} />
         <Route path="/ptrequest" element={<Ptrequest />} />
         <Route path="/mypage/edit" element={<UserEdit />} />
         <Route path="/customer-list" element={<CustomerList />} />

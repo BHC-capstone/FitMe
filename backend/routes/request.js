@@ -21,7 +21,7 @@ router.post('/ptrequest/:trainer_id/:id', (req, res) => {
             days: req.body.days,
             };
             pt_requests.create(newRequest).then(() => {
-            res.status(200).json({ data: null, message: '성공적으로 신청되었습니다.' });
+            res.status(200).json({ data: null, message: '성공적으 로 신청되었습니다.' });
             });
         } else {
             res.status(401).json({ data: null, message: '이미 신청한 trainer입니다' });
