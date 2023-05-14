@@ -4,9 +4,9 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Container, Form, Button, FloatingLabel } from 'react-bootstrap';
 import styled from 'styled-components';
-import { loginTrainer } from '../../redux/_reducers/userSlice';
+import { loginUser } from '../../redux/_reducers/userSlice';
 
-export default function LoginPage(props) {
+export default function UserLoginPage(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -22,20 +22,19 @@ export default function LoginPage(props) {
 
   const onSubmitHandler = event => {
     event.preventDefault();
-
     const body = {
       email,
       password,
     };
 
     axios
-      .post('https://localhost:4000/trainers/login', body, {
+      .post('https://localhost:4000/users/login', body, {
         withCredentials: true,
       })
       .then(res => {
         console.log(res);
         if (res.status === 200) {
-          dispatch(loginTrainer(res.data.data));
+          dispatch(loginUser(res.data.data));
           navigate('/mypage');
         } else {
           alert(res.data.message);
@@ -46,14 +45,14 @@ export default function LoginPage(props) {
       });
   };
 
-  const goUserLogin = () => {
-    navigate('/user-login');
+  const goTrainerLogin = () => {
+    navigate('/trainer-login');
   };
 
   return (
     <div>
       <Container className="panel">
-        <Head1>트레이너 로그인</Head1>
+        <Head1>일반 사용자 로그인</Head1>
         <Form onSubmit={onSubmitHandler}>
           <FloatingLabel
             controlId="floatingInput"
@@ -87,8 +86,8 @@ export default function LoginPage(props) {
           <Button type="submit" variant="primary">
             로그인
           </Button>
-          <Button type="button" variant="secondary" onClick={goUserLogin}>
-            일반 사용자 로그인
+          <Button type="button" variant="secondary" onClick={goTrainerLogin}>
+            트레이너 로그인
           </Button>
         </Form>
       </Container>

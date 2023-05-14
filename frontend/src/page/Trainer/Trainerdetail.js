@@ -36,7 +36,7 @@ function Trainerdetail() {
     clickTab(index);
   };
   return (
-    <Container fluid className="panel">
+    <Container fluid>
       <Upbox>
         <Box1>
           <Imageposition>이미지</Imageposition>
@@ -76,25 +76,26 @@ function Trainerdetail() {
 }
 
 const Upbox = styled.ul`
-  background-color: #111654;
+  background-color: #2ba5f7;
   color: rgb(255, 255, 255);
   height: 500px;
 `;
 const Box1 = styled.div`
-  background-color: #111654;
+  background-color: #2ba5f7;
   height: 400px;
 `;
 const Box2 = styled.div`
-  background-color: #111654;
+  background-color: #2ba5f7;
   height: 100px;
   //border: 2px solid;
 `;
 const Imageposition = styled.div`
   width: 280px;
   height: 360px;
-
+  border-radius: 10px;
   padding-top: calc(100% / 20);
   padding-bottom: calc(100% / 20);
+  margin-top: 20px;
   margin-left: calc(100% / 10);
   background-color: #ffffff;
   display: flex;
@@ -126,14 +127,11 @@ const Emailblock = styled.text`
   letter-spacing: 5px;
   font-weight: lighter;
   color: white;
-  margin-left: calc(100% / 10);
   display: flex;
   flex-direction: column;
-  text-align: left;
-  margin-left: 140px;
+  text-align: center;
   //border: 2px solid;
   width: 700px;
-  float: left;
 `;
 const TabMenu = styled.ul`
   background-color: #ffffff;
@@ -179,5 +177,6 @@ const Button1 = styled(Button)`
   margin-top: 0px;
   vertical-align: top;
   //border: 3px solid white;
+  background-color: #f5a302;
 `;
 export default Trainerdetail;

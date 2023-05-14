@@ -9,7 +9,7 @@ function Expectedpoint({ startDate, endDate }) {
     <div>
       <Boxr>
         <Boxc>
-          <div>pt 횟수</div>
+          <div>PT 횟수</div>
           <Boxep1>
             {Math.floor(
               Math.ceil(
@@ -26,10 +26,10 @@ function Expectedpoint({ startDate, endDate }) {
         </Boxc>
       </Boxr>
       <Boxr>
-        <Button type="submit" variant="info">
+        <Button type="submit" variant="primary">
           결제
         </Button>
-        <Button type="submit" variant="warning">
+        <Button type="submit" variant="secondary">
           충전
         </Button>
       </Boxr>
@@ -56,31 +56,35 @@ const Boxc = styled.div`
   border: 0;
   justify-content: space-around;
   align-items: center;
+  font-weight: bold;
   text-align: left;
   width: 162px;
   border-radius: 10px;
   background-color: rgb(233, 233, 233);
   padding: 10px;
+  margin: auto 0;
 `;
 const Boxep1 = styled.div`
   width: 90px;
   height: 24px;
   font-weight: 400;
   font-size: 16px;
-  background-color: #0dcaf0;
-  color: black;
+  background-color: #2ba5f7;
+  color: white;
   border-radius: 10px;
   text-align: center;
+  margin: auto 0;
 `;
 const Boxep2 = styled.div`
   width: 90px;
   height: 24px;
   font-weight: 400;
   font-size: 16px;
-  background-color: #ffc107;
-  color: black;
+  background-color: #f5a302;
+  color: white;
   border-radius: 10px;
   text-align: center;
+  margin: auto 0;
 `;
 
 export default Expectedpoint;

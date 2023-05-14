@@ -1,7 +1,14 @@
 import React from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+  FloatingLabel,
+} from 'react-bootstrap';
 import styled from 'styled-components';
 
 export default function TrainerSignUpPage() {
@@ -52,18 +59,18 @@ export default function TrainerSignUpPage() {
       return setPasswordCheck('');
     }
 
-    const body = {
-      email,
-      name,
-      password,
-      phonenumber,
-      age,
-      gender,
-      introduction,
-    };
+    // const body = {
+    //   email,
+    //   name,
+    //   password,
+    //   phonenumber,
+    //   age,
+    //   gender,
+    //   introduction,
+    // };
 
     // axios
-    //   .post('https://localhost:4000/trainers/signup', body)
+    //   .post('http://localhost:4000/trainers/signup', body)
     //   .then((res) => {
     //     if (res.data.success) {
     //       navigate('/login');
@@ -86,69 +93,85 @@ export default function TrainerSignUpPage() {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
-      url: 'https://localhost:4000/trainers/signup',
+      url: 'http://localhost:4000/trainers/signup',
       data: formData,
       method: 'POST',
     })
-      .then(navigate('/login'))
+      .then(navigate('/trainer-login'))
       .catch(err => {
         console.log(err);
       });
   };
 
-  const goSignUp = () => {
-    navigate('/signup');
+  const goTrainerLogin = () => {
+    navigate('/trainer-login');
   };
 
   return (
-    <div className="signup">
-      <Container>
-        <Head1>트레이너회원가입</Head1>
-      </Container>
+    <div>
       <Container fluid className="panel">
+        <Head1>트레이너 회원가입</Head1>
         <Form>
-          <Form.Group controlId="formBasicEmail">
-            <Form.Label>이메일</Form.Label>
+          <FloatingLabel
+            controlId="floatingInput"
+            label="이메일"
+            className="mb-3"
+          >
             <Form.Control
               type="email"
               placeholder="Enter email"
               value={email}
               onChange={onChangeEmail}
+              required
             />
-          </Form.Group>
-          <Form.Group controlId="formBasicPassword">
-            <Form.Label>패스워드</Form.Label>
+          </FloatingLabel>
+          <FloatingLabel
+            controlId="floatingInput"
+            label="비밀번호"
+            className="mb-3"
+          >
             <Form.Control
               type="password"
               placeholder="Password"
               value={password}
               onChange={onChangePassword}
+              required
             />
-          </Form.Group>
-          <Form.Group controlId="formBasicPasswordCheck">
-            <Form.Label>패스워드 재입력</Form.Label>
+          </FloatingLabel>
+          <FloatingLabel
+            controlId="floatingInput"
+            label="비밀번호 재입력"
+            className="mb-3"
+          >
             <Form.Control
               type="password"
               placeholder="Password Check"
               value={passwordCheck}
               onChange={onChangePasswordCheck}
+              required
             />
-          </Form.Group>
-          <Row>
-            <Col md="5">
-              <Form.Group controlId="formBasicname">
-                <Form.Label>이름</Form.Label>
+          </FloatingLabel>
+          <Row className="mb-3">
+            <Col>
+              <FloatingLabel
+                controlId="floatingInput"
+                label="이름"
+                className="mb-3"
+              >
                 <Form.Control
                   type="text"
                   placeholder="Enter name"
                   value={name}
                   onChange={onChangeName}
                 />
-              </Form.Group>
+              </FloatingLabel>
             </Col>
-            <Col md="7">
-              <Form.Group controlId="formBasicPhonenumber">
-                <Form.Label>전화번호</Form.Label>
+            <Col>
+              <FloatingLabel
+                controlId="floatingInput"
+                label="전화번호"
+                className="mb-3"
+              >
                 <Form.Control
                   type="text"
                   placeholder="Enter Phonenumber"
@@ -156,33 +179,51 @@ export default function TrainerSignUpPage() {
                   onChange={onChangePhonenumber}
                   required
                 />
-              </Form.Group>
+              </FloatingLabel>
             </Col>
           </Row>
           <Row>
             <Col>
-              <Form.Group controlId="formBasicGender">
-                <Form.Label>성별</Form.Label>
-                <Form.Control as="select" onChange={onChangeGender}>
-                  <option value="">선택하세요</option>
+              <FloatingLabel
+                controlId="floatingSelect"
+                label="성별"
+                className="mb-3"
+              >
+                <Form.Select onChange={onChangeGender}>
+                  <option>선택하세요</option>
                   <option value="male">남성</option>
                   <option value="female">여성</option>
                   <option value="others">기타</option>
-                </Form.Control>
-              </Form.Group>
+                </Form.Select>
+              </FloatingLabel>
             </Col>
             <Col>
-              <Form.Group controlId="formBasicAge">
-                <Form.Label>나이</Form.Label>
+              <FloatingLabel
+                controlId="floatingSelect"
+                label="나이"
+                className="mb-3"
+              >
                 <Form.Control
                   type="number"
                   placeholder="Enter age"
                   value={age}
                   onChange={onChangeAge}
                 />
-              </Form.Group>
+              </FloatingLabel>
             </Col>
           </Row>
+          <FloatingLabel
+            controlId="floatingTextarea"
+            label="자기소개"
+            className="mb-3"
+          >
+            <Form.Control
+              as="textarea"
+              placeholder="Leave a instroduction here."
+              value={introduction}
+              onChange={onChangeIntroduction}
+            />
+          </FloatingLabel>
           <Form.Group controlId="formBasicCertificationFile">
             <Form.Label>자격증 파일</Form.Label>
             <Form.Control
@@ -191,23 +232,13 @@ export default function TrainerSignUpPage() {
               onChange={onChangeCertificationFile}
             />
           </Form.Group>
-          <Form.Group controlId="formBasicIntroduction">
-            <Form.Label>간단한 자기소개를 입력해주세요</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder=""
-              value={introduction}
-              onChange={onChangeIntroduction}
-            />
-          </Form.Group>
-
-          <Button variant="info" type="submit" onClick={onSubmit}>
+          <Button variant="primary" type="submit" onClick={onSubmit}>
             제출
           </Button>
-          <Button variant="warning" type="button" onClick={goSignUp}>
-            일반 회원가입
-          </Button>
         </Form>
+        <Button variant="link" type="button" onClick={goTrainerLogin}>
+          이미 계정이 있나요?
+        </Button>
       </Container>
     </div>
   );
@@ -215,12 +246,12 @@ export default function TrainerSignUpPage() {
 
 const Head1 = styled.div`
   color: rgb(21, 20, 20);
-  font-weight: bold;
+  font-family: 'Black Han Sans', sans-serif;
   font-size: 30px;
   display: flex;
   text-align: center;
   align-items: center;
   width: fit-content;
   margin: 0 auto;
-  padding: 20px;
+  padding: 10px;
 `;

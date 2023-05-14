@@ -14,8 +14,8 @@ export default function Ptrequest() {
 
   return (
     <Layout>
-      <Head1>PT 신청</Head1>
       <Container fluid className="panel">
+        <Head1>PT 신청</Head1>
         <Boxr>
           <Boxc>
             <Head2>PT 시작일</Head2>
@@ -56,14 +56,14 @@ export default function Ptrequest() {
 
 const Head1 = styled.div`
   color: rgb(21, 20, 20);
-  font-weight: bold;
+  font-family: 'Black Han Sans', sans-serif;
   font-size: 30px;
   display: flex;
   text-align: center;
   align-items: center;
   width: fit-content;
   margin: 0 auto;
-  padding: 20px;
+  padding: 10px;
 `;
 const Boxr = styled.div`
   display: flex;
@@ -71,7 +71,7 @@ const Boxr = styled.div`
   align-items: center;
   height: 200px;
   text-align: center;
-  background-color: #0dcaf0;
+  background-color: #2ba5f7;
   border-radius: 10px;
 `;
 const Boxc = styled.div`
