@@ -19,7 +19,7 @@ export default function LandingPage() {
         <Head1>회원가입</Head1>
         <Row>
           <Col>
-            <Card body border="primary" className="text-center">
+            <Card1 body border="primary" className="text-center">
               <Card.Title tag="h5">일반 사용자 회원가입</Card.Title>
               <Card.Text>PT를 수강하고 싶은 고객 회원가입</Card.Text>
               <div>
@@ -27,10 +27,10 @@ export default function LandingPage() {
                   이동
                 </Button>
               </div>
-            </Card>
+            </Card1>
           </Col>
           <Col>
-            <Card body border="secondary" className="text-center">
+            <Card1 body border="secondary" className="text-center">
               <Card.Title tag="h5">트레이너 회원가입</Card.Title>
               <Card.Text>
                 트레이너 자격에 대한 확인 및 승인이 필요한 회원가입
@@ -40,7 +40,7 @@ export default function LandingPage() {
                   이동
                 </Button>
               </div>
-            </Card>
+            </Card1>
           </Col>
         </Row>
       </Container>
@@ -66,4 +66,11 @@ const Head1 = styled.div`
   width: fit-content;
   margin: 0 auto;
   padding: 10px;
+`;
+
+const Card1 = styled(Card)`
+  width: fit-content;
+  margin: 0 auto;
+  border-radius: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 `;

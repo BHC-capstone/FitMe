@@ -7,7 +7,8 @@ import StatisticsTab from '../../components/myPage/StatisticsTab';
 import PaymentHistoryTab from '../../components/myPage/PaymentHistoryTab';
 import TabMenu from '../../components/TabMenu';
 import RequestManage from '../../components/myPage/RequestManage';
-import '../../scss/tabs.scss';
+
+// import '../../scss/tabs.scss';
 
 function Tabs() {
   const user = useSelector(state => state.user);
@@ -40,7 +41,7 @@ function Tabs() {
 
   return (
     <Container fluid className="panel">
-      <div className="tabs-container container">
+      <div>
         <TabMenu
           menuArr={menuArr}
           currentTab={currentTab}

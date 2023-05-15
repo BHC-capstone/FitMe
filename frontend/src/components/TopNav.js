@@ -38,9 +38,6 @@ export default function TopNav() {
             <Nav.Link className="me-2" href="/mypage">
               <Button variant="primary">마이페이지</Button>
             </Nav.Link>
-            <Nav.Link className="me-2" href="/mypage">
-              <Button variant="secondary">로그아웃</Button>
-            </Nav.Link>
             <LogoutButton />
           </Navbar.Collapse>
         )}

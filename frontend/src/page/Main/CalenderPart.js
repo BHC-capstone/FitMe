@@ -39,6 +39,7 @@ function CalendarPart() {
         onChange={onChange}
         value={dateinfo}
       />
+      <Div />
       <TabMenu>
         {menuArr.map((el, index) => (
           // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
@@ -68,16 +69,16 @@ const TabMenu = styled.ul`
   flex-direction: row;
   align-items: center;
   list-style: none;
-  margin-bottom: 7rem;
+  margin-bottom: 30px;
   margin-top: 10px;
   border-bottom: solid 1px;
   border-bottom-color: #d1d1d1;
 
   .submenu {
     display: flex;
-    justify-content: space-between;
-    width: 380px;
-    heigth: 30px; */
+    justify-content: space-around;
+    width: 390px;
+    height: 40px; */
     width: calc(50% / 3);
     padding: 10px;
     font-size: 15px;
@@ -86,7 +87,8 @@ const TabMenu = styled.ul`
   }
 
   .focused {
-    border-bottom: solid 3px;
+    color: #fff;
+    background-color: #2ba5f7;
   }
 
   & div.desc {
@@ -94,7 +96,13 @@ const TabMenu = styled.ul`
   }
 `;
 
+const Div = styled.div`
+  width: 100%;
+  margin-bottom: 20px;
+`;
+
 const Desc = styled.div`
+  margin: auto 0;
   text-align: center;
 `;
 export default CalendarPart;

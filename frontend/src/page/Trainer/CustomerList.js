@@ -1,6 +1,6 @@
 import { Card, Rate, Tag } from 'antd';
 import React, { useState, useEffect } from 'react';
-import { Container, Stack, Row, Col, Form } from 'react-bootstrap';
+import { Container, Stack, Row, Col, Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../../scss/cardLayout.scss';
@@ -32,70 +32,84 @@ function CustomerList() {
     return p.user_id;
   });
   return (
-    <div className="cardLayout">
-      <div className="cardLayout">
-        <Container fluid className="panel">
-          <Head1>관리중인 회원 목록</Head1>
-          <Stack gap={2}>
-            <Row className="justify-content-md-center">
-              <Col md="10">
-                <Form>
-                  <Form.Control
-                    type="text"
-                    value={search}
-                    onChange={onChange}
-                    placeholder="트레이너 이름 검색"
-                  />
-                </Form>
-              </Col>
-            </Row>
-          </Stack>
-        </Container>
-      </div>
-
-      {filterTitle.map(customer => (
-        <div>
-          <Card
-            onClick={() => navigate(`/customer-management/${customer.user_id}`)}
-            key={customer.id}
-            hoverable
-            style={{ width: 300, margin: 20 }}
-          >
-            <Card.Meta
-              //   title={customer.name}
-              description={
-                <>
-                  <p
-                    style={{ display: 'flex', justifyContent: 'space-between' }}
-                  >
-                    <span style={{ fontWeight: 'bold' }}>이름:</span>{' '}
-                    {customer.user_id}
-                    <span style={{ fontWeight: 'bold', marginLeft: '1rem' }}>
-                      남은 pt 횟수:
-                    </span>{' '}
-                    {customer.remain_pt_count}
-                  </p>
-                  <p>
-                    <TagList userId={customer.user_id} closeable={false} />
-                  </p>
-                  <p
-                    style={{ display: 'flex', justifyContent: 'space-between' }}
-                  >
-                    <span style={{ fontWeight: 'bold' }}>
-                      최근 피드백 일자:
-                    </span>{' '}
-                    {customer.last_feedback_date}
-                  </p>
-                  <p
-                    style={{ display: 'flex', justifyContent: 'space-between' }}
-                  >
-                    <span style={{ fontWeight: 'bold' }}>최근 운동 일자:</span>{' '}
-                    {customer.last_exercise_date}
-                  </p>
-                </>
+    <Layout>
+      <Container className="panel">
+        <Head1>관리중인 회원 목록</Head1>
+        <Stack gap={2}>
+          <Row className="justify-content-md-center">
+            <Col xs="9">
+              <Form>
+                <Form.Control
+                  type="text"
+                  value={search}
+                  onChange={onChange}
+                  placeholder="회원 이름 검색"
+                />
+              </Form>
+            </Col>
+            <Col>
+              <Button type="submit" variant="primary" onClick={onChange}>
+                검색
+              </Button>
+            </Col>
+          </Row>
+        </Stack>
+        {filterTitle.map(customer => (
+          <div>
+            <Card
+              onClick={() =>
+                navigate(`/customer-management/${customer.user_id}`)
               }
-            />
-            {/* <Card.Meta
+              key={customer.id}
+              hoverable
+              style={{ width: 300, margin: 20 }}
+            >
+              <Card.Meta
+                //   title={customer.name}
+                description={
+                  <>
+                    <p
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      <span style={{ fontWeight: 'bold' }}>이름:</span>{' '}
+                      {customer.user_id}
+                      <span style={{ fontWeight: 'bold', marginLeft: '1rem' }}>
+                        남은 pt 횟수:
+                      </span>{' '}
+                      {customer.remain_pt_count}
+                    </p>
+                    <p>
+                      <TagList userId={customer.user_id} closeable={false} />
+                    </p>
+                    <p
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      <span style={{ fontWeight: 'bold' }}>
+                        최근 피드백 일자:
+                      </span>{' '}
+                      {customer.last_feedback_date}
+                    </p>
+                    <p
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      <span style={{ fontWeight: 'bold' }}>
+                        최근 운동 일자:
+                      </span>{' '}
+                      {customer.last_exercise_date}
+                    </p>
+                  </>
+                }
+              />
+              {/* <Card.Meta
               title={trainer.name}
               description={
                 <>
@@ -107,14 +121,21 @@ function CustomerList() {
                 </>
               }
             /> */}
-          </Card>
-        </div>
-      ))}
-    </div>
+            </Card>
+          </div>
+        ))}
+      </Container>
+    </Layout>
   );
 }
-export default CustomerList;
 
+const Layout = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
+`;
 const Head1 = styled.div`
   color: rgb(21, 20, 20);
   font-family: 'Black Han Sans', sans-serif;
@@ -126,3 +147,4 @@ const Head1 = styled.div`
   margin: 0 auto;
   padding: 10px;
 `;
+export default CustomerList;

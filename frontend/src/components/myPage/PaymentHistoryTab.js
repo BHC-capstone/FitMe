@@ -34,8 +34,8 @@ function PaymentHistoryTab() {
   }
 
   return (
-    <Container fluid className="panel">
-      <div className="payment-history-tab">
+    <div className="payment-history-tab">
+      <Container fluid>
         <h2>결제내역</h2>
         {payments.map(payment => (
           <div key={payment.id}>
@@ -44,8 +44,8 @@ function PaymentHistoryTab() {
             <p>결제수단: {payment.method}</p>
           </div>
         ))}
-      </div>
-    </Container>
+      </Container>
+    </div>
   );
 }
 
