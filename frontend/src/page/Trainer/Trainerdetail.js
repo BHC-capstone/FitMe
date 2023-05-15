@@ -46,11 +46,11 @@ function Trainerdetail() {
           <Imageposition>이미지</Imageposition>
         </div>
         <div>
-          <Nameblock className="a">김석봉{trainer.name}</Nameblock>
+          <Nameblock className="a">{trainer.name}</Nameblock>
           {/* <Nameblock>별점</Nameblock> */}
           <Starpoint starpoint={star} />
           <Nameblock className="b">
-            {trainer.gender}남 {trainer.age}38세
+            {trainer.gender} {trainer.age}세
           </Nameblock>
         </div>
         <div>

@@ -21,10 +21,14 @@ export default function TrainerList(props) {
   const [trainers, setTrainers] = useState([]);
 
   useEffect(() => {
-    axios.get('https://localhost:4000/trainers/trainerlist').then(res => {
-      setTrainers(res.data.data);
-      console.log(res.data.data);
-    });
+    axios
+      .get('https://localhost:4000/trainers/trainerlist', {
+        withCredentials: true,
+      })
+      .then(res => {
+        setTrainers(res.data.data);
+        console.log(res.data.data);
+      });
   }, []);
 
   const [search, setSearch] = useState('');
