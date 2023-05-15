@@ -8,7 +8,7 @@ function TabMenu({ menuArr, currentTab, selectMenuHandler }) {
     <TabsContainer>
       <Nav className="nav-tabs" variant="pills">
         {menuArr.map((el, index) => (
-          <Nav.Item key={el.id}>
+          <Nav.Item key={el.elid}>
             <NavTabLink
               className={index === currentTab ? 'nav-link active' : 'nav-link'}
               onClick={() => selectMenuHandler(index)}
