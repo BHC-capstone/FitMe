@@ -1,11 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Avatar } from 'antd';
+import blankImg from '../../images/sample_certificate.png';
 
 function UserEdit({ props }) {
   const loginedUser = useSelector(state => state.user);
   const navigate = useNavigate();
+  const [profImg, setProfImg] = useState(
+    `https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png`,
+  );
+  const imgRef = useRef();
   const [formData, setFormData] = useState({
     email: '',
     name: '',
@@ -43,8 +49,39 @@ function UserEdit({ props }) {
         console.error(error);
       }
     }
+    async function fetchUserImg() {
+      try {
+        let response = null;
+        {
+          loginedUser.isTrainer === false
+            ? (response = await axios.get(
+                `https://localhost:4000/users/profile/${loginedUser.id}`,
+              ))
+            : (response = await axios.get(
+                `https://localhost:4000/trainers/profile/${loginedUser.id}`,
+              ));
+        }
+        const { data } = response.data;
+        setProfImg(data.profileImg);
+      } catch (error) {
+        console.error(error);
+        setProfImg(blankImg);
+      }
+    }
     fetchUserData();
+    fetchUserImg();
   }, [loginedUser.id]);
+
+  const saveProfFile = event => {
+    const file = imgRef.current.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setProfImg(reader.result);
+      };
+    }
+  };
 
   function handleSubmit(event) {
     console.log(formData.phonenumber);
@@ -77,6 +114,31 @@ function UserEdit({ props }) {
         });
     }
   }
+
+  function handleImgSubmit(event) {
+    event.preventDefault();
+    const formImgData = new FormData();
+    formData.append('file', imgRef.current.files[0]);
+    let url = null;
+    {
+      loginedUser.isTrainer === false
+        ? (url = `https://localhost:4000/users/profile/changeProfile/${loginedUser.id}`)
+        : (url = `https://localhost:4000/trainers/profile/changeProfile/${loginedUser.id}`);
+    }
+    axios
+      .post(url, formImgData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
   function handleChange(event) {
     const { name, value } = event.target;
     setFormData(prevState => ({
@@ -96,6 +158,23 @@ function UserEdit({ props }) {
           트레이너 자격관리
         </button>
       ) : null}
+      <Avatar
+        src={profImg}
+        style={{ margin: '20px' }}
+        size={200}
+        onClick={() => {
+          imgRef.current.click();
+        }}
+      />
+      <input
+        type="file"
+        style={{ display: 'none' }}
+        accept="image/jpg,image/png,image/jpeg"
+        name="profile_img"
+        onChange={saveProfFile}
+        ref={imgRef}
+      />
+
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="email">이메일</label>
