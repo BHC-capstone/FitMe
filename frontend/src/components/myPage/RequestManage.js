@@ -9,6 +9,7 @@ function RequestManage(isTrainer) {
   const fetchRequests = async () => {
     const response = await axios.get(
       `https://localhost:4000/request/checklists/${loginedUser.id}`,
+      { withCredentials: true },
     );
     setRequests(response.data.data);
   };
@@ -27,6 +28,7 @@ function RequestManage(isTrainer) {
         `https://localhost:4000/request/accept/${trainerId}/${requestId}`,
         {
           response: '수락',
+          withCredentials: true,
         },
       );
       fetchRequests();
@@ -41,6 +43,7 @@ function RequestManage(isTrainer) {
         `https://localhost:4000/request/reject/${trainerId}/${requestId}`,
         {
           response: '거절',
+          withCredentials: true,
         },
       );
       fetchRequests();

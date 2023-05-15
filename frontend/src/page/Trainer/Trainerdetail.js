@@ -23,10 +23,14 @@ function Trainerdetail() {
     navigate('/ptrequest');
   };
   useEffect(() => {
-    axios.get(`https://localhost:4000/trainers/profile/${id}`).then(res => {
-      console.log(res.data.data);
-      setTrainer(res.data.data);
-    });
+    axios
+      .get(`https://localhost:4000/trainers/profile/${id}`, {
+        withCredentials: true,
+      })
+      .then(res => {
+        console.log(res.data.data);
+        setTrainer(res.data.data);
+      });
     setStar(3.5);
   }, []);
 
