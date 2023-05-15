@@ -40,8 +40,10 @@ function initModels(sequelize) {
   var user_tag = _user_tag(sequelize, DataTypes);
   var users = _users(sequelize, DataTypes);
 
+  exercise_routines.belongsTo(schedules, { as: "schedule", foreignKey: "schedule_id"});
+  schedules.hasMany(exercise_routines, { as: "exercise_routines", foreignKey: "schedule_id"});
   trainer_manage.belongsTo(users, { as: "user", foreignKey: "user_id"});
-  users.hasMany(trainer_manage, { as: "trainer_manages", foreignKey: "id"});
+  users.hasMany(trainer_manage, { as: "trainer_manages", foreignKey: "user_id"});
 
   return {
     ads,
