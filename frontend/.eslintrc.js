@@ -31,5 +31,13 @@ module.exports = {
     ],
     'arrow-body-style': 'off',
     'prefer-arrow-callback': 'off',
+    'react/jsx-no-bind': [
+      1,
+      {
+        allowArrowFunctions: true,
+        allowFunctions: true,
+        allowBind: true,
+      },
+    ],
   },
 };

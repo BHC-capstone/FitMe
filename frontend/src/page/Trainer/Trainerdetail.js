@@ -36,24 +36,28 @@ function Trainerdetail() {
     clickTab(index);
   };
   return (
-    <Container fluid>
+    <Container fluid className="panel">
       <Upbox>
-        <Box1>
+        <div>
           <Imageposition>이미지</Imageposition>
-          <Nameblock className="a">{trainer.name}</Nameblock>
-          <Nameblock>별점 </Nameblock>
+        </div>
+        <div>
+          <Nameblock className="a">김석봉{trainer.name}</Nameblock>
+          {/* <Nameblock>별점</Nameblock> */}
           <Starpoint starpoint={star} />
           <Nameblock className="b">
-            {trainer.gender} {trainer.age}세
+            {trainer.gender}남 {trainer.age}38세
           </Nameblock>
-        </Box1>
-        <Box2>
+        </div>
+        <div>
           <Emailblock>E-mail : {trainer.email}</Emailblock>
           <Emailblock>PhoneNumber : {trainer.phonenumber}</Emailblock>
-          <Button1 size="large" onClick={navigateToRequest}>
+        </div>
+        <div>
+          <Button1 variant="secondary" size="large" onClick={navigateToRequest}>
             PT 신청
           </Button1>
-        </Box2>
+        </div>
       </Upbox>
       <TabMenu>
         {menuArr.map((el, index) => (
@@ -76,62 +80,61 @@ function Trainerdetail() {
 }
 
 const Upbox = styled.ul`
-  background-color: #2ba5f7;
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  background-color: #adb5bd;
   color: rgb(255, 255, 255);
   height: 500px;
 `;
-const Box1 = styled.div`
-  background-color: #2ba5f7;
-  height: 400px;
-`;
-const Box2 = styled.div`
-  background-color: #2ba5f7;
-  height: 100px;
-  //border: 2px solid;
-`;
+// const Box1 = styled.div`
+//   background-color: #444444;
+//   height: 300px;
+// `;
+// const Box2 = styled.div`
+//   background-color: #555555;
+//   height: 100px;
+// `;
 const Imageposition = styled.div`
-  width: 280px;
-  height: 360px;
-  border-radius: 10px;
+  width: 230px;
+  height: 300px;
+  border-radius: 15px;
   padding-top: calc(100% / 20);
   padding-bottom: calc(100% / 20);
   margin-top: 20px;
-  margin-left: calc(100% / 10);
+  // margin: auto;
   background-color: #ffffff;
-  display: flex;
-  float: left;
 `;
+
 const Nameblock = styled.text`
   letter-spacing: 5px;
   word-spacing: 20px;
-  color: white;
+  color: black;
   display: flex;
   flex-direction: column;
-  text-align: left;
   padding-left: 50px;
   padding-top: calc(100% / 20);
 
   &.a {
-    letter-spacing: 20px;
-    font-size: 50px;
+    margin-top: 100px;
+    letter-spacing: 8px;
+    font-size: 36px;
     font-weight: bold;
   }
   &.b {
     padding-top: calc(100% / 40);
     font-size: 15px;
     font-weight: normal;
-    float: left;
+    // float: left;
   }
 `;
 const Emailblock = styled.text`
   letter-spacing: 5px;
   font-weight: lighter;
-  color: white;
+  color: black;
   display: flex;
-  flex-direction: column;
-  text-align: center;
-  //border: 2px solid;
-  width: 700px;
+  width: fit-content;
 `;
 const TabMenu = styled.ul`
   background-color: #ffffff;
@@ -141,17 +144,17 @@ const TabMenu = styled.ul`
   flex-direction: row;
   align-items: center;
   list-style: none;
-  margin-bottom: 7rem;
+  margin-bottom: 30px;
   margin-top: 10px;
   border-bottom: solid 1px;
   border-bottom-color: #d1d1d1;
 
   .submenu {
     display: flex;
-    /* justify-content: space-between;
-    width: 380px;
-    heigth: 30px; */
-    width: calc(100% / 3);
+    justify-content: space-between;
+    width: 390px;
+    height: 40px; */
+    width: calc(50% / 3);
     padding: 10px;
     font-size: 15px;
     transition: 0.5s;
@@ -159,7 +162,8 @@ const TabMenu = styled.ul`
   }
 
   .focused {
-    border-bottom: solid 3px;
+    color: #fff;
+    background-color: #2ba5f7;
   }
 
   & div.desc {
@@ -173,10 +177,9 @@ const Desc = styled.div`
 
 const Button1 = styled(Button)`
   float: right;
-  margin-right: 100px;
-  margin-top: 0px;
-  vertical-align: top;
+  margin-left: 100px;
+  margin-top: 70px;
+  // vertical-align: top;
   //border: 3px solid white;
-  background-color: #f5a302;
 `;
 export default Trainerdetail;
