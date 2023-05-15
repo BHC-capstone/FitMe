@@ -4,18 +4,20 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
 import { ko } from 'date-fns/esm/locale';
+import { useParams } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
 import Expectedpoint from '../../components/Expectedpoint';
 import './Ptrequest.css';
 
 export default function Ptrequest() {
+  const { trainerid } = useParams();
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
   return (
     <Layout>
-      <Head1>PT 신청</Head1>
       <Container fluid className="panel">
+        <Head1>PT 신청</Head1>
         <Boxr>
           <Boxc>
             <Head2>PT 시작일</Head2>
@@ -47,7 +49,11 @@ export default function Ptrequest() {
           </Boxc>
         </Boxr>
 
-        <Expectedpoint startDate={startDate} endDate={endDate} />
+        <Expectedpoint
+          startDate={startDate}
+          endDate={endDate}
+          trainerid={trainerid}
+        />
       </Container>
     </Layout>
   );
@@ -56,14 +62,14 @@ export default function Ptrequest() {
 
 const Head1 = styled.div`
   color: rgb(21, 20, 20);
-  font-weight: bold;
+  font-family: 'Black Han Sans', sans-serif;
   font-size: 30px;
   display: flex;
   text-align: center;
   align-items: center;
   width: fit-content;
   margin: 0 auto;
-  padding: 20px;
+  padding: 10px;
 `;
 const Boxr = styled.div`
   display: flex;
@@ -71,7 +77,7 @@ const Boxr = styled.div`
   align-items: center;
   height: 200px;
   text-align: center;
-  background-color: #0dcaf0;
+  background-color: #2ba5f7;
   border-radius: 10px;
 `;
 const Boxc = styled.div`

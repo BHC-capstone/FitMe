@@ -18,25 +18,25 @@ export default function TopNav() {
   const dispatch = useDispatch();
 
   return (
-    <Navbar expand="lg" variant="light" bg="light">
+    <Navbar expand="lg" variant="white" bg="white">
       <Container fluid>
         <Navbar.Brand href="/">FitMe</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         {user.isLogin === false ? (
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto my-2 my-lg-0" />
-            <Nav.Link className="me-2" href="/login">
-              <Button variant="info">로그인</Button>
+            <Nav.Link className="me-2" href="/user-login">
+              <Button variant="primary">로그인</Button>
             </Nav.Link>
             <Nav.Link className="me-2" href="/signup">
-              <Button variant="warning">회원가입</Button>
+              <Button variant="secondary">회원가입</Button>
             </Nav.Link>
           </Navbar.Collapse>
         ) : (
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto my-2 my-lg-0" />
             <Nav.Link className="me-2" href="/mypage">
-              <Button variant="info">마이페이지</Button>
+              <Button variant="primary">마이페이지</Button>
             </Nav.Link>
             <LogoutButton />
           </Navbar.Collapse>

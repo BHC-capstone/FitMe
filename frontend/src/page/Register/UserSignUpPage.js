@@ -1,12 +1,17 @@
 import React from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+  FloatingLabel,
+} from 'react-bootstrap';
 import styled from 'styled-components';
 
-export default function SignUpPage() {
-  // const dispatch = useDispatch();
+export default function TrainerSignUpPage() {
   const navigate = useNavigate();
 
   const [email, setEmail] = React.useState('');
@@ -57,7 +62,7 @@ export default function SignUpPage() {
     axios
       .post('https://localhost:4000/users/signup', body)
       .then(res => {
-        navigate('/login');
+        navigate('/user-login');
         alert(res.data.message);
       })
       .catch(err => {
@@ -65,19 +70,20 @@ export default function SignUpPage() {
       });
   };
 
-  const goTrainerSignUp = () => {
-    navigate('/trainer-signup');
+  const goUserLogin = () => {
+    navigate('/user-login');
   };
 
   return (
-    <div className="signup">
-      <Container>
+    <div>
+      <Container fluid className="panel">
         <Head1>일반 사용자 회원가입</Head1>
-      </Container>
-      <Container className="panel">
-        <Form>
-          <Form.Group controlId="formBasicEmail">
-            <Form.Label>이메일</Form.Label>
+        <Form onSubmit={onSubmit}>
+          <FloatingLabel
+            controlId="floatingInput"
+            label="이메일"
+            className="mb-3"
+          >
             <Form.Control
               type="email"
               placeholder="Enter email"
@@ -85,9 +91,12 @@ export default function SignUpPage() {
               onChange={onChangeEmail}
               required
             />
-          </Form.Group>
-          <Form.Group controlId="formBasicPassword">
-            <Form.Label>패스워드</Form.Label>
+          </FloatingLabel>
+          <FloatingLabel
+            controlId="floatingInput"
+            label="비밀번호"
+            className="mb-3"
+          >
             <Form.Control
               type="password"
               placeholder="Password"
@@ -95,9 +104,12 @@ export default function SignUpPage() {
               onChange={onChangePassword}
               required
             />
-          </Form.Group>
-          <Form.Group controlId="formBasicPasswordCheck">
-            <Form.Label>패스워드 재입력</Form.Label>
+          </FloatingLabel>
+          <FloatingLabel
+            controlId="floatingInput"
+            label="비밀번호 재입력"
+            className="mb-3"
+          >
             <Form.Control
               type="password"
               placeholder="Password Check"
@@ -105,22 +117,28 @@ export default function SignUpPage() {
               onChange={onChangePasswordCheck}
               required
             />
-          </Form.Group>
-          <Row>
-            <Col md="5">
-              <Form.Group controlId="formBasicname">
-                <Form.Label>이름</Form.Label>
+          </FloatingLabel>
+          <Row className="mb-3">
+            <Col xs="5">
+              <FloatingLabel
+                controlId="floatingInput"
+                label="이름"
+                className="mb-3"
+              >
                 <Form.Control
                   type="text"
                   placeholder="Enter name"
                   value={name}
                   onChange={onChangeName}
                 />
-              </Form.Group>
+              </FloatingLabel>
             </Col>
-            <Col md="7">
-              <Form.Group controlId="formBasicPhonenumber">
-                <Form.Label>전화번호</Form.Label>
+            <Col xs="7">
+              <FloatingLabel
+                controlId="floatingInput"
+                label="전화번호"
+                className="mb-3"
+              >
                 <Form.Control
                   type="text"
                   placeholder="Enter Phonenumber"
@@ -128,41 +146,48 @@ export default function SignUpPage() {
                   onChange={onChangePhonenumber}
                   required
                 />
-              </Form.Group>
+              </FloatingLabel>
             </Col>
           </Row>
           <Row>
             <Col>
-              <Form.Group controlId="formBasicGender">
-                <Form.Label>성별</Form.Label>
-                <Form.Control as="select" onChange={onChangeGender}>
-                  <option value="">선택하세요</option>
+              <FloatingLabel
+                controlId="floatingSelect"
+                label="성별"
+                className="mb-3"
+                required
+              >
+                <Form.Select onChange={onChangeGender}>
+                  <option>선택하세요</option>
                   <option value="male">남성</option>
                   <option value="female">여성</option>
                   <option value="others">기타</option>
-                </Form.Control>
-              </Form.Group>
+                </Form.Select>
+              </FloatingLabel>
             </Col>
             <Col>
-              <Form.Group controlId="formBasicAge">
-                <Form.Label>나이</Form.Label>
+              <FloatingLabel
+                controlId="floatingSelect"
+                label="나이"
+                className="mb-3"
+              >
                 <Form.Control
                   type="number"
                   placeholder="Enter age"
                   value={age}
                   onChange={onChangeAge}
+                  required
                 />
-              </Form.Group>
+              </FloatingLabel>
             </Col>
           </Row>
-
-          <Button variant="info" type="submit" onClick={onSubmit}>
+          <Button variant="primary" type="submit" onClick={onSubmit}>
             제출
           </Button>
-          <Button variant="warning" type="button" onClick={goTrainerSignUp}>
-            트레이너 회원가입
-          </Button>
         </Form>
+        <Button variant="link" type="button" onClick={goUserLogin}>
+          이미 계정이 있나요?
+        </Button>
       </Container>
     </div>
   );
@@ -170,12 +195,12 @@ export default function SignUpPage() {
 
 const Head1 = styled.div`
   color: rgb(21, 20, 20);
-  font-weight: bold;
+  font-family: 'Black Han Sans', sans-serif;
   font-size: 30px;
   display: flex;
   text-align: center;
   align-items: center;
   width: fit-content;
   margin: 0 auto;
-  padding: 20px;
+  padding: 10px;
 `;

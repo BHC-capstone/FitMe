@@ -9,11 +9,11 @@ const { sequelize } = require('../models');
 router.post('/signup', async function (req, res) {
   console.log(req.body);
   if (
-    (req.body.email,
-    req.body.name,
-    req.body.password,
-    req.body.age,
-    req.body.gender,
+    (req.body.email &&
+    req.body.name &&
+    req.body.password &&
+    req.body.age &&
+    req.body.gender &&
     req.body.phonenumber)
   ) {
     let transaction;
@@ -114,7 +114,7 @@ router.get('/logout', function (req, res) {
 
 // user delete
 router.post('/withdraw/:id', async function (req, res) {
-  //  if (req.session.loggedin) {
+   if (req.session.loggedin) {
   try {
     const userInfo = await users.findOne({
       where: { id: req.params.id },
@@ -130,13 +130,14 @@ router.post('/withdraw/:id', async function (req, res) {
   } catch (err) {
     console.log(err);
   }
-  //  } else {
-  //    res.status(400).json({ data: null, message: '로그인 하세요' });
-  //  }
+   } else {
+     res.status(400).json({ data: null, message: '로그인 하세요' });
+   }
 });
 
 // user info
 router.get('/profile/:id', async function (req, res) {
+  if (req.session.loggedin){
   console.log(req.session.loggedin);
   try {
     const userInfo = await users.findOne({
@@ -147,11 +148,14 @@ router.get('/profile/:id', async function (req, res) {
   } catch (err) {
     console.log(err);
   }
+  } else {
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+  }
 });
 
 // user info update
 router.post('/profile/changeProfile/:id', async function (req, res) {
-  // if (req.session.loggedin) {
+  if (req.session.loggedin) {
   try {
     const userInfo = await users.findOne({
       where: { id: req.params.id },
@@ -184,14 +188,14 @@ router.post('/profile/changeProfile/:id', async function (req, res) {
   } catch (err) {
     console.log(err);
   }
-  // } else {
-  //   res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
-  // }
+  } else {
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+  }
 });
 
 // user point info
 router.get('/userpoint/:id', async function (req, res) {
-  //  if (req.session.loggedin) {
+   if (req.session.loggedin) {
   try {
     const user_point_amount = await user_points.findOne({
       where: { user_id: req.params.id },
@@ -200,9 +204,9 @@ router.get('/userpoint/:id', async function (req, res) {
   } catch (err) {
     console.log(err);
   }
-  //  } else {
-  //    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
-  //  }
+   } else {
+     res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+   }
 });
 
 module.exports = router;

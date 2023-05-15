@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Container, Form, Button } from 'react-bootstrap';
+import { Container, Form, Button, FloatingLabel } from 'react-bootstrap';
 import styled from 'styled-components';
-import { loginTrainer, logoutTrainer } from '../../redux/_reducers/userSlice';
+import { loginTrainer } from '../../redux/_reducers/userSlice';
 
 export default function LoginPage(props) {
   const dispatch = useDispatch();
@@ -47,18 +47,19 @@ export default function LoginPage(props) {
   };
 
   const goUserLogin = () => {
-    navigate('/login');
+    navigate('/user-login');
   };
 
   return (
-    <div className="login">
-      <Container>
-        <Head1>트레이너 로그인</Head1>
-      </Container>
+    <div>
       <Container className="panel">
+        <Head1>트레이너 로그인</Head1>
         <Form onSubmit={onSubmitHandler}>
-          <Form.Group className="mb-3">
-            <Form.Label>이메일</Form.Label>
+          <FloatingLabel
+            controlId="floatingInput"
+            label="이메일"
+            className="mb-3"
+          >
             <Form.Control
               id="email"
               type="email"
@@ -67,10 +68,12 @@ export default function LoginPage(props) {
               onChange={onEmailHandler}
               required
             />
-          </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label>비밀번호</Form.Label>
+          </FloatingLabel>
+          <FloatingLabel
+            controlId="floatingInput"
+            label="비밀번호"
+            className="mb-3"
+          >
             <Form.Control
               id="password"
               type="password"
@@ -79,12 +82,12 @@ export default function LoginPage(props) {
               onChange={onPasswordHandler}
               required
             />
-          </Form.Group>
+          </FloatingLabel>
 
-          <Button type="submit" variant="info">
+          <Button type="submit" variant="primary">
             로그인
           </Button>
-          <Button type="button" variant="warning" onClick={goUserLogin}>
+          <Button type="button" variant="secondary" onClick={goUserLogin}>
             일반 사용자 로그인
           </Button>
         </Form>
@@ -95,12 +98,12 @@ export default function LoginPage(props) {
 
 const Head1 = styled.div`
   color: rgb(21, 20, 20);
-  font-weight: bold;
+  font-family: 'Black Han Sans', sans-serif;
   font-size: 30px;
   display: flex;
   text-align: center;
   align-items: center;
   width: fit-content;
   margin: 0 auto;
-  padding: 20px;
+  padding: 10px;
 `;

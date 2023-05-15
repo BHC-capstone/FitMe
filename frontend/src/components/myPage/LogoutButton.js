@@ -1,8 +1,9 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Container, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { loginUser, logoutUser } from '../../redux/_reducers/userSlice';
+import { logoutUser } from '../../redux/_reducers/userSlice';
 
 function LogoutButton() {
   const dispatch = useDispatch();
@@ -28,9 +29,9 @@ function LogoutButton() {
   };
 
   return (
-    <button type="button" className="btn btn-danger" onClick={handleLogout}>
+    <Button type="button" variant="secondary" onClick={handleLogout}>
       로그아웃
-    </button>
+    </Button>
   );
 }
 

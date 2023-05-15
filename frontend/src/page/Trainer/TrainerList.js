@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Stack, Row, Col, Form, Button } from 'react-bootstrap';
+import {
+  Container,
+  Stack,
+  Row,
+  Col,
+  Form,
+  Button,
+  ButtonGroup,
+  DropdownButton,
+  Dropdown,
+} from 'react-bootstrap';
 import styled from 'styled-components';
 import { Card, Rate } from 'antd';
 import axios from 'axios';
@@ -11,10 +21,14 @@ export default function TrainerList(props) {
   const [trainers, setTrainers] = useState([]);
 
   useEffect(() => {
-    axios.get('https://localhost:4000/trainers/trainerlist').then(res => {
-      setTrainers(res.data.data);
-      console.log(res.data.data);
-    });
+    axios
+      .get('https://localhost:4000/trainers/trainerlist', {
+        withCredentials: true,
+      })
+      .then(res => {
+        setTrainers(res.data.data);
+        console.log(res.data.data);
+      });
   }, []);
 
   const [search, setSearch] = useState('');
@@ -31,73 +45,72 @@ export default function TrainerList(props) {
   };
   return (
     <Layout>
-      <Layout>
-        <Container>
-          <Head1>트레이너 목록</Head1>
-        </Container>
-        <Container fluid className="panel">
-          <Stack gap={2}>
-            <Row>
-              <div>
-                <Form>
-                  <Form.Control
-                    type="text"
-                    value={search}
-                    onChange={onChange}
-                    placeholder="트레이너 이름 검색"
-                  />
-                </Form>
-              </div>
-            </Row>
-            <Row>
-              <Col sm>
-                <Button type="button" variant="info">
-                  홈트
-                </Button>
-              </Col>
-              <Col sm>
-                <Button type="button" variant="info">
-                  헬스
-                </Button>
-              </Col>
-              <Col sm>
+      <Container fluid className="panel">
+        <Head1>트레이너 목록</Head1>
+        <Stack gap={2}>
+          <Row className="justify-content-md-center">
+            <Col xs="9">
+              <Form>
+                <Form.Control
+                  type="text"
+                  value={search}
+                  onChange={onChange}
+                  placeholder="트레이너 이름 검색"
+                />
+              </Form>
+            </Col>
+            <Col>
+              <Button type="submit" variant="primary" onClick={onChange}>
+                검색
+              </Button>
+            </Col>
+          </Row>
+          <Row className="justify-content-md-center">
+            <Col md="10">
+              <ButtonGroup size="sm" aria-label="Basic example">
+                <DropdownButton
+                  as={ButtonGroup}
+                  title="종류"
+                  id="bg-nested-dropdown"
+                >
+                  <Dropdown.Item eventKey="1">홈트</Dropdown.Item>
+                  <Dropdown.Item eventKey="2">헬스</Dropdown.Item>
+                </DropdownButton>
                 <Button
                   type="button"
                   className="sort_star"
-                  variant="warning"
+                  variant="secondary"
                   onClick={sortStarFunc}
                 >
                   별점
                 </Button>
-              </Col>
-            </Row>
-          </Stack>
-        </Container>
-      </Layout>
+              </ButtonGroup>
+            </Col>
+          </Row>
+        </Stack>
+        {filterTitle.map(trainer => (
+          <div>
+            <Card
+              onClick={() => navigate(`/trainer-info/${trainer.id}`)}
+              key={trainer.id}
+              hoverable
+              style={{ width: 300, margin: 20 }}
+            >
+              <Card.Meta
+                title={trainer.name}
+                description={
+                  <>
+                    <p>Name : {trainer.name}</p>
+                    <p>Age: {trainer.age}</p>
+                    <p>Gender: {trainer.gender}</p>
+                    <p>Introduction: {trainer.introduction}</p>
+                    <Rate allowHalf defaultValue={trainer.rating} disabled />
+                  </>
+                }
+              />
+            </Card>
 
-      {filterTitle.map(trainer => (
-        <div>
-          <Card
-            onClick={() => navigate(`/trainer-info/${trainer.id}`)}
-            key={trainer.id}
-            hoverable
-            style={{ width: 300, margin: 20 }}
-          >
-            <Card.Meta
-              title={trainer.name}
-              description={
-                <>
-                  <p>Name : {trainer.name}</p>
-                  <p>Age: {trainer.age}</p>
-                  <p>Gender: {trainer.gender}</p>
-                  <p>Introduction: {trainer.introduction}</p>
-                  <Rate allowHalf defaultValue={trainer.rating} disabled />
-                </>
-              }
-            />
-          </Card>
-
-          {/* <BoxOne onclick="location.href={'/trainer_info/'+${trainers.id}};">
+            {/* <BoxOne onclick="location.href={'/trainer_info/'+${trainers.id}};">
             <article key={trainers.id}>
               <h3>
                 {trainers.id}. {trainers.title}
@@ -116,8 +129,9 @@ export default function TrainerList(props) {
               </Link>
             </article>
           </BoxOne> */}
-        </div>
-      ))}
+          </div>
+        ))}
+      </Container>
     </Layout>
   );
 }
@@ -127,7 +141,7 @@ const Layout = styled.div`
   flex-direction: column;
   align-items: center;
   max-width: 800px;
-  margin: 0 auto;
+  margin: auto;
 `;
 // const BoxOne = styled.div`
 //   background-color: #cf6a87;
@@ -137,12 +151,12 @@ const Layout = styled.div`
 // `;
 const Head1 = styled.div`
   color: rgb(21, 20, 20);
-  font-weight: bold;
+  font-family: 'Black Han Sans', sans-serif;
   font-size: 30px;
   display: flex;
   text-align: center;
   align-items: center;
   width: fit-content;
   margin: 0 auto;
-  padding: 20px;
+  padding: 10px;
 `;

@@ -7,12 +7,36 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    trainer_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    schedule_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'schedules',
+        key: 'id'
+      }
+    },
     name: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
     content: {
       type: DataTypes.TEXT,
+      allowNull: true
+    },
+    set_count: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    exercise_count: {
+      type: DataTypes.INTEGER,
       allowNull: true
     },
     user_video_url: {
@@ -34,6 +58,13 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "id" },
+        ]
+      },
+      {
+        name: "schedule_id",
+        using: "BTREE",
+        fields: [
+          { name: "schedule_id" },
         ]
       },
     ]

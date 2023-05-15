@@ -1,5 +1,5 @@
 import React from 'react';
-import '../scss/starpoint.css';
+import '../scss/starpoint.scss';
 
 // eslint-disable-next-line react/prop-types
 function Starpoint({ starpoint }) {
