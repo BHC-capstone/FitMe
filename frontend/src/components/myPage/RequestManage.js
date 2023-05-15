@@ -11,9 +11,11 @@ function RequestManage() {
       isTrainer === 'true'
         ? await axios.get(
             `https://localhost:4000/request/checklists/${loginedUser.id}`,
+            { withCredentials: true },
           )
         : await axios.get(
             `https://localhost:4000/request/checklist/${loginedUser.id}`,
+            { withCredentials: true },
           );
     setRequests(response.data.data);
   };
