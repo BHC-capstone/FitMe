@@ -96,15 +96,21 @@ function UserEdit({ props }) {
           : (url = `https://localhost:4000/trainers/profile/changeProfile/${loginedUser.id}`);
       }
       axios
-        .post(url, {
-          email: formData.email,
-          name: formData.name,
-          age: formData.age,
-          gender: formData.gender,
-          phonenumber: formData.phonenumber,
-          password: formData.password,
-          password2: formData.password2,
-        })
+        .post(
+          url,
+          {
+            email: formData.email,
+            name: formData.name,
+            age: formData.age,
+            gender: formData.gender,
+            phonenumber: formData.phonenumber,
+            password: formData.password,
+            password2: formData.password2,
+          },
+          {
+            withCredentials: true,
+          },
+        )
         .then(response => {
           alert(response.data.message);
           navigate('/mypage');
@@ -130,6 +136,7 @@ function UserEdit({ props }) {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        withCredentials: true,
       })
       .then(response => {
         console.log(response);

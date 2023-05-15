@@ -17,7 +17,9 @@ function CustomerList() {
 
   useEffect(() => {
     axios
-      .get(`https://localhost:4000/manage/checkptuserlist/${loginedUser.id}`)
+      .get(`https://localhost:4000/manage/checkptuserlist/${loginedUser.id}`, {
+        withCredentials: true,
+      })
       .then(res => {
         setCustomers(res.data.data);
       });
@@ -75,7 +77,7 @@ function CustomerList() {
                       }}
                     >
                       <span style={{ fontWeight: 'bold' }}>이름:</span>{' '}
-                      {customer.user_id}
+                      {customer.name}
                       <span style={{ fontWeight: 'bold', marginLeft: '1rem' }}>
                         남은 pt 횟수:
                       </span>{' '}
