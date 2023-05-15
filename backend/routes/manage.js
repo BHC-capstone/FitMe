@@ -18,13 +18,10 @@ router.get('/checkptuserlist/:id', async function (req, res) {
           where: { id: sequelize.col('trainer_manage.user_id') }
         },
       });
-      console.log(check_pt_user_list);
       const userListWithNames = check_pt_user_list.map((item) => {
         const { name } = item.user;
         return { ...item.toJSON(), name };
       });
-      console.log(userListWithNames);
-  
       res.status(200).json({ data: userListWithNames, message: '' });
     } catch (err) {
       console.log(err);
