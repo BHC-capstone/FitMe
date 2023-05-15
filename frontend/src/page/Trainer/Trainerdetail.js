@@ -20,7 +20,7 @@ function Trainerdetail() {
   const navigate = useNavigate();
 
   const navigateToRequest = () => {
-    navigate('/ptrequest');
+    navigate(`/ptrequest/${id}`);
   };
   useEffect(() => {
     axios

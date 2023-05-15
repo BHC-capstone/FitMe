@@ -22,6 +22,7 @@ import CustomerList from './page/Trainer/CustomerList';
 import CustomerDetail from './page/Trainer/CustomerDetail';
 import WithdrawPage from './page/myPage/UserDeletePage';
 import CalendarPart from './page/Main/CalenderPart';
+import TrainerCalendar from './page/Trainer/TrainerCalendar';
 
 const history = createBrowserHistory();
 
@@ -41,11 +42,12 @@ export default function App() {
         <Route path="/trainer-info/:id" element={<Trainerdetail />} />
         <Route path="/mypage" element={<Tabs />} />
         <Route path="/mypage/withdraw" element={<WithdrawPage />} />
-        <Route path="/ptrequest" element={<Ptrequest />} />
+        <Route path="/ptrequest/:id" element={<Ptrequest />} />
         <Route path="/mypage/edit" element={<UserEdit />} />
         <Route path="/customer-list" element={<CustomerList />} />
         <Route path="/customer-management/:id" element={<CustomerDetail />} />
         <Route path="/calendar" element={<CalendarPart />} />
+        <Route path="/trainercalendar" element={<TrainerCalendar />} />
       </Routes>
     </div>
   );

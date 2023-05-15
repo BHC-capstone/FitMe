@@ -1,10 +1,62 @@
 // eslint-disable-next-line react/prop-types
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
 import propTypes from 'prop-types';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
-function Expectedpoint({ startDate, endDate }) {
+function Expectedpoint({ startDate, endDate, trainerid }) {
+  const loginedUser = useSelector(state => state.user);
+  const userid = loginedUser.id;
+  const [days, setdays] = useState([]);
+  const [count, setCount] = useState([]);
+  useEffect(() => {
+    setdays(
+      Math.floor(
+        Math.ceil(
+          (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24),
+        ) *
+          (2 / 7),
+      ),
+    );
+    setCount(
+      Math.floor(
+        Math.ceil(
+          (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24),
+        ) *
+          (2 / 7),
+      ),
+    );
+  }, []);
+  const onSubmitHandler = event => {
+    event.preventDefault();
+
+    const body = {
+      trainerid,
+      userid,
+      startDate,
+      days,
+      // requst //
+      count,
+    };
+    axios
+      .post(`https://localhost:4000/ptrequest/${trainerid}/${userid}/`, body, {
+        withCredentials: true,
+      })
+      .then(res => {
+        console.log(res);
+        if (res.status === 200) {
+          console.log(res);
+        } else {
+          alert(res.data.message);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   return (
     <div>
       <Boxr>
@@ -26,8 +78,8 @@ function Expectedpoint({ startDate, endDate }) {
         </Boxc>
       </Boxr>
       <Boxr>
-        <Button type="submit" variant="primary">
-          결제
+        <Button type="submit" variant="primary" onClick={onSubmitHandler}>
+          신청
         </Button>
         <Button type="submit" variant="secondary">
           충전
