@@ -23,12 +23,13 @@ import CustomerDetail from './page/Trainer/CustomerDetail';
 import WithdrawPage from './page/myPage/UserDeletePage';
 import CalendarPart from './page/Main/CalenderPart';
 import TrainerCalendar from './page/Trainer/TrainerCalendar';
+import CertificateManage from './page/myPage/Trainer/CertificateManage';
 
 const history = createBrowserHistory();
 
 export default function App() {
   return (
-    <div className="App">
+    <div className="App" style={{ marginBottom: '60px' }}>
       <TopNav />
       <BottomNav />
       <Routes history={history}>
@@ -42,7 +43,8 @@ export default function App() {
         <Route path="/trainer-info/:id" element={<Trainerdetail />} />
         <Route path="/mypage" element={<Tabs />} />
         <Route path="/mypage/withdraw" element={<WithdrawPage />} />
-        <Route path="/ptrequest/:trainerid" element={<Ptrequest />} />
+        <Route path="mypage/certificate" element={<CertificateManage />} />
+        <Route path="/ptrequest/:id" element={<Ptrequest />} />
         <Route path="/mypage/edit" element={<UserEdit />} />
         <Route path="/customer-list" element={<CustomerList />} />
         <Route path="/customer-management/:id" element={<CustomerDetail />} />

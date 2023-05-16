@@ -1,40 +1,35 @@
 var express = require('express');
 var router = express.Router();
+const { sequelize } = require('../models');
 const { trainers, trainer_points, pt_requests, trainer_manage, user_tag, users } = require('../models');
+const initModels = require('../models/init-models');
+const models = initModels(sequelize);
 
-// check pt user list
+
 router.get('/checkptuserlist/:id', async function (req, res) {
+    if (req.session.loggedin) {
     try {
-      const check_pt_user_list = await trainer_manage.findAll({
+      const check_pt_user_list = await models.trainer_manage.findAll({
         where: { trainer_id: req.params.id },
+        include: {
+          model: users,
+          as: 'user',
+          attributes: ['name'],
+          where: { id: sequelize.col('trainer_manage.user_id') }
+        },
       });
-      res.status(200).json({ data: check_pt_user_list, message: '' });
+      const userListWithNames = check_pt_user_list.map((item) => {
+        const { name } = item.user;
+        return { ...item.toJSON(), name };
+      });
+      res.status(200).json({ data: userListWithNames, message: '' });
     } catch (err) {
       console.log(err);
     }
-});
-// router.get('/checkptuserlist/:id', async function (req, res) {
-//     try {
-//       const check_pt_user_list = await trainer_manage.findAll({
-//         where: { trainer_id: req.params.id },
-//         include: {
-//           model: users,
-//           attributes: ['name'],
-//           where: {id: trainer_manage.user_id}
-//         },
-//       });
-//       console.log(check_pt_user_list);
-//       const userListWithNames = check_pt_user_list.map((item) => {
-//         const { name } = item.user;
-//         return { ...item.toJSON(), name };
-//       });
-  
-//       res.status(200).json({ data: userListWithNames, message: '' });
-//     } catch (err) {
-//       console.log(err);
-//     }
-//   });
-
+    } else {
+      res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+    }
+  });
 // check pt user detail
 router.get('/checkptuserdetail/:user_id/:id', async function (req, res) {
   try {

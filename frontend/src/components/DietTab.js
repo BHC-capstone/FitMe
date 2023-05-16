@@ -107,10 +107,10 @@ function DietTab({ userid, date }) {
   return (
     <Flexcontainers>
       <Diet />
-      {dietdate.map((el, index) => (
+      {/* {dietdate.map((el, index) => (
         // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
         <Diet num={index} />
-      ))}
+      ))} */}
     </Flexcontainers>
   );
 }
