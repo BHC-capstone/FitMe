@@ -54,9 +54,7 @@ function UserInfoTab({ loginedUser }) {
               ));
         }
         const { data } = response.data;
-        data.profileImg === null
-          ? setProfImg(blankImg)
-          : setProfImg(data.profileImg);
+        data === null ? setProfImg(blankImg) : setProfImg(data);
       } catch (error) {
         console.error(error);
       }

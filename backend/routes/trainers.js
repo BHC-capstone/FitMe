@@ -223,42 +223,57 @@ router.get('/profile/:id', async function (req, res) {
 });
 
 // trainer info change
-router.post('/profile/changeProfile/:id', async function (req, res) {
-  if (req.session.loggedin) {
-    try {
-      const trinersInfo = await trainers.findOne({
-        where: { id: req.params.id },
-      });
-      if (req.body.password != req.body.password2)
-        res.status(401).json({
-          data: null,
-          message: '입력된 비밀번호가 서로 다릅니다.',
-        });
-      else {
-        await trainers.update(
+router.post(
+  '/profile/changeProfile/:id',
+  imageUpload.single('profileImage'),
+  async function (req, res) {
+    if (req.session.loggedin) {
+      try {
+        let transaction = await sequelize.transaction();
+
+        const trinersInfo = await trainers.findOne(
           {
-            email: req.body.email,
-            name: req.body.name,
-            password: req.body.password,
-            age: req.body.age,
-            gender: req.body.gender,
-            phonenumber: req.body.phonenumber,
-            introduction: req.body.introduction,
+            where: { id: req.params.id },
           },
-          { where: { id: req.params.id } }
+          { transaction }
         );
-        res.status(200).json({
-          data: null,
-          message: '성공적으로 변경되었습니다.',
-        });
+        if (req.body.password != req.body.password2)
+          res.status(401).json({
+            data: null,
+            message: '입력된 비밀번호가 서로 다릅니다.',
+          });
+        else {
+          const hashedPassword = await bcrypt.hash(
+            req.body.password,
+            saltRounds
+          );
+
+          await trainers.update(
+            {
+              email: req.body.email,
+              name: req.body.name,
+              password: hashedPassword,
+              age: req.body.age,
+              gender: req.body.gender,
+              phonenumber: req.body.phonenumber,
+              introduction: req.body.introduction,
+            },
+            { where: { id: req.params.id } },
+            { transaction }
+          );
+          res.status(200).json({
+            data: null,
+            message: '성공적으로 변경되었습니다.',
+          });
+        }
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
+    } else {
+      res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
     }
-  } else {
-    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
   }
-});
+);
 
 // trainerlist paging
 router.get('/trainerlist', async function (req, res) {
@@ -421,8 +436,8 @@ router.post(
 
 // myPage profile image upload with aws s3
 router.post(
-  '/profileImage/:id',
-  imageUpload.single('image'),
+  '/changeProfileImage/:id',
+  imageUpload.single('profileImage'),
   async function (req, res) {
     if (req.session.loggedin) {
       try {
@@ -458,5 +473,20 @@ router.post(
     }
   }
 );
+
+// get profile image
+router.get('/profileImg/:id', async function (req, res) {
+  if (req.session.loggedin) {
+    try {
+      const trainerInfo = await trainers.findOne({
+        where: { id: req.params.id },
+      });
+      const profileImg = trainerInfo.trainer_image_url;
+      res.status(200).json({ data: profileImg, message: '' });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+});
 
 module.exports = router;

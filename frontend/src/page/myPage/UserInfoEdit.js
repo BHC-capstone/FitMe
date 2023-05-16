@@ -10,7 +10,7 @@ function UserEdit({ props }) {
   const blankImg =
     'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
   const [profImg, setProfImg] = useState(blankImg);
-  const imgRef = useRef();
+  const imgRef = useRef(null);
   const [formData, setFormData] = useState({
     email: '',
     name: '',
@@ -88,7 +88,6 @@ function UserEdit({ props }) {
   };
 
   function handleSubmit(event) {
-    console.log(formData.phonenumber);
     event.preventDefault();
     if (formData.password !== formData.password2) {
       alert('비밀번호가 일치하지 않습니다.');
@@ -116,6 +115,7 @@ function UserEdit({ props }) {
           },
         )
         .then(response => {
+          if (imgRef !== null) handleImgSubmit(event);
           alert(response.data.message);
           navigate('/mypage');
         })
@@ -128,12 +128,12 @@ function UserEdit({ props }) {
   function handleImgSubmit(event) {
     event.preventDefault();
     const formImgData = new FormData();
-    formData.append('file', imgRef.current.files[0]);
+    formImgData.append('profileImage', imgRef.current.files[0]);
     let url = null;
     {
       loginedUser.isTrainer === false
-        ? (url = `https://localhost:4000/users/profile/changeProfile/${loginedUser.id}`)
-        : (url = `https://localhost:4000/trainers/profile/changeProfile/${loginedUser.id}`);
+        ? (url = `https://localhost:4000/users/changeProfileImage/${loginedUser.id}`)
+        : (url = `https://localhost:4000/trainers/changeProfileImage/${loginedUser.id}`);
     }
     axios
       .post(url, formImgData, {
