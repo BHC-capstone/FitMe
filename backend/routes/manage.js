@@ -30,10 +30,8 @@ router.get('/checkptuserlist/:id', async function (req, res) {
       res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
     }
   });
-
 // check pt user detail
 router.get('/checkptuserdetail/:user_id/:id', async function (req, res) {
-  if (req.session.loggedin){
   try {
     const check_pt_user_detail = await trainer_manage.findOne({
       where: { trainer_id: req.params.id, user_id: req.params.user_id },
@@ -42,9 +40,6 @@ router.get('/checkptuserdetail/:user_id/:id', async function (req, res) {
   } catch (err) {
     console.log(err);
   }
-} else {
-    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
-}
 });
 
 // user tag api

@@ -93,11 +93,14 @@ export default function TrainerSignUpPage() {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
-      url: 'http://localhost:4000/trainers/signup',
+      url: 'https://localhost:4000/trainers/signup',
       data: formData,
       method: 'POST',
     })
-      .then(navigate('/trainer-login'))
+      .then(res => {
+        navigate('/trainer-login');
+        alert(res.data.message);
+      })
       .catch(err => {
         console.log(err);
       });
@@ -152,7 +155,7 @@ export default function TrainerSignUpPage() {
             />
           </FloatingLabel>
           <Row className="mb-3">
-            <Col>
+            <Col xs="5">
               <FloatingLabel
                 controlId="floatingInput"
                 label="이름"
@@ -166,7 +169,7 @@ export default function TrainerSignUpPage() {
                 />
               </FloatingLabel>
             </Col>
-            <Col>
+            <Col xs="7">
               <FloatingLabel
                 controlId="floatingInput"
                 label="전화번호"
@@ -188,12 +191,12 @@ export default function TrainerSignUpPage() {
                 controlId="floatingSelect"
                 label="성별"
                 className="mb-3"
+                required
               >
                 <Form.Select onChange={onChangeGender}>
                   <option>선택하세요</option>
                   <option value="male">남성</option>
                   <option value="female">여성</option>
-                  <option value="others">기타</option>
                 </Form.Select>
               </FloatingLabel>
             </Col>
@@ -208,6 +211,7 @@ export default function TrainerSignUpPage() {
                   placeholder="Enter age"
                   value={age}
                   onChange={onChangeAge}
+                  required
                 />
               </FloatingLabel>
             </Col>

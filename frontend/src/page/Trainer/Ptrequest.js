@@ -4,11 +4,13 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
 import { ko } from 'date-fns/esm/locale';
+import { useParams } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
 import Expectedpoint from '../../components/Expectedpoint';
 import './Ptrequest.css';
 
 export default function Ptrequest() {
+  const { trainerid } = useParams();
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
@@ -47,7 +49,11 @@ export default function Ptrequest() {
           </Boxc>
         </Boxr>
 
-        <Expectedpoint startDate={startDate} endDate={endDate} />
+        <Expectedpoint
+          startDate={startDate}
+          endDate={endDate}
+          trainerid={trainerid}
+        />
       </Container>
     </Layout>
   );

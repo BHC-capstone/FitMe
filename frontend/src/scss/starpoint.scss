@@ -2,10 +2,10 @@
   position: relative;
   font-size: 2rem;
   color: #ddd;
-  text-align: left;
-  padding-left: 50px;
-  display: flex;
-  margin: 0 auto;
+  // text-align: left;
+  // padding-left: 50px;
+  // display: flex;
+  margin: auto 0;
 }
 
 .star span {
@@ -15,8 +15,6 @@
   color: #ffc107;
   overflow: hidden;
   pointer-events: none;
-  text-align: left;
-  padding-left: 50px;
-  display: flex;
-  margin: 0 auto;
+  // padding-left: 50px;
+  margin: auto 0;
 }

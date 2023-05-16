@@ -1,20 +1,20 @@
 import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Button } from 'react-bootstrap';
+import { Button, Row, Col, Container } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom'; //* ***
 import axios from 'axios';
 // eslint-disable-next-line react/prop-types
 function Routine({ num, exercisename, time, set, exerciseURL, guideURL }) {
-  const [exerVideo, setExerVideo] = useState([]);
-  const videoInput = useRef();
+  const [dietImg, setDietImg] = useState([]);
+  const imageInput = useRef();
   const onCickImageUpload2 = () => {
-    videoInput.current.click();
+    imageInput.current.click();
   };
-  function onVideoChange(event) {
-    setExerVideo(event.target.files[0]);
+  function onImageChange(event) {
+    setDietImg(event.target.files[0]);
     console.log(event.target.files[0]);
     const formData = new FormData();
-    formData.append('video', exerVideo);
+    formData.append('image', dietImg);
     axios
       .post('', formData, {
         headers: {
@@ -32,58 +32,59 @@ function Routine({ num, exercisename, time, set, exerciseURL, guideURL }) {
   return (
     <div>
       <Flexcontainer num={0}>
-        <Text0 num={0}>오늘의 운동{num}</Text0>
-        <Text1 num={0}>벤치 프레스{exercisename}</Text1>
-        <Text2 num={0}>
-          {time}회 X {set}세트
-        </Text2>
-        <StyledLink to={exerciseURL} style={{ textDecoration: 'none' }}>
-          <TextBox num={0} count={1}>
-            운동 자세 영상 확인
-          </TextBox>
-        </StyledLink>
-        <StyledLink to={guideURL} style={{ textDecoration: 'none' }}>
-          <TextBox num={0} count={2}>
-            촬영 가이드 확인
-          </TextBox>
-        </StyledLink>
+        <Text0 num={0}>오늘의 식단{num}</Text0>
+        <Text1 num={0}>아침 식단</Text1>
+        <Text2 num={0}>아침 거르지 말기!</Text2>
+        <TextBox num={0} count={1}>
+          <span className="b">아침</span> : 바나나 2개, 우유
+        </TextBox>
         <input
           type="file"
           style={{ display: 'none' }}
-          ref={videoInput}
-          accept="video"
-          onChange={event => onVideoChange(event)}
+          ref={imageInput}
+          accept="image"
+          onChange={event => onImageChange(event)}
         />
-        <StyledButton num={0} count={3} onClick={onCickImageUpload2}>
-          영상 업로드
+        <StyledButton num={0} count={2} onClick={onCickImageUpload2}>
+          사진 업로드
         </StyledButton>
         <Div />
       </Flexcontainer>
       <Flexcontainer num={1}>
-        <Text0 num={1}>오늘의 운동{num}</Text0>
-        <Text1 num={1}>사이드암{exercisename}</Text1>
-        <Text2 num={1}>
-          {time}회 X {set}세트
-        </Text2>
-        <StyledLink to={exerciseURL} style={{ textDecoration: 'none' }}>
-          <TextBox num={1} count={1}>
-            운동 자세 영상 확인
-          </TextBox>
-        </StyledLink>
-        <StyledLink to={guideURL} style={{ textDecoration: 'none' }}>
-          <TextBox num={1} count={2}>
-            촬영 가이드 확인
-          </TextBox>
-        </StyledLink>
+        <Text0 num={1}>오늘의 식단{num}</Text0>
+        <Text1 num={1}>점심 식단</Text1>
+        <Text2 num={1}>몇 시에 드셨는지도 적어주세요!</Text2>
+        <TextBox num={1} count={1}>
+          <span className="b">점심</span> : 반숙 베이컨 샐러드
+        </TextBox>
         <input
           type="file"
           style={{ display: 'none' }}
-          ref={videoInput}
-          accept="video"
-          onChange={event => onVideoChange(event)}
+          ref={imageInput}
+          accept="image"
+          onChange={event => onImageChange(event)}
         />
-        <StyledButton num={1} count={3} onClick={onCickImageUpload2}>
-          영상 업로드
+        <StyledButton num={1} count={2} onClick={onCickImageUpload2}>
+          점심 사진 업로드
+        </StyledButton>
+        <Div />
+      </Flexcontainer>
+      <Flexcontainer num={2}>
+        <Text0 num={2}>오늘의 식단{num}</Text0>
+        <Text1 num={2}>저녁 식단</Text1>
+        <Text2 num={2}>식사는 9시 전에 끝내기!</Text2>
+        <TextBox num={2} count={1}>
+          <span className="b">저녁</span> : 시리얼, 우유, 단백질바
+        </TextBox>
+        <input
+          type="file"
+          style={{ display: 'none' }}
+          ref={imageInput}
+          accept="image"
+          onChange={event => onImageChange(event)}
+        />
+        <StyledButton num={2} count={2} onClick={onCickImageUpload2}>
+          저녁 사진 업로드
         </StyledButton>
         <Div />
       </Flexcontainer>
@@ -142,7 +143,8 @@ const StyledButton = styled(Button)`
   padding-left: 5%;
   text-align: left;
   border-radius: 30px;
-  border: 1px solid #2ba5f7;
+  border: 1px solid
+    ${props => ((props.num + props.count) % 2 === 1 ? '#2ba5f7' : 'white')};
   width: 90%;
   background-color: ${props =>
     (props.num + props.count) % 2 === 1 ? 'white' : '#2ba5f7'};
@@ -151,12 +153,8 @@ const StyledButton = styled(Button)`
   height: 60px;
   color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
 `;
-const StyledLink = styled(Link)`
-  width: 100%;
-  margin: auto;
-`;
 
-const Div = styled.div`
+const Div = styled(Link)`
   width: 100%;
   margin-bottom: 20px;
 `;

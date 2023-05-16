@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import Calendar from 'react-calendar';
 import '../../scss/calendar.scss';
 import styled from 'styled-components';
@@ -8,11 +7,9 @@ import DietTab from '../../components/DietTab';
 import ExerciseTab from '../../components/ExerciseTab';
 import FeedbackTab from '../../components/FeedbackTab';
 
-function CalendarPart() {
-  const loginedUser = useSelector(state => state.user);
+function TrainerCalendar(userid) {
   const [dateinfo, onChange] = useState(new Date());
   const [currentTab, clickTab] = useState(0);
-  const userid = loginedUser.id;
   const menuArr = [
     {
       name: '식단',
@@ -39,7 +36,6 @@ function CalendarPart() {
         onChange={onChange}
         value={dateinfo}
       />
-      <Div />
       <TabMenu>
         {menuArr.map((el, index) => (
           // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
@@ -69,16 +65,16 @@ const TabMenu = styled.ul`
   flex-direction: row;
   align-items: center;
   list-style: none;
-  margin-bottom: 30px;
+  margin-bottom: 7rem;
   margin-top: 10px;
   border-bottom: solid 1px;
   border-bottom-color: #d1d1d1;
 
   .submenu {
     display: flex;
-    justify-content: space-around;
-    width: 390px;
-    height: 40px; */
+    justify-content: space-between;
+    width: 380px;
+    heigth: 30px; */
     width: calc(50% / 3);
     padding: 10px;
     font-size: 15px;
@@ -87,8 +83,7 @@ const TabMenu = styled.ul`
   }
 
   .focused {
-    color: #fff;
-    background-color: #2ba5f7;
+    border-bottom: solid 3px;
   }
 
   & div.desc {
@@ -96,13 +91,7 @@ const TabMenu = styled.ul`
   }
 `;
 
-const Div = styled.div`
-  width: 100%;
-  margin-bottom: 20px;
-`;
-
 const Desc = styled.div`
-  margin: auto 0;
   text-align: center;
 `;
-export default CalendarPart;
+export default TrainerCalendar;

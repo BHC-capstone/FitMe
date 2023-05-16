@@ -78,7 +78,7 @@ export default function TrainerSignUpPage() {
     <div>
       <Container fluid className="panel">
         <Head1>일반 사용자 회원가입</Head1>
-        <Form>
+        <Form onSubmit={onSubmit}>
           <FloatingLabel
             controlId="floatingInput"
             label="이메일"
@@ -119,7 +119,7 @@ export default function TrainerSignUpPage() {
             />
           </FloatingLabel>
           <Row className="mb-3">
-            <Col>
+            <Col xs="5">
               <FloatingLabel
                 controlId="floatingInput"
                 label="이름"
@@ -133,7 +133,7 @@ export default function TrainerSignUpPage() {
                 />
               </FloatingLabel>
             </Col>
-            <Col>
+            <Col xs="7">
               <FloatingLabel
                 controlId="floatingInput"
                 label="전화번호"
@@ -155,12 +155,12 @@ export default function TrainerSignUpPage() {
                 controlId="floatingSelect"
                 label="성별"
                 className="mb-3"
+                required
               >
                 <Form.Select onChange={onChangeGender}>
                   <option>선택하세요</option>
                   <option value="male">남성</option>
                   <option value="female">여성</option>
-                  <option value="others">기타</option>
                 </Form.Select>
               </FloatingLabel>
             </Col>
@@ -175,6 +175,7 @@ export default function TrainerSignUpPage() {
                   placeholder="Enter age"
                   value={age}
                   onChange={onChangeAge}
+                  required
                 />
               </FloatingLabel>
             </Col>

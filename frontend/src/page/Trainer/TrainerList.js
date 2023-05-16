@@ -21,10 +21,14 @@ export default function TrainerList(props) {
   const [trainers, setTrainers] = useState([]);
 
   useEffect(() => {
-    axios.get('https://localhost:4000/trainers/trainerlist').then(res => {
-      setTrainers(res.data.data);
-      console.log(res.data.data);
-    });
+    axios
+      .get('https://localhost:4000/trainers/trainerlist', {
+        withCredentials: true,
+      })
+      .then(res => {
+        setTrainers(res.data.data);
+        console.log(res.data.data);
+      });
   }, []);
 
   const [search, setSearch] = useState('');
@@ -45,7 +49,7 @@ export default function TrainerList(props) {
         <Head1>트레이너 목록</Head1>
         <Stack gap={2}>
           <Row className="justify-content-md-center">
-            <Col md="10">
+            <Col xs="9">
               <Form>
                 <Form.Control
                   type="text"
@@ -54,6 +58,11 @@ export default function TrainerList(props) {
                   placeholder="트레이너 이름 검색"
                 />
               </Form>
+            </Col>
+            <Col>
+              <Button type="submit" variant="primary" onClick={onChange}>
+                검색
+              </Button>
             </Col>
           </Row>
           <Row className="justify-content-md-center">
@@ -132,7 +141,7 @@ const Layout = styled.div`
   flex-direction: column;
   align-items: center;
   max-width: 800px;
-  margin: 0 auto;
+  margin: auto;
 `;
 // const BoxOne = styled.div`
 //   background-color: #cf6a87;

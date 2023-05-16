@@ -1,5 +1,6 @@
 var DataTypes = require("sequelize").DataTypes;
 var _ads = require("./ads");
+var _bodycheck = require("./bodycheck");
 var _certifications = require("./certifications");
 var _community_comments = require("./community_comments");
 var _community_posts = require("./community_posts");
@@ -21,6 +22,7 @@ var _users = require("./users");
 
 function initModels(sequelize) {
   var ads = _ads(sequelize, DataTypes);
+  var bodycheck = _bodycheck(sequelize, DataTypes);
   var certifications = _certifications(sequelize, DataTypes);
   var community_comments = _community_comments(sequelize, DataTypes);
   var community_posts = _community_posts(sequelize, DataTypes);
@@ -47,6 +49,7 @@ function initModels(sequelize) {
 
   return {
     ads,
+    bodycheck,
     certifications,
     community_comments,
     community_posts,

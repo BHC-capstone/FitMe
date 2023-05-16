@@ -2,14 +2,12 @@ import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
-import Diet from './Diet';
-
 // eslint-disable-next-line react/prop-types
 function DietTab({ userid, date }) {
   const imageInput1 = useRef();
   const imageInput2 = useRef();
   const imageInput3 = useRef();
-  const [dietdate, setDietdate] = useState([]);
+  const [Dietdate, setDietdate] = useState([]);
   const [ImageBreakfast, setImageBreakfast] = useState([]);
   const [ImageLunch, setImageLunch] = useState([]);
   const [ImageDinner, setImageDinner] = useState([]);
@@ -19,9 +17,7 @@ function DietTab({ userid, date }) {
     부분이므로 잠시 보류함 */
   useEffect(() => {
     axios
-      .get(`https://localhost:4000/calender/mealplan/${userid}/${date}`, {
-        withCredentials: true,
-      })
+      .get(`https://localhost:4000/calender/mealplan/${userid}/${date}`)
       .then(res => {
         setDietdate(res.data.data);
         console.log(res.data.data);
@@ -41,7 +37,7 @@ function DietTab({ userid, date }) {
   function onBreakfastChange(event) {
     setImageBreakfast(event.target.files[0]);
     const formData = new FormData();
-    formData.append('img', ImageBreakfast);
+    formData.append('img', event.target.files[0]);
 
     axios({
       headers: {
@@ -106,11 +102,45 @@ function DietTab({ userid, date }) {
 
   return (
     <Flexcontainers>
-      <Diet />
-      {/* {dietdate.map((el, index) => (
-        // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
-        <Diet num={index} />
-      ))} */}
+      <Flexcontainerg>
+        <Textbox>● 아침: {Dietdate.breakfast}</Textbox>
+        <Rightbox>
+          <input
+            type="file"
+            style={{ display: 'none' }}
+            ref={imageInput1}
+            accept="image/png, image/jpeg, image/jpg"
+            onChange={event => onBreakfastChange(event)}
+          />
+          <Button1 onClick={onCickImageUpload1}>이미지 확인</Button1>
+        </Rightbox>
+      </Flexcontainerg>
+      <Flexcontainerg>
+        <Textbox>● 점심: {Dietdate.lunch}</Textbox>
+        <Rightbox>
+          <input
+            type="file"
+            style={{ display: 'none' }}
+            ref={imageInput2}
+            accept="image/png, image/jpeg, image/jpg"
+            onChange={event => onLunchChange(event)}
+          />
+          <Button1 onClick={onCickImageUpload2}>이미지 확인</Button1>
+        </Rightbox>
+      </Flexcontainerg>
+      <Flexcontainerg>
+        <Textbox>● 저녁: {Dietdate.dinner}</Textbox>
+        <Rightbox>
+          <input
+            type="file"
+            style={{ display: 'none' }}
+            ref={imageInput3}
+            accept="image/png, image/jpeg, image/jpg"
+            onChange={event => onDinnerChange(event)}
+          />
+          <Button1 onClick={onCickImageUpload3}>이미지 확인</Button1>
+        </Rightbox>
+      </Flexcontainerg>
     </Flexcontainers>
   );
 }
@@ -119,26 +149,26 @@ const Flexcontainers = styled.div`
   flex-direction: column;
   justify-content: space-between;
 `;
-// const Flexcontainerg = styled.div`
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: space-between;
-//   height: 150px;
-// `;
-// const Textbox = styled.div`
-//   float: left;
-//   font-weight: 400;
-//   font-size: 16px;
-// `;
-// const Button1 = styled(Button)`
-//   width: 120px;
-//   float: right;
-//   margin-right: 100px;
-//   margin-top: 0px;
-//   vertical-align: top;
-//   //border: 3px solid white;
-// `;
-// const Rightbox = styled.div`
-//   float: right;
-// `;
+const Flexcontainerg = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 150px;
+`;
+const Textbox = styled.div`
+  float: left;
+  font-weight: 400;
+  font-size: 16px;
+`;
+const Button1 = styled(Button)`
+  width: 120px;
+  float: right;
+  margin-right: 100px;
+  margin-top: 0px;
+  vertical-align: top;
+  //border: 3px solid white;
+`;
+const Rightbox = styled.div`
+  float: right;
+`;
 export default DietTab;
