@@ -10,7 +10,7 @@ const AWS = require('aws-sdk');
 
 //AWS s3 관련
 const imageUpload = require('../modules/s3upload').upload;
-const videoupload = require('../modules/s3upload').videoupload;
+const videoUpload = require('../modules/s3upload').videoupload;
 const s3 = require('../modules/s3upload').s3;
 
 dotenv.config();
@@ -44,7 +44,7 @@ router.get('/mealplan/:id/:date', async (req, res) => {
 
 // check exercise routine
 router.get('/exerciseroutine/:id/:date', async (req, res) => {
-   //  if (req.session.loggedin) {
+  if (req.session.loggedin) {
   try {
     const { id, date } = req.params;
     const schedule_date = await schedules.findOne({
@@ -64,9 +64,9 @@ router.get('/exerciseroutine/:id/:date', async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-   //  } else {
-  //     res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
-   //  }
+    } else {
+      res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+    }
 });
 
 

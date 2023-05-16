@@ -4,16 +4,15 @@ const { users, trainers, pt_requests, trainer_manage } = require('../models');
 
 
 // pt 요청 
-router.post('/ptrequest/:trainer_id/:id', (req, res) => {
-        const { trainer_id, id } = req.params;
+router.post('/ptrequest', (req, res) => {
         pt_requests.findOne({
-            where: { trainer_id: trainer_id, user_id: id },
+            where: { trainer_id: req.body.trainer_id, user_id: req.body.id },
         }).then((requestInfo) => {
         if (requestInfo == undefined) {
             const newRequest = {
-            user_id: id,
-            trainer_id: trainer_id,
-            date: req.body.date,
+            user_id: req.body.id,
+            trainer_id: req.body.trainer_id,
+            date: req.body.startDate,
             count: req.body.count,
             request: req.body.request,
             days: req.body.days,
@@ -84,6 +83,27 @@ router.get('/checklists/:id', (req, res) => {
     res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
 }
 });
+
+// trainer pt 요청 user 조회
+router.get('/checklists/:id/:user_id', (req, res) => {
+    if (req.session.loggedin){
+    try {
+      const { id, user_id } = req.params;
+      const bodyInfo = bodycheck.findOne({
+        where: { user_id: user_id , last: true },
+      });
+      const requestInfo = pt_requests.findOne({
+        where: { trainer_id: id, user_id: user_id },
+      });
+      res.status(200).json({ data: [requestInfo, bodyInfo], message: '' });
+    } catch (err) {
+      console.log(err);
+    }
+} else {
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+}
+});
+
 
 
 

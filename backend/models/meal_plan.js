@@ -15,6 +15,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true
     },
+    date: {
+      type: DataTypes.DATEONLY,
+      allowNull: true
+    },
     breakfast: {
       type: DataTypes.TEXT,
       allowNull: true

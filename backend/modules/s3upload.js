@@ -30,6 +30,7 @@ const s3 = new AWS.S3({
 
 
 module.exports = {
+  videoupload,
   upload,
   s3,
 };
