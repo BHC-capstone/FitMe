@@ -3,13 +3,13 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Avatar } from 'antd';
 import '../../scss/userInfoTab.scss';
+import { async } from 'regenerator-runtime';
 import LogoutButton from './LogoutButton';
 
 function UserInfoTab({ loginedUser }) {
   const [user, setUser] = React.useState(null);
-  const [profImg, setProfImg] = useState(
-    `https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png`,
-  );
+  const blankImg = `https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png`;
+  const [profImg, setProfImg] = useState(blankImg);
   useEffect(() => {
     const fetchUser = async () => {
       if (!loginedUser.id) {
@@ -35,30 +35,32 @@ function UserInfoTab({ loginedUser }) {
         setUser(response.data);
       }
     };
-    async function fetchUserImg() {
+    const fetchUserImg = async () => {
       try {
         let response = null;
         {
           loginedUser.isTrainer === false
             ? (response = await axios.get(
-                `https://localhost:4000/users/profile/${loginedUser.id}`,
+                `https://localhost:4000/users/profileimg/${loginedUser.id}`,
                 {
                   withCredentials: true,
                 },
               ))
             : (response = await axios.get(
-                `https://localhost:4000/trainers/profile/${loginedUser.id}`,
+                `https://localhost:4000/trainers/profileimg/${loginedUser.id}`,
                 {
                   withCredentials: true,
                 },
               ));
         }
         const { data } = response.data;
-        setProfImg(data.profileImg);
+        data.profileImg === null
+          ? setProfImg(blankImg)
+          : setProfImg(data.profileImg);
       } catch (error) {
         console.error(error);
       }
-    }
+    };
     fetchUser();
     fetchUserImg();
   }, []);

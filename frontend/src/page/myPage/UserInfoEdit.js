@@ -3,14 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Avatar } from 'antd';
-import blankImg from '../../images/sample_certificate.png';
 
 function UserEdit({ props }) {
   const loginedUser = useSelector(state => state.user);
   const navigate = useNavigate();
-  const [profImg, setProfImg] = useState(
-    `https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png`,
-  );
+  const blankImg =
+    'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+  const [profImg, setProfImg] = useState(blankImg);
   const imgRef = useRef();
   const [formData, setFormData] = useState({
     email: '',
@@ -30,9 +29,11 @@ function UserEdit({ props }) {
           loginedUser.isTrainer === false
             ? (response = await axios.get(
                 `https://localhost:4000/users/profile/${loginedUser.id}`,
+                { withCredentials: true },
               ))
             : (response = await axios.get(
                 `https://localhost:4000/trainers/profile/${loginedUser.id}`,
+                { withCredentials: true },
               ));
         }
 
@@ -55,17 +56,20 @@ function UserEdit({ props }) {
         {
           loginedUser.isTrainer === false
             ? (response = await axios.get(
-                `https://localhost:4000/users/profile/${loginedUser.id}`,
+                `https://localhost:4000/users/profileImg/${loginedUser.id}`,
+                { withCredentials: true },
               ))
             : (response = await axios.get(
-                `https://localhost:4000/trainers/profile/${loginedUser.id}`,
+                `https://localhost:4000/trainers/profileImg/${loginedUser.id}`,
+                { withCredentials: true },
               ));
         }
         const { data } = response.data;
-        setProfImg(data.profileImg);
+        data.profileImg === null
+          ? setProfImg(blankImg)
+          : setProfImg(data.profileImg);
       } catch (error) {
         console.error(error);
-        setProfImg(blankImg);
       }
     }
     fetchUserData();
@@ -155,16 +159,22 @@ function UserEdit({ props }) {
   }
   return (
     <div className="container my-5">
-      <h1>회원 정보 수정</h1>
-      {loginedUser.isTrainer === true ? (
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={() => navigate('/mypage/certificate')}
-        >
-          트레이너 자격관리
-        </button>
-      ) : null}
+      <h1
+        style={{ textAlign: 'center', display: 'flex', alignItems: 'center' }}
+      >
+        <span style={{ flex: 1 }}>회원 정보 수정</span>
+        {loginedUser.isTrainer === true ? (
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => navigate('/mypage/certificate')}
+            style={{ position: 'absolute', right: '1%' }}
+          >
+            트레이너 자격관리
+          </button>
+        ) : null}
+      </h1>
+
       <Avatar
         src={profImg}
         style={{ margin: '20px' }}

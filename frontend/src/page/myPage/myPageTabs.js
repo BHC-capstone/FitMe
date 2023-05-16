@@ -7,6 +7,7 @@ import StatisticsTab from '../../components/myPage/StatisticsTab';
 import PaymentHistoryTab from '../../components/myPage/PaymentHistoryTab';
 import TabMenu from '../../components/TabMenu';
 import RequestManage from '../../components/myPage/RequestManage';
+import TrainerProfile from '../../components/myPage/TrainerProfile';
 // import '../../scss/tabs.scss';
 
 function Tabs() {
@@ -20,7 +21,7 @@ function Tabs() {
           name: '회원정보',
           content: <UserInfoTab loginedUser={user} />,
         },
-        { elid: 2, name: '통계페이지', content: <StatisticsTab /> },
+        { elid: 2, name: '트레이너 프로필', content: <TrainerProfile /> },
         {
           elid: 3,
           name: '포인트 정산',

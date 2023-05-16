@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { Button } from 'antd';
 import axios from 'axios';
 import sampleImg from '../../../images/sample_certificate.png';
 import '../../../scss/certificateManage.css';
 
 function CertificateManage() {
   const loginedUser = useSelector(state => state.user);
-  const [certFile, setCertFile] = useState(null);
+  const [certFile, setCertFile] = useState(sampleImg);
+  const [previewSize, setPreviewSize] = useState(200);
   const imgRef = useRef();
 
   const saveCertFile = event => {
@@ -20,6 +22,15 @@ function CertificateManage() {
       };
     }
   };
+  const handleImageLoad = () => {
+    if (certFile !== sampleImg) {
+      setPreviewSize('100%');
+    }
+  };
+
+  useEffect(() => {
+    setPreviewSize(200);
+  }, []);
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -43,7 +54,13 @@ function CertificateManage() {
     <div className="form-wrapper">
       <h1>자격증 파일 관리</h1>
       <form className="upload-form">
-        <div className="file-upload">
+        <button
+          type="button"
+          className="file-upload"
+          onClick={() => {
+            imgRef.current.click();
+          }}
+        >
           <input
             type="file"
             className="certificate-file-input"
@@ -51,14 +68,26 @@ function CertificateManage() {
             accept="image/*"
             onChange={saveCertFile}
             ref={imgRef}
+            style={{ display: 'none' }}
           />
-          <label htmlFor="file-input" className="file-input-label">
+          {/* <label htmlFor="file-input" className="file-input-label">
             파일 선택
-          </label>
-        </div>
-        <div className="preview-wrapper">
-          <img src={certFile || sampleImg} alt="자격증 이미지" />
-        </div>
+          </label> */}
+
+          <div
+            className="preview-wrapper"
+            style={{ width: previewSize, height: previewSize }}
+          >
+            <img src={certFile} alt="자격증 이미지" onLoad={handleImageLoad} />
+          </div>
+          <div className="upload-text">
+            <p>자격증 파일을 업로드 해주세요.</p>
+            <p>자격증 파일은 최대 1개까지 업로드 가능합니다.</p>
+          </div>
+          <Button type="primary" className="file-input-label">
+            파일 선택
+          </Button>
+        </button>
         <button type="submit" className="submit-btn">
           업로드
         </button>

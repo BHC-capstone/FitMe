@@ -29,7 +29,7 @@ const history = createBrowserHistory();
 
 export default function App() {
   return (
-    <div className="App">
+    <div className="App" style={{ marginBottom: '60px' }}>
       <TopNav />
       <BottomNav />
       <Routes history={history}>

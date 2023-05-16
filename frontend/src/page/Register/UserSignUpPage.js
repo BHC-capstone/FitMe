@@ -161,7 +161,6 @@ export default function TrainerSignUpPage() {
                   <option>선택하세요</option>
                   <option value="male">남성</option>
                   <option value="female">여성</option>
-                  <option value="others">기타</option>
                 </Form.Select>
               </FloatingLabel>
             </Col>

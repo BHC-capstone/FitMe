@@ -262,7 +262,6 @@ router.post('/profile/changeProfile/:id', async function (req, res) {
 
 // trainerlist paging
 router.get('/trainerlist', async function (req, res) {
-  if (req.session.loggedin){
   try {
     const trainerInfo = await trainers.findAll({
       attributes: [
@@ -280,9 +279,6 @@ router.get('/trainerlist', async function (req, res) {
   } catch (err) {
     console.log(err);
   }
-} else {
-    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
-}
 });
 
 // trainer detail
