@@ -37,11 +37,15 @@ function CertificateManage() {
     const formData = new FormData();
     formData.append('file', imgRef.current.files[0]);
     axios
-      .post(`http://localhost:4000/certificate/${loginedUser.id}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
+      .post(
+        `http://localhost:4000//addCertificate/${loginedUser.id}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
         },
-      })
+      )
       .then(response => {
         console.log(response);
       })
