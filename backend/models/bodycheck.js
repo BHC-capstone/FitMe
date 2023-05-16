@@ -1,55 +1,43 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('exercise_routines', {
+  return sequelize.define('bodycheck', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
+    date: {
+      type: DataTypes.DATEONLY,
+      allowNull: true
+    },
+    body_image_url: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    height: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    weight: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    bmi: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    trainer_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    schedule_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'schedules',
-        key: 'id'
-      }
-    },
-    name: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    content: {
-      type: DataTypes.TEXT,
-      allowNull: true
-    },
-    set_count: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    exercise_count: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    user_video_url: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    guide_video_url: {
-      type: DataTypes.STRING(255),
+    last: {
+      type: DataTypes.BOOLEAN,
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'exercise_routines',
+    tableName: 'bodycheck',
     timestamps: false,
     indexes: [
       {
@@ -58,13 +46,6 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "id" },
-        ]
-      },
-      {
-        name: "schedule_id",
-        using: "BTREE",
-        fields: [
-          { name: "schedule_id" },
         ]
       },
     ]
