@@ -44,7 +44,7 @@ export default function App() {
         <Route path="/mypage" element={<Tabs />} />
         <Route path="/mypage/withdraw" element={<WithdrawPage />} />
         <Route path="mypage/certificate" element={<CertificateManage />} />
-        <Route path="/ptrequest/:id" element={<Ptrequest />} />
+        <Route path="/ptrequest/:trainerid" element={<Ptrequest />} />
         <Route path="/mypage/edit" element={<UserEdit />} />
         <Route path="/customer-list" element={<CustomerList />} />
         <Route path="/customer-management/:id" element={<CustomerDetail />} />

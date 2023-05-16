@@ -4,19 +4,34 @@ import { Button, Row, Col, Container } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom'; //* ***
 import axios from 'axios';
 // eslint-disable-next-line react/prop-types
-function Routine({ num, exercisename, time, set, exerciseURL, guideURL }) {
+function Routine({
+  num,
+  userid,
+  date,
+  onClickBreakfast,
+  onCllckLunch,
+  onClickDinner,
+}) {
   const [dietImg, setDietImg] = useState([]);
   const imageInput = useRef();
   const onCickImageUpload2 = () => {
     imageInput.current.click();
   };
   function onImageChange(event) {
+    let url = null;
+    if (num === 0)
+      url = `https://localhost:4000/calender/mealplan/${userid}/${date}/breakfast`;
+    else if (num === 1)
+      url = `https://localhost:4000/calender/mealplan/${userid}/${date}/lunch`;
+    else
+      url = `https://localhost:4000/calender/mealplan/${userid}/${date}/dinner`;
+
     setDietImg(event.target.files[0]);
     console.log(event.target.files[0]);
     const formData = new FormData();
     formData.append('image', dietImg);
     axios
-      .post('', formData, {
+      .post(url, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

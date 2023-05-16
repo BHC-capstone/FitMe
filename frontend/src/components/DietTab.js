@@ -57,7 +57,6 @@ function DietTab({ userid, date }) {
       .catch(err => {
         console.log('fail');
       });
-    // console.log(event.target.files);
   }
   function onLunchChange(event) {
     setImageLunch(event.target.files[0]);
@@ -79,7 +78,6 @@ function DietTab({ userid, date }) {
       .catch(err => {
         console.log('fail');
       });
-    // console.log(event.target.files);
   }
   function onDinnerChange(event) {
     setImageDinner(event.target.files[0]);
@@ -101,12 +99,11 @@ function DietTab({ userid, date }) {
       .catch(err => {
         console.log('fail');
       });
-    // console.log(event.target.files);
   }
 
   return (
     <Flexcontainers>
-      <Diet />
+      <Diet userid={userid} date={date} />
       {/* {dietdate.map((el, index) => (
         // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
         <Diet num={index} />

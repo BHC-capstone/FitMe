@@ -12,6 +12,7 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
   const [days, setdays] = useState([]);
   const [count, setCount] = useState([]);
   useEffect(() => {
+    console.log(trainerid);
     setdays(
       Math.floor(
         Math.ceil(
