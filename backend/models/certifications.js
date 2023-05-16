@@ -7,7 +7,15 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
+    trainer_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
     name: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    image_url: {
       type: DataTypes.STRING(255),
       allowNull: true
     }

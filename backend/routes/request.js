@@ -1,27 +1,25 @@
 var express = require('express');
 var router = express.Router();
-const { users } = require('../models');
-const { trainers } = require('../models');
-const { pt_requests } = require('../models');
-const { trainer_manage } = require('../models');
+const { users, trainers, pt_requests, trainer_manage } = require('../models');
 
 
 // pt 요청 
 router.post('/ptrequest/:trainer_id/:id', (req, res) => {
+        const { trainer_id, id } = req.params;
         pt_requests.findOne({
-            where: { trainer_id: req.body.trainer_id, user_id: req.body.id },
+            where: { trainer_id: trainer_id, user_id: id },
         }).then((requestInfo) => {
-        if (requestInfo != undefined) {
+        if (requestInfo == undefined) {
             const newRequest = {
-            user_id: req.body.id,
-            trainer_id: req.body.trainer_id,
+            user_id: id,
+            trainer_id: trainer_id,
             date: req.body.date,
             count: req.body.count,
             request: req.body.request,
             days: req.body.days,
             };
             pt_requests.create(newRequest).then(() => {
-            res.status(200).json({ data: null, message: '성공적으 로 신청되었습니다.' });
+            res.status(200).json({ data: null, message: '성공적으로 신청되었습니다.' });
             });
         } else {
             res.status(401).json({ data: null, message: '이미 신청한 trainer입니다' });
@@ -32,8 +30,9 @@ router.post('/ptrequest/:trainer_id/:id', (req, res) => {
 // user pt 요청 조회
 router.get('/checklist/:id', (req, res) => {
         if (req.session.loggedin){
+        const { id } = req.params;
         pt_requests.findAll({
-            where: { user_id: req.params.id },
+            where: { user_id: id },
         }).then((requestInfo) => {
         if (requestInfo != undefined) {
             res.status(200).json({ data: requestInfo, message: '' });
@@ -49,12 +48,13 @@ router.get('/checklist/:id', (req, res) => {
 
 // pt 요청 삭제
 router.post('/delete/:user_id/:id', (req, res) => {
+        const { user_id, id } = req.params;
         pt_requests.findOne({
-            where: { user_id: req.body.user_id},
+            where: { user_id: user_id},
         }).then((requestInfo) => {
         if (requestInfo != undefined) {
             pt_requests.destroy({
-            where: { user_id: req.body.user_id, id: req.body.id },
+            where: { user_id: user_id, id: id },
             });
             res.status(200).json({ data: null, message: '성공적으로 삭제되었습니다.' });
         } else {
@@ -64,31 +64,14 @@ router.post('/delete/:user_id/:id', (req, res) => {
 });
 
 
-// trainer pt 요청 조회
-router.get('/checklists/', (req, res) => {
-  if (req.session.loggedin){
-  pt_requests.findAll({
-      where: { trainer_id: req.params.id },
-  }).then((requestInfo) => {
-  if (requestInfo != undefined) {
-      res.status(200).json({ data: requestInfo, message: '' });
-  } else {
-      res.status(401).json({ data: null, message: '' });
-  }
-  });
-} else { 
-  console.log('checklists');
-  res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
-}
 
-});
 
 // trainer pt 요청 조회
 router.get('/checklists/:id', (req, res) => {
     if (req.session.loggedin){
-      console.log('check');
+    const { id } = req.params;
     pt_requests.findAll({
-        where: { trainer_id: req.params.id },
+        where: { trainer_id: id },
     }).then((requestInfo) => {
     if (requestInfo != undefined) {
         res.status(200).json({ data: requestInfo, message: '' });
@@ -106,8 +89,9 @@ router.get('/checklists/:id', (req, res) => {
 
 // pt 요청 수락
 router.post('/accept/:trainer_id/:id', (req, res) => {
+    const { trainer_id, id } = req.params;
     pt_requests.findOne({
-      where: { trainer_id: req.params.trainer_id, id: req.params.id },
+      where: { trainer_id: trainer_id, id: id },
     }).then((requestInfo) => {
       if (requestInfo != undefined) {
         pt_requests.update(
@@ -116,7 +100,7 @@ router.post('/accept/:trainer_id/:id', (req, res) => {
             accept: true,
           },
           {
-            where: { trainer_id: req.params.trainer_id, id: req.params.id },
+            where: { trainer_id: trainer_id, id: id },
           }
         ).then(() => {
           const trainerManage = {
@@ -146,8 +130,9 @@ router.post('/accept/:trainer_id/:id', (req, res) => {
 
 // pt 요청 거절
 router.post('/reject/:trainer_id/:id', (req, res) => {
+    const { trainer_id, id } = req.params;
     pt_requests.findOne({
-      where: { trainer_id: req.params.trainer_id, id: req.params.id },
+      where: { trainer_id: trainer_id, id: id },
     }).then((requestInfo) => {
       if (requestInfo != undefined) {
         pt_requests.update(
@@ -156,7 +141,7 @@ router.post('/reject/:trainer_id/:id', (req, res) => {
             accept: false,
           },
           {
-            where: { trainer_id: req.params.trainer_id, id: req.params.id },
+            where: { trainer_id: trainer_id, id: id },
           }
         ).then(() => {
           res.status(200).json({ data: null, message: '성공적으로 거절되었습니다.' });

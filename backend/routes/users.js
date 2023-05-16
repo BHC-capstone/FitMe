@@ -4,16 +4,25 @@ const { users, user_points } = require('../models');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const { sequelize } = require('../models');
+const { Model } = require('sequelize');
+
+const initModels = require('../models/init-models');
+const models = initModels(sequelize);
+
+const imageUpload = require('../modules/s3upload').upload;
+const s3 = require('../modules/s3upload').s3;
+
+models.users.findOne;
 
 // uesr signup
 router.post('/signup', async function (req, res) {
   console.log(req.body);
   if (
-    (req.body.email &&
-    req.body.name &&
-    req.body.password &&
-    req.body.age &&
-    req.body.gender &&
+    (req.body.email,
+    req.body.name,
+    req.body.password,
+    req.body.age,
+    req.body.gender,
     req.body.phonenumber)
   ) {
     let transaction;
@@ -114,7 +123,7 @@ router.get('/logout', function (req, res) {
 
 // user delete
 router.post('/withdraw/:id', async function (req, res) {
-   if (req.session.loggedin) {
+  //  if (req.session.loggedin) {
   try {
     const userInfo = await users.findOne({
       where: { id: req.params.id },
@@ -130,14 +139,13 @@ router.post('/withdraw/:id', async function (req, res) {
   } catch (err) {
     console.log(err);
   }
-   } else {
-     res.status(400).json({ data: null, message: '로그인 하세요' });
-   }
+  //  } else {
+  //    res.status(400).json({ data: null, message: '로그인 하세요' });
+  //  }
 });
 
 // user info
 router.get('/profile/:id', async function (req, res) {
-  if (req.session.loggedin){
   console.log(req.session.loggedin);
   try {
     const userInfo = await users.findOne({
@@ -148,14 +156,11 @@ router.get('/profile/:id', async function (req, res) {
   } catch (err) {
     console.log(err);
   }
-  } else {
-    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
-  }
 });
 
 // user info update
 router.post('/profile/changeProfile/:id', async function (req, res) {
-  if (req.session.loggedin) {
+  // if (req.session.loggedin) {
   try {
     const userInfo = await users.findOne({
       where: { id: req.params.id },
@@ -166,12 +171,12 @@ router.post('/profile/changeProfile/:id', async function (req, res) {
         .json({ data: null, message: '입력된 비밀번호가 서로 다릅니다.' });
     else {
       try {
-        console.log(req.body);
+        const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
         await users.update(
           {
             email: req.body.email,
             name: req.body.name,
-            password: req.body.password,
+            password: hashedPassword,
             age: req.body.age,
             gender: req.body.gender,
             phonenumber: req.body.phonenumber,
@@ -188,14 +193,14 @@ router.post('/profile/changeProfile/:id', async function (req, res) {
   } catch (err) {
     console.log(err);
   }
-  } else {
-    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
-  }
+  // } else {
+  //   res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+  // }
 });
 
 // user point info
 router.get('/userpoint/:id', async function (req, res) {
-   if (req.session.loggedin) {
+  //  if (req.session.loggedin) {
   try {
     const user_point_amount = await user_points.findOne({
       where: { user_id: req.params.id },
@@ -204,9 +209,102 @@ router.get('/userpoint/:id', async function (req, res) {
   } catch (err) {
     console.log(err);
   }
-   } else {
-     res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
-   }
+  //  } else {
+  //    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+  //  }
+});
+
+// myPage profile image upload with aws s3
+router.post(
+  '/profileImage/:id',
+  imageUpload.single('image'),
+  async function (req, res) {
+    if (req.session.loggedin) {
+      try {
+        const userInfo = await users.findOne({
+          where: { id: req.params.id },
+        });
+
+        const uploadParams = {
+          acl: 'public-read',
+          ContentType: 'image/png',
+          Bucket: 'fitme-s3',
+          Body: req.file.buffer,
+          Key: `user_profile/` + userInfo.id + '.' + req.file.originalname,
+        };
+        const result = await s3.upload(uploadParams).promise();
+
+        await users.update(
+          {
+            user_image_url: result.Location,
+          },
+          { where: { id: req.params.id } }
+        );
+        res.status(200).json({
+          data: null,
+          message: '성공적으로 프로필 사진을 변경하였습니다.',
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+    }
+  }
+);
+
+// myPage profile image upload with aws s3
+router.post(
+  '/changeProfileImage/:id',
+  imageUpload.single('profileImage'),
+  async function (req, res) {
+    if (req.session.loggedin) {
+      try {
+        const userInfo = await users.findOne({
+          where: { id: req.params.id },
+        });
+
+        const uploadParams = {
+          acl: 'public-read',
+          ContentType: 'image/png',
+          Bucket: 'fitme-s3',
+          Body: req.file.buffer,
+          Key: `user_profile/` + userInfo.id + '.' + req.file.originalname,
+        };
+        const result = await s3.upload(uploadParams).promise();
+
+        await users.update(
+          {
+            user_image_url: result.Location,
+          },
+          { where: { id: req.params.id } }
+        );
+        res.status(200).json({
+          data: null,
+          message: '성공적으로 프로필 사진을 변경하였습니다.',
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+    }
+  }
+);
+
+// get profile image
+router.get('/profileImg/:id', async function (req, res) {
+  if (req.session.loggedin) {
+    try {
+      const userInfo = await users.findOne({
+        where: { id: req.params.id },
+      });
+      const profileImg = userInfo.user_image_url;
+      res.status(200).json({ data: profileImg, message: '' });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 });
 
 module.exports = router;

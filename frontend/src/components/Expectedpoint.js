@@ -41,7 +41,7 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
       count,
     };
     axios
-      .post(`https://localhost:4000/ptrequest/${trainerid}/${userid}/`, body, {
+      .post(`https://localhost:4000/request/ptrequest`, body, {
         withCredentials: true,
       })
       .then(res => {
