@@ -92,8 +92,6 @@ router.post(
           where: { user_id: id },
         });
 
-        console.log(trainer);
-
         const mealPlanDate = await schedules.findOne({
           where: { user_id: id, date: date },
           attributes: ['meal_plan_id'],
@@ -116,6 +114,7 @@ router.post(
             .json({ data: null, message: '해당 식단이 존재하지 않습니다.' });
         }
 
+        console.log(req.file);
         const uploadParams = {
           acl: 'public-read',
           ContentType: 'image/png',

@@ -13,10 +13,16 @@ function CalendarPart() {
   const [dateinfo, onChange] = useState(new Date());
   const [currentTab, clickTab] = useState(0);
   const userid = loginedUser.id;
+
+  const year = dateinfo.getFullYear();
+  const month = dateinfo.getMonth() + 1;
+  const day = dateinfo.getDate();
+  const formattedDate = `${year}-${month}-${day}`;
+
   const menuArr = [
     {
       name: '식단',
-      content: <DietTab userid={userid} date={dateinfo.toLocaleDateString()} />,
+      content: <DietTab userid={userid} date={formattedDate} />,
     }, // dateinfo 정보를 통해 axios로 해당 날짜의 식단 데이터 넣으면 완료
     {
       name: '운동 루틴',

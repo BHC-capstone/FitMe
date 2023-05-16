@@ -5,37 +5,52 @@ import { Link, useNavigate } from 'react-router-dom'; //* ***
 import axios from 'axios';
 // eslint-disable-next-line react/prop-types
 function Routine({
-  num,
   userid,
   date,
   onClickBreakfast,
   onCllckLunch,
   onClickDinner,
 }) {
+  const [num, setNum] = useState(0);
   const [dietImg, setDietImg] = useState([]);
   const imageInput = useRef();
-  const onCickImageUpload2 = () => {
+  const onCickImageUploadBreakfast = () => {
+    setNum(0);
     imageInput.current.click();
   };
+
+  const onCickImageUploadLunch = () => {
+    setNum(1);
+    imageInput.current.click();
+  };
+
+  const onCickImageUploadDinner = () => {
+    setNum(2);
+    imageInput.current.click();
+  };
+
   function onImageChange(event) {
-    let url = null;
+    event.preventDefault();
+    let myUrl = null;
     if (num === 0)
-      url = `https://localhost:4000/calender/mealplan/${userid}/${date}/breakfast`;
+      myUrl = `https://localhost:4000/calender/mealpicture/${userid}/${date}/breakfast`;
     else if (num === 1)
-      url = `https://localhost:4000/calender/mealplan/${userid}/${date}/lunch`;
+      myUrl = `https://localhost:4000/calender/mealpicture/${userid}/${date}/lunch`;
     else
-      url = `https://localhost:4000/calender/mealplan/${userid}/${date}/dinner`;
+      myUrl = `https://localhost:4000/calender/mealpicture/${userid}/${date}/dinner`;
 
     setDietImg(event.target.files[0]);
-    console.log(event.target.files[0]);
     const formData = new FormData();
-    formData.append('image', dietImg);
-    axios
-      .post(url, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
+    formData.append('img', event.target.files[0]);
+    axios({
+      url: myUrl,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      data: formData,
+      method: 'POST',
+      withCredentials: true,
+    })
       .then(res => {
         console.log(res);
       })
@@ -60,7 +75,7 @@ function Routine({
           accept="image"
           onChange={event => onImageChange(event)}
         />
-        <StyledButton num={0} count={2} onClick={onCickImageUpload2}>
+        <StyledButton num={0} count={2} onClick={onCickImageUploadBreakfast}>
           사진 업로드
         </StyledButton>
         <Div />
@@ -79,7 +94,7 @@ function Routine({
           accept="image"
           onChange={event => onImageChange(event)}
         />
-        <StyledButton num={1} count={2} onClick={onCickImageUpload2}>
+        <StyledButton num={1} count={2} onClick={onCickImageUploadLunch}>
           점심 사진 업로드
         </StyledButton>
         <Div />
@@ -98,7 +113,7 @@ function Routine({
           accept="image"
           onChange={event => onImageChange(event)}
         />
-        <StyledButton num={2} count={2} onClick={onCickImageUpload2}>
+        <StyledButton num={2} count={2} onClick={onCickImageUploadDinner}>
           저녁 사진 업로드
         </StyledButton>
         <Div />
