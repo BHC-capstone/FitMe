@@ -1,11 +1,13 @@
 var express = require('express');
 var router = express.Router();
+const { sequelize } = require('../models');
 const {
   trainers,
   trainer_points,
   pt_requests,
   certifications,
   trainer_cert,
+  trainer_review,
 } = require('../models');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -13,7 +15,8 @@ const multerS3 = require('multer-s3');
 const dotenv = require('dotenv');
 const multer = require('multer');
 const AWS = require('aws-sdk');
-const { sequelize } = require('../models');
+const initModels = require('../models/init-models');
+const models = initModels(sequelize);
 
 const imageUpload = require('../modules/s3upload').upload;
 const s3 = require('../modules/s3upload').s3;
@@ -77,6 +80,7 @@ router.post(
 
           const certification = await certifications.create(
             {
+              trainer_id: trainer.id,
               name: req.file.originalname,
               image_url: result.Location,
             },
@@ -223,10 +227,7 @@ router.get('/profile/:id', async function (req, res) {
 });
 
 // trainer info change
-router.post(
-  '/profile/changeProfile/:id',
-  imageUpload.single('profileImage'),
-  async function (req, res) {
+router.post('/profile/changeProfile/:id',async function (req, res) {
     if (req.session.loggedin) {
       try {
         let transaction = await sequelize.transaction();
@@ -302,9 +303,8 @@ router.get('/trainerlist', async function (req, res) {
 
 // trainer detail
 router.get('/trainerlist/:id', async function (req, res) {
-  if (req.session.loggedin) {
     try {
-      const trainerInfo_detail = await trainers.findOne({
+      const trainerInfo_detail = await models.trainers.findOne({
         where: { id: req.params.id },
         attributes: [
           'id',
@@ -316,8 +316,20 @@ router.get('/trainerlist/:id', async function (req, res) {
           'introduction',
           'career',
           'review_avg',
+          'trainer_image_url',
         ],
+        include: {
+          model: models.certifications,
+          as: 'certifications',
+          include: {
+            model: models.trainer_cert,
+            as: 'trainer_certs',
+            attributes: ['expiration_date', 'issued_date'],
+          },
+          attributes: ['name'],
+        },
       });
+      console.log(trainerInfo_detail);
       const trainer_reviews = await trainer_review.findAll({
         where: { trainer_id: req.params.id },
       });
@@ -328,8 +340,10 @@ router.get('/trainerlist/:id', async function (req, res) {
     } catch (err) {
       console.log(err);
     }
-  }
 });
+
+
+
 
 // trainer search
 router.get('/trainerlist/:name', async function (req, res) {

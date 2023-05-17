@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { users, user_points } = require('../models');
+const { users, user_points, bodycheck } = require('../models');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const { sequelize } = require('../models');
@@ -160,7 +160,7 @@ router.get('/profile/:id', async function (req, res) {
 
 // user info update
 router.post('/profile/changeProfile/:id', async function (req, res) {
-  // if (req.session.loggedin) {
+  if (req.session.loggedin) {
   try {
     const userInfo = await users.findOne({
       where: { id: req.params.id },
@@ -193,14 +193,14 @@ router.post('/profile/changeProfile/:id', async function (req, res) {
   } catch (err) {
     console.log(err);
   }
-  // } else {
-  //   res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
-  // }
+  } else {
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+  }
 });
 
 // user point info
 router.get('/userpoint/:id', async function (req, res) {
-  //  if (req.session.loggedin) {
+   if (req.session.loggedin) {
   try {
     const user_point_amount = await user_points.findOne({
       where: { user_id: req.params.id },
@@ -209,9 +209,9 @@ router.get('/userpoint/:id', async function (req, res) {
   } catch (err) {
     console.log(err);
   }
-  //  } else {
-  //    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
-  //  }
+   } else {
+     res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+   }
 });
 
 // myPage profile image upload with aws s3
@@ -306,5 +306,80 @@ router.get('/profileImg/:id', async function (req, res) {
     }
   }
 });
+
+// user bodyinfo create
+router.post('/bodyinfo/:id', async function (req, res) {
+  const currentdate = new Date();
+  const year = currentdate.getFullYear();
+  const month = currentdate.getMonth() + 1;
+  const day = currentdate.getDate();
+  const date = year + '-' + month + '-' + day;
+  if (req.session.loggedin) {
+    try {
+      const beforebodyInfo = await bodycheck.findOne({
+        where: { user_id: req.params.id, last: true },
+      });
+      if(beforebodyInfo !== undefined){
+        await bodycheck.update(
+          {
+            last: false,
+          },
+          { where: { id: beforebodyInfo.id, last: true } }
+        );
+      }
+      const { height, weight } = req.body;
+      const bmi = weight / ((height / 100) ** 2);
+      const bodyInfo = await bodycheck.create({
+        user_id: req.params.id,
+        date: date,
+        height: height,
+        weight: weight,
+        bmi: bmi,
+        last: true,
+      });
+      const uploadParams = {
+        acl: 'public-read',
+        ContentType: 'image/png',
+        Bucket: 'fitme-s3',
+        Body: req.file.buffer,
+        Key:
+          `bodycheck/` +
+          date +
+          `/${req.params.id}/` +
+          req.file.originalname,
+      };
+      const result = await s3.upload(uploadParams).promise();
+      await bodycheck.update(
+        {
+          body_image_url: result.Location,
+        },
+        { where: { id: bodyInfo.id } }
+      );
+      res.status(200).json({ data: bodyInfo, message: '성공적으로 등록되었습니다.' });
+    } catch (err) {
+      console.log(err);
+    }
+  } else {
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+  }
+});
+
+// check user bodyinfo
+router.get('/checkbodyinfo/:id', async function (req, res) {
+  if (req.session.loggedin) {
+    try {
+      const bodyInfo = await bodycheck.findAll({
+        where: { user_id: req.params.id },
+      });
+      res.status(200).json({ data: bodyInfo, message: '' });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ data: null, message: '서버 오류가 발생했습니다.' });
+    }
+  } else {
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+  }
+}); 
+
 
 module.exports = router;

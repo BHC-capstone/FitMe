@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-unresolved
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
@@ -8,12 +8,15 @@ import { useParams } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
 import Expectedpoint from '../../components/Expectedpoint';
 import './Ptrequest.css';
+import UserCaution from '../../components/ptrequest/UserInputForm';
 
 export default function Ptrequest() {
   const { trainerid } = useParams();
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-
+  useEffect(() => {
+    console.log(trainerid, '수고하세요');
+  }, []);
   return (
     <Layout>
       <Container fluid className="panel">

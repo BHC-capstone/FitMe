@@ -30,12 +30,24 @@ router.get('/checkptuserlist/:id', async function (req, res) {
       res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
     }
   });
+  
 // check pt user detail
 router.get('/checkptuserdetail/:user_id/:id', async function (req, res) {
   try {
     const check_pt_user_detail = await trainer_manage.findOne({
       where: { trainer_id: req.params.id, user_id: req.params.user_id },
+      include: {
+        model: users,
+        as: 'user',
+        attributes: ['name'],
+        where: { id: sequelize.col('trainer_manage.user_id') }
+      },
     });
+    const userWithNames = {
+        ...check_pt_user_detail.toJSON(),
+        name: check_pt_user_detail.user.name
+      };
+      res.status(200).json({ data: userWithNames, message: '' });
     res.status(200).json({ data: check_pt_user_detail, message: '' });
   } catch (err) {
     console.log(err);

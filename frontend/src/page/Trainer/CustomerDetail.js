@@ -2,7 +2,7 @@ import { Card, Tag, Form, Input, Select } from 'antd';
 import { Container, Button, ButtonGroup, Row, Col } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import TagList from '../../components/TagList';
 
@@ -20,7 +20,7 @@ function CustomerDetail() {
   const loginedUser = useSelector(state => state.user);
   const [form] = Form.useForm();
   const [color, setColor] = useState('');
-
+  const navigate = useNavigate();
   useEffect(() => {
     axios
       .get(
@@ -148,11 +148,12 @@ function CustomerDetail() {
                 </Button>
               </p>
               <p />
-              <ButtonGroup>
-                <Button variant="success">캘린더</Button>
-                <Button variant="secondary">피드백</Button>
-                <Button variant="danger">회원관리</Button>
-              </ButtonGroup>
+              <Button
+                variant="primary"
+                onClick={() => navigate(`/trainercalendar/${id}`)}
+              >
+                캘린더
+              </Button>
             </>
           }
         />

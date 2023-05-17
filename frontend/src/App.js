@@ -49,7 +49,7 @@ export default function App() {
         <Route path="/customer-list" element={<CustomerList />} />
         <Route path="/customer-management/:id" element={<CustomerDetail />} />
         <Route path="/calendar" element={<CalendarPart />} />
-        <Route path="/trainercalendar" element={<TrainerCalendar />} />
+        <Route path="/trainercalendar/:userid" element={<TrainerCalendar />} />
       </Routes>
     </div>
   );

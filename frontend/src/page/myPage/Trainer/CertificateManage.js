@@ -44,6 +44,7 @@ function CertificateManage() {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
+          withCredentials: true,
         },
       )
       .then(response => {

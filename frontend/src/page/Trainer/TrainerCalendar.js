@@ -3,21 +3,33 @@ import Calendar from 'react-calendar';
 import '../../scss/calendar.scss';
 import styled from 'styled-components';
 import { Container } from 'react-bootstrap';
-import DietTab from '../../components/DietTab';
+import { useParams } from 'react-router-dom';
+import TrainerDietTab from '../../components/trainerCalendar/TrainerDietTab';
 import ExerciseTab from '../../components/ExerciseTab';
 import FeedbackTab from '../../components/FeedbackTab';
+import TrainerRoutine from '../../components/trainerCalendar/TrainerRoutine';
+import TrainerExerciseTab from '../../components/trainerCalendar/TrainerExerTab';
 
-function TrainerCalendar(userid) {
+function TrainerCalendar() {
+  const { userid } = useParams();
   const [dateinfo, onChange] = useState(new Date());
   const [currentTab, clickTab] = useState(0);
   const menuArr = [
     {
       name: '식단',
-      content: <DietTab userid={userid} date={dateinfo.toLocaleDateString()} />,
+      content: (
+        <TrainerDietTab userid={userid} date={dateinfo.toLocaleDateString()} />
+      ),
     }, // dateinfo 정보를 통해 axios로 해당 날짜의 식단 데이터 넣으면 완료
     {
       name: '운동 루틴',
-      content: <ExerciseTab userid={userid} date={dateinfo} />,
+      // content: <ExerciseTab userid={userid} date={dateinfo} />,
+      content: (
+        <TrainerExerciseTab
+          userid={userid}
+          date={dateinfo.toLocaleDateString()}
+        />
+      ),
     }, // dateinfo 정보를 통해 axios로 해당 날짜의 운동 루틴 데이터 넣으면 완료
     {
       name: '트레이너 피드백	',

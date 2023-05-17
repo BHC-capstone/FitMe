@@ -16,9 +16,12 @@ function ExerciseTab({ userid, date }) {
   };
   useEffect(() => {
     axios
-      .get(`https://localhost:4000/exerciseroutine/${userid}/${date}`, {
-        withCredentials: true,
-      })
+      .get(
+        `https://localhost:4000/exerciseroutine/${userid}/${date.toLocaleDateString()}`,
+        {
+          withCredentials: true,
+        },
+      )
       .then(res => {
         setExerdate(res.data.data);
         console.log(res.data.data);
