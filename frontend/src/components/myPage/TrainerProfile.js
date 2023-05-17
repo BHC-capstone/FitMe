@@ -8,7 +8,6 @@ function TrainerProfile() {
   const handleFileUpload = event => {
     event.preventDefault();
     const formData = new FormData();
-    
   };
 
   return (

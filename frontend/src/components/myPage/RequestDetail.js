@@ -4,6 +4,7 @@ import { Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Avatar, Button, Descriptions } from 'antd';
+import './RequestDetail.css';
 
 function ButtonDisplay({
   isTrainer,
@@ -100,28 +101,28 @@ function RequestDetail({ request, fetch }) {
             alt="회원몸사진"
           />
           <Descriptions title="회원정보" bordered>
-            <Descriptions.Item label="회원 이름">
+            <Descriptions.Item label=" 이름" className="item-label">
               {request && request.id}
             </Descriptions.Item>
-            <Descriptions.Item label="회원 나이">
+            <Descriptions.Item label=" 나이" className="item-label">
               {request && request.age}
             </Descriptions.Item>
-            <Descriptions.Item label="회원 성별">
+            <Descriptions.Item label=" 성별" className="item-label">
               {request.gender}
             </Descriptions.Item>
-            <Descriptions.Item label="회원 키">
+            <Descriptions.Item label=" 키" className="item-label">
               {request.height}
             </Descriptions.Item>
-            <Descriptions.Item label="회원 몸무게">
+            <Descriptions.Item label=" 몸무게" className="item-label">
               {request.weight}
             </Descriptions.Item>
-            <Descriptions.Item label="신청 pt횟수">
+            <Descriptions.Item label=" pt횟수" className="item-label">
               {request.count}
             </Descriptions.Item>
-            <Descriptions.Item label="요청사항">
+            <Descriptions.Item label="요청사항" className="item-label">
               {request.request}
             </Descriptions.Item>
-            <Descriptions.Item label="응답 메시지">
+            <Descriptions.Item label="응답 메시지" className="item-label">
               {request.response}
             </Descriptions.Item>
           </Descriptions>

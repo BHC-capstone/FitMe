@@ -35,7 +35,7 @@ export default function UserLoginPage(props) {
         console.log(res);
         if (res.status === 200) {
           dispatch(loginUser(res.data.data));
-          navigate('/mypage');
+          navigate('/trainer-list');
         } else {
           alert(res.data.message);
         }
