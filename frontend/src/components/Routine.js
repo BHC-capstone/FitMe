@@ -4,48 +4,57 @@ import { Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom'; //* ***
 import axios from 'axios';
 // eslint-disable-next-line react/prop-types
-function Routine({ num, exercisename, time, set, exerciseURL, guideURL }) {
-  const [exerVideo, setExerVideo] = useState([]);
+function Routine({
+  num,
+  exercisename,
+  content,
+  time,
+  set,
+  exerciseURL,
+  guideURL,
+  userid,
+  routineid,
+}) {
   const videoInput = useRef();
   const onCickImageUpload2 = () => {
     videoInput.current.click();
   };
   function onVideoChange(event) {
-    setExerVideo(event.target.files[0]);
-    console.log(event.target.files[0]);
     const formData = new FormData();
-    formData.append('video', exerVideo);
-    axios
-      .post('', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-
-        withCredentials: true,
-      })
+    formData.append('video', videoInput.current.files[0]);
+    axios({
+      url: `https://localhost:4000/calender/exercisevideo/${userid}/${routineid}`,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      data: formData,
+      method: 'POST',
+      withCredentials: true,
+    })
       .then(res => {
         console.log(res);
       })
       .catch(err => {
-        console.log('fail');
+        console.log(err);
       });
     // console.log(event.target.files);
   }
   return (
     <div>
-      <Flexcontainer num={0}>
-        <Text0 num={0}>오늘의 운동{num}</Text0>
-        <Text1 num={0}>벤치 프레스{exercisename}</Text1>
-        <Text2 num={0}>
+      <Flexcontainer num={num}>
+        <Text0 num={num}>오늘의 운동 {num + 1}</Text0>
+        <Text1 num={num}>{exercisename}</Text1>
+        <Text2 num={num}>{content}</Text2>
+        <Text2 num={num}>
           {time}회 X {set}세트
         </Text2>
         <StyledLink to={exerciseURL} style={{ textDecoration: 'none' }}>
-          <TextBox num={0} count={1}>
+          <TextBox num={num} count={1}>
             운동 자세 영상 확인
           </TextBox>
         </StyledLink>
         <StyledLink to={guideURL} style={{ textDecoration: 'none' }}>
-          <TextBox num={0} count={2}>
+          <TextBox num={num} count={2}>
             촬영 가이드 확인
           </TextBox>
         </StyledLink>
@@ -56,35 +65,7 @@ function Routine({ num, exercisename, time, set, exerciseURL, guideURL }) {
           accept="video"
           onChange={event => onVideoChange(event)}
         />
-        <StyledButton num={0} count={3} onClick={onCickImageUpload2}>
-          영상 업로드
-        </StyledButton>
-        <Div />
-      </Flexcontainer>
-      <Flexcontainer num={1}>
-        <Text0 num={1}>오늘의 운동{num}</Text0>
-        <Text1 num={1}>사이드암{exercisename}</Text1>
-        <Text2 num={1}>
-          {time}회 X {set}세트
-        </Text2>
-        <StyledLink to={exerciseURL} style={{ textDecoration: 'none' }}>
-          <TextBox num={1} count={1}>
-            운동 자세 영상 확인
-          </TextBox>
-        </StyledLink>
-        <StyledLink to={guideURL} style={{ textDecoration: 'none' }}>
-          <TextBox num={1} count={2}>
-            촬영 가이드 확인
-          </TextBox>
-        </StyledLink>
-        <input
-          type="file"
-          style={{ display: 'none' }}
-          ref={videoInput}
-          accept="video"
-          onChange={event => onVideoChange(event)}
-        />
-        <StyledButton num={1} count={3} onClick={onCickImageUpload2}>
+        <StyledButton num={num} count={3} onClick={onCickImageUpload2}>
           영상 업로드
         </StyledButton>
         <Div />

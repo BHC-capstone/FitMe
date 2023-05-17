@@ -56,6 +56,7 @@ router.get("/exerciseroutine/:id/:date", async (req, res) => {
     //  if (req.session.loggedin) {
     try {
         const { id, date } = req.params;
+        console.log("test" + date + date);
         const schedule_date = await schedules.findOne({
             where: { user_id: id, date: date },
         });
@@ -110,12 +111,10 @@ router.post(
                 });
 
                 if (!mealPlan) {
-                    return res
-                        .status(400)
-                        .json({
-                            data: null,
-                            message: "해당 식단이 존재하지 않습니다.",
-                        });
+                    return res.status(400).json({
+                        data: null,
+                        message: "해당 식단이 존재하지 않습니다.",
+                    });
                 }
 
                 console.log(req.file);

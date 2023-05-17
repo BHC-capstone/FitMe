@@ -17,7 +17,7 @@ function ExerciseTab({ userid, date }) {
   useEffect(() => {
     axios
       .get(
-        `https://localhost:4000/exerciseroutine/${userid}/${date.toLocaleDateString()}`,
+        `https://localhost:4000/calender/exerciseroutine/${userid}/${date}`,
         {
           withCredentials: true,
         },
@@ -30,16 +30,19 @@ function ExerciseTab({ userid, date }) {
   // 운동 루틴이 배열로 제공 된다고 가정하면 map 함수를 상위에 추가하여 밑의 컴포넌트들을 본문으로 사용할 예정
   return (
     <Flexcontainers>
-      <Routine />
+      {/* <Routine /> */}
       {exerdate.map((el, index) => (
         // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
         <Routine
           num={index}
-          exercisename={el.exercisename}
-          time={el.time}
-          set={el.set}
-          exerciseURL={el.exerciseURL}
-          guideURL={el.guideURL}
+          exercisename={el.name}
+          content={el.content}
+          time={el.exercise_count}
+          set={el.set_count}
+          exerciseURL={el.user_video_url}
+          guideURL={el.guide_video_url}
+          userid={userid}
+          routineid={el.id}
         />
       ))}
     </Flexcontainers>
