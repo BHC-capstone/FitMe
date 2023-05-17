@@ -31,30 +31,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    injury: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    career: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    significant: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    bodyshape: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    purpose: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    lifestyle: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
     user_image_url: {
       type: DataTypes.STRING(255),
       allowNull: true
