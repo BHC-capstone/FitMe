@@ -48,6 +48,8 @@ function initModels(sequelize) {
   schedules.hasMany(exercise_routines, { as: "exercise_routines", foreignKey: "schedule_id"});
   certifications.belongsTo(trainers, { as: "trainer", foreignKey: "trainer_id"});
   trainers.hasMany(certifications, { as: "certifications", foreignKey: "trainer_id"});
+  pt_requests.belongsTo(users, { as: "user", foreignKey: "user_id"});
+  users.hasMany(pt_requests, { as: "pt_requests", foreignKey: "user_id"});
   trainer_manage.belongsTo(users, { as: "user", foreignKey: "user_id"});
   users.hasMany(trainer_manage, { as: "trainer_manages", foreignKey: "user_id"});
 

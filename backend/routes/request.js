@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
-const { users, trainers, pt_requests, trainer_manage } = require('../models');
+const { sequelize } = require('../models');
+const { users, trainers, pt_requests, trainer_manage, bodycheck } = require('../models');
+const initModels = require('../models/init-models');
+const models = initModels(sequelize);
 
 
 // pt 요청 
@@ -10,6 +13,7 @@ router.post('/ptrequest', (req, res) => {
   pt_requests.findOne({
       where: { trainer_id: req.body.trainer_id, user_id: req.body.id },
   }).then((requestInfo) => {
+  const requestInfo = undefined;
   if (requestInfo == undefined) {
       const userInfo = users.findOne({
       where: { id: req.body.id },
@@ -39,7 +43,7 @@ router.post('/ptrequest', (req, res) => {
   } else {
       res.status(401).json({ data: null, message: '이미 신청한 trainer입니다' });
   }
-  })
+})
 } catch (err) {
   console.log(err);
 }
@@ -88,35 +92,54 @@ router.post('/delete/:user_id/:id', (req, res) => {
 
 
 // trainer pt 요청 조회
-router.get('/checklists/:id', (req, res) => {
+router.get('/checklists/:id', async function (req, res) {
     if (req.session.loggedin){
+      try{
     const { id } = req.params;
-    pt_requests.findAll({
+    const ptList = await models.pt_requests.findAll({
         where: { trainer_id: id, accept: false },
-    }).then((requestInfo) => {
-    if (requestInfo != undefined) {
-        res.status(200).json({ data: requestInfo, message: '' });
-    } else {
-        res.status(401).json({ data: null, message: '' });
-    }
+        include: [
+          {
+            model: users,
+            as: 'user',
+            attributes: ['name'],
+          },
+        ]
     });
-} else { 
-    console.log('checklists');
+    const ptListWithNames = ptList.map((item) => {
+        const { name } = item.user;
+        return { ...item.toJSON(), name };
+      });
+      res.status(200).json({ data: ptListWithNames, message: '' });
+    } catch (err) {
+      console.log(err);
+  }
+} else {
     res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
 }
 });
 
 // trainer pt 요청 user 조회
-router.get('/checklists/:id/:user_id', (req, res) => {
+router.get('/checklists/:id/:user_id', async function (req, res) {
     if (req.session.loggedin){
     try {
       const { id, user_id } = req.params;
-      const bodyInfo = bodycheck.findOne({
+      const bodyInfo = await bodycheck.findOne({
         where: { user_id: user_id , last: true },
       });
-      const requestInfo = pt_requests.findOne({
+      const requestInfo = await models.pt_requests.findOne({
         where: { trainer_id: id, user_id: user_id },
+        include: {
+          model: users,
+          as: 'user',
+          attributes: ['name'],
+          where: { id: sequelize.col('pt_requests.user_id') }
+        },
       });
+      const requestInfoWithNames = {
+        ...requestInfo.toJSON(),
+        name: requestInfo.user.name
+      };
       res.status(200).json({ data: [requestInfo, bodyInfo], message: '' });
     } catch (err) {
       console.log(err);
