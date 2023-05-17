@@ -227,54 +227,50 @@ router.get('/profile/:id', async function (req, res) {
 });
 
 // trainer info change
-router.post('/profile/changeProfile/:id',async function (req, res) {
-    if (req.session.loggedin) {
-      try {
-        let transaction = await sequelize.transaction();
+router.post('/profile/changeProfile/:id', async function (req, res) {
+  if (req.session.loggedin) {
+    try {
+      let transaction = await sequelize.transaction();
 
-        const trinersInfo = await trainers.findOne(
+      const trinersInfo = await trainers.findOne(
+        {
+          where: { id: req.params.id },
+        },
+        { transaction }
+      );
+      if (req.body.password != req.body.password2)
+        res.status(401).json({
+          data: null,
+          message: '입력된 비밀번호가 서로 다릅니다.',
+        });
+      else {
+        const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+
+        await trainers.update(
           {
-            where: { id: req.params.id },
+            email: req.body.email,
+            name: req.body.name,
+            password: hashedPassword,
+            age: req.body.age,
+            gender: req.body.gender,
+            phonenumber: req.body.phonenumber,
+            introduction: req.body.introduction,
           },
+          { where: { id: req.params.id } },
           { transaction }
         );
-        if (req.body.password != req.body.password2)
-          res.status(401).json({
-            data: null,
-            message: '입력된 비밀번호가 서로 다릅니다.',
-          });
-        else {
-          const hashedPassword = await bcrypt.hash(
-            req.body.password,
-            saltRounds
-          );
-
-          await trainers.update(
-            {
-              email: req.body.email,
-              name: req.body.name,
-              password: hashedPassword,
-              age: req.body.age,
-              gender: req.body.gender,
-              phonenumber: req.body.phonenumber,
-              introduction: req.body.introduction,
-            },
-            { where: { id: req.params.id } },
-            { transaction }
-          );
-          res.status(200).json({
-            data: null,
-            message: '성공적으로 변경되었습니다.',
-          });
-        }
-      } catch (err) {
-        console.log(err);
+        res.status(200).json({
+          data: null,
+          message: '성공적으로 변경되었습니다.',
+        });
       }
-    } else {
-      res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+    } catch (err) {
+      console.log(err);
     }
+  } else {
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
   }
-);
+});
 
 // trainerlist paging
 router.get('/trainerlist', async function (req, res) {
@@ -303,47 +299,44 @@ router.get('/trainerlist', async function (req, res) {
 
 // trainer detail
 router.get('/trainerlist/:id', async function (req, res) {
-    try {
-      const trainerInfo_detail = await models.trainers.findOne({
-        where: { id: req.params.id },
-        attributes: [
-          'id',
-          'name',
-          'age',
-          'gender',
-          'phonenumber',
-          'email',
-          'introduction',
-          'career',
-          'review_avg',
-          'trainer_image_url',
-        ],
+  try {
+    const trainerInfo_detail = await models.trainers.findOne({
+      where: { id: req.params.id },
+      attributes: [
+        'id',
+        'name',
+        'age',
+        'gender',
+        'phonenumber',
+        'email',
+        'introduction',
+        'career',
+        'review_avg',
+        'trainer_image_url',
+      ],
+      include: {
+        model: models.certifications,
+        as: 'certifications',
         include: {
-          model: models.certifications,
-          as: 'certifications',
-          include: {
-            model: models.trainer_cert,
-            as: 'trainer_certs',
-            attributes: ['expiration_date', 'issued_date'],
-          },
-          attributes: ['name'],
+          model: models.trainer_cert,
+          as: 'trainer_certs',
+          attributes: ['expiration_date', 'issued_date'],
         },
-      });
-      console.log(trainerInfo_detail);
-      const trainer_reviews = await trainer_review.findAll({
-        where: { trainer_id: req.params.id },
-      });
-      res.status(200).json({
-        data: { trainerInfo_detail, trainer_reviews },
-        message: '',
-      });
-    } catch (err) {
-      console.log(err);
-    }
+        attributes: ['name'],
+      },
+    });
+    console.log(trainerInfo_detail);
+    const trainer_reviews = await trainer_review.findAll({
+      where: { trainer_id: req.params.id },
+    });
+    res.status(200).json({
+      data: { trainerInfo_detail, trainer_reviews },
+      message: '',
+    });
+  } catch (err) {
+    console.log(err);
+  }
 });
-
-
-
 
 // trainer search
 router.get('/trainerlist/:name', async function (req, res) {
@@ -497,6 +490,24 @@ router.get('/profileImg/:id', async function (req, res) {
       });
       const profileImg = trainerInfo.trainer_image_url;
       res.status(200).json({ data: profileImg, message: '' });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+});
+
+router.get('/getListOfCertification/:id', async function (req, res) {
+  if (req.session.loggedin) {
+    try {
+      const trainerInfo = await trainers.findOne({
+        where: { id: req.params.id },
+        include: {
+          model: models.certifications,
+          as: 'certifications',
+          attributes: ['name', 'image_url'],
+        },
+      });
+      res.status(200).json({ data: trainerInfo.certifications, message: '' });
     } catch (err) {
       console.log(err);
     }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Container } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import { Avatar, Button, Descriptions } from 'antd';
 import './RequestDetail.css';
@@ -47,12 +47,16 @@ function RequestDetail({ request, fetch }) {
   const isTrainer = loginedUser.isTrainer.toString();
   const handleAccept = async (trainerId, requestId) => {
     try {
-      await axios.post(
-        `https://localhost:4000/request/accept/${trainerId}/${requestId}`,
-        {
-          response: '수락',
-        },
-      );
+      await axios
+        .post(
+          `https://localhost:4000/request/accept/${trainerId}/${requestId}`,
+          {
+            response: '수락',
+          },
+        )
+        .then(res => {
+          Navigate('/customer-list');
+        });
       // fetchRequest();
     } catch (error) {
       console.error(error);
@@ -93,37 +97,52 @@ function RequestDetail({ request, fetch }) {
   return (
     <Container>
       <div>
-        <h1>{request.name}</h1>
-        <div>
+        <div className="request-detail-container">
           <Avatar
             size={64}
             src={request && request.body_img}
             alt="회원몸사진"
           />
-          <Descriptions title="회원정보" bordered>
-            <Descriptions.Item label=" 이름" className="item-label">
-              {request && request.id}
+          <Descriptions title="회원정보" bordered column={1}>
+            <Descriptions.Item label=" 이름">
+              <span className="item-value">{request.name}</span>
             </Descriptions.Item>
-            <Descriptions.Item label=" 나이" className="item-label">
+            <Descriptions.Item label=" 나이">
               {request && request.age}
             </Descriptions.Item>
-            <Descriptions.Item label=" 성별" className="item-label">
+            <Descriptions.Item label=" 성별">
               {request.gender}
             </Descriptions.Item>
-            <Descriptions.Item label=" 키" className="item-label">
-              {request.height}
-            </Descriptions.Item>
-            <Descriptions.Item label=" 몸무게" className="item-label">
+            <Descriptions.Item label=" 키">{request.height}</Descriptions.Item>
+            <Descriptions.Item label=" 몸무게">
               {request.weight}
             </Descriptions.Item>
-            <Descriptions.Item label=" pt횟수" className="item-label">
+            <Descriptions.Item label=" pt횟수">
               {request.count}
             </Descriptions.Item>
-            <Descriptions.Item label="요청사항" className="item-label">
-              {request.request}
+
+            <Descriptions.Item label="지병 혹은 부상">
+              {request.injury}
             </Descriptions.Item>
-            <Descriptions.Item label="응답 메시지" className="item-label">
-              {request.response}
+
+            <Descriptions.Item label="운동 경력">
+              {request.career}
+            </Descriptions.Item>
+
+            <Descriptions.Item label="특이사항">
+              {request.significant}
+            </Descriptions.Item>
+
+            <Descriptions.Item label="체형과 통증">
+              {request.bodyshape}
+            </Descriptions.Item>
+
+            <Descriptions.Item label="운동 목적">
+              {request.purpose}
+            </Descriptions.Item>
+
+            <Descriptions.Item label="직업 또는 생활 패턴">
+              {request.lifestyle}
             </Descriptions.Item>
           </Descriptions>
           <ButtonDisplay
