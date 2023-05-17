@@ -20,6 +20,8 @@ function Routine({ num, exercisename, time, set, exerciseURL, guideURL }) {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+
+        withCredentials: true,
       })
       .then(res => {
         console.log(res);

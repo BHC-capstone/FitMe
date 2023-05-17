@@ -5,25 +5,46 @@ const { users, trainers, pt_requests, trainer_manage } = require('../models');
 
 // pt 요청 
 router.post('/ptrequest', (req, res) => {
-        pt_requests.findOne({
-            where: { trainer_id: req.body.trainer_id, user_id: req.body.id },
-        }).then((requestInfo) => {
-        if (requestInfo == undefined) {
-            const newRequest = {
-            user_id: req.body.id,
-            trainer_id: req.body.trainer_id,
-            date: req.body.startDate,
-            count: req.body.count,
-            request: req.body.request,
-            days: req.body.days,
-            };
-            pt_requests.create(newRequest).then(() => {
-            res.status(200).json({ data: null, message: '성공적으로 신청되었습니다.' });
-            });
-        } else {
-            res.status(401).json({ data: null, message: '이미 신청한 trainer입니다' });
-        }
-        });
+  if (req.session.loggedin){
+  try{
+  pt_requests.findOne({
+      where: { trainer_id: req.body.trainer_id, user_id: req.body.id },
+  }).then((requestInfo) => {
+  if (requestInfo == undefined) {
+      const userInfo = users.findOne({
+      where: { id: req.body.id },
+      });
+      const newRequest = {
+      user_id: req.body.id,
+      trainer_id: req.body.trainer_id,
+      date: req.body.startDate,
+      count: req.body.count,
+      request: req.body.request,
+      days: req.body.days,
+      gender: userInfo.gender,
+      age: userInfo.age,
+      height: req.body.height,
+      weight: req.body.weight,
+      injury: req.body.injury,
+      career: req.body.career,
+      significant: req.body.significant,
+      bodyshape: req.body.bodyshape,
+      purpose: req.body.purpose,
+      lifestyle: req.body.lifestyle,
+      };
+      pt_requests.create(newRequest).then(() => {
+      res.status(200).json({ data: null, message: '성공적으로 신청되었습니다.' });
+      });
+  } else {
+      res.status(401).json({ data: null, message: '이미 신청한 trainer입니다' });
+  }
+  })
+} catch (err) {
+  console.log(err);
+}
+} else {
+  res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+}
 });
 
 // user pt 요청 조회

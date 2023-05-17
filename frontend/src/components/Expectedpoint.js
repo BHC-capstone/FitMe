@@ -5,13 +5,16 @@ import { Button } from 'react-bootstrap';
 import propTypes from 'prop-types';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import UserInputForm from './ptrequest/UserInputForm';
 
 function Expectedpoint({ startDate, endDate, trainerid }) {
   const loginedUser = useSelector(state => state.user);
   const userid = loginedUser.id;
   const [days, setdays] = useState([]);
   const [count, setCount] = useState([]);
+  const [detaildata, setDetailData] = useState([]);
   useEffect(() => {
+    console.log(trainerid, '안녕하세요?');
     setdays(
       Math.floor(
         Math.ceil(
@@ -29,16 +32,51 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
       ),
     );
   }, []);
+  const highFunction = ({
+    height,
+    gender,
+    age,
+    weight,
+    injury,
+    career,
+    significant,
+    bodyshape,
+    purpose,
+    lifestyle,
+  }) => {
+    setDetailData({
+      height,
+      gender,
+      age,
+      weight,
+      injury,
+      career,
+      significant,
+      bodyshape,
+      purpose,
+      lifestyle,
+    });
+  };
   const onSubmitHandler = event => {
     event.preventDefault();
-
+    console.log(trainerid);
     const body = {
-      trainerid,
-      userid,
+      trainer_id: trainerid,
+      id: userid,
       startDate,
       days,
       // requst //
       count,
+      height: detaildata.height,
+      gender: detaildata.gender,
+      age: detaildata.age,
+      weight: detaildata.weight,
+      injury: detaildata.injury,
+      career: detaildata.career,
+      significant: detaildata.significant,
+      bodyshape: detaildata.bodyshape,
+      purpose: detaildata.purpose,
+      lifestyle: detaildata.lifestyle,
     };
     axios
       .post(`https://localhost:4000/request/ptrequest`, body, {
@@ -49,7 +87,7 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
         if (res.status === 200) {
           console.log(res);
         } else {
-          alert(res.data.message);
+          console.log(res);
         }
       })
       .catch(err => {
@@ -85,6 +123,7 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
           충전
         </Button>
       </Boxr>
+      <UserInputForm datatransform={highFunction} />
     </div>
   );
 }

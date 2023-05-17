@@ -144,7 +144,7 @@ router.post('/createExercise/:date/:id/:userId',videoUpload.single('video'),asyn
           res.status(200).json({ data: exerciseRoutine, message: '운동루틴 업로드가 완료되었습니다.' });
         } catch (err) {
         console.log(err);
-        res.status(500).json({ data: null, message: '서버 오류가 발생했습니다.' });
+        res.status(500).json({ data: null, message: err });
         }
     } else {
         res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
