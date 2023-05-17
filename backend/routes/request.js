@@ -254,4 +254,35 @@ router.post('/reject/:trainer_id/:id', (req, res) => {
     });
 });
 
+router.post('/cancel/:user_id/:id', (req, res) => {
+  const { user_id, id } = req.params;
+  pt_requests
+    .findOne({
+      where: { user_id: user_id, id: id },
+    })
+    .then((requestInfo) => {
+      if (requestInfo != undefined) {
+        pt_requests
+          .destroy({
+            where: { user_id: user_id, id: id },
+          })
+          .then(() => {
+            res
+              .status(200)
+              .json({ data: null, message: '성공적으로 취소되었습니다.' });
+          })
+          .catch((error) => {
+            res.status(500).json({ data: null, message: error.message });
+          });
+      } else {
+        res
+          .status(401)
+          .json({ data: null, message: 'pt request가 존재하지 않습니다.' });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({ data: null, message: error.message });
+    });
+});
+
 module.exports = router;

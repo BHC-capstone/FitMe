@@ -70,6 +70,9 @@ function RequestDetail({ request, fetch }) {
         {
           response: '취소',
         },
+        {
+          withCredentials: true,
+        },
       );
       fetch();
     } catch (error) {
@@ -83,6 +86,9 @@ function RequestDetail({ request, fetch }) {
         `https://localhost:4000/request/reject/${trainerId}/${requestId}`,
         {
           response: '거절',
+        },
+        {
+          withCredentials: true,
         },
       );
       fetch();
