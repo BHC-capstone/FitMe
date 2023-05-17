@@ -12,10 +12,9 @@ router.post('/ptrequest', (req, res) => {
   try{
   pt_requests.findOne({
       where: { trainer_id: req.body.trainer_id, user_id: req.body.id },
-  }).then((requestInfo) => {
-  const requestInfo = undefined;
+  }).then(async (requestInfo) => {
   if (requestInfo == undefined) {
-      const userInfo = users.findOne({
+      const userInfo = await users.findOne({
       where: { id: req.body.id },
       });
       const newRequest = {
