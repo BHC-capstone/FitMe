@@ -259,3 +259,17 @@ const Head1 = styled.div`
   margin: 0 auto;
   padding: 10px;
 `;
+
+const StyledButton = styled(Button)`
+  // padding-left: 5%;
+  text-align: left;
+  // border-radius: 30px;
+  border: 1px solid #ced4da;
+  width: 100%;
+  background-color: white;
+  margin: auto;
+  line-height: 60px;
+  height: 55px;
+  color: black;
+  margin-bottom: 20px;
+`;

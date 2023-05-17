@@ -1,96 +1,63 @@
 import React from 'react';
-import { Container, Nav } from 'react-bootstrap';
-
 import styled from 'styled-components';
 
 function TabMenu({ menuArr, currentTab, selectMenuHandler }) {
   return (
     <TabsContainer>
-      <Nav className="nav-tabs" variant="pills">
+      <Tab>
         {menuArr.map((el, index) => (
-          <Nav.Item key={el.elid}>
-            <NavTabLink
-              className={index === currentTab ? 'nav-link active' : 'nav-link'}
-              onClick={() => selectMenuHandler(index)}
-            >
-              {el.name}
-            </NavTabLink>
-          </Nav.Item>
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events
+          <li
+            key={el.elid}
+            className={index === currentTab ? 'submenu focused' : 'submenu'}
+            onClick={() => selectMenuHandler(index)}
+          >
+            {el.name}
+          </li>
         ))}
-      </Nav>
+      </Tab>
       <TabContent>{menuArr[currentTab].content}</TabContent>
     </TabsContainer>
   );
 }
 
-// const TabMenuWrapper = styled.ul`
-//   background-color: #ffffff;
-//   color: rgb(21, 20, 20);
-//   font-weight: bold;
-//   display: flex;
-//   flex-direction: row;
-//   align-items: center;
-//   list-style: none;
-//   margin-bottom: 7rem;
-//   margin-top: 10px;
-//   border-bottom: solid 1px;
-//   border-bottom-color: #d1d1d1;
-
-//   .submenu {
-//     display: flex;
-//     width: calc(100% / 3);
-//     padding: 10px;
-//     font-size: 15px;
-//     transition: 0.5s;
-//     border-radius: 10px 10px 0px 0px;
-//   }
-
-//   .focused {
-//     border-bottom: solid 3px;
-//   }
-// `;
-
-const Desc = styled.div`
-  text-align: center;
-`;
-
 const TabsContainer = styled.div`
   margin: auto;
 `;
 
-const NavTabLink = styled.a`
-  background-color: #ffffff;
-  color: rgb(21, 20, 20);
-  font-weight: bold;
+const Tab = styled.ul`
+background-color: #ffffff;
+color: rgb(21, 20, 20);
+font-weight: bold;
+display: flex;
+flex-direction: row;
+align-items: center;
+list-style: none;
+margin-bottom: 30px;
+margin-top: 10px;
+border-bottom: solid 1px;
+border-bottom-color: #d1d1d1;
+
+.submenu {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  list-style: none;
-  margin-bottom: 30px;
-  margin-top: 10px;
-  border-bottom: solid 1px;
-  border-bottom-color: #d1d1d1;
+  justify-content: space-around;
+  width: 390px;
+  height: 40px; */
+  width: calc(50% / 3);
+  padding: 10px;
+  font-size: 15px;
+  transition: 0.5s;
+  border-radius: 10px 10px 0px 0px;
+}
 
-  .submenu {
-    display: flex;
-    justify-content: space-around;
-    width: 390px;
-    height: 40px; */
-    width: calc(50% / 3);
-    padding: 10px;
-    font-size: 15px;
-    transition: 0.5s;
-    border-radius: 10px 10px 0px 0px;
-  }
+.focused {
+  color: #fff;
+  background-color: #2ba5f7;
+}
 
-  .focused {
-    color: #fff;
-    background-color: #2ba5f7;
-  }
-
-  & div.desc {
-    text-align: center;
-  }
+& div.desc {
+  text-align: center;
+}
 `;
 
 const TabContent = styled.div`

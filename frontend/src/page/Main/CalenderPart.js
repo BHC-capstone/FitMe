@@ -38,13 +38,16 @@ function CalendarPart() {
   };
   return (
     <Container fluid className="panel">
-      <Calendar
-        formatDay={(location, date) =>
-          date.toLocaleDateString('en', { day: 'numeric' })
-        }
-        onChange={onChange}
-        value={dateinfo}
-      />
+      <Head1>캘린더</Head1>
+      <Div1>
+        <Calendar
+          formatDay={(location, date) =>
+            date.toLocaleDateString('en', { day: 'numeric' })
+          }
+          onChange={onChange}
+          value={dateinfo}
+        />
+      </Div1>
       <Div />
       <TabMenu>
         {menuArr.map((el, index) => (
@@ -101,10 +104,24 @@ const TabMenu = styled.ul`
     text-align: center;
   }
 `;
+const Head1 = styled.div`
+  color: rgb(21, 20, 20);
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 30px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 10px;
+`;
 
 const Div = styled.div`
   width: 100%;
   margin-bottom: 20px;
+`;
+const Div1 = styled.div`
+  margin-left: 8%;
 `;
 
 const Desc = styled.div`

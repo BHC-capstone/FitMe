@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Collapse, Button, Avatar } from 'antd';
+import { Collapse, Avatar } from 'antd';
+import { Container, Button, ButtonGroup, Table } from 'react-bootstrap';
 import axios from 'axios';
+import styled from 'styled-components';
 import Request from './Request';
 import RequestDetail from './RequestDetail';
 
@@ -57,5 +59,15 @@ function RequestManage() {
     </div>
   );
 }
+
+const StyledTable = styled(Table)`
+  // width: 400px;
+  text-align: center;
+  item-align: center;
+  vertical-align: middle;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  justify-content: space-between;
+`;
 
 export default RequestManage;

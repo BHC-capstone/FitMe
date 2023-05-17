@@ -86,9 +86,13 @@ export default function UserLoginPage(props) {
           <Button type="submit" variant="primary">
             로그인
           </Button>
-          <Button type="button" variant="secondary" onClick={goTrainerLogin}>
+          <StyledButton
+            type="button"
+            variant="secondary"
+            onClick={goTrainerLogin}
+          >
             트레이너 로그인
-          </Button>
+          </StyledButton>
         </Form>
       </Container>
     </div>
@@ -105,4 +109,7 @@ const Head1 = styled.div`
   width: fit-content;
   margin: 0 auto;
   padding: 10px;
+`;
+const StyledButton = styled(Button)`
+  margin-left: 10px;
 `;

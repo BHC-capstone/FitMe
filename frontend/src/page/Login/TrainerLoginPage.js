@@ -84,12 +84,12 @@ export default function LoginPage(props) {
             />
           </FloatingLabel>
 
-          <Button type="submit" variant="primary">
+          <Button type="submit" variant="primary" onSubmit={onSubmitHandler}>
             로그인
           </Button>
-          <Button type="button" variant="secondary" onClick={goUserLogin}>
+          <StyledButton type="button" variant="secondary" onClick={goUserLogin}>
             일반 사용자 로그인
-          </Button>
+          </StyledButton>
         </Form>
       </Container>
     </div>
@@ -106,4 +106,7 @@ const Head1 = styled.div`
   width: fit-content;
   margin: 0 auto;
   padding: 10px;
+`;
+const StyledButton = styled(Button)`
+  margin-left: 10px;
 `;

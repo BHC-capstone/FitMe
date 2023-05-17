@@ -34,9 +34,9 @@ function CustomerList() {
     return p.user_id;
   });
   return (
-    <Layout>
-      <Container className="panel">
-        <Head1>관리중인 회원 목록</Head1>
+    <Container className="panel">
+      <Head1>관리중인 회원 목록</Head1>
+      <Div>
         <Stack gap={2}>
           <Row className="justify-content-md-center">
             <Col xs="9">
@@ -126,18 +126,18 @@ function CustomerList() {
             </Card>
           </div>
         ))}
-      </Container>
-    </Layout>
+      </Div>
+    </Container>
   );
 }
 
-const Layout = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 800px;
-  margin: 0 auto;
-`;
+// const Layout = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   max-width: 800px;
+//   margin: 0 auto;
+// `;
 const Head1 = styled.div`
   color: rgb(21, 20, 20);
   font-family: 'Black Han Sans', sans-serif;
@@ -148,5 +148,9 @@ const Head1 = styled.div`
   width: fit-content;
   margin: 0 auto;
   padding: 10px;
+`;
+
+const Div = styled.div`
+  margin-left: 8%;
 `;
 export default CustomerList;
