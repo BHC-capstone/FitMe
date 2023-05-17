@@ -10,6 +10,7 @@ function TrainerExerciseTab({ userid, date }) {
   const [exerdate, setExerdate] = useState([]);
 
   useEffect(() => {
+    setExerdate([]);
     axios
       .get(
         `https://localhost:4000/calender/exerciseroutine/${userid}/${date}`,

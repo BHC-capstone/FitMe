@@ -15,6 +15,7 @@ function ExerciseTab({ userid, date }) {
     navigate(`${link}`);
   };
   useEffect(() => {
+    setExerdate([]);
     axios
       .get(
         `https://localhost:4000/calender/exerciseroutine/${userid}/${date}`,

@@ -4,13 +4,7 @@ import { Button, Row, Col, Container } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom'; //* ***
 import axios from 'axios';
 // eslint-disable-next-line react/prop-types
-function Routine({
-  userid,
-  date,
-  onClickBreakfast,
-  onCllckLunch,
-  onClickDinner,
-}) {
+function Routine({ userid, date, breakfast, lunch, dinner }) {
   const [num, setNum] = useState(0);
   const [dietImg, setDietImg] = useState([]);
   const imageInput = useRef();
@@ -66,7 +60,7 @@ function Routine({
         <Text1 num={0}>아침 식단</Text1>
         <Text2 num={0}>아침 거르지 말기!</Text2>
         <TextBox num={0} count={1}>
-          <span className="b">아침</span> : 바나나 2개, 우유
+          <span className="b">아침</span> : {breakfast}
         </TextBox>
         <input
           type="file"
@@ -85,7 +79,7 @@ function Routine({
         <Text1 num={1}>점심 식단</Text1>
         <Text2 num={1}>몇 시에 드셨는지도 적어주세요!</Text2>
         <TextBox num={1} count={1}>
-          <span className="b">점심</span> : 반숙 베이컨 샐러드
+          <span className="b">점심</span> : {lunch}
         </TextBox>
         <input
           type="file"
@@ -104,7 +98,7 @@ function Routine({
         <Text1 num={2}>저녁 식단</Text1>
         <Text2 num={2}>식사는 9시 전에 끝내기!</Text2>
         <TextBox num={2} count={1}>
-          <span className="b">저녁</span> : 시리얼, 우유, 단백질바
+          <span className="b">저녁</span> : {dinner}
         </TextBox>
         <input
           type="file"

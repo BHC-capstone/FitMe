@@ -17,6 +17,7 @@ function Routine({ userid, date }) {
     imageInput.current.click();
   };
   useEffect(() => {
+    setDietdate('');
     axios
       .get(`https://localhost:4000/calender/mealplan/${userid}/${date}`, {
         withCredentials: true,
