@@ -35,6 +35,22 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.TEXT,
       allowNull: true
     },
+    age: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    gender: {
+      type: DataTypes.STRING(10),
+      allowNull: true
+    },
+    height: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    weight: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
     days: {
       type: DataTypes.STRING(255),
       allowNull: true
