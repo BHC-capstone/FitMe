@@ -31,6 +31,7 @@ router.post('/ptrequest', (req, res) => {
       bodyshape: req.body.bodyshape,
       purpose: req.body.purpose,
       lifestyle: req.body.lifestyle,
+      accept: false,
       };
       pt_requests.create(newRequest).then(() => {
       res.status(200).json({ data: null, message: '성공적으로 신청되었습니다.' });
@@ -91,7 +92,7 @@ router.get('/checklists/:id', (req, res) => {
     if (req.session.loggedin){
     const { id } = req.params;
     pt_requests.findAll({
-        where: { trainer_id: id },
+        where: { trainer_id: id, accept: false },
     }).then((requestInfo) => {
     if (requestInfo != undefined) {
         res.status(200).json({ data: requestInfo, message: '' });
@@ -144,13 +145,15 @@ router.post('/accept/:trainer_id/:id', (req, res) => {
             where: { trainer_id: trainer_id, id: id },
           }
         ).then(() => {
-          const trainerManage = {
+          const trainerManage = 
+          {
             user_id: requestInfo.user_id,
             trainer_id: requestInfo.trainer_id,
             total_pt_count: requestInfo.count,
             remain_pt_count: requestInfo.count,
             manage_memo: requestInfo.request,
           };
+          
           trainer_manage.create(trainerManage).then(() => {
             res.status(200).json({ data: null, message: '성공적으로 수락되었습니다.' });
           }).catch((error) => {
