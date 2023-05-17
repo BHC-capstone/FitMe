@@ -44,16 +44,21 @@ function Trainerdetail() {
       <Upbox>
         <Imageposition>이미지</Imageposition>
         <Box1>
-          <Nameblock className="a">{trainer.name}</Nameblock>
+          <Nameblock className="a">김하현{trainer.name}</Nameblock>
           {/* <Nameblock>별점</Nameblock> */}
           <Starpoint starpoint={star} />
           <Nameblock className="b">
-            {trainer.gender} {trainer.age}세
+            {trainer.gender}남 {trainer.age}49세
           </Nameblock>
         </Box1>
         <Box2>
-          <Emailblock>E-mail : {trainer.email}</Emailblock>
-          <Emailblock>PhoneNumber : {trainer.phonenumber}</Emailblock>
+          <Emailblock>
+            <span className="b">E-mail :</span> snloopy@naver.component
+            {trainer.email}
+          </Emailblock>
+          <Emailblock>
+            <span className="b">H.P :</span> 010-2937-5467{trainer.phonenumber}
+          </Emailblock>
           <Button1 variant="secondary" onClick={navigateToRequest}>
             PT 신청
           </Button1>
@@ -83,66 +88,76 @@ const Upbox = styled.ul`
   display: flex;
   flex-wrap: wrap;
   border-radius: 20px;
+  // justify-content: center;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  background-color: #adb5bd;
+  background-color: #2ba5f7;
   color: rgb(255, 255, 255);
   height: 500px;
 `;
 const Box1 = styled.div`
   float: right;
   margin-top: calc(100% / 6);
-  // margin-left: calc(100% / 2);
-  background-color: #444444;
+  margin-left: calc(100% / 20);
+  background-color: transparent;
   height: fit-content;
-  border-radius: 0px 35% 35% 0px;
+  // padding: 5px;
+  // border-radius: 40px;
+  // border-radius: 0px 35% 35% 0px;
 `;
 const Box2 = styled.div`
-  background-color: #555555;
+  background-color: white;
   align-items: center;
   justify-content: center;
-  height: 100px;
-  margin: auto 0;
+  height: fit-content;
+  // border-radius: 30px;
+  padding: 10% 5% 5% 5%;
+  margin-left: -32px;
+  border-bottom: 6px solid #f5a302;
 `;
 const Imageposition = styled.div`
-  float: left;
+  // float: left;
   width: 230px;
   height: 230px;
   border-radius: 50%;
+  border: 2px solid #2ba5f7;
   // padding-top: calc(100% / 20);
   // padding-bottom: calc(100% / 20);
   margin-top: calc(100% / 15);
-  background-color: #ffffff;
+  margin-left: -14px;
+  background-color: white;
 `;
 
 const Nameblock = styled.text`
   display: flex;
-  flex-wrap: wrap;
-  letter-spacing: 5px;
-  word-spacing: 20px;
-  color: black;
-  display: flex;
   flex-direction: column;
+  letter-spacing: 3px;
+  word-spacing: 20px;
+  color: white;
   padding: calc(100% / 50);
   // padding-top: calc(100% / 20);
 
   &.a {
-    // margin-top: 100px;
+    font-family: 'Black Han Sans', sans-serif;
     letter-spacing: 8px;
     font-size: 36px;
-    font-weight: bold;
+    border-bottom: 2px solid white;
+    // font-weight: bold;
   }
   &.b {
     padding-top: calc(100% / 40);
     font-size: 15px;
     font-weight: normal;
+    font-family: 'Gowun Dodum', sans-serif;
     // float: left;
   }
 `;
 const Emailblock = styled.text`
-  letter-spacing: 5px;
+  float: left;
+  letter-spacing: 2px;
   font-weight: lighter;
   color: black;
   display: flex;
+  font-family: 'Gowun Dodum', sans-serif;
 `;
 const TabMenu = styled.ul`
   background-color: #ffffff;
@@ -185,8 +200,7 @@ const Desc = styled.div`
 const Button1 = styled(Button)`
   float: right;
   // margin-left: 100px;
-  // margin-top: 70px;
-  //vertical-align: top;
-  //border: 3px solid white;
+  margin-top: 10px;
 `;
+
 export default Trainerdetail;
