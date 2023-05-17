@@ -499,19 +499,15 @@ router.get('/profileImg/:id', async function (req, res) {
 router.get('/getListOfCertification/:id', async function (req, res) {
   if (req.session.loggedin) {
     try {
-      const trainerInfo = await trainers.findOne({
-        where: { id: req.params.id },
-        include: {
-          model: models.certifications,
-          as: 'certifications',
-          attributes: ['name', 'image_url'],
-        },
+      const certificationList = await certifications.findAll({
+        where: { trainer_id: req.params.id },
       });
-      res.status(200).json({ data: trainerInfo.certifications, message: '' });
+
+      res.status(200).json({ data: certificationList, message: '' });
     } catch (err) {
-      console.log(err);
+      res.status(500).json({ data: null, message: '서버에러' });
     }
-  }
+  } else res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
 });
 
 module.exports = router;

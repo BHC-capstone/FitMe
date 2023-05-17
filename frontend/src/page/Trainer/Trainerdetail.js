@@ -6,6 +6,7 @@ import { Container, Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import styled from 'styled-components';
 import Starpoint from '../../components/Starpoint';
+import TrainerProfile from '../../components/myPage/TrainerProfile';
 
 function Trainerdetail() {
   const { id } = useParams();
@@ -14,7 +15,7 @@ function Trainerdetail() {
   const [star, setStar] = useState(1);
   const menuArr = [
     { name: '자기 소개', content: `${trainer.introduction}` },
-    { name: '프로필', content: 'Tab menu TWO' },
+    { name: '프로필', content: <TrainerProfile /> },
     { name: '리뷰', content: 'Tab menu THREE' },
   ];
   const navigate = useNavigate();
