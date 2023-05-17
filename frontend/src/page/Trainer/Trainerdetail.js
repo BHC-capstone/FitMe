@@ -44,20 +44,20 @@ function Trainerdetail() {
       <Upbox>
         <Imageposition>이미지</Imageposition>
         <Box1>
-          <Nameblock className="a">김하현{trainer.name}</Nameblock>
+          <Nameblock className="a">{trainer.name}</Nameblock>
           {/* <Nameblock>별점</Nameblock> */}
           <Starpoint starpoint={star} />
           <Nameblock className="b">
-            {trainer.gender}남 {trainer.age}49세
+            {trainer.gender} {trainer.age}세
           </Nameblock>
         </Box1>
         <Box2>
           <Emailblock>
-            <span className="b">E-mail :</span> snloopy@naver.component
+            <span className="b">E-mail :</span>
             {trainer.email}
           </Emailblock>
           <Emailblock>
-            <span className="b">H.P :</span> 010-2937-5467{trainer.phonenumber}
+            <span className="b">H.P :</span> {trainer.phonenumber}
           </Emailblock>
           <Button1 variant="secondary" onClick={navigateToRequest}>
             PT 신청
