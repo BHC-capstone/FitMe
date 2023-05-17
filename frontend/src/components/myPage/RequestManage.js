@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { Container, Button, ButtonGroup, Table } from 'react-bootstrap';
+import styled from 'styled-components';
 
 function RequestManage() {
   const [requests, setRequests] = useState(null);
@@ -71,12 +73,12 @@ function RequestManage() {
   };
 
   return (
-    <div>
-      <h1>PT 요청 확인</h1>
-      <table>
+    <Container>
+      {/* <h1>PT 요청 확인</h1> */}
+      <StyledTable striped="columns" size="sm">
         <thead>
           <tr>
-            <th>ID</th>
+            <th className="style">ID</th>
             <th>회원 ID</th>
             <th>횟수</th>
             <th>요청 내용</th>
@@ -96,40 +98,53 @@ function RequestManage() {
               <td>{request.accept ? '수락됨' : '미응답'}</td>
               <td>
                 {!request.accept && isTrainer === 'true' && (
-                  <>
-                    <button
+                  <ButtonGroup>
+                    <Button
+                      variant="primary"
                       type="button"
                       onClick={() =>
                         handleAccept(request.trainer_id, request.id)
                       }
                     >
                       수락
-                    </button>
-                    <button
+                    </Button>
+                    <Button
+                      variant="danger"
                       type="button"
                       onClick={() =>
                         handleReject(request.trainer_id, request.id)
                       }
                     >
                       거절
-                    </button>
-                  </>
+                    </Button>
+                  </ButtonGroup>
                 )}
                 {!request.accept && isTrainer !== 'true' && (
-                  <button
+                  <Button
+                    variant="danger"
                     type="button"
                     onClick={() => handleCancel(request.user_id, request.id)}
                   >
                     취소
-                  </button>
+                  </Button>
                 )}
               </td>
             </tr>
           ))}
         </tbody>
-      </table>
-    </div>
+      </StyledTable>
+    </Container>
   );
 }
+
+const StyledTable = styled(Table)`
+  // width: 400px;
+  text-align: center;
+  item-align: center;
+  vertical-align: middle;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  justify-content: space-between;
+`;
 
 export default RequestManage;

@@ -44,11 +44,11 @@ export default function TrainerList(props) {
     setTrainers(tempArray);
   };
   return (
-    <Layout>
-      <Container fluid className="panel">
-        <Head1>트레이너 목록</Head1>
+    <Container fluid className="panel">
+      <Head1>트레이너 목록</Head1>
+      <Div>
         <Stack gap={2}>
-          <Row className="justify-content-md-center">
+          <Row>
             <Col xs="9">
               <Form>
                 <Form.Control
@@ -65,7 +65,7 @@ export default function TrainerList(props) {
               </Button>
             </Col>
           </Row>
-          <Row className="justify-content-md-center">
+          <Row>
             <Col md="10">
               <ButtonGroup size="sm" aria-label="Basic example">
                 <DropdownButton
@@ -131,15 +131,15 @@ export default function TrainerList(props) {
           </BoxOne> */}
           </div>
         ))}
-      </Container>
-    </Layout>
+      </Div>
+    </Container>
   );
 }
 
 const Layout = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
   max-width: 800px;
   margin: auto;
 `;
@@ -159,4 +159,8 @@ const Head1 = styled.div`
   width: fit-content;
   margin: 0 auto;
   padding: 10px;
+`;
+
+const Div = styled.div`
+  margin-left: 10%;
 `;

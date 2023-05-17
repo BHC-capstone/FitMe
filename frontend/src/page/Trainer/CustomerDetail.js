@@ -1,5 +1,5 @@
 import { Card, Tag, Form, Input, Select } from 'antd';
-import { Container, Button, Row, Col } from 'react-bootstrap';
+import { Container, Button, ButtonGroup, Row, Col } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -97,15 +97,19 @@ function CustomerDetail() {
                 </span>{' '}
               </p>
               <p>
-                <Row className="mb-3">
-                  <Form onFinish={onFinish}>
-                    태그 추가
-                    <Col>
+                <Form onFinish={onFinish}>
+                  <p style={{ fontWeight: 'bold', marginBottom: 0 }}>
+                    <div style={{ float: 'center', color: 'gray' }}>
+                      태그 추가
+                    </div>
+                  </p>
+                  <Row>
+                    <Col xs="8">
                       <Form.Item name="tag name" rules={[{ required: true }]}>
                         <Input />
                       </Form.Item>
                     </Col>
-                    <Col>
+                    <Col xs="4">
                       <Form.Item name="tag color" rules={[{ required: true }]}>
                         <Select
                           placeholder="종류 선택"
@@ -118,19 +122,19 @@ function CustomerDetail() {
                         </Select>
                       </Form.Item>
                     </Col>
-                    <Form.Item>
-                      <Button type="primary" htmlType="submit">
-                        추가
-                      </Button>
-                    </Form.Item>
-                  </Form>
-                </Row>
+                  </Row>
+                  <Form.Item>
+                    <Button type="primary" htmlType="submit">
+                      추가
+                    </Button>
+                  </Form.Item>
+                </Form>
               </p>
               <p>
                 <TagList userId={id} closeable tagcount={tags} />
               </p>
               <p style={{ fontWeight: 'bold', marginBottom: 0 }}>
-                <div style={{ float: 'center' }}>회원메모</div>
+                <div style={{ float: 'center' }}>회원 메모</div>
                 <TextArea
                   value={customer.memo}
                   autoSize={{ minRows: 4, maxRows: 10 }}
@@ -140,13 +144,15 @@ function CustomerDetail() {
                   }
                 />
                 <Button variant="primary" onClick={() => handleMemoSubmit()}>
-                  메모 저장
+                  저장
                 </Button>
               </p>
               <p />
-              <Button variant="primary">캘린더</Button>
-              <Button variant="secondary">피드백</Button>
-              <Button variant="danger">회원관리</Button>
+              <ButtonGroup>
+                <Button variant="success">캘린더</Button>
+                <Button variant="secondary">피드백</Button>
+                <Button variant="danger">회원관리</Button>
+              </ButtonGroup>
             </>
           }
         />

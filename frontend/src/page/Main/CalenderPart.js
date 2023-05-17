@@ -13,10 +13,16 @@ function CalendarPart() {
   const [dateinfo, onChange] = useState(new Date());
   const [currentTab, clickTab] = useState(0);
   const userid = loginedUser.id;
+
+  const year = dateinfo.getFullYear();
+  const month = dateinfo.getMonth() + 1;
+  const day = dateinfo.getDate();
+  const formattedDate = `${year}-${month}-${day}`;
+
   const menuArr = [
     {
       name: '식단',
-      content: <DietTab userid={userid} date={dateinfo.toLocaleDateString()} />,
+      content: <DietTab userid={userid} date={formattedDate} />,
     }, // dateinfo 정보를 통해 axios로 해당 날짜의 식단 데이터 넣으면 완료
     {
       name: '운동 루틴',
@@ -32,13 +38,16 @@ function CalendarPart() {
   };
   return (
     <Container fluid className="panel">
-      <Calendar
-        formatDay={(location, date) =>
-          date.toLocaleDateString('en', { day: 'numeric' })
-        }
-        onChange={onChange}
-        value={dateinfo}
-      />
+      <Head1>캘린더</Head1>
+      <Div1>
+        <Calendar
+          formatDay={(location, date) =>
+            date.toLocaleDateString('en', { day: 'numeric' })
+          }
+          onChange={onChange}
+          value={dateinfo}
+        />
+      </Div1>
       <Div />
       <TabMenu>
         {menuArr.map((el, index) => (
@@ -95,10 +104,24 @@ const TabMenu = styled.ul`
     text-align: center;
   }
 `;
+const Head1 = styled.div`
+  color: rgb(21, 20, 20);
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 30px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 10px;
+`;
 
 const Div = styled.div`
   width: 100%;
   margin-bottom: 20px;
+`;
+const Div1 = styled.div`
+  margin-left: 8%;
 `;
 
 const Desc = styled.div`

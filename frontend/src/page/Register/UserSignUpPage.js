@@ -60,7 +60,9 @@ export default function TrainerSignUpPage() {
       gender,
     };
     axios
-      .post('https://localhost:4000/users/signup', body)
+      .post('https://localhost:4000/users/signup', body, {
+        withCredentials: true,
+      })
       .then(res => {
         navigate('/user-login');
         alert(res.data.message);
@@ -161,7 +163,6 @@ export default function TrainerSignUpPage() {
                   <option>선택하세요</option>
                   <option value="male">남성</option>
                   <option value="female">여성</option>
-                  <option value="others">기타</option>
                 </Form.Select>
               </FloatingLabel>
             </Col>

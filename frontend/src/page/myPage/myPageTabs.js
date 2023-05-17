@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
+import styled from 'styled-components';
 import UserInfoTab from '../../components/myPage/UserInfoTab';
 import StatisticsTab from '../../components/myPage/StatisticsTab';
 import PaymentHistoryTab from '../../components/myPage/PaymentHistoryTab';
@@ -53,26 +54,37 @@ function Tabs() {
 
   return (
     <Container fluid className="panel">
-      <div>
-        <TabMenu
-          menuArr={menuArr}
-          currentTab={currentTab}
-          selectMenuHandler={selectMenuHandler}
-        >
-          {menuArr.map((el, index) => (
-            // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
-            <li
-              key={el.elid}
-              className={index === currentTab ? 'submenu focused' : 'submenu'}
-              onClick={() => selectMenuHandler(index)}
-              onKeyDown={() => selectMenuHandler(index)}
-            >
-              {el.name}
-            </li>
-          ))}
-        </TabMenu>
-      </div>
+      <Head1>마이페이지</Head1>
+      <TabMenu
+        menuArr={menuArr}
+        currentTab={currentTab}
+        selectMenuHandler={selectMenuHandler}
+      >
+        {menuArr.map((el, index) => (
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+          <li
+            key={el.elid}
+            className={index === currentTab ? 'submenu focused' : 'submenu'}
+            onClick={() => selectMenuHandler(index)}
+            onKeyDown={() => selectMenuHandler(index)}
+          >
+            {el.name}
+          </li>
+        ))}
+      </TabMenu>
     </Container>
   );
 }
+
+const Head1 = styled.div`
+  color: rgb(21, 20, 20);
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 30px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 10px;
+`;
 export default Tabs;

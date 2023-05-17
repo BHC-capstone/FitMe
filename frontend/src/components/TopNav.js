@@ -18,7 +18,7 @@ export default function TopNav() {
   const dispatch = useDispatch();
 
   return (
-    <Navbar expand="lg" variant="white" bg="white">
+    <Navbar expand="sm" bg="white">
       <Container fluid>
         <Navbar.Brand href="/">FitMe</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

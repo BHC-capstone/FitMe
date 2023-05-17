@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Container } from 'react-bootstrap';
+import { Container, Card, ListGroup } from 'react-bootstrap';
+import styled from 'styled-components';
 
 function PaymentHistoryTab() {
   const [payments, setPayments] = useState([]);
@@ -34,19 +35,24 @@ function PaymentHistoryTab() {
   }
 
   return (
-    <div className="payment-history-tab">
-      <Container fluid>
-        <h2>결제내역</h2>
-        {payments.map(payment => (
-          <div key={payment.id}>
-            <p>결제일자: {payment.date}</p>
-            <p>결제금액: {payment.amount}</p>
-            <p>결제수단: {payment.method}</p>
-          </div>
-        ))}
-      </Container>
-    </div>
+    <Container fluid>
+      {payments.map(payment => (
+        <StyledCard>
+          <Card.Header as="h5">결제 내역 {payment.id}</Card.Header>
+          <ListGroup variant="flush" key={payment.id}>
+            <ListGroup.Item>결제일자: {payment.date}</ListGroup.Item>
+            <ListGroup.Item>결제금액: {payment.amount}</ListGroup.Item>
+            <ListGroup.Item>결제수단: {payment.method}</ListGroup.Item>
+          </ListGroup>
+        </StyledCard>
+      ))}
+    </Container>
   );
 }
+
+const StyledCard = styled(Card)`
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 30px;
+`;
 
 export default PaymentHistoryTab;

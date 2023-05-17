@@ -28,18 +28,22 @@
   }
 }
 
-.panel button + button {
-  margin-left: 10px;
-}
+// .panel button + button {
+//   margin-left: 10%;
+// }
 
-.panel h2 {
-  text-align: center;
-  margin-bottom: 30px;
-}
+// .panel h2 {
+//   text-align: center;
+//   margin-bottom: 30px;
+// }
 
 $sidebar-width: 260px;
 $sidebar-color: #fff;
 
 span.b {
   font-weight: bold;
+}
+
+th.style {
+  min-width: 30%;
 }

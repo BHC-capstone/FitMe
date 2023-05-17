@@ -198,7 +198,6 @@ export default function TrainerSignUpPage() {
                   <option>선택하세요</option>
                   <option value="male">남성</option>
                   <option value="female">여성</option>
-                  <option value="others">기타</option>
                 </Form.Select>
               </FloatingLabel>
             </Col>
@@ -231,12 +230,15 @@ export default function TrainerSignUpPage() {
             />
           </FloatingLabel>
           <Form.Group controlId="formBasicCertificationFile">
-            <Form.Label>자격증 파일</Form.Label>
             <Form.Control
               type="file"
               placeholder="Enter certificationFile"
               onChange={onChangeCertificationFile}
+              style={{ display: 'none' }}
             />
+            <StyledButton onClick={onChangeCertificationFile}>
+              자격증 파일 업로드
+            </StyledButton>
           </Form.Group>
           <Button variant="primary" type="submit" onClick={onSubmit}>
             제출
@@ -260,4 +262,18 @@ const Head1 = styled.div`
   width: fit-content;
   margin: 0 auto;
   padding: 10px;
+`;
+
+const StyledButton = styled(Button)`
+  // padding-left: 5%;
+  text-align: left;
+  // border-radius: 30px;
+  border: 1px solid #ced4da;
+  width: 100%;
+  background-color: white;
+  margin: auto;
+  line-height: 60px;
+  height: 55px;
+  color: black;
+  margin-bottom: 20px;
 `;
