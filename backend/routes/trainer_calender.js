@@ -119,6 +119,7 @@ router.post(
     "/createExercise/:date/:id/:userId",
     videoupload.single("video"),
     async (req, res) => {
+        console.log(req);
         if (req.session.loggedin) {
             try {
                 const { userId, id, date } = req.params;

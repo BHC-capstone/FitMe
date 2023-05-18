@@ -33,7 +33,7 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
           (2 / 7),
       ),
     );
-  }, []);
+  }, [startDate, endDate]);
   const highFunction = ({
     height,
     gender,
@@ -103,13 +103,14 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
         <Boxc>
           <Head2>PT 횟수</Head2>
           <Boxep1>
-            {Math.floor(
+            {/* {Math.floor(
               Math.ceil(
                 (endDate.getTime() - startDate.getTime()) /
                   (1000 * 60 * 60 * 24),
               ) *
                 (2 / 7),
-            )}
+            )} */}
+            {days}
           </Boxep1>
         </Boxc>
         <Boxc>
