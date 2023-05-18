@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Button } from 'react-bootstrap';
+import { Button, Form, Row, Col, FloatingLabel } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom'; //* ***
 import axios from 'axios';
 import { useSelector } from 'react-redux';
@@ -93,47 +93,64 @@ function TrainerRoutine({
   return (
     <div>
       <Flexcontainer num={0}>
-        <Text0 num={0}>오늘의 운동{num}</Text0>
-        <input
-          type="text"
-          value={exercise}
-          onChange={onChangeExercise}
-          style={{ width: '80%', margin: 'auto' }}
-        />
-        <FlexcontainerRow>
+        <Text0 num={0}>오늘의 운동 ({num + 1})</Text0>
+        <Form>
+          <Row className="justify-content-md-center">
+            <Col xs="10">
+              <FloatingLabel
+                controlId="floatingInput"
+                label="운동 이름 입력"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="text"
+                  value={exercise}
+                  onChange={onChangeExercise}
+                />
+              </FloatingLabel>
+            </Col>
+          </Row>
+          <Row1>
+            <Col xs="2">
+              <Form.Control
+                type="text"
+                value={timeValue}
+                onChange={onChangeTime}
+              />
+            </Col>
+            <Col xs="2">
+              <Text2 num={0}>회</Text2>
+            </Col>
+            <Col xs="2">
+              <Form.Control
+                type="text"
+                value={setValue}
+                onChange={onChangeSet}
+              />
+            </Col>
+            <Col xs="2">
+              <Text2 num={0}>세트</Text2>
+            </Col>
+          </Row1>
           <input
-            type="text"
-            value={timeValue}
-            onChange={onChangeTime}
-            style={{ width: '30px' }}
+            type="file"
+            style={{ display: 'none' }}
+            ref={videoInput}
+            accept="video"
+            onChange={event => onGuideVideoChange(event)}
           />
-          <Text2 num={0}>회 X</Text2>
-          <input
-            type="text"
-            value={setValue}
-            onChange={onChangeSet}
-            style={{ width: '30px' }}
-          />
-          <Text2 num={0}>세트</Text2>
-        </FlexcontainerRow>
-        <input
-          type="file"
-          style={{ display: 'none' }}
-          ref={videoInput}
-          accept="video"
-          onChange={event => onGuideVideoChange(event)}
-        />
-        <StyledButton num={0} count={2} onClick={onCickImageUpload2}>
-          가이드 영상 업로드
-        </StyledButton>
-        <StyledLink to={exerciseURL} style={{ textDecoration: 'none' }}>
-          <TextBox num={0} count={3}>
-            회원 운동 영상 확인
-          </TextBox>
-        </StyledLink>
-        <StyledButton num={0} count={4} onClick={upload}>
-          수정 완료
-        </StyledButton>
+          <StyledButton num={0} count={2} onClick={onCickImageUpload2}>
+            가이드 영상 업로드
+          </StyledButton>
+          <StyledLink to={exerciseURL} style={{ textDecoration: 'none' }}>
+            <TextBox num={0} count={3}>
+              회원 운동 영상 확인
+            </TextBox>
+          </StyledLink>
+          <StyledButton num={0} count={4} type="submit" onClick={upload}>
+            수정 완료
+          </StyledButton>
+        </Form>
         <Div />
       </Flexcontainer>
     </div>
@@ -149,11 +166,13 @@ const Flexcontainer = styled.div`
   border-radius: 20px;
   margin-bottom: 20px;
 `;
-const FlexcontainerRow = styled.div`
-  display: flex;
-  flex-direction: row;
+const Row1 = styled(Row)`
+  justify-content: center;
+  margin-bottom: 20px;
+  flex-wrap: nowrap;
 `;
 const Text0 = styled.text`
+  font-family: 'Gowun Dodum', sans-serif;
   font-weight: bolder;
   font-size: 16px;
   margin-top: 20px;
@@ -162,14 +181,14 @@ const Text0 = styled.text`
   margin-bottom: 10px;
   color: ${props => (props.num % 2 === 1 ? '#2ba5f7' : 'white')};
 `;
-const Text1 = styled.text`
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 28px;
-  margin-top: 8px;
-  text-align: left;
-  margin-left: 5%;
-  color: ${props => (props.num % 2 === 1 ? '#2ba5f7' : 'white')};
-`;
+// const Text1 = styled.text`
+//   font-family: 'Black Han Sans', sans-serif;
+//   font-size: 28px;
+//   margin-top: 8px;
+//   text-align: left;
+//   margin-left: 5%;
+//   color: ${props => (props.num % 2 === 1 ? '#2ba5f7' : 'white')};
+// `;
 const Text2 = styled.text`
   font-size: 12px;
   text-align: left;

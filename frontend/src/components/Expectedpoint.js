@@ -99,7 +99,7 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
     <div>
       <Boxr>
         <Boxc>
-          <div>PT 횟수</div>
+          <Head2>PT 횟수</Head2>
           <Boxep1>
             {Math.floor(
               Math.ceil(
@@ -111,7 +111,7 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
           </Boxep1>
         </Boxc>
         <Boxc>
-          <div>현재 보유 포인트</div>
+          <Head2>현재 보유 포인트</Head2>
           <Boxep2>100</Boxep2>
         </Boxc>
       </Boxr>
@@ -132,6 +132,16 @@ Expectedpoint.propsTypes = {
   startDate: propTypes.instanceOf(Date).isRequired,
   endDate: propTypes.instanceOf(Date).isRequired,
 };
+
+const Head2 = styled.text`
+  font-family: 'Gowun Dodum', sans-serif;
+  color: rgb(21,20,20);
+  font-weight: bold;
+  font-size:20px
+  text-align: center;
+  width: fit-content;
+  padding: 10px;
+`;
 
 const Boxr = styled.div`
   display: flex;

@@ -65,7 +65,7 @@ export default function TrainerList(props) {
               </Button>
             </Col>
           </Row>
-          <Row>
+          {/* <Row>
             <Col md="10">
               <ButtonGroup size="sm" aria-label="Basic example">
                 <DropdownButton
@@ -86,7 +86,7 @@ export default function TrainerList(props) {
                 </Button>
               </ButtonGroup>
             </Col>
-          </Row>
+          </Row> */}
         </Stack>
         {filterTitle.map(trainer => (
           <div>

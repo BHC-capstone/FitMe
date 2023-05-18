@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Button, Row, Col, Container } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom'; //* ***
+import { Button, Form, Row, Col, FloatingLabel } from 'react-bootstrap';
+import { Link } from 'react-router-dom'; //* ***
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 // eslint-disable-next-line react/prop-types
@@ -72,37 +72,77 @@ function Routine({ userid, date }) {
         <Text0 num={0}>오늘의 식단</Text0>
         <Text1 num={0}>아침 식단</Text1>
         <Text2 num={0}>아침 거르지 말기!</Text2>
-        <input type="text" value={breakfast} onChange={onChangebreakfast} />
-        <li>
-          <img src={dietdate.breakfast_image_url} alt="아침" width="300" />
-        </li>
-
+        <Row className="justify-content-md-center">
+          <Col xs="10">
+            <Form.Group>
+              <FloatingLabel
+                controlId="floatingInput"
+                label="아침 메뉴 입력"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="text"
+                  value={breakfast}
+                  onChange={onChangebreakfast}
+                />
+              </FloatingLabel>
+              <img src={dietdate.breakfast_image_url} alt="아침" width="300" />
+            </Form.Group>
+          </Col>
+        </Row>
         <Div />
       </Flexcontainer>
       <Flexcontainer num={1}>
         <Text0 num={1}>오늘의 식단</Text0>
         <Text1 num={1}>점심 식단</Text1>
         <Text2 num={1}>몇 시에 드셨는지도 적어주세요!</Text2>
-        <input type="text" value={lunch} onChange={onChangelunch} />
-        <li>
-          <img src={dietdate.lunch_image_url} alt="점심" width="300" />
-        </li>
-
+        <Row className="justify-content-md-center">
+          <Col xs="10">
+            <Form.Group>
+              <FloatingLabel
+                controlId="floatingInput"
+                label="점심 메뉴 입력"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="text"
+                  value={lunch}
+                  onChange={onChangelunch}
+                />
+              </FloatingLabel>
+              <img src={dietdate.lunch_image_url} alt="점심" width="300" />
+            </Form.Group>
+          </Col>
+        </Row>
         <Div />
       </Flexcontainer>
       <Flexcontainer num={2}>
         <Text0 num={2}>오늘의 식단</Text0>
         <Text1 num={2}>저녁 식단</Text1>
         <Text2 num={2}>식사는 9시 전에 끝내기!</Text2>
-        <input type="text" value={dinner} onChange={onChangedinner} />
-        <li>
-          <img src={dietdate.dinner_image_url} alt="저녁" width="300" />
-        </li>
+        <Row className="justify-content-md-center">
+          <Col xs="10">
+            <Form.Group>
+              <FloatingLabel
+                controlId="floatingInput"
+                label="저녁 메뉴 입력"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="text"
+                  value={dinner}
+                  onChange={onChangedinner}
+                />
+              </FloatingLabel>
+              <img src={dietdate.dinner_image_url} alt="저녁" width="300" />
+            </Form.Group>
+          </Col>
+        </Row>
         <Div />
       </Flexcontainer>
-      <StyledButton num={0} count={3} onClick={onSubmitHandler}>
+      <Button variant="primary" type="submit" onClick={onSubmitHandler}>
         식단 업로드
-      </StyledButton>
+      </Button>
     </div>
   );
 }
@@ -117,6 +157,7 @@ const Flexcontainer = styled.div`
   margin-bottom: 20px;
 `;
 const Text0 = styled.text`
+  font-family: 'Gowun Dodum', sans-serif;
   font-weight: bolder;
   font-size: 16px;
   margin-top: 20px;
@@ -139,35 +180,35 @@ const Text2 = styled.text`
   margin-bottom: 5px;
   color: ${props => (props.num % 2 === 1 ? '#2ba5f7' : 'white')};
 `;
-const TextBox = styled.div`
-  padding-left: 5%;
-  text-align: left;
-  border-radius: 30px;
-  border: thin solid
-    ${props => ((props.num + props.count) % 2 === 1 ? '#2ba5f7' : 'white')};
-  width: 90%;
-  background-color: ${props =>
-    (props.num + props.count) % 2 === 1 ? '#fff' : '#2ba5f7'};
-  margin: auto;
-  margin-bottom: 5px;
-  line-height: 60px;
-  height: 60px;
-  color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
-`;
-const StyledButton = styled(Button)`
-  padding-left: 5%;
-  text-align: left;
-  border-radius: 30px;
-  border: 1px solid
-    ${props => ((props.num + props.count) % 2 === 1 ? '#2ba5f7' : 'white')};
-  width: 90%;
-  background-color: ${props =>
-    (props.num + props.count) % 2 === 1 ? 'white' : '#2ba5f7'};
-  margin: auto;
-  line-height: 60px;
-  height: 60px;
-  color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
-`;
+// const Form1 = styled(Form)`
+//   padding-left: 5%;
+//   text-align: left;
+//   border-radius: 30px;
+//   border: thin solid
+//     ${props => ((props.num + props.count) % 2 === 1 ? '#2ba5f7' : 'white')};
+//   width: 90%;
+//   background-color: ${props =>
+//     (props.num + props.count) % 2 === 1 ? '#fff' : '#2ba5f7'};
+//   margin: auto;
+//   margin-bottom: 5px;
+//   line-height: 60px;
+//   height: 60px;
+//   color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
+// `;
+// const StyledButton = styled(Button)`
+//   padding-left: 5%;
+//   text-align: left;
+//   border-radius: 30px;
+//   border: 1px solid
+//     ${props => ((props.num + props.count) % 2 === 1 ? '#2ba5f7' : 'white')};
+//   width: 90%;
+//   background-color: ${props =>
+//     (props.num + props.count) % 2 === 1 ? 'white' : '#2ba5f7'};
+//   margin: auto;
+//   line-height: 60px;
+//   height: 60px;
+//   color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
+// `;
 
 const Div = styled(Link)`
   width: 100%;

@@ -36,15 +36,21 @@ const Flexcontainer = styled.div`
   justify-content: space-between;
   width: 100%;
   margin-top: 10px;
-  border: 1px solid black;
+  border-radius: 10px;
+  // border: 1px solid black;
+  background-color: rgb(233, 233, 233);
   height: ${props => (props.height === '20px' ? '20px' : props.height)};
 `;
 const Textarea = styled.div`
-  background-color: gray;
+  font-family: 'Gowun Dodum', sans-serif;
+  background-color: #2ba5f7;
+  border-radius: 10px;
   width: 40%;
+  color: white;
   line-height: ${props => (props.height === '20px' ? '20px' : props.height)};
 `;
 const RightText = styled.text`
+  font-family: 'Gowun Dodum', sans-serif;
   float: right;
   margin-right: 5%;
   width: 10%;

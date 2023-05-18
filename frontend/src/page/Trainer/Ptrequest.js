@@ -78,7 +78,7 @@ const Boxr = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 200px;
+  height: 150px;
   text-align: center;
   background-color: #2ba5f7;
   border-radius: 10px;
@@ -91,6 +91,7 @@ const Boxc = styled.div`
   text-align: center;
 `;
 const Head2 = styled.text`
+font-family: 'Gowun Dodum', sans-serif;
     color: rgb(21,20,20);
     font-weight: bold;
     font-size:20px
@@ -99,6 +100,7 @@ const Head2 = styled.text`
     padding: 10px;
 `;
 const StyledDatePicker = styled(DatePicker)`
+  font-family: 'Gowun Dodum', sans-serif;
   width: 130px;
   height: 48px;
   border: none;

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Container } from 'react-bootstrap';
+import { Container, Button } from 'react-bootstrap';
 import { Link, Navigate } from 'react-router-dom';
 import axios from 'axios';
-import { Avatar, Button, Descriptions } from 'antd';
+import { Avatar, Descriptions } from 'antd';
 import './RequestDetail.css';
+import styled from 'styled-components';
 
 function ButtonDisplay({
   isTrainer,
@@ -17,28 +18,31 @@ function ButtonDisplay({
   if (isTrainer === 'true') {
     return (
       <>
-        <Button
-          type="primary"
+        <StyledButton1
+          variant="primary"
+          type="button"
           onClick={() => handleAccept(loginedUserId, requestId)}
         >
           수락
-        </Button>
-        <Button
-          type="primary"
+        </StyledButton1>
+        <StyledButton2
+          variant="danger"
+          type="button"
           onClick={() => handleReject(loginedUserId, requestId)}
         >
           거절
-        </Button>
+        </StyledButton2>
       </>
     );
   }
   return (
-    <Button
-      type="primary"
+    <StyledButton1
+      variant="danger"
+      type="button"
       onClick={() => handleCancel(loginedUserId, requestId)}
     >
       취소
-    </Button>
+    </StyledButton1>
   );
 }
 
@@ -109,7 +113,7 @@ function RequestDetail({ request, fetch }) {
             src={request && request.body_img}
             alt="회원몸사진"
           />
-          <Descriptions title="회원정보" bordered column={1}>
+          <Descriptions title=" " bordered column={1}>
             <Descriptions.Item label=" 이름">
               <span className="item-value">{request.name}</span>
             </Descriptions.Item>
@@ -165,5 +169,16 @@ function RequestDetail({ request, fetch }) {
     </Container>
   );
 }
+const StyledButton1 = styled(Button)`
+  // width: 20%;
+  margin: auto;
+  margin-top: 20px;
+`;
+
+const StyledButton2 = styled(Button)`
+  // width: 20%;
+  margin-left: 10px;
+  margin-top: 20px;
+`;
 
 export default RequestDetail;

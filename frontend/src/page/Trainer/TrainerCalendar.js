@@ -5,9 +5,7 @@ import styled from 'styled-components';
 import { Container } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import TrainerDietTab from '../../components/trainerCalendar/TrainerDietTab';
-import ExerciseTab from '../../components/ExerciseTab';
 import FeedbackTab from '../../components/FeedbackTab';
-import TrainerRoutine from '../../components/trainerCalendar/TrainerRoutine';
 import TrainerExerciseTab from '../../components/trainerCalendar/TrainerExerTab';
 
 function TrainerCalendar() {
@@ -41,13 +39,17 @@ function TrainerCalendar() {
   };
   return (
     <Container fluid className="panel">
-      <Calendar
-        formatDay={(location, date) =>
-          date.toLocaleDateString('en', { day: 'numeric' })
-        }
-        onChange={onChange}
-        value={dateinfo}
-      />
+      <Head1>캘린더</Head1>
+      <Div1>
+        <Calendar
+          formatDay={(location, date) =>
+            date.toLocaleDateString('en', { day: 'numeric' })
+          }
+          onChange={onChange}
+          value={dateinfo}
+        />
+      </Div1>
+      <Div />
       <TabMenu>
         {menuArr.map((el, index) => (
           // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
@@ -77,16 +79,16 @@ const TabMenu = styled.ul`
   flex-direction: row;
   align-items: center;
   list-style: none;
-  margin-bottom: 7rem;
+  margin-bottom: 30px;
   margin-top: 10px;
   border-bottom: solid 1px;
   border-bottom-color: #d1d1d1;
 
   .submenu {
     display: flex;
-    justify-content: space-between;
-    width: 380px;
-    heigth: 30px; */
+    justify-content: space-around;
+    width: 390px;
+    height: 40px; */
     width: calc(50% / 3);
     padding: 10px;
     font-size: 15px;
@@ -95,14 +97,32 @@ const TabMenu = styled.ul`
   }
 
   .focused {
-    border-bottom: solid 3px;
+    color: #fff;
+    background-color: #2ba5f7;
   }
 
   & div.desc {
     text-align: center;
   }
 `;
-
+const Head1 = styled.div`
+  color: rgb(21, 20, 20);
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 30px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 10px;
+`;
+const Div = styled.div`
+  width: 100%;
+  margin-bottom: 20px;
+`;
+const Div1 = styled.div`
+  margin-left: 8%;
+`;
 const Desc = styled.div`
   text-align: center;
 `;

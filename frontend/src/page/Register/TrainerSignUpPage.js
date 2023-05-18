@@ -154,7 +154,7 @@ export default function TrainerSignUpPage() {
               required
             />
           </FloatingLabel>
-          <Row className="mb-3">
+          <Row>
             <Col xs="5">
               <FloatingLabel
                 controlId="floatingInput"
@@ -193,7 +193,7 @@ export default function TrainerSignUpPage() {
                 className="mb-3"
                 required
               >
-                <Form.Select onChange={onChangeGender}>
+                <Form.Select value={gender} onChange={onChangeGender}>
                   <option>선택하세요</option>
                   <option value="male">남성</option>
                   <option value="female">여성</option>
@@ -236,9 +236,9 @@ export default function TrainerSignUpPage() {
               onChange={onChangeCertificationFile}
             />
           </Form.Group>
-          <Button variant="primary" type="submit" onClick={onSubmit}>
+          <StyledButton variant="primary" type="submit" onClick={onSubmit}>
             제출
-          </Button>
+          </StyledButton>
         </Form>
         <Button variant="link" type="button" onClick={goTrainerLogin}>
           이미 계정이 있나요?
@@ -262,14 +262,14 @@ const Head1 = styled.div`
 
 const StyledButton = styled(Button)`
   // padding-left: 5%;
-  text-align: left;
+  // text-align: left;
   // border-radius: 30px;
-  border: 1px solid #ced4da;
-  width: 100%;
-  background-color: white;
-  margin: auto;
-  line-height: 60px;
-  height: 55px;
-  color: black;
-  margin-bottom: 20px;
+  // border: 1px solid #ced4da;
+  // width: 100%;
+  // background-color: white;
+  // margin: auto;
+  // line-height: 60px;
+  // height: 55px;
+  // color: black;
+  margin-top: 20px;
 `;

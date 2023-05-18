@@ -22,15 +22,15 @@ function Tabs() {
           name: '회원정보',
           content: <UserInfoTab loginedUser={user} />,
         },
-        { elid: 2, name: '트레이너 프로필', content: <TrainerProfile /> },
+        { elid: 2, name: '프로필', content: <TrainerProfile /> },
         {
           elid: 3,
-          name: '포인트 정산',
-          content: '<PointSettlement />',
+          name: '포인트',
+          content: '포인트 정산 기능 Loading...',
         },
         {
           elid: 4,
-          name: 'PT요청 관리',
+          name: 'PT요청',
           content: <RequestManage isTrainer={user.isTrainer} />,
         },
       ]
@@ -40,11 +40,11 @@ function Tabs() {
           name: '회원정보',
           content: <UserInfoTab loginedUser={user} />,
         },
-        { elid: 2, name: '통계페이지', content: <StatisticsTab /> },
+        { elid: 2, name: '통계', content: <StatisticsTab /> },
         { elid: 3, name: '결제내역', content: <PaymentHistoryTab /> },
         {
           elid: 4,
-          name: 'PT요청 관리',
+          name: 'PT요청',
           content: <RequestManage />,
         },
       ];

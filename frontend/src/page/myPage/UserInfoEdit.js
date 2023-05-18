@@ -3,6 +3,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Avatar } from 'antd';
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+  FloatingLabel,
+} from 'react-bootstrap';
+import styled from 'styled-components';
 
 function UserEdit({ props }) {
   const loginedUser = useSelector(state => state.user);
@@ -157,127 +166,190 @@ function UserEdit({ props }) {
       [name]: value,
     }));
   }
+
+  const goBack = () => {
+    navigate('/mypage');
+  };
+
   return (
-    <div className="container my-5">
-      <h1
-        style={{ textAlign: 'center', display: 'flex', alignItems: 'center' }}
-      >
-        <span style={{ flex: 1 }}>회원 정보 수정</span>
-        {loginedUser.isTrainer === true ? (
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={() => navigate('/mypage/certificate')}
-            style={{ position: 'absolute', right: '1%' }}
+    <div>
+      <Container fluid className="panel">
+        <Head1>회원 정보 수정</Head1>
+        <h1
+          style={{
+            textAlign: 'center',
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          {loginedUser.isTrainer === true ? (
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => navigate('/mypage/certificate')}
+              style={{ position: 'absolute', right: '1%', marginTop: '10%' }}
+            >
+              트레이너 자격관리
+            </button>
+          ) : null}
+        </h1>
+        <Avatar
+          src={profImg}
+          style={{ margin: '20px' }}
+          size={200}
+          onClick={() => {
+            imgRef.current.click();
+          }}
+        />
+        <input
+          type="file"
+          style={{ display: 'none' }}
+          accept="image/jpg,image/png,image/jpeg"
+          name="profile_img"
+          onChange={saveProfFile}
+          ref={imgRef}
+        />
+        <Form onSubmit={handleSubmit}>
+          <FloatingLabel
+            controlId="floatingInput"
+            label="이메일"
+            className="mb-3"
           >
-            트레이너 자격관리
-          </button>
-        ) : null}
-      </h1>
-
-      <Avatar
-        src={profImg}
-        style={{ margin: '20px' }}
-        size={200}
-        onClick={() => {
-          imgRef.current.click();
-        }}
-      />
-      <input
-        type="file"
-        style={{ display: 'none' }}
-        accept="image/jpg,image/png,image/jpeg"
-        name="profile_img"
-        onChange={saveProfFile}
-        ref={imgRef}
-      />
-
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="email">이메일</label>
-          <input
-            type="email"
-            className="form-control"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="name">이름</label>
-          <input
-            type="text"
-            className="form-control"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="age">나이</label>
-          <input
-            type="number"
-            className="form-control"
-            id="age"
-            name="age"
-            value={formData.age}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="gender">성별</label>
-          <select
-            className="form-control"
-            id="gender"
-            name="gender"
-            value={formData.gender}
-            onChange={handleChange}
+            <Form.Control
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter email"
+              value={formData.email}
+              onChange={handleChange}
+            />
+          </FloatingLabel>
+          <Row>
+            <Col xs="5">
+              <FloatingLabel
+                controlId="floatingInput"
+                label="이름"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="text"
+                  placeholder="Enter name"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                />
+              </FloatingLabel>
+            </Col>
+            <Col xs="7">
+              <FloatingLabel
+                controlId="floatingInput"
+                label="전화번호"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Phonenumber"
+                  id="phonenumber"
+                  name="phonenumber"
+                  value={formData.phonenumber}
+                  onChange={handleChange}
+                  required
+                />
+              </FloatingLabel>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <FloatingLabel
+                controlId="floatingInput"
+                label="성별"
+                className="mb-3"
+              >
+                <Form.Select
+                  id="gender"
+                  name="gender"
+                  value={formData.gender}
+                  onChange={handleChange}
+                >
+                  <option>선택하세요</option>
+                  <option value="male">남성</option>
+                  <option value="female">여성</option>
+                </Form.Select>
+              </FloatingLabel>
+            </Col>
+            <Col>
+              <FloatingLabel
+                controlId="floatingSelect"
+                label="나이"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="number"
+                  placeholder="Enter age"
+                  id="age"
+                  name="age"
+                  value={formData.age}
+                  onChange={handleChange}
+                />
+              </FloatingLabel>
+            </Col>
+          </Row>
+          <FloatingLabel
+            controlId="floatingInput"
+            label="비밀번호"
+            className="mb-3"
           >
-            <option value="male">남성</option>
-            <option value="female">여성</option>
-          </select>
-        </div>
-        <div className="form-group">
-          <label htmlFor="phonenumber">전화번호</label>
-          <input
-            type="text"
-            className="form-control"
-            id="phonenumber"
-            name="phonenumber"
-            value={formData.phonenumber}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">비밀번호</label>
-          <input
-            type="password"
-            className="form-control"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password2">비밀번호 확인</label>
-          <input
-            type="password"
-            className="form-control"
-            id="password2"
-            name="password2"
-            value={formData.password2}
-            onChange={handleChange}
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">
-          변경하기
-        </button>
-      </form>
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </FloatingLabel>
+          <FloatingLabel
+            controlId="floatingInput"
+            label="비밀번호 재입력"
+            className="mb-3"
+          >
+            <Form.Control
+              type="password"
+              placeholder="Password Check"
+              id="password2"
+              name="password2"
+              value={formData.password2}
+              onChange={handleChange}
+              required
+            />
+          </FloatingLabel>
+          <Button type="submit" variant="primary" onClick={handleSubmit}>
+            변경
+          </Button>
+          <Button1 type="button" variant="danger" onClick={goBack}>
+            취소
+          </Button1>
+        </Form>
+      </Container>
     </div>
   );
 }
+
+const Head1 = styled.div`
+  color: rgb(21, 20, 20);
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 30px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 10px;
+`;
+const Button1 = styled(Button)`
+  margin-left: 3%;
+`;
 
 export default UserEdit;

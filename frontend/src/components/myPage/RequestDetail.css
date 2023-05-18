@@ -1,9 +1,13 @@
 .request-detail-container .ant-descriptions-item-label {
-  width: 100px;
+  font-family: 'Gowun Dodum', sans-serif;
+  font-weight: bold;
+  width: fit-content;
 }
 
 .request-detail-container .ant-descriptions-item-content {
-  display: inline-block;
+  /* font-family: 'Gowun Dodum', sans-serif;
+  font-weight: bold; */
+  /* display: inline-block; */
   word-break: break-all;
   width: calc(100% - 100px);
 }

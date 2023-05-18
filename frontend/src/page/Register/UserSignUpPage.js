@@ -120,7 +120,7 @@ export default function TrainerSignUpPage() {
               required
             />
           </FloatingLabel>
-          <Row className="mb-3">
+          <Row>
             <Col xs="5">
               <FloatingLabel
                 controlId="floatingInput"

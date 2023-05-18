@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Button, Row, Col, Container } from 'react-bootstrap';
+import { Button, Row, Col } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom'; //* ***
 import axios from 'axios';
 // eslint-disable-next-line react/prop-types
@@ -56,7 +56,7 @@ function Routine({ userid, date, breakfast, lunch, dinner }) {
   return (
     <div>
       <Flexcontainer num={0}>
-        <Text0 num={0}>오늘의 식단{num}</Text0>
+        <Text0 num={0}>오늘의 식단</Text0>
         <Text1 num={0}>아침 식단</Text1>
         <Text2 num={0}>아침 거르지 말기!</Text2>
         <TextBox num={0} count={1}>
@@ -75,7 +75,7 @@ function Routine({ userid, date, breakfast, lunch, dinner }) {
         <Div />
       </Flexcontainer>
       <Flexcontainer num={1}>
-        <Text0 num={1}>오늘의 식단{num}</Text0>
+        <Text0 num={1}>오늘의 식단</Text0>
         <Text1 num={1}>점심 식단</Text1>
         <Text2 num={1}>몇 시에 드셨는지도 적어주세요!</Text2>
         <TextBox num={1} count={1}>
@@ -94,7 +94,7 @@ function Routine({ userid, date, breakfast, lunch, dinner }) {
         <Div />
       </Flexcontainer>
       <Flexcontainer num={2}>
-        <Text0 num={2}>오늘의 식단{num}</Text0>
+        <Text0 num={2}>오늘의 식단</Text0>
         <Text1 num={2}>저녁 식단</Text1>
         <Text2 num={2}>식사는 9시 전에 끝내기!</Text2>
         <TextBox num={2} count={1}>
@@ -126,6 +126,7 @@ const Flexcontainer = styled.div`
   margin-bottom: 20px;
 `;
 const Text0 = styled.text`
+  font-family: 'Gowun Dodum', sans-serif;
   font-weight: bolder;
   font-size: 16px;
   margin-top: 20px;
