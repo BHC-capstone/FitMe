@@ -24,10 +24,10 @@ function Routine({ userid, date }) {
       })
       .then(res => {
         setDietdate(res.data.data);
+        setBreakfast(dietdate.breakfast);
+        setDinner(dietdate.lunch);
+        setLunch(dietdate.dinner);
       });
-    setBreakfast(dietdate.breakfast);
-    setDinner(dietdate.lunch);
-    setLunch(dietdate.dinner);
   }, [userid, date, dietdate.breakfast]);
   const onChangebreakfast = e => {
     setBreakfast(e.target.value);

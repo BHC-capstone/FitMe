@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Container, Button } from 'react-bootstrap';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Avatar, Descriptions } from 'antd';
 import './RequestDetail.css';
@@ -49,6 +49,7 @@ function ButtonDisplay({
 function RequestDetail({ request, fetch }) {
   const loginedUser = useSelector(state => state.user);
   const isTrainer = loginedUser.isTrainer.toString();
+  const navigate = useNavigate();
   const handleAccept = async (trainerId, requestId) => {
     try {
       await axios
@@ -59,7 +60,7 @@ function RequestDetail({ request, fetch }) {
           },
         )
         .then(res => {
-          Navigate('/customer-list');
+          navigate('/customer-list');
         });
       // fetchRequest();
     } catch (error) {
@@ -69,15 +70,19 @@ function RequestDetail({ request, fetch }) {
 
   const handleCancel = async (userId, requestId) => {
     try {
-      await axios.post(
-        `https://localhost:4000/request/cancel/${userId}/${requestId}`,
-        {
-          response: '취소',
-        },
-        {
-          withCredentials: true,
-        },
-      );
+      await axios
+        .post(
+          `https://localhost:4000/request/cancel/${userId}/${requestId}`,
+          {
+            response: '취소',
+          },
+          {
+            withCredentials: true,
+          },
+        )
+        .then(res => {
+          navigate('/mypage');
+        });
       fetch();
     } catch (error) {
       console.error(error);

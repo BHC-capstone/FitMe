@@ -1,5 +1,6 @@
 // eslint-disable-next-line react/prop-types
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
 import propTypes from 'prop-types';
@@ -13,6 +14,7 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
   const [days, setdays] = useState([]);
   const [count, setCount] = useState([]);
   const [detaildata, setDetailData] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     console.log(trainerid, '안녕하세요?');
     setdays(
@@ -83,7 +85,7 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
         withCredentials: true,
       })
       .then(res => {
-        console.log(res);
+        navigate('/mypage');
         if (res.status === 200) {
           console.log(res);
         } else {
