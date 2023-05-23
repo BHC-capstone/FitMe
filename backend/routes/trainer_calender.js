@@ -338,7 +338,10 @@ router.post(
 );
 
 // feedback 수정
-router.put("/updateFeedback/:feedbackId", videoupload.single("video"), async (req, res) => {
+router.put(
+    "/updateFeedback/:feedbackId", 
+    videoupload.single("video"), 
+    async (req, res) => {
     if (req.session.loggedin) {
         try {
             const { feedbackId } = req.params;
