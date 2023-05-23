@@ -458,7 +458,12 @@ router.post(
         const trainerInfo = await trainers.findOne({
           where: { id: req.params.id },
         });
-
+        const s3key = trainerInfo.s3_key;
+        const deleteParams = {
+          Bucket: 'fitme-s3',
+          Key: s3key,
+        };
+        await s3.deleteObject(deleteParams).promise();
         const uploadParams = {
           acl: 'public-read',
           ContentType: 'image/png',

@@ -15,6 +15,7 @@ var manageRouter = require('./routes/manage');
 var requestRouter = require('./routes/request');
 var calenderRouter = require('./routes/calender');
 var trainer_calenderRouter = require('./routes/trainer_calender');
+var feedbackRouter = require('./routes/feedback');
 
 const PORT = process.env.PORT || 4000;
 
@@ -56,6 +57,7 @@ app.use('/manage', manageRouter);
 app.use('/request', requestRouter);
 app.use('/calender', calenderRouter);
 app.use('/trainer_calender', trainer_calenderRouter);
+app.use('/feedback', feedbackRouter);
 
 
 let server;
