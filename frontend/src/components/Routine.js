@@ -84,6 +84,7 @@ const Flexcontainer = styled.div`
   margin-bottom: 20px;
 `;
 const Text0 = styled.text`
+  font-family: 'Gowun Dodum', sans-serif;
   font-weight: bolder;
   font-size: 16px;
   margin-top: 20px;

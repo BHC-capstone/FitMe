@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Collapse, Avatar } from 'antd';
-import { Container, Button, ButtonGroup, Table } from 'react-bootstrap';
+import { Collapse, Button, Avatar } from 'antd';
 import axios from 'axios';
 import styled from 'styled-components';
 import Request from './Request';
@@ -22,7 +21,7 @@ function RequestManage() {
             },
           )
         : await axios.get(
-            `https://localhost:4000/request/checklist/${loginedUser.id}`,
+            `https://localhost:4000/request/checklists/${loginedUser.id}`,
             {
               withCredentials: true,
             },
@@ -40,8 +39,7 @@ function RequestManage() {
 
   return (
     <div>
-      <h1>PT 요청 확인</h1>
-
+      <Head1>PT요청 관리</Head1>
       {requests.map(request => (
         <Collapse style={{ marginBottom: 10 }}>
           <Panel
@@ -60,14 +58,16 @@ function RequestManage() {
   );
 }
 
-const StyledTable = styled(Table)`
-  // width: 400px;
+const Head1 = styled.div`
+  color: rgb(21, 20, 20);
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 30px;
+  display: flex;
   text-align: center;
-  item-align: center;
-  vertical-align: middle;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  justify-content: space-between;
+  align-items: center;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 10px;
 `;
 
 export default RequestManage;

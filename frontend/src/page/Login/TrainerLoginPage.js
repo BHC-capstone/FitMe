@@ -36,7 +36,7 @@ export default function LoginPage(props) {
         console.log(res);
         if (res.status === 200) {
           dispatch(loginTrainer(res.data.data));
-          navigate('/mypage');
+          navigate('/customer-list');
         } else {
           alert(res.data.message);
         }

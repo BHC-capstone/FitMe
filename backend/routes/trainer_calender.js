@@ -119,6 +119,7 @@ router.post("/createMealplan/:date/:userId/:id", async (req, res) => {
 router.post(
     "/createExercise/:date/:id/:userId",
     async (req, res) => {
+        console.log(req);
         if (req.session.loggedin) {
             try {
                 let transaction = await sequelize.transaction();

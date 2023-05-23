@@ -1,5 +1,6 @@
 // eslint-disable-next-line react/prop-types
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
 import propTypes from 'prop-types';
@@ -13,6 +14,7 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
   const [days, setdays] = useState([]);
   const [count, setCount] = useState([]);
   const [detaildata, setDetailData] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     console.log(trainerid, '안녕하세요?');
     setdays(
@@ -31,7 +33,7 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
           (2 / 7),
       ),
     );
-  }, []);
+  }, [startDate, endDate]);
   const highFunction = ({
     height,
     gender,
@@ -83,7 +85,7 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
         withCredentials: true,
       })
       .then(res => {
-        console.log(res);
+        navigate('/mypage');
         if (res.status === 200) {
           console.log(res);
         } else {
@@ -99,19 +101,20 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
     <div>
       <Boxr>
         <Boxc>
-          <div>PT 횟수</div>
+          <Head2>PT 횟수</Head2>
           <Boxep1>
-            {Math.floor(
+            {/* {Math.floor(
               Math.ceil(
                 (endDate.getTime() - startDate.getTime()) /
                   (1000 * 60 * 60 * 24),
               ) *
                 (2 / 7),
-            )}
+            )} */}
+            {days}
           </Boxep1>
         </Boxc>
         <Boxc>
-          <div>현재 보유 포인트</div>
+          <Head2>현재 보유 포인트</Head2>
           <Boxep2>100</Boxep2>
         </Boxc>
       </Boxr>
@@ -132,6 +135,16 @@ Expectedpoint.propsTypes = {
   startDate: propTypes.instanceOf(Date).isRequired,
   endDate: propTypes.instanceOf(Date).isRequired,
 };
+
+const Head2 = styled.text`
+  font-family: 'Gowun Dodum', sans-serif;
+  color: rgb(21,20,20);
+  font-weight: bold;
+  font-size:20px
+  text-align: center;
+  width: fit-content;
+  padding: 10px;
+`;
 
 const Boxr = styled.div`
   display: flex;

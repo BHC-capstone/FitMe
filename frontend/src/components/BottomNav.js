@@ -42,7 +42,7 @@ function BottomNav() {
           </Link>
         </div>
         <div>
-          <Link to={penUrl} className="nav-link">
+          <Link className="nav-link">
             <FontAwesomeIcon icon="pen-to-square" />
           </Link>
         </div>

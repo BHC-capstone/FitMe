@@ -33,26 +33,28 @@ function TrainerExerciseTab({ userid, date }) {
 
   // 운동 루틴이 배열로 제공 된다고 가정하면 map 함수를 상위에 추가하여 밑의 컴포넌트들을 본문으로 사용할 예정
   return (
-    <Flexcontainers>
-      {exerdate.map((el, index) => (
-        // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
-        <TrainerRoutine
-          // eslint-disable-next-line react/no-array-index-key
-          key={index}
-          num={index}
-          exercisename={el.name}
-          time={el.exercise_count}
-          set={el.set_count}
-          // exerciseURL={el.exerciseURL}
-          guideURL={el.guide_video_url}
-          userId={userid}
-          date={date}
-        />
-      ))}
-      <StyledButton num={0} count={3} onClick={onAddDetailDiv}>
+    <div>
+      <Flexcontainers>
+        {exerdate.map((el, index) => (
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+          <TrainerRoutine
+            // eslint-disable-next-line react/no-array-index-key
+            key={index}
+            num={index}
+            exercisename={el.name}
+            time={el.exercise_count}
+            set={el.set_count}
+            // exerciseURL={el.exerciseURL}
+            guideURL={el.guide_video_url}
+            userId={userid}
+            date={date}
+          />
+        ))}
+      </Flexcontainers>
+      <Button variant="primary" type="button" onClick={onAddDetailDiv}>
         추가 버튼
-      </StyledButton>
-    </Flexcontainers>
+      </Button>
+    </div>
   );
 }
 const Flexcontainers = styled.div`

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Button, Stack } from 'react-bootstrap';
+import { Container, Form, Button, Stack, FloatingLabel } from 'react-bootstrap';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -41,26 +41,30 @@ function WithdrawPage() {
     <Container className="panel">
       <Head1>회원 탈퇴</Head1>
       <Stack gap={2} className="col-md-5 mx-auto">
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="password">비밀번호: </label>
-            <input
-              type="password"
+        <Form onSubmit={handleSubmit}>
+          <FloatingLabel
+            controlId="floatingInput"
+            label="비밀번호"
+            className="mb-3"
+          >
+            <Form.Control
               id="password"
+              type="password"
+              placeholder="비밀번호를 입력하세요."
               value={password}
               onChange={handleInputChange}
               required
             />
-          </div>
-          <Button variant="danger" type="submit">
+          </FloatingLabel>
+          <Link to="/mypage">
+            <Button type="button" variant="secondary">
+              취소하기
+            </Button>
+          </Link>
+          <StyledButton variant="danger" type="submit">
             회원탈퇴
-          </Button>
-        </form>
-        <Link to="/mypage">
-          <Button type="button" variant="secondary">
-            취소하기
-          </Button>
-        </Link>
+          </StyledButton>
+        </Form>
       </Stack>
     </Container>
   );
@@ -78,4 +82,7 @@ const Head1 = styled.div`
   width: fit-content;
   margin: 0 auto;
   padding: 10px;
+`;
+const StyledButton = styled(Button)`
+  margin-left: 10px;
 `;

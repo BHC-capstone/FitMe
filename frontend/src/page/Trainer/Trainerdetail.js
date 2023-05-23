@@ -6,6 +6,7 @@ import { Container, Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import styled from 'styled-components';
 import Starpoint from '../../components/Starpoint';
+import TrainerProfile from '../../components/myPage/TrainerProfile';
 
 function Trainerdetail() {
   const { id } = useParams();
@@ -14,8 +15,8 @@ function Trainerdetail() {
   const [star, setStar] = useState(1);
   const menuArr = [
     { name: '자기 소개', content: `${trainer.introduction}` },
-    { name: '프로필', content: 'Tab menu TWO' },
-    { name: '리뷰', content: 'Tab menu THREE' },
+    { name: '프로필', content: <TrainerProfile /> },
+    { name: '리뷰', content: '리뷰 기능 Loading...' },
   ];
   const navigate = useNavigate();
 
@@ -41,6 +42,7 @@ function Trainerdetail() {
   };
   return (
     <Container fluid className="panel">
+      <Head1>트레이너 소개</Head1>
       <Upbox>
         <Imageposition>이미지</Imageposition>
         <Box1>
@@ -57,7 +59,8 @@ function Trainerdetail() {
             {trainer.email}
           </Emailblock>
           <Emailblock>
-            <span className="b">H.P :</span> {trainer.phonenumber}
+            <span className="b">H.P :</span>
+            {trainer.phonenumber}
           </Emailblock>
           <Button1 variant="secondary" onClick={navigateToRequest}>
             PT 신청
@@ -93,6 +96,7 @@ const Upbox = styled.ul`
   background-color: #2ba5f7;
   color: rgb(255, 255, 255);
   height: 500px;
+  margin-bottom: 30px;
 `;
 const Box1 = styled.div`
   float: right;
@@ -108,6 +112,7 @@ const Box2 = styled.div`
   background-color: white;
   align-items: center;
   justify-content: center;
+  width: 120%;
   height: fit-content;
   // border-radius: 30px;
   padding: 10% 5% 5% 5%;
@@ -135,7 +140,6 @@ const Nameblock = styled.text`
   color: white;
   padding: calc(100% / 50);
   // padding-top: calc(100% / 20);
-
   &.a {
     font-family: 'Black Han Sans', sans-serif;
     letter-spacing: 8px;
@@ -152,7 +156,7 @@ const Nameblock = styled.text`
   }
 `;
 const Emailblock = styled.text`
-  float: left;
+  // float: left;
   letter-spacing: 2px;
   font-weight: lighter;
   color: black;
@@ -193,6 +197,17 @@ const TabMenu = styled.ul`
   }
 `;
 
+const Head1 = styled.div`
+  color: rgb(21, 20, 20);
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 30px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 10px;
+`;
 const Desc = styled.div`
   text-align: center;
 `;

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Avatar } from 'antd';
 import '../../scss/userInfoTab.scss';
+import { Container } from 'react-bootstrap';
 import { async } from 'regenerator-runtime';
 import LogoutButton from './LogoutButton';
 
@@ -70,48 +71,54 @@ function UserInfoTab({ loginedUser }) {
   }
 
   return (
-    <div className="user-info-tab">
-      <h2 className="user-info-tab-title">회원정보</h2>
-      <div className="user-info-profile">
-        <Avatar
-          size={150}
-          src={profImg}
-          style={{ marginRight: '1rem', marginLeft: '1rem' }}
-        />
-        <ul className="user-info-list">
-          <li className="user-info-item">
-            <span className="user-info-label">이메일:</span> {user.data.email}
-          </li>
-          <li className="user-info-item">
-            <span className="user-info-label">유저이름:</span> {user.data.name}
-          </li>
-          <li className="user-info-item">
-            <span className="user-info-label">유저나이:</span> {user.data.age}
-          </li>
-          <li className="user-info-item">
-            <span className="user-info-label">성별:</span>{' '}
-            {user.data.gender === 'female' ? '여성' : '남성'}
-          </li>
-          <li className="user-info-item">
-            <span className="user-info-label">전화번호:</span>
-            {user.data.phonenumber}
-          </li>
-        </ul>
-        <div className="user-info-actions">
-          <Link to="/mypage/edit">
-            <button type="button" className="btn btn-primary">
-              회원정보 수정
-            </button>
-          </Link>
-          <Link to="/mypage/withdraw">
-            <button type="button" className="btn btn-danger">
-              회원 탈퇴
-            </button>
-          </Link>
-          <LogoutButton />
+    <Container>
+      <div className="user-info-tab">
+        <div className="user-info-profile">
+          <Avatar
+            size={150}
+            src={profImg}
+            style={{
+              marginRight: '1rem',
+              marginLeft: '1rem',
+              marginBottom: '1rem',
+            }}
+          />
+          <ul className="user-info-list">
+            <li className="user-info-item">
+              <span className="user-info-label b">이메일:</span>{' '}
+              {user.data.email}
+            </li>
+            <li className="user-info-item">
+              <span className="user-info-label b">이름:</span> {user.data.name}
+            </li>
+            <li className="user-info-item">
+              <span className="user-info-label b">나이:</span> {user.data.age}
+            </li>
+            <li className="user-info-item">
+              <span className="user-info-label b">성별:</span>{' '}
+              {user.data.gender === 'female' ? '여성' : '남성'}
+            </li>
+            <li className="user-info-item">
+              <span className="user-info-label b">전화번호:</span>
+              {user.data.phonenumber}
+            </li>
+          </ul>
+          <div className="user-info-actions">
+            <Link to="/mypage/edit">
+              <button type="button" className="btn btn-primary">
+                회원정보 수정
+              </button>
+            </Link>
+            <LogoutButton />
+            <Link to="/mypage/withdraw">
+              <button type="button" className="btn btn-danger">
+                회원 탈퇴
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+    </Container>
   );
 }
 
