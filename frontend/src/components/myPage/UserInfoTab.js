@@ -19,18 +19,12 @@ function UserInfoTab({ loginedUser }) {
       let response = null;
       {
         loginedUser.isTrainer === false
-          ? (response = await axios.get(
-              `https://localhost:4000/users/profile/${loginedUser.id}`,
-              {
-                withCredentials: true,
-              },
-            ))
-          : (response = await axios.get(
-              `https://localhost:4000/trainers/profile/${loginedUser.id}`,
-              {
-                withCredentials: true,
-              },
-            ));
+          ? (response = await axios.get(`/users/profile/${loginedUser.id}`, {
+              withCredentials: true,
+            }))
+          : (response = await axios.get(`/trainers/profile/${loginedUser.id}`, {
+              withCredentials: true,
+            }));
       }
       if (response.data !== null) {
         setUser(response.data);
@@ -42,13 +36,13 @@ function UserInfoTab({ loginedUser }) {
         {
           loginedUser.isTrainer === false
             ? (response = await axios.get(
-                `https://localhost:4000/users/profileimg/${loginedUser.id}`,
+                `/users/profileimg/${loginedUser.id}`,
                 {
                   withCredentials: true,
                 },
               ))
             : (response = await axios.get(
-                `https://localhost:4000/trainers/profileimg/${loginedUser.id}`,
+                `/trainers/profileimg/${loginedUser.id}`,
                 {
                   withCredentials: true,
                 },

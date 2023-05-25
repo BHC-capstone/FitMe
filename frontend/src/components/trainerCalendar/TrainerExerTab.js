@@ -12,12 +12,9 @@ function TrainerExerciseTab({ userid, date }) {
   useEffect(() => {
     setExerdate([]);
     axios
-      .get(
-        `https://localhost:4000/calender/exerciseroutine/${userid}/${date}`,
-        {
-          withCredentials: true,
-        },
-      )
+      .get(`/calender/exerciseroutine/${userid}/${date}`, {
+        withCredentials: true,
+      })
       .then(res => {
         setExerdate(res.data.data);
         console.log(res.data.data);

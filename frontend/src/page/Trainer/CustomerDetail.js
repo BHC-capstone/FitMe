@@ -24,9 +24,7 @@ function CustomerDetail() {
   const navigate = useNavigate();
   useEffect(() => {
     axios
-      .get(
-        `https://localhost:4000/manage/checkptuserdetail/${id}/${loginedUser.id}`,
-      )
+      .get(`/manage/checkptuserdetail/${id}/${loginedUser.id}`)
       .then(response => {
         setCustomer({
           name: response.data.data.user_id,
@@ -42,12 +40,9 @@ function CustomerDetail() {
 
   function handleMemoSubmit(event) {
     axios
-      .post(
-        `https://localhost:4000/manage/updatememo/${id}/${loginedUser.id}`,
-        {
-          memo: customer.memo,
-        },
-      )
+      .post(`/manage/updatememo/${id}/${loginedUser.id}`, {
+        memo: customer.memo,
+      })
       .then(response => {
         console.log(response);
       })
@@ -72,7 +67,7 @@ function CustomerDetail() {
 
   const onFinish = values => {
     axios
-      .post(`https://localhost:4000/manage/maketag/${id}/${loginedUser.id}`, {
+      .post(`/manage/maketag/${id}/${loginedUser.id}`, {
         tag_name: values['tag name'],
         tag_color: color,
       })

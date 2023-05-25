@@ -29,7 +29,7 @@ export default function LoginPage(props) {
     };
 
     axios
-      .post('https://localhost:4000/trainers/login', body, {
+      .post('/trainers/login', body, {
         withCredentials: true,
       })
       .then(res => {

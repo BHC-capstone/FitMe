@@ -23,7 +23,7 @@ function Routine({
     const formData = new FormData();
     formData.append('video', videoInput.current.files[0]);
     axios({
-      url: `https://localhost:4000/calender/exercisevideo/${userid}/${routineid}`,
+      url: `/calender/exercisevideo/${userid}/${routineid}`,
       headers: {
         'Content-Type': 'multipart/form-data',
       },

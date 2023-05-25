@@ -53,12 +53,9 @@ function RequestDetail({ request, fetch }) {
   const handleAccept = async (trainerId, requestId) => {
     try {
       await axios
-        .post(
-          `https://localhost:4000/request/accept/${trainerId}/${requestId}`,
-          {
-            response: '수락',
-          },
-        )
+        .post(`/request/accept/${trainerId}/${requestId}`, {
+          response: '수락',
+        })
         .then(res => {
           navigate('/customer-list');
         });
@@ -72,7 +69,7 @@ function RequestDetail({ request, fetch }) {
     try {
       await axios
         .post(
-          `https://localhost:4000/request/cancel/${userId}/${requestId}`,
+          `/request/cancel/${userId}/${requestId}`,
           {
             response: '취소',
           },
@@ -92,7 +89,7 @@ function RequestDetail({ request, fetch }) {
   const handleReject = async (trainerId, requestId) => {
     try {
       await axios.post(
-        `https://localhost:4000/request/reject/${trainerId}/${requestId}`,
+        `/request/reject/${trainerId}/${requestId}`,
         {
           response: '거절',
         },

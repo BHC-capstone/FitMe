@@ -63,7 +63,7 @@ function TrainerRoutine({
     // formData.append('exercisevideo', exerVideo);
     formData.append('video', videoInput.current.files[0]);
     axios({
-      url: `https://localhost:4000/trainer_calender/createExercise/${date}/${trainerid}/${userId}`,
+      url: `/trainer_calender/createExercise/${date}/${trainerid}/${userId}`,
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -73,7 +73,7 @@ function TrainerRoutine({
     })
       // axios
       //   .post(
-      //     `https://localhost:4000/trainer_calender/createExercise/${date}/${trainerid.id}/${userId}`,
+      //     `/trainer_calender/createExercise/${date}/${trainerid.id}/${userId}`,
       //     formData,
       //     {
       //       headers: {

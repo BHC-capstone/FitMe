@@ -9,7 +9,7 @@ function FeedbackTab({ userid, date }) {
   const [feedbackcdate, setFeedbackdate] = useState([]);
 
   useEffect(() => {
-    axios.get(`https://localhost:4000/feedback/${userid}/${date}`).then(res => {
+    axios.get(`/feedback/${userid}/${date}`).then(res => {
       setFeedbackdate(res.data.data);
       console.log(res.data.data);
     });

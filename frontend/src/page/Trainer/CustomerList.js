@@ -17,7 +17,7 @@ function CustomerList() {
 
   useEffect(() => {
     axios
-      .get(`https://localhost:4000/manage/checkptuserlist/${loginedUser.id}`, {
+      .get(`/manage/checkptuserlist/${loginedUser.id}`, {
         withCredentials: true,
       })
       .then(res => {

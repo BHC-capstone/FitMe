@@ -26,12 +26,9 @@ function Routine({ userid, date, breakfast, lunch, dinner }) {
   function onImageChange(event) {
     event.preventDefault();
     let myUrl = null;
-    if (num === 0)
-      myUrl = `https://localhost:4000/calender/mealpicture/${userid}/${date}/breakfast`;
-    else if (num === 1)
-      myUrl = `https://localhost:4000/calender/mealpicture/${userid}/${date}/lunch`;
-    else
-      myUrl = `https://localhost:4000/calender/mealpicture/${userid}/${date}/dinner`;
+    if (num === 0) myUrl = `/calender/mealpicture/${userid}/${date}/breakfast`;
+    else if (num === 1) myUrl = `/calender/mealpicture/${userid}/${date}/lunch`;
+    else myUrl = `/calender/mealpicture/${userid}/${date}/dinner`;
 
     setDietImg(event.target.files[0]);
     const formData = new FormData();

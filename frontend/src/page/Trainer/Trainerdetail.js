@@ -25,7 +25,7 @@ function Trainerdetail() {
   };
   useEffect(() => {
     axios
-      .get(`https://localhost:4000/trainers/profile/${id}`, {
+      .get(`/trainers/profile/${id}`, {
         withCredentials: true,
       })
       .then(res => {

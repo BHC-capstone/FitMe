@@ -14,18 +14,12 @@ function RequestManage() {
   const fetchRequests = async () => {
     const response =
       isTrainer === 'true'
-        ? await axios.get(
-            `https://localhost:4000/request/checklists/${loginedUser.id}`,
-            {
-              withCredentials: true,
-            },
-          )
-        : await axios.get(
-            `https://localhost:4000/request/checklists/${loginedUser.id}`,
-            {
-              withCredentials: true,
-            },
-          );
+        ? await axios.get(`/request/checklists/${loginedUser.id}`, {
+            withCredentials: true,
+          })
+        : await axios.get(`/request/checklists/${loginedUser.id}`, {
+            withCredentials: true,
+          });
     setRequests(response.data.data);
   };
 

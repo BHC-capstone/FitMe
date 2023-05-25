@@ -22,7 +22,7 @@ export default function TrainerList(props) {
 
   useEffect(() => {
     axios
-      .get('https://localhost:4000/trainers/trainerlist', {
+      .get('/trainers/trainerlist', {
         withCredentials: true,
       })
       .then(res => {

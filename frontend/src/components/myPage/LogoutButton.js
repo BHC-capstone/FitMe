@@ -14,7 +14,7 @@ function LogoutButton() {
     dispatch(logoutUser());
     console.log(user);
     // axios
-    //   .post('https://localhost:4000/users/logout', body)
+    //   .post('/users/logout', body)
     //   .then(res => {
     //     console.log(res);
     //     if (res.status === 200) {

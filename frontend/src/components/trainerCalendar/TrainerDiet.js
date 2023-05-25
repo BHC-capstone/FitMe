@@ -18,7 +18,7 @@ function Routine({ userid, date }) {
   };
   useEffect(() => {
     axios
-      .get(`https://localhost:4000/calender/mealplan/${userid}/${date}`, {
+      .get(`/calender/mealplan/${userid}/${date}`, {
         withCredentials: true,
       })
       .then(res => {
@@ -47,7 +47,7 @@ function Routine({ userid, date }) {
     };
     axios
       .post(
-        `https://localhost:4000/trainer_calender/createMealplan/${date}/${userid}/${loginedUser.id}`,
+        `/trainer_calender/createMealplan/${date}/${userid}/${loginedUser.id}`,
         body,
         {
           withCredentials: true,

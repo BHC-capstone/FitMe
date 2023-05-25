@@ -60,7 +60,7 @@ export default function TrainerSignUpPage() {
       gender,
     };
     axios
-      .post('https://localhost:4000/users/signup', body, {
+      .post('/users/signup', body, {
         withCredentials: true,
       })
       .then(res => {

@@ -81,7 +81,7 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
       lifestyle: detaildata.lifestyle,
     };
     axios
-      .post(`https://localhost:4000/request/ptrequest`, body, {
+      .post(`/request/ptrequest`, body, {
         withCredentials: true,
       })
       .then(res => {
