@@ -2,6 +2,7 @@ var DataTypes = require("sequelize").DataTypes;
 var _ads = require("./ads");
 var _bodycheck = require("./bodycheck");
 var _certifications = require("./certifications");
+var _comments = require("./comments");
 var _community_comments = require("./community_comments");
 var _community_posts = require("./community_posts");
 var _exercise_routines = require("./exercise_routines");
@@ -24,6 +25,7 @@ function initModels(sequelize) {
   var ads = _ads(sequelize, DataTypes);
   var bodycheck = _bodycheck(sequelize, DataTypes);
   var certifications = _certifications(sequelize, DataTypes);
+  var comments = _comments(sequelize, DataTypes);
   var community_comments = _community_comments(sequelize, DataTypes);
   var community_posts = _community_posts(sequelize, DataTypes);
   var exercise_routines = _exercise_routines(sequelize, DataTypes);
@@ -57,6 +59,7 @@ function initModels(sequelize) {
     ads,
     bodycheck,
     certifications,
+    comments,
     community_comments,
     community_posts,
     exercise_routines,
