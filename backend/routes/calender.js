@@ -137,6 +137,7 @@ router.post(
                     await meal_plan.update(
                         {
                             breakfast_image_url: result.Location,
+                            breakfast_s3_key: result.Key,
                         },
                         {
                             where: { id: mealPlan.id },
@@ -146,6 +147,7 @@ router.post(
                     await meal_plan.update(
                         {
                             lunch_image_url: result.Location,
+                            lunch_s3_key: result.Key,
                         },
                         {
                             where: { id: mealPlan.id },
@@ -155,6 +157,7 @@ router.post(
                     await meal_plan.update(
                         {
                             dinner_image_url: result.Location,
+                            dinner_s3_key: result.Key,
                         },
                         {
                             where: { id: mealPlan.id },
@@ -210,6 +213,7 @@ router.post(
                 await exercise_routines.update(
                     {
                         user_video_url: result.Location,
+                        user_s3_key: result.Key,
                     },
                     {
                         where: { id: routineid },
