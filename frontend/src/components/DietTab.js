@@ -51,6 +51,7 @@ function DietTab({ userid, date }) {
       url: `https://localhost:4000/calender/mealpicture/${userid}/${date}/breakfast`,
       data: formData,
       method: 'POST',
+      withCredentials: true,
     })
       .then(res => {
         console.log(res);
@@ -92,6 +93,9 @@ function DietTab({ userid, date }) {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
+        },
+        {
+          withCredentials: true,
         },
       )
       .then(res => {
