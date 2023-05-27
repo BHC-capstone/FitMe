@@ -17,17 +17,35 @@ function Routine({ userid, date }) {
     imageInput.current.click();
   };
   useEffect(() => {
-    axios
-      .get(`/calender/mealplan/${userid}/${date}`, {
-        withCredentials: true,
-      })
+    // axios
+    //   .get(`https://localhost:4000/calender/mealplan/${userid}/${date}`, {
+    //     withCredentials: true,
+    //   })
+    //   .then(res => {
+    //     setDietdate(res.data.data);
+    //     setBreakfast(dietdate.breakfast);
+    //     setDinner(dietdate.dinner);
+    //     setLunch(dietdate.lunch);
+    //   });
+    axios({
+      url: `https://localhost:4000/calender/mealplan/${userid}/${date}`,
+      method: 'GET',
+      withCredentials: true,
+    })
       .then(res => {
         setDietdate(res.data.data);
-        setBreakfast(dietdate.breakfast);
-        setDinner(dietdate.dinner);
-        setLunch(dietdate.lunch);
+      })
+      .catch(err => {
+        console.log(err);
       });
-  }, [userid, date, dietdate.breakfast]);
+  }, [userid, date]);
+
+  useEffect(() => {
+    setBreakfast(dietdate.breakfast);
+    setDinner(dietdate.dinner);
+    setLunch(dietdate.lunch);
+  }, [dietdate]);
+
   const onChangebreakfast = e => {
     setBreakfast(e.target.value);
   };
@@ -47,7 +65,7 @@ function Routine({ userid, date }) {
     };
     axios
       .post(
-        `/trainer_calender/createMealplan/${date}/${userid}/${loginedUser.id}`,
+        `https://localhost:4000/trainer_calender/createMealplan/${date}/${userid}/${loginedUser.id}`,
         body,
         {
           withCredentials: true,
@@ -94,7 +112,7 @@ function Routine({ userid, date }) {
       <Flexcontainer num={1}>
         <Text0 num={1}>오늘의 식단</Text0>
         <Text1 num={1}>점심 식단</Text1>
-        <Text2 num={1}>몇 시에 드셨는지도 적어주세요!</Text2>
+        <Text2 num={1}>드시기 전에 식단 촬영!</Text2>
         <Row className="justify-content-md-center">
           <Col xs="10">
             <Form.Group>

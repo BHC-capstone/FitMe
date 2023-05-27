@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
+import { CloseOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import TrainerRoutine from './TrainerRoutine';
 
@@ -17,15 +18,23 @@ function TrainerExerciseTab({ userid, date }) {
       })
       .then(res => {
         setExerdate(res.data.data);
-        console.log(res.data.data);
       });
   }, [userid, date]);
+
   const onAddDetailDiv = () => {
     const countArr = [...exerdate];
     const counter = countArr.slice(-1);
     countArr.push(counter); // index 사용 X
     // countArr[counter] = counter	// index 사용 시 윗줄 대신 사용
     setExerdate(countArr);
+    // axios({
+    //   url: `https://localhost:4000/trainer_calender/createExercise/${date}/${trainerid}/${userId}`,
+    //   headers: {
+    //     'Content-Type': 'multipart/form-data',
+    //   },
+    //   method: 'POST',
+    //   withCredentials: true,
+    // });
   };
 
   // 운동 루틴이 배열로 제공 된다고 가정하면 map 함수를 상위에 추가하여 밑의 컴포넌트들을 본문으로 사용할 예정
@@ -41,15 +50,17 @@ function TrainerExerciseTab({ userid, date }) {
             exercisename={el.name}
             time={el.exercise_count}
             set={el.set_count}
-            // exerciseURL={el.exerciseURL}
+            exerciseURL={el.user_video_url}
             guideURL={el.guide_video_url}
             userId={userid}
             date={date}
+            content={el.content}
+            routineid={el.id}
           />
         ))}
       </Flexcontainers>
       <Button variant="primary" type="button" onClick={onAddDetailDiv}>
-        추가 버튼
+        운동 추가
       </Button>
     </div>
   );

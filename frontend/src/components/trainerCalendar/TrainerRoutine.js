@@ -1,7 +1,13 @@
 import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, Form, Row, Col, FloatingLabel } from 'react-bootstrap';
+import ReactPlayer from 'react-player/lazy';
 import { Link, useNavigate } from 'react-router-dom'; //* ***
+import {
+  ArrowDownOutlined,
+  ArrowUpOutlined,
+  CloseOutlined,
+} from '@ant-design/icons';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 // eslint-disable-next-line react/prop-types
@@ -11,30 +17,23 @@ function TrainerRoutine({
   time,
   set,
   exerciseURL,
+  guideURL,
   userId,
   date,
+  routineid,
 }) {
   const loginedUser = useSelector(state => state.user);
   const trainerid = loginedUser.id;
-  const [exerVideo, setExerVideo] = useState([]);
-  const [guideVideo, setGuideVideo] = useState([]);
   const [exercise, setExercise] = useState('');
   const [timeValue, settimeValue] = useState('');
   const [setValue, setSetValue] = useState('');
-  const videoInput1 = useRef();
-  const videoInput2 = useRef();
+  const [userVideoOpen, setVideoOpen] = useState(false);
   useEffect(() => {
     setExercise(exercisename);
     settimeValue(time);
     setSetValue(set);
   }, [exercisename, time, set, exercisename]);
-  const onCickImageUpload1 = () => {
-    videoInput1.current.click();
-  };
-  const onCickImageUpload2 = () => {
-    videoInput.current.click();
-    console.log(videoInput.current.files[0]);
-  };
+
   const onChangeExercise = e => {
     setExercise(e.target.value);
   };
@@ -44,14 +43,8 @@ function TrainerRoutine({
   const onChangeSet = e => {
     setSetValue(e.target.value);
   };
-  function onexerVideoChange(event) {
-    setExerVideo(event.target.files[0]);
-    console.log(event.target.files[0]);
-  }
   const onGuideVideoChange = () => {
     videoInput.current.click();
-    // setGuideVideo(event.target.files[0]);
-    console.log(videoInput.current.files[0]);
   };
   const videoInput = useRef();
 
@@ -63,7 +56,7 @@ function TrainerRoutine({
     // formData.append('exercisevideo', exerVideo);
     formData.append('video', videoInput.current.files[0]);
     axios({
-      url: `/trainer_calender/createExercise/${date}/${trainerid}/${userId}`,
+      url: `https://localhost:4000/trainer_calender/createExercise/${date}/${trainerid}/${userId}`,
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -71,18 +64,6 @@ function TrainerRoutine({
       method: 'POST',
       withCredentials: true,
     })
-      // axios
-      //   .post(
-      //     `/trainer_calender/createExercise/${date}/${trainerid.id}/${userId}`,
-      //     formData,
-      //     {
-      //       headers: {
-      //         'Content-Type': 'multipart/form-data',
-      //       },
-
-      //       withCredentials: true,
-      //     },
-      //   )
       .then(res => {
         console.log(res);
       })
@@ -92,8 +73,11 @@ function TrainerRoutine({
   }
   return (
     <div>
-      <Flexcontainer num={0}>
-        <Text0 num={0}>오늘의 운동 ({num + 1})</Text0>
+      <Flexcontainer num={num}>
+        <Text0 num={num}>
+          오늘의 운동 ({num + 1}){' '}
+          <CloseOutlined style={{ float: 'right', marginRight: '5%' }} />
+        </Text0>
         <Form>
           <Row className="justify-content-md-center">
             <Col xs="10">
@@ -139,15 +123,59 @@ function TrainerRoutine({
             accept="video"
             onChange={event => onGuideVideoChange(event)}
           />
-          <StyledButton num={0} count={2} onClick={onCickImageUpload2}>
+          <StyledButton num={num} count={0} onClick={onGuideVideoChange}>
             가이드 영상 업로드
           </StyledButton>
-          <StyledLink to={exerciseURL} style={{ textDecoration: 'none' }}>
-            <TextBox num={0} count={3}>
-              회원 운동 영상 확인
-            </TextBox>
-          </StyledLink>
-          <StyledButton num={0} count={4} type="submit" onClick={upload}>
+          {guideURL ? (
+            <StyledVideoContainer>
+              <ReactPlayer
+                className="react-player"
+                url={guideURL}
+                width="200px"
+                height="200px"
+                playing={false}
+                muted
+                controls
+                light={false}
+                pip={false}
+              />
+              <div style={{ float: 'right', marginLeft: '10%', color: 'gray' }}>
+                <CloseOutlined onClick={() => setVideoOpen(e => !e)} />
+              </div>
+            </StyledVideoContainer>
+          ) : null}
+          <StyledButton
+            num={num}
+            count={1}
+            onClick={() => setVideoOpen(e => !e)}
+          >
+            회원 운동 영상 확인
+            <div style={{ float: 'right', marginRight: '5%' }}>
+              {userVideoOpen ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
+            </div>
+          </StyledButton>
+          {userVideoOpen ? (
+            <StyledVideoContainer onClick={() => setVideoOpen(e => !e)}>
+              {exerciseURL == null ? (
+                <div style={{ color: 'black' }}>
+                  아직 영상이 업로드되지 않았습니다.
+                </div>
+              ) : (
+                <ReactPlayer
+                  className="react-player"
+                  url={exerciseURL}
+                  width="200px"
+                  height="200px"
+                  playing={false}
+                  muted
+                  controls // 플레이어 컨트롤 노출 여부
+                  light={false} // 플레이어 모드
+                  pip={false}
+                />
+              )}
+            </StyledVideoContainer>
+          ) : null}
+          <StyledButton num={num} count={2} type="submit" onClick={upload}>
             수정 완료
           </StyledButton>
         </Form>
@@ -213,12 +241,13 @@ const StyledButton = styled(Button)`
   padding-left: 5%;
   text-align: left;
   border-radius: 30px;
-  border: 1px solid white;
+  border: 1px solid
+    ${props => ((props.num + props.count) % 2 === 1 ? '#2ba5f7' : 'white')};
   width: 90%;
   background-color: ${props =>
     (props.num + props.count) % 2 === 1 ? 'white' : '#2ba5f7'};
   margin: auto;
-  line-height: 60px;
+  margin-bottom: 5px;
   height: 60px;
   color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
 `;
@@ -232,14 +261,22 @@ const Div = styled.div`
   margin-bottom: 20px;
 `;
 
+const StyledVideoContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-left: 5%;
+  padding-top: 40px;
+  border-radius: 0 0px 30px 30px;
+  border: 1px solid #2ba5f7;
+  width: 90%;
+  background-color: ${props =>
+    (props.num + props.count) % 2 === 1 ? '#2ba5f7' : 'white'};
+  margin: auto;
+  margin-top: -35px;
+  margin-bottom: 5px;
+  line-height: 60px;
+  height: 250px;
+  color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
+`;
+
 export default TrainerRoutine;
-/* <input
-          type="file"
-          style={{ display: 'none' }}
-          ref={videoInput1}
-          accept="video"
-          onChange={event => onexerVideoChange(event)}
-        />
-        <StyledButton num={0} count={1} onClick={onCickImageUpload1}>
-          운동 영상 업로드
-        </StyledButton> */

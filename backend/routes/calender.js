@@ -44,6 +44,7 @@ router.get("/mealplan/:id/:date", async (req, res) => {
                 });
             }
         } catch (err) {
+            res.status(500).json({ data: null, message: err });
             console.log(err);
         }
     } else {
