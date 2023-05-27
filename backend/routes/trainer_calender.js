@@ -10,6 +10,7 @@ const {
     trainer_manage,
     meal_plan,
     feedbacks,
+    trainer_manage,
 } = require("../models");
 const initModels = require("../models/init-models");
 const models = initModels(sequelize);
@@ -122,7 +123,6 @@ router.post(
         console.log(req);
         if (req.session.loggedin) {
             try {
-                let transaction = await sequelize.transaction();
                 const { userId, id, date } = req.params;
                 let schedule = await schedules.findOne({
                     where: { user_id: userId, date: date },
@@ -133,8 +133,7 @@ router.post(
                         trainer_id: id,
                         user_id: userId,
                         date: date,
-                        },
-                        { transaction }
+                        }
                     );
                 }
                 const exerciseRoutine = await exercise_routines.create(
@@ -142,8 +141,7 @@ router.post(
                     schedule_id: schedule.id,
                     user_id: userId,
                     trainer_id: id,
-                    },
-                    { transaction }
+                    }
                 );
                 res.status(200).json({
                     data: exerciseRoutine,
@@ -162,8 +160,10 @@ router.post(
     }
 );
 
+
 // exercise routine 수정완료
-router.put("/updateExercise/:exerciseId", videoupload.single("video"), async (req, res) => {
+router.put("/updateExercise/:exerciseId", 
+    async (req, res) => {
     if (req.session.loggedin) {
         try {
             const { exerciseId } = req.params;
@@ -177,30 +177,12 @@ router.put("/updateExercise/:exerciseId", videoupload.single("video"), async (re
                 });
                 return;
             }
-            if(exerciseRoutine.guide_s3_key != null){
-            const s3Key = exerciseRoutine.guide_s3_key;
-            const deleteParams = {
-                Bucket: "fitme-s3",
-                Key: s3Key,
-            };
-        }
-            await s3.deleteObject(deleteParams).promise();
-            const uploadParams = {
-                acl: "public-read",
-                ContentType: req.file.mimetype,
-                Bucket: "fitme-s3",
-                Body: req.file.buffer,
-                Key: `exerciseroutine/${id}/${exerciseRoutine.id}/${req.file.originalname}`,
-            };
-            const result = await s3.upload(uploadParams).promise();
             await exercise_routines.update(
                 {
                     name: req.body.name,
                     content: req.body.content,
                     set_count: req.body.set_count,
                     exercise_count: req.body.exercise_count,
-                    guide_video_url: result.Location,
-                    guide_s3_key: result.Key,
                 },
                 { where: { id: exerciseId } }
             );
@@ -222,7 +204,8 @@ router.put("/updateExercise/:exerciseId", videoupload.single("video"), async (re
 
 
 //exercise routine 삭제
-router.delete("/deleteExercise/:exerciseId", async (req, res) => {
+router.delete("/deleteExercise/:exerciseId", 
+    async (req, res) => {
     if (req.session.loggedin) {
         try {
             const { exerciseId } = req.params;
@@ -237,11 +220,13 @@ router.delete("/deleteExercise/:exerciseId", async (req, res) => {
                 return;
               }
             const s3Key = exerciseRoutine.guide_s3_key;
-            const deleteParams = {
-                Bucket: "fitme-s3",
-                Key: s3Key,
-            };
-            await s3.deleteObject(deleteParams).promise();
+            if (s3Key) {
+                const deleteParams = {
+                    Bucket: "fitme-s3",
+                    Key: s3Key,
+                };
+                await s3.deleteObject(deleteParams).promise();
+            }
             await exercise_routines.destroy({
                 where: { id: exerciseId },
             });
@@ -261,18 +246,170 @@ router.delete("/deleteExercise/:exerciseId", async (req, res) => {
     }
 });
 
+// upload exerciseroutine guide video
+router.put(
+    "/uplodadGuideVideo/:id/:exerciseId",
+    videoupload.single("video"),
+    async (req, res) => {
+        if (req.session.loggedin) {
+            try {
+                const { exerciseId, id } = req.params;
+                const exerciseRoutine = await exercise_routines.findOne({
+                    where: { id: exerciseId },
+                });
+                if (!exerciseRoutine) {
+                    return res.status(400).json({
+                        data: null,
+                        message: "해당 운동 루틴이 존재하지 않습니다.",
+                    });
+                }
+                const uploadParams = {
+                    acl: "public-read",
+                    ContentType: req.file.mimetype,
+                    Bucket: "fitme-s3",
+                    Body: req.file.buffer,
+                    Key: `exerciseroutine/${id}/${exerciseId}/${req.file.originalname}`,
+                };
+                const result = await s3.upload(uploadParams).promise();
+                await exercise_routines.update(
+                    {
+                        guide_video_url: result.Location,
+                        guide_s3_key: result.Key,
+                    },
+                    {
+                        where: { id: exerciseId },
+                    }
+                );
 
+                res.status(200).json({
+                    data: null,
+                    message: "가이드영상 업로드가 완료되었습니다.",
+                });
+            } catch (err) {
+                console.log(err);
+                res.status(500).json({
+                    data: null,
+                    message: "서버 오류가 발생했습니다.",
+                });
+            }
+        } else {
+            res.status(401).json({
+                data: null,
+                message: "로그인이 필요합니다.",
+            });
+        }
+    }
+);
+
+// gudie video delete
+router.delete("/deleteGuidevideo/:exerciseId", 
+    async (req, res) => {
+    if (req.session.loggedin) {
+        try {
+            const { exerciseId } = req.params;
+            const exerciseRoutine = await exercise_routines.findOne({
+                where: { id: exerciseId },
+            });
+            if (!exerciseRoutine) {
+                res.status(404).json({
+                  data: null,
+                  message: "운동루틴을 찾을 수 없습니다.",
+                });
+                return;
+              }
+            const s3Key = exerciseRoutine.guide_s3_key;
+            const deleteParams = {
+                Bucket: "fitme-s3",
+                Key: s3Key,
+            };
+            await s3.deleteObject(deleteParams).promise();
+            res.status(200).json({
+                data: null,
+                message: "운동루틴이 삭제되었습니다.",
+            });
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ data: null, message: err });
+        }
+    } else {
+        res.status(401).json({
+            data: null,
+            message: "로그인이 필요합니다.",
+        });
+    }
+});
+
+// guide video update
+router.put("/updateGuidevideo/:exerciseId", 
+    videoupload.single("video"), 
+    async (req, res) => {
+    if (req.session.loggedin) {
+        try {
+            const { exerciseId } = req.params;
+            const exerciseRoutine = await exercise_routines.findOne({
+                where: { id: exerciseId },
+            });
+            if (!exerciseRoutine) {
+                res.status(404).json({
+                    data: null,
+                    message: "운동루틴을 찾을 수 없습니다.",
+                });
+                return;
+            }
+            if (req.file) {
+                const s3Key = exerciseRoutine.guide_s3_key;
+                const deleteParams = {
+                    Bucket: "fitme-s3",
+                    Key: s3Key,
+                };
+                await s3.deleteObject(deleteParams).promise();
+                const uploadParams = {
+                    acl: "public-read",
+                    ContentType: req.file.mimetype,
+                    Bucket: "fitme-s3",
+                    Body: req.file.buffer,
+                    Key: `exerciseroutine/${id}/${exerciseId}/${req.file.originalname}`,
+                };
+                const result = await s3.upload(uploadParams).promise();
+                await exercise_routines.update(
+                    {
+                        guide_video_url: result.Location,
+                        guide_s3_key: result.Key,
+                    },
+                    { where: { id: exerciseId } }
+                );
+                res.status(200).json({
+                    data: null,
+                    message: "가이드 비디오가 수정되었습니다.",
+                });
+            }
+            else {
+                res.status(404).json({
+                    data: null,
+                    message: "업로드된 영상이 없습니다.",
+                });
+                return;
+            }
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ data: null, message: err });
+        }
+    } else {
+        res.status(401).json({
+            data: null,
+            message: "로그인이 필요합니다.",
+        });
+    }
+});
 
 
 
 // feedback 작성
 router.post(
     "/createFeedback/:date/:id/:userId",
-    videoupload.single("video"),
     async (req, res) => {
         if (req.session.loggedin) {
             try {
-                let transaction = await sequelize.transaction();
                 const { userId, id, date } = req.params;
                 let schedule = await schedules.findOne({
                     where: { user_id: userId, date: date },
@@ -283,8 +420,7 @@ router.post(
                         trainer_id: id,
                         user_id: userId,
                         date: date,
-                        },
-                        { transaction }
+                        }
                     );
                 }
                 const Feedback = await feedbacks.create(
@@ -292,34 +428,22 @@ router.post(
                     schedule_id: schedule.id,
                     user_id: userId,
                     trainer_id: id,
-                    feedback_message: req.body.feedback_message,
-                    },
-                    { transaction }
-                );
-
-                const uploadParams = {
-                    acl: "public-read",
-                    ContentType: req.file.mimetype,
-                    Bucket: "fitme-s3",
-                    Body: req.file.buffer,
-                    Key: `feedbacks/${id}/${Feedback.id}/${req.file.originalname}`,
-                };
-                const result = await s3.upload(uploadParams).promise();
-                await feedbacks.update(
-                    {
-                        feedback_video_url: result.Location,
-                        s3_key: result.Key,
-                    },
-                    { where: { id: Feedback.id } }
-                    , { transaction }
+                    }
                 );
                 await schedules.update(
                     {
                         feedback_id: Feedback.id,
                     },
                     { where: { id: schedule.id } }
-                    , { transaction }
                 );
+                const count = await trainer_manage.findOne({
+                    where: { user_id: userId, trainer_id: id },
+                });
+                await trainer_manage.update({
+                    remain_pt_count: count.remain_pt_count - 1,
+                    },
+                    { where: { user_id: userId, trainer_id: id } }
+                )
                 res.status(200).json({
                     data: Feedback,
                     message: "피드백 업로드가 완료되었습니다.",
@@ -340,7 +464,6 @@ router.post(
 // feedback 수정
 router.put(
     "/updateFeedback/:feedbackId", 
-    videoupload.single("video"), 
     async (req, res) => {
     if (req.session.loggedin) {
         try {
@@ -355,25 +478,9 @@ router.put(
                 });
                 return;
             }
-            const s3Key = Feedback.s3_key;
-            const deleteParams = {
-                Bucket: "fitme-s3",
-                Key: s3Key,
-            };
-            await s3.deleteObject(deleteParams).promise();
-            const uploadParams = {
-                acl: "public-read",
-                ContentType: req.file.mimetype,
-                Bucket: "fitme-s3",
-                Body: req.file.buffer,
-                Key: `feedbacks/${id}/${Feedback.id}/${req.file.originalname}`,
-            };
-            const result = await s3.upload(uploadParams).promise();
             await feedbacks.update(
                 {
                     feedback_message: req.body.feedback_message,
-                    feedback_video_url: result.Location,
-                    s3_key: result.Key,
                 },
                 { where: { id: feedbackId } }
             );
@@ -409,11 +516,13 @@ router.delete("/deleteFeedback/:feedbackId", async (req, res) => {
                 return;
               }
             const s3Key = Feedback.s3_key;
+            if (s3Key) {
             const deleteParams = {
                 Bucket: "fitme-s3",
                 Key: s3Key,
             };
             await s3.deleteObject(deleteParams).promise();
+            }
             await Feedback.destroy({
                 where: { id: feedbackId },
             });
@@ -433,6 +542,157 @@ router.delete("/deleteFeedback/:feedbackId", async (req, res) => {
     }
 });
 
+// feedback 영상 업로드
+router.post(
+    "/uploadFeedbackvideo/:date/:id/:userId",
+    videoupload.single("video"),
+    async (req, res) => {
+        if (req.session.loggedin) {
+            try {
+                const { userId, id, date } = req.params;
+                let schedule = await schedules.findOne({
+                    where: { user_id: userId, date: date },
+                });
+                const Feedback = await feedbacks.findOne(
+                    {
+                        where: { schedule_id: schedule.id },
+                    }
+                );
+                const uploadParams = {
+                    acl: "public-read",
+                    ContentType: req.file.mimetype,
+                    Bucket: "fitme-s3",
+                    Body: req.file.buffer,
+                    Key: `feedbacks/${id}/${Feedback.id}/${req.file.originalname}`,
+                };
+                const result = await s3.upload(uploadParams).promise();
+                await feedbacks.update(
+                    {
+                        feedback_video_url: result.Location,
+                        s3_key: result.Key,
+                    },
+                    { where: { id: Feedback.id } }
+                );
+                res.status(200).json({
+                    data: Feedback,
+                    message: "피드백 영상 업로드가 완료되었습니다.",
+                });
+            } catch (err) {
+                console.log(err);
+                res.status(500).json({ data: null, message: err });
+            }
+        } else {
+            res.status(401).json({
+                data: null,
+                message: "로그인이 필요합니다.",
+            });
+        }
+    }
+);
+
+// feedback 영상 삭제
+router.delete("/deleteFeedbackvideo/:feedbackId", 
+    async (req, res) => {
+    if (req.session.loggedin) {
+        try {
+            const { feedbackId } = req.params;
+            const Feedback = await feedbacks.findOne({
+                where: { id: feedbackId },
+            });
+            if (!Feedback) {
+                res.status(404).json({
+                  data: null,
+                  message: "피드백을 찾을 수 없습니다.",
+                });
+                return;
+              }
+            const s3Key = Feedback.s3_key;
+            if (s3Key) {
+            const deleteParams = {
+                Bucket: "fitme-s3",
+                Key: s3Key,
+            };
+            await s3.deleteObject(deleteParams).promise();
+            }
+            res.status(200).json({
+                data: null,
+                message: "피드백 영상이 삭제되었습니다.",
+            });
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ data: null, message: err });
+        }
+    } else {
+        res.status(401).json({
+            data: null,
+            message: "로그인이 필요합니다.",
+        });
+    }
+});
+
+// feedback 영상 수정
+router.put(
+    "/updateFeedbackvideo/:feedbackId", 
+    videoupload.single("video"), 
+    async (req, res) => {
+    if (req.session.loggedin) {
+        try {
+            const { feedbackId } = req.params;
+            const Feedback = await feedbacks.findOne({
+                where: { id: feedbackId },
+            });
+            if (!Feedback) {
+                res.status(404).json({
+                    data: null,
+                    message: "피드백을 찾을 수 없습니다.",
+                });
+                return;
+            }
+            if (req.file) {
+                const s3Key = Feedback.s3_key;
+                const deleteParams = {
+                    Bucket: "fitme-s3",
+                    Key: s3Key,
+                };
+                await s3.deleteObject(deleteParams).promise();
+                const uploadParams = {
+                    acl: "public-read",
+                    ContentType: req.file.mimetype,
+                    Bucket: "fitme-s3",
+                    Body: req.file.buffer,
+                    Key: `feedbacks/${id}/${Feedback.id}/${req.file.originalname}`,
+                };
+                const result = await s3.upload(uploadParams).promise();
+                await feedbacks.update(
+                    {
+                        feedback_video_url: result.Location,
+                        s3_key: result.Key,
+                    },
+                    { where: { id: feedbackId } }
+                );
+                res.status(200).json({
+                    data: null,
+                    message: "피드백 비디오가 수정되었습니다.",
+                });
+            }
+            else {
+                res.status(404).json({
+                    data: null,
+                    message: "업로드된 영상이 없습니다.",
+                });
+                return;
+            }
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ data: null, message: err });
+        }
+    } else {
+        res.status(401).json({
+            data: null,
+            message: "로그인이 필요합니다.",
+        });
+    }
+});
 
 
 module.exports = router;
