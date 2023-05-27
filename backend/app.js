@@ -50,6 +50,37 @@ app.use(
     })
 );
 
+//db
+
+const con = mysql.createConnection({
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE,
+    port: process.env.MYSQL_PORT,
+    multipleStatements: true,
+});
+
+con.connect(function (err) {
+    if (err) throw err;
+    console.log("connected");
+});
+
+async function createDB() {
+    try {
+        await fs.readFile("./database/DDL.sql", (err, sql) => {
+            let str = sql.toString();
+            con.query(str, function (err, result) {
+                if (err) throw err;
+            });
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+createDB();
+
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/trainers", trainersRouter);
