@@ -7,8 +7,6 @@ import InputBox from './InputBox';
 
 function UserInputForm({ datatransform }) {
   const [height, setHeight] = useState('');
-  const [gender, setGender] = useState('');
-  const [age, setAge] = useState('');
   const [weight, setWeight] = useState('');
   const [injury, setInjury] = useState('');
   const [career, setCareer] = useState('');
@@ -20,8 +18,6 @@ function UserInputForm({ datatransform }) {
   function upload(event) {
     datatransform({
       height,
-      gender,
-      age,
       weight,
       injury,
       career,
@@ -35,8 +31,6 @@ function UserInputForm({ datatransform }) {
     <Container1 fluid>
       <Flexcontainers>
         <Head1>PT 신청서</Head1>
-        <InputBox text1="나이" text2="세" datap={setAge} />
-        <InputBox text1="성별" datap={setGender} />
         <InputBox text1="키" text2="cm" datap={setHeight} />
         <InputBox text1="몸무게" text2="kg" datap={setWeight} />
         <InputBox text1="지병 혹은 부상" height="60px" datap={setInjury} />

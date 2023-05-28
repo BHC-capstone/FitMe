@@ -31,7 +31,6 @@ function ExerciseTab({ userid, date }) {
   // 운동 루틴이 배열로 제공 된다고 가정하면 map 함수를 상위에 추가하여 밑의 컴포넌트들을 본문으로 사용할 예정
   return (
     <Flexcontainers>
-      {/* <Routine /> */}
       {exerdate.map((el, index) => (
         // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
         <Routine

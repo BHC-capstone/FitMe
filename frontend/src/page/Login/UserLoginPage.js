@@ -48,6 +48,9 @@ export default function UserLoginPage(props) {
   const goTrainerLogin = () => {
     navigate('/trainer-login');
   };
+  const goLandingPage = () => {
+    navigate('/');
+  };
 
   return (
     <div>
@@ -94,6 +97,9 @@ export default function UserLoginPage(props) {
             트레이너 로그인
           </StyledButton>
         </Form>
+        <Button variant="link" type="button" onClick={goLandingPage}>
+          회원가입
+        </Button>
       </Container>
     </div>
   );

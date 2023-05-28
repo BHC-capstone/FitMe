@@ -12,6 +12,9 @@ export default function LandingPage() {
   const goTrainerSignUp = () => {
     navigate('/trainer-signup');
   };
+  const goLogin = () => {
+    navigate('/user-login');
+  };
 
   return (
     <Layout>
@@ -43,6 +46,9 @@ export default function LandingPage() {
             </Card1>
           </Col>
         </Row>
+        <Button variant="link" type="button" onClick={goLogin}>
+          이미 계정이 있나요?
+        </Button>
       </Container>
     </Layout>
   );

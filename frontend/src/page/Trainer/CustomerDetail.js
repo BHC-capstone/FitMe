@@ -22,14 +22,18 @@ function CustomerDetail() {
   const [form] = Form.useForm();
   const [color, setColor] = useState('');
   const navigate = useNavigate();
+
   useEffect(() => {
     axios
       .get(
         `https://localhost:4000/manage/checkptuserdetail/${id}/${loginedUser.id}`,
+        {
+          withCredentials: true,
+        },
       )
       .then(response => {
         setCustomer({
-          name: response.data.data.user_id,
+          name: response.data.data.name,
           remainingPt: response.data.data.remain_pt_count,
           totalPt: response.data.data.total_pt_count,
           memo: response.data.data.manage_memo,
