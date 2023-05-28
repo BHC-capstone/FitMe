@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { CloseOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import TrainerRoutine from './TrainerRoutine';
@@ -9,6 +9,8 @@ import TrainerRoutine from './TrainerRoutine';
 // eslint-disable-next-line react/prop-types
 function TrainerExerciseTab({ userid, date }) {
   const [exerdate, setExerdate] = useState([]);
+  const loginedUser = useSelector(state => state.user);
+  const trainerid = loginedUser.id;
 
   useEffect(() => {
     setExerdate([]);
@@ -30,15 +32,29 @@ function TrainerExerciseTab({ userid, date }) {
     countArr.push(counter); // index 사용 X
     // countArr[counter] = counter	// index 사용 시 윗줄 대신 사용
     setExerdate(countArr);
-    // axios({
-    //   url: `https://localhost:4000/trainer_calender/createExercise/${date}/${trainerid}/${userId}`,
-    //   headers: {
-    //     'Content-Type': 'multipart/form-data',
-    //   },
-    //   method: 'POST',
-    //   withCredentials: true,
-    // });
+    axios({
+      url: `https://localhost:4000/trainer_calender/createExercise/${date}/${trainerid}/${userid}`,
+      method: 'POST',
+      withCredentials: true,
+    });
   };
+  function onRemove(routineid) {
+    axios({
+      url: `https://localhost:4000/trainer_calender/deleteExercise/${routineid}`,
+      method: 'POST',
+      withCredentials: true,
+    })
+      .then(res => {
+        const updatedExerdate = exerdate.filter(
+          item => item.routineid !== routineid,
+        );
+        setExerdate(updatedExerdate);
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   // 운동 루틴이 배열로 제공 된다고 가정하면 map 함수를 상위에 추가하여 밑의 컴포넌트들을 본문으로 사용할 예정
   return (
@@ -59,6 +75,7 @@ function TrainerExerciseTab({ userid, date }) {
             date={date}
             content={el.content}
             routineid={el.id}
+            onRemove={onRemove}
           />
         ))}
       </Flexcontainers>

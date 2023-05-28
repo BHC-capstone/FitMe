@@ -1,24 +1,26 @@
 import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { Input } from 'antd';
 import { Button } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+const { TextArea } = Input;
 function InputBox({ text1, text2, height, datap }) {
   const [textData, setTextData] = useState([]);
   const onChangeText = e => {
     setTextData(e.target.value);
-    console.log(textData);
     datap(textData);
   };
   return (
     <Flexcontainer height={height}>
       <Textarea height={height}>{text1}</Textarea>
-      <input
+      <TextArea
         type="text"
         // value={textData}
         onChange={onChangeText}
         onBlur={onChangeText}
+        autoSize={{ minRows: height, maxRows: 4 }}
         style={{
           textAlign: 'center',
           width: '50%',

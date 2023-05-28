@@ -21,6 +21,7 @@ function TrainerRoutine({
   userId,
   date,
   routineid,
+  onRemove,
 }) {
   const loginedUser = useSelector(state => state.user);
   const trainerid = loginedUser.id;
@@ -47,13 +48,8 @@ function TrainerRoutine({
     videoInput.current.click();
   };
   const videoInput = useRef();
-
-  function upload(event) {
+  function onVideoSubmit(event) {
     const formData = new FormData();
-    formData.append('name', exercise);
-    formData.append('exercise_count', timeValue);
-    formData.append('set_count', setValue);
-    // formData.append('exercisevideo', exerVideo);
     formData.append('video', videoInput.current.files[0]);
     axios({
       url: `https://localhost:4000/trainer_calender/createExercise/${date}/${trainerid}/${userId}`,
@@ -70,13 +66,38 @@ function TrainerRoutine({
       .catch(err => {
         console.log(err);
       });
+    // console.log(event.target.files);
   }
+
+  function exerciseModify(event) {
+    const formData = new FormData();
+    formData.append('name', exercise);
+    formData.append('exercise_count', timeValue);
+    formData.append('set_count', setValue);
+    formData.append('video', videoInput.current.files[0]);
+    axios({
+      url: `https://localhost:4000/trainer_calender/updateExercise/${routineid}`,
+      data: formData,
+      method: 'PUT',
+      withCredentials: true,
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   return (
     <div>
       <Flexcontainer num={num}>
         <Text0 num={num}>
           오늘의 운동 ({num + 1}){' '}
-          <CloseOutlined style={{ float: 'right', marginRight: '5%' }} />
+          <CloseOutlined
+            style={{ float: 'right', marginRight: '5%' }}
+            onClick={() => onRemove(routineid)}
+          />
         </Text0>
         <Form>
           <Row className="justify-content-md-center">
@@ -123,7 +144,7 @@ function TrainerRoutine({
             accept="video"
             onChange={event => onGuideVideoChange(event)}
           />
-          <StyledButton num={num} count={0} onClick={onGuideVideoChange}>
+          <StyledButton num={num} count={0} onClick={onVideoSubmit}>
             가이드 영상 업로드
           </StyledButton>
           {guideURL ? (
@@ -175,7 +196,12 @@ function TrainerRoutine({
               )}
             </StyledVideoContainer>
           ) : null}
-          <StyledButton num={num} count={2} type="submit" onClick={upload}>
+          <StyledButton
+            num={num}
+            count={2}
+            type="submit"
+            onClick={exerciseModify}
+          >
             수정 완료
           </StyledButton>
         </Form>

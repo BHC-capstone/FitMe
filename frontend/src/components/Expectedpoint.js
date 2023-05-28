@@ -16,7 +16,6 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
   const [detaildata, setDetailData] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
-    console.log(trainerid, '안녕하세요?');
     setdays(
       Math.floor(
         Math.ceil(
@@ -36,8 +35,6 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
   }, [startDate, endDate]);
   const highFunction = ({
     height,
-    gender,
-    age,
     weight,
     injury,
     career,
@@ -48,8 +45,6 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
   }) => {
     setDetailData({
       height,
-      gender,
-      age,
       weight,
       injury,
       career,
@@ -70,8 +65,6 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
       // requst //
       count,
       height: detaildata.height,
-      gender: detaildata.gender,
-      age: detaildata.age,
       weight: detaildata.weight,
       injury: detaildata.injury,
       career: detaildata.career,
