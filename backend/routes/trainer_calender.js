@@ -10,7 +10,6 @@ const {
     trainer_manage,
     meal_plan,
     feedbacks,
-    trainer_manage,
 } = require("../models");
 const initModels = require("../models/init-models");
 const models = initModels(sequelize);
@@ -61,10 +60,10 @@ router.get("/exerciseroutine/:userId/:date", async (req, res) => {
             const schedule_date = await schedules.findOne({
                 where: { user_id: userId, date: date },
             });
+            if(schedule_date.id != null) {
             const exerciseRoutine = await exercise_routines.findAll({
                 where: { schedule_id: schedule_date.id },
             });
-            console.log(exerciseRoutine);
             if (exerciseRoutine) {
                 res.status(200).json({ data: exerciseRoutine, message: "" });
             } else {
@@ -73,6 +72,13 @@ router.get("/exerciseroutine/:userId/:date", async (req, res) => {
                     message: "해당 날짜의 운동루틴이 존재하지 않습니다.",
                 });
             }
+        }
+        else {
+            res.status(400).json({
+                data: null,
+                message: "해당 날짜의 운동루틴이 존재하지 않습니다.",
+            });
+        }
         } catch (err) {
             console.log(err);
         }
@@ -323,6 +329,13 @@ router.delete("/deleteGuidevideo/:exerciseId",
                 Key: s3Key,
             };
             await s3.deleteObject(deleteParams).promise();
+            await exercise_routines.update(
+                {
+                    guide_video_url: null,
+                    guide_s3_key: null,
+                },
+                { where: { id: exerciseId } }
+            );
             res.status(200).json({
                 data: null,
                 message: "운동루틴이 삭제되었습니다.",
@@ -432,7 +445,7 @@ router.post(
                 );
                 await schedules.update(
                     {
-                        feedback_id: Feedback.id,
+                        feedbacks_id: Feedback.id,
                     },
                     { where: { id: schedule.id } }
                 );
