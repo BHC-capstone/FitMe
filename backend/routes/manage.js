@@ -34,7 +34,7 @@ router.get('/checkptuserlist/:id', async function (req, res) {
 // check pt user detail
 router.get('/checkptuserdetail/:user_id/:id', async function (req, res) {
   try {
-    const check_pt_user_detail = await trainer_manage.findOne({
+    const check_pt_user_detail = await models.trainer_manage.findOne({
       where: { trainer_id: req.params.id, user_id: req.params.user_id },
       include: {
         model: users,

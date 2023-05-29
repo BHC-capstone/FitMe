@@ -1,47 +1,35 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('users', {
+  return sequelize.define('comments', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    email: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    password: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    name: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    age: {
+    user_id: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    gender: {
-      type: DataTypes.STRING(10),
+    trainer_id: {
+      type: DataTypes.INTEGER,
       allowNull: true
     },
-    phonenumber: {
-      type: DataTypes.STRING(255),
+    feedback_id: {
+      type: DataTypes.INTEGER,
       allowNull: true
     },
-    user_image_url: {
-      type: DataTypes.STRING(255),
+    date: {
+      type: DataTypes.DATEONLY,
       allowNull: true
     },
-    s3_key: {
-      type: DataTypes.STRING(255),
+    message: {
+      type: DataTypes.TEXT,
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'users',
+    tableName: 'comments',
     timestamps: false,
     indexes: [
       {

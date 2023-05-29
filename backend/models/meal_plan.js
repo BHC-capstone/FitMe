@@ -38,6 +38,18 @@ module.exports = function(sequelize, DataTypes) {
     dinner_image_url: {
       type: DataTypes.STRING(255),
       allowNull: true
+    },
+    breakfast_s3_key: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    lunch_s3_key: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    dinner_s3_key: {
+      type: DataTypes.STRING(255),
+      allowNull: true
     }
   }, {
     sequelize,

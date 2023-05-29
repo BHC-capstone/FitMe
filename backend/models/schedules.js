@@ -22,6 +22,10 @@ module.exports = function(sequelize, DataTypes) {
     meal_plan_id: {
       type: DataTypes.INTEGER,
       allowNull: true
+    },
+    feedbacks_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true
     }
   }, {
     sequelize,

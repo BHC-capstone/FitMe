@@ -29,6 +29,9 @@ function Trainerdetail() {
         withCredentials: true,
       })
       .then(res => {
+        if (res.status === 401) {
+          navigate('/login');
+        }
         console.log(res.data.data);
         setTrainer(res.data.data);
       });
@@ -143,7 +146,7 @@ const Nameblock = styled.text`
   &.a {
     font-family: 'Black Han Sans', sans-serif;
     letter-spacing: 8px;
-    font-size: 36px;
+    font-size: 20px;
     border-bottom: 2px solid white;
     // font-weight: bold;
   }

@@ -77,7 +77,7 @@ function Routine({ userid, date, breakfast, lunch, dinner }) {
       <Flexcontainer num={1}>
         <Text0 num={1}>오늘의 식단</Text0>
         <Text1 num={1}>점심 식단</Text1>
-        <Text2 num={1}>몇 시에 드셨는지도 적어주세요!</Text2>
+        <Text2 num={1}>드시기 전에 식단 촬영!</Text2>
         <TextBox num={1} count={1}>
           <span className="b">점심</span> : {lunch}
         </TextBox>

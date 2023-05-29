@@ -46,6 +46,14 @@ module.exports = function(sequelize, DataTypes) {
     guide_video_url: {
       type: DataTypes.STRING(255),
       allowNull: true
+    },
+    user_s3_key: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    guide_s3_key: {
+      type: DataTypes.STRING(255),
+      allowNull: true
     }
   }, {
     sequelize,

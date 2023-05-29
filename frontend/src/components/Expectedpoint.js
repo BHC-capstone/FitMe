@@ -54,8 +54,6 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
 
   const highFunction = ({
     height,
-    gender,
-    age,
     weight,
     injury,
     career,
@@ -66,8 +64,6 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
   }) => {
     setDetailData({
       height,
-      gender,
-      age,
       weight,
       injury,
       career,
@@ -88,8 +84,6 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
       // requst //
       count,
       height: detaildata.height,
-      gender: detaildata.gender,
-      age: detaildata.age,
       weight: detaildata.weight,
       injury: detaildata.injury,
       career: detaildata.career,
