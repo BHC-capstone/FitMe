@@ -27,6 +27,7 @@ function Routine({ userid, date }) {
     //     setDinner(dietdate.dinner);
     //     setLunch(dietdate.lunch);
     //   });
+    setDietdate([]);
     axios({
       url: `https://localhost:4000/calender/mealplan/${userid}/${date}`,
       method: 'GET',
@@ -36,11 +37,13 @@ function Routine({ userid, date }) {
         setDietdate(res.data.data);
       })
       .catch(err => {
+        setDietdate({ breakfast: '', lunch: '', dinner: '' });
         console.log(err);
       });
   }, [userid, date]);
 
   useEffect(() => {
+    console.log('두번째 유즈이펙트의 다이어트', dietdate);
     setBreakfast(dietdate.breakfast);
     setDinner(dietdate.dinner);
     setLunch(dietdate.lunch);

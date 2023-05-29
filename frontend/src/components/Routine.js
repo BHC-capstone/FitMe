@@ -20,32 +20,15 @@ function Routine({
   guideURL,
   userid,
   routineid,
+  onVideoSubmit,
+  onVideoRemove,
 }) {
   const [guideOpen, setGuideOpen] = useState(false);
   const videoInput = useRef();
   const onCickImageUpload2 = () => {
     videoInput.current.click();
   };
-  function onVideoChange(event) {
-    const formData = new FormData();
-    formData.append('video', videoInput.current.files[0]);
-    axios({
-      url: `https://localhost:4000/calender/exercisevideo/${userid}/${routineid}`,
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-      data: formData,
-      method: 'POST',
-      withCredentials: true,
-    })
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    // console.log(event.target.files);
-  }
+
   return (
     <div>
       <Flexcontainer num={num}>
@@ -62,9 +45,13 @@ function Routine({
             {guideOpen ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
           </div>
         </StyledButton>
-        {guideOpen && guideURL ? (
+        {guideOpen ? (
           <StyledVideoContainer>
-            {guideURL == null ? null : (
+            {guideURL == null ? (
+              <div style={{ color: 'black' }}>
+                아직 영상이 업로드되지 않았습니다.
+              </div>
+            ) : (
               <ReactPlayer
                 className="react-player"
                 url={guideURL}
@@ -85,7 +72,7 @@ function Routine({
           style={{ display: 'none' }}
           ref={videoInput}
           accept="video"
-          onChange={event => onVideoChange(event)}
+          onChange={event => onVideoSubmit(videoInput, routineid)}
         />
         <StyledButton num={num} count={1} onClick={onCickImageUpload2}>
           영상 업로드
@@ -104,7 +91,7 @@ function Routine({
               pip={false}
             />
             <div style={{ float: 'right', marginLeft: '10%', color: 'gray' }}>
-              <CloseOutlined onClick={() => setGuideOpen(e => !e)} />
+              <CloseOutlined onClick={() => onVideoRemove(routineid)} />
             </div>
           </StyledVideoContainer>
         ) : null}
@@ -162,7 +149,7 @@ const TextBox = styled.div`
   height: 60px;
   color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
 `;
-const StyledButton = styled.div`
+const StyledButton = styled(Button)`
   padding-left: 5%;
   text-align: left;
   border-radius: 30px;
@@ -175,12 +162,6 @@ const StyledButton = styled.div`
   height: 60px;
   z-index: 1;
   color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
-`;
-const StyledButton2 = styled(Button)`
-  width: 100%;
-  margin: auto;
-  background-color: ${props =>
-    (props.num + props.count) % 2 === 1 ? 'white' : '#2ba5f7'};
 `;
 
 const StyledVideoContainer = styled.button`

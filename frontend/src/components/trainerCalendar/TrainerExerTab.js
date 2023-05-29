@@ -23,20 +23,33 @@ function TrainerExerciseTab({ userid, date }) {
       )
       .then(res => {
         setExerdate(res.data.data);
+      })
+      .catch(err => {
+        console.log(err);
       });
   }, [userid, date]);
 
   const onAddDetailDiv = () => {
-    const countArr = [...exerdate];
-    const counter = countArr.slice(-1);
-    countArr.push(counter); // index 사용 X
-    // countArr[counter] = counter	// index 사용 시 윗줄 대신 사용
-    setExerdate(countArr);
     axios({
       url: `https://localhost:4000/trainer_calender/createExercise/${date}/${trainerid}/${userid}`,
       method: 'POST',
       withCredentials: true,
-    });
+    })
+      .then(response => {
+        axios
+          .get(
+            `https://localhost:4000/calender/exerciseroutine/${userid}/${date}`,
+            {
+              withCredentials: true,
+            },
+          )
+          .then(res => {
+            setExerdate(res.data.data);
+          });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
   function onRemove(routineid) {
     axios({
@@ -44,12 +57,71 @@ function TrainerExerciseTab({ userid, date }) {
       method: 'POST',
       withCredentials: true,
     })
-      .then(res => {
-        const updatedExerdate = exerdate.filter(
-          item => item.routineid !== routineid,
-        );
-        setExerdate(updatedExerdate);
-        console.log(res);
+      .then(response => {
+        axios
+          .get(
+            `https://localhost:4000/calender/exerciseroutine/${userid}/${date}`,
+            {
+              withCredentials: true,
+            },
+          )
+          .then(res => {
+            setExerdate(res.data.data);
+          });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  function onVideoSubmit(videoInput, routineid) {
+    const formData = new FormData();
+    formData.append('video', videoInput.current.files[0]);
+    axios({
+      url: `https://localhost:4000/trainer_calender/uplodadGuideVideo/${trainerid}/${routineid}`,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      data: formData,
+      method: 'POST',
+      withCredentials: true,
+    })
+      .then(response => {
+        console.log(response);
+        axios
+          .get(
+            `https://localhost:4000/calender/exerciseroutine/${userid}/${date}`,
+            {
+              withCredentials: true,
+            },
+          )
+          .then(res => {
+            setExerdate(res.data.data);
+          });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+    // console.log(event.target.files);
+  }
+  function onVideoRemove(routineid) {
+    axios({
+      url: `https://localhost:4000/trainer_calender/deleteGuideVideo/${routineid}`,
+      method: 'POST',
+      withCredentials: true,
+    })
+      .then(response => {
+        console.log(response);
+        axios
+          .get(
+            `https://localhost:4000/calender/exerciseroutine/${userid}/${date}`,
+            {
+              withCredentials: true,
+            },
+          )
+          .then(res => {
+            setExerdate(res.data.data);
+          });
       })
       .catch(err => {
         console.log(err);
@@ -76,6 +148,8 @@ function TrainerExerciseTab({ userid, date }) {
             content={el.content}
             routineid={el.id}
             onRemove={onRemove}
+            onVideoSubmit={onVideoSubmit}
+            onVideoRemove={onVideoRemove}
           />
         ))}
       </Flexcontainers>

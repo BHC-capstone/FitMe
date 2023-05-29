@@ -1,6 +1,6 @@
-const express = require('express');
+var express = require('express');
 
-const router = express.Router();
+var router = express.Router();
 const { sequelize } = require('../models');
 const {
   trainers,
@@ -28,7 +28,7 @@ const { s3 } = require('../modules/s3upload');
 dotenv.config();
 
 // check feedback
-router.get('checkFeedback/:Id', async (req, res) => {
+router.get('/checkFeedback/:Id', async (req, res) => {
   if (req.session.loggedin) {
     try {
       const { Id, date } = req.params;
@@ -59,7 +59,7 @@ router.get('checkFeedback/:Id', async (req, res) => {
 });
 
 // feedback 댓글 작성
-router.post('comment/:userId/:trainerId', async (req, res) => {
+router.post('/comment/:userId/:trainerId', async (req, res) => {
   if (req.session.loggedin) {
     try {
       const { id, userId, trainerId } = req.params;
