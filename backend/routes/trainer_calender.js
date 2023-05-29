@@ -61,6 +61,7 @@ router.get("/exerciseroutine/:userId/:date", async (req, res) => {
             const schedule_date = await schedules.findOne({
                 where: { user_id: userId, date: date },
             });
+            if(schedule_date.id != null) {
             const exerciseRoutine = await exercise_routines.findAll({
                 where: { schedule_id: schedule_date.id },
             });
@@ -72,6 +73,13 @@ router.get("/exerciseroutine/:userId/:date", async (req, res) => {
                     message: "해당 날짜의 운동루틴이 존재하지 않습니다.",
                 });
             }
+        }
+        else {
+            res.status(400).json({
+                data: null,
+                message: "해당 날짜의 운동루틴이 존재하지 않습니다.",
+            });
+        }
         } catch (err) {
             console.log(err);
         }
@@ -439,7 +447,7 @@ router.post(
                 );
                 await schedules.update(
                     {
-                        feedback_id: Feedback.id,
+                        feedbacks_id: Feedback.id,
                     },
                     { where: { id: schedule.id } }
                 );

@@ -495,6 +495,15 @@ router.delete("/exerciseVideodelete/:routineid",
                     Key: s3Key,
                 };
                 await s3.deleteObject(deleteParams).promise();
+                await exercise_routines.update(
+                    {
+                        user_video_url: null,
+                        user_s3_key: null,
+                    },
+                    {
+                        where: { id: routineid },
+                    }
+                );
                 }
                 await exercise_routines.update(
                     {
