@@ -45,6 +45,7 @@ router.get("/mealplan/:id/:date", async (req, res) => {
             }
         } catch (err) {
             console.log(err);
+            res.status(400).json({ data: null, message: "해당 날짜의 식단이 존재하지 않습니다." });
         }
     } else {
         res.status(401).json({ data: null, message: "로그인이 필요합니다." });
@@ -53,7 +54,7 @@ router.get("/mealplan/:id/:date", async (req, res) => {
 
 // check exercise routine
 router.get("/exerciseroutine/:id/:date", async (req, res) => {
-    //  if (req.session.loggedin) {
+      if (req.session.loggedin) {
     try {
         const { id, date } = req.params;
         console.log("test" + date + date);
@@ -75,10 +76,11 @@ router.get("/exerciseroutine/:id/:date", async (req, res) => {
         }
     } catch (err) {
         console.log(err);
+        res.status(400).json({ data: null, message: "해당 날짜의 운동루틴이 존재하지 않습니다." });
     }
-    //  } else {
-    //     res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
-    //  }
+      } else {
+         res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+      }   
 });
 
 // upload mealplan picture

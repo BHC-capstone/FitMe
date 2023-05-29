@@ -60,7 +60,7 @@ router.get("/exerciseroutine/:userId/:date", async (req, res) => {
             const schedule_date = await schedules.findOne({
                 where: { user_id: userId, date: date },
             });
-            if(schedule_date.id != null) {
+            if(schedule_date != null) {
             const exerciseRoutine = await exercise_routines.findAll({
                 where: { schedule_id: schedule_date.id },
             });
