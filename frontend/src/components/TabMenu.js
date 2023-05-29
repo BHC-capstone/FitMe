@@ -22,7 +22,7 @@ function TabMenu({ menuArr, currentTab, selectMenuHandler }) {
 }
 
 const TabsContainer = styled.div`
-  margin: auto;
+  // margin: auto;
 `;
 
 const Tab = styled.ul`
@@ -35,11 +35,9 @@ align-items: center;
 list-style: none;
 margin-bottom: 30px;
 margin-top: 10px;
-border-bottom: solid 1px;
-border-bottom-color: #d1d1d1;
+border-bottom: solid 1px #d1d1d1;
 
 .submenu {
-  display: flex;
   justify-content: space-around;
   width: 390px;
   height: 40px; */
@@ -62,7 +60,6 @@ border-bottom-color: #d1d1d1;
 
 const TabContent = styled.div`
   padding: 1rem;
-  //border: 1px solid #dee2e6;
   border-top: none;
 `;
 

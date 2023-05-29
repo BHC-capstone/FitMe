@@ -5,7 +5,7 @@ import { Container, Button } from 'react-bootstrap';
 import axios from 'axios';
 import styled from 'styled-components';
 import sampleImg from '../../../images/sample_certificate.png';
-import '../../../scss/certificateManage.css';
+import '../../../scss/certificateManage.scss';
 
 function CertificateManage() {
   const loginedUser = useSelector(state => state.user);
@@ -95,13 +95,13 @@ function CertificateManage() {
             <p>자격증 파일을 업로드 해주세요.</p>
             <p>자격증 파일은 최대 1개까지 업로드 가능합니다.</p>
           </div>
-          <Button variant="primary" type="button">
+          <Button variant="secondary" type="button" className="mgbt">
             파일 선택
           </Button>
         </button>
-        <Button1 variant="primary" type="submit">
+        <Button variant="primary" type="submit" className="mgtp">
           업로드
-        </Button1>
+        </Button>
       </form>
     </Container>
   );
@@ -118,8 +118,4 @@ const Head1 = styled.div`
   margin: 0 auto;
   padding: 10px;
 `;
-const Button1 = styled(Button)`
-  margin-top: 3%;
-`;
-
 export default CertificateManage;

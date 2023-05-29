@@ -1,9 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Input } from 'antd';
-import { Button } from 'react-bootstrap';
-import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+// import { Button } from 'react-bootstrap';
+// import { useParams, useNavigate } from 'react-router-dom';
+// import axios from 'axios';
 
 const { TextArea } = Input;
 function InputBox({ text1, text2, height, datap }) {

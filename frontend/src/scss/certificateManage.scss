@@ -1,7 +1,7 @@
 .file-upload {
   border-style: dashed;
   border-radius: 10px;
-  border-width: 5px;
+  border-width: 2px;
   margin-left: 10%;
   margin-right: 10%;
   padding: 5%;
@@ -12,6 +12,7 @@
   width: 200px;
   height: 200px;
   overflow: hidden;
+  margin: auto;
 }
 
 .preview-wrapper img {

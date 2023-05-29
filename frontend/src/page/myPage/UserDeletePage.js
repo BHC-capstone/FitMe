@@ -37,9 +37,13 @@ function WithdrawPage() {
     }
   };
 
+  const deleteCancel = () => {
+    navigate('/mypage');
+  };
+
   return (
     <Container className="panel">
-      <Head1>회원 탈퇴</Head1>
+      <div className="head">회원 탈퇴</div>
       <Stack gap={2} className="col-md-5 mx-auto">
         <Form onSubmit={handleSubmit}>
           <FloatingLabel
@@ -56,14 +60,18 @@ function WithdrawPage() {
               required
             />
           </FloatingLabel>
-          <Link to="/mypage">
-            <Button type="button" variant="secondary">
-              취소하기
-            </Button>
-          </Link>
-          <StyledButton variant="danger" type="submit">
+          <Button
+            type="button"
+            variant="secondary"
+            className="mgtp"
+            onClick={deleteCancel}
+          >
+            취소하기
+          </Button>
+          <hr />
+          <Button variant="danger" type="submit">
             회원탈퇴
-          </StyledButton>
+          </Button>
         </Form>
       </Stack>
     </Container>

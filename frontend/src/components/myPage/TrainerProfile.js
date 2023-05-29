@@ -35,14 +35,17 @@ function TrainerProfile() {
 
   return (
     <div className="trainer-profile">
-      {loginedUser.isTrainer ? (
-        <Form>
-          <Form.Item label="트레이너 프로필 사진">
-            <Upload.Dragger name="files" />
-          </Form.Item>
-        </Form>
-      ) : null}
-
+      <Container1 fluid>
+        {loginedUser.isTrainer ? (
+          <Form>
+            <Head1>트레이너 프로필 사진</Head1>
+            <br />
+            <Form.Item>
+              <Upload.Dragger name="files" />
+            </Form.Item>
+          </Form>
+        ) : null}
+      </Container1>
       <Container1 fluid>
         <div className="certification-list">
           <Head1>보유 자격증</Head1>

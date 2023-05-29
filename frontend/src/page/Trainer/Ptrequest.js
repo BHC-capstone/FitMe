@@ -5,10 +5,10 @@ import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
 import { ko } from 'date-fns/esm/locale';
 import { useParams } from 'react-router-dom';
-import { Container, Form, Button } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import Expectedpoint from '../../components/Expectedpoint';
 import './Ptrequest.css';
-import UserCaution from '../../components/ptrequest/UserInputForm';
+// import UserCaution from '../../components/ptrequest/UserInputForm';
 
 export default function Ptrequest() {
   const { trainerid } = useParams();

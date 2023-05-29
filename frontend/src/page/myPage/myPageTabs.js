@@ -9,7 +9,6 @@ import PaymentHistoryTab from '../../components/myPage/PaymentHistoryTab';
 import TabMenu from '../../components/TabMenu';
 import RequestManage from '../../components/myPage/RequestManage';
 import TrainerProfile from '../../components/myPage/TrainerProfile';
-// import '../../scss/tabs.scss';
 
 function Tabs() {
   const user = useSelector(state => state.user);
@@ -55,7 +54,7 @@ function Tabs() {
 
   return (
     <Container fluid className="panel">
-      <Head1>마이페이지</Head1>
+      <div className="head">마이페이지</div>
       <TabMenu
         menuArr={menuArr}
         currentTab={currentTab}
@@ -77,15 +76,4 @@ function Tabs() {
   );
 }
 
-const Head1 = styled.div`
-  color: rgb(21, 20, 20);
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 30px;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  width: fit-content;
-  margin: 0 auto;
-  padding: 10px;
-`;
 export default Tabs;

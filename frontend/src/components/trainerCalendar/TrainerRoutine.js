@@ -100,8 +100,8 @@ function TrainerRoutine({
           />
         </Text0>
         <Form>
-          <Row className="justify-content-md-center">
-            <Col xs="10">
+          <Row className="justify-content-xs-center">
+            <Col xs={{ span: 10, offset: 1 }}>
               <FloatingLabel
                 controlId="floatingInput"
                 label="운동 이름 입력"
@@ -115,95 +115,111 @@ function TrainerRoutine({
               </FloatingLabel>
             </Col>
           </Row>
-          <Row1>
-            <Col xs="2">
+          <Row className="justify-content-xs-center mgauto">
+            <Col xs={{ span: 2, offset: 2 }}>
               <Form.Control
                 type="text"
                 value={timeValue}
                 onChange={onChangeTime}
+                className="mb-3"
               />
             </Col>
             <Col xs="2">
-              <Text2 num={0}>회</Text2>
+              <Text2 num={num}>회</Text2>
             </Col>
             <Col xs="2">
               <Form.Control
                 type="text"
                 value={setValue}
                 onChange={onChangeSet}
+                className="mb-3"
               />
             </Col>
             <Col xs="2">
-              <Text2 num={0}>세트</Text2>
+              <Text2 num={num}>세트</Text2>
             </Col>
-          </Row1>
-          <input
-            type="file"
-            style={{ display: 'none' }}
-            ref={videoInput}
-            accept="video"
-            onChange={event => onGuideVideoChange(event)}
-          />
-          <StyledButton num={num} count={0} onClick={onVideoSubmit}>
-            가이드 영상 업로드
-          </StyledButton>
-          {guideURL ? (
-            <StyledVideoContainer>
-              <ReactPlayer
-                className="react-player"
-                url={guideURL}
-                width="200px"
-                height="200px"
-                playing={false}
-                muted
-                controls
-                light={false}
-                pip={false}
+          </Row>
+          <Row>
+            <Col>
+              <input
+                type="file"
+                style={{ display: 'none' }}
+                ref={videoInput}
+                accept="video"
+                onChange={event => onGuideVideoChange(event)}
               />
-              <div style={{ float: 'right', marginLeft: '10%', color: 'gray' }}>
-                <CloseOutlined onClick={() => setVideoOpen(e => !e)} />
-              </div>
-            </StyledVideoContainer>
-          ) : null}
-          <StyledButton
-            num={num}
-            count={1}
-            onClick={() => setVideoOpen(e => !e)}
-          >
-            회원 운동 영상 확인
-            <div style={{ float: 'right', marginRight: '5%' }}>
-              {userVideoOpen ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
-            </div>
-          </StyledButton>
-          {userVideoOpen ? (
-            <StyledVideoContainer onClick={() => setVideoOpen(e => !e)}>
-              {exerciseURL == null ? (
-                <div style={{ color: 'black' }}>
-                  아직 영상이 업로드되지 않았습니다.
+              <StyledButton num={num} count={0} onClick={onVideoSubmit}>
+                가이드 영상 업로드
+              </StyledButton>
+              {guideURL ? (
+                <StyledVideoContainer>
+                  <ReactPlayer
+                    className="react-player"
+                    url={guideURL}
+                    width="200px"
+                    height="200px"
+                    playing={false}
+                    muted
+                    controls
+                    light={false}
+                    pip={false}
+                  />
+                  <div
+                    style={{ float: 'right', marginLeft: '10%', color: 'gray' }}
+                  >
+                    <CloseOutlined onClick={() => setVideoOpen(e => !e)} />
+                  </div>
+                </StyledVideoContainer>
+              ) : null}
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <StyledButton
+                num={num}
+                count={1}
+                onClick={() => setVideoOpen(e => !e)}
+              >
+                회원 운동 영상 확인
+                <div style={{ float: 'right', marginRight: '5%' }}>
+                  {userVideoOpen ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
                 </div>
-              ) : (
-                <ReactPlayer
-                  className="react-player"
-                  url={exerciseURL}
-                  width="200px"
-                  height="200px"
-                  playing={false}
-                  muted
-                  controls // 플레이어 컨트롤 노출 여부
-                  light={false} // 플레이어 모드
-                  pip={false}
-                />
-              )}
-            </StyledVideoContainer>
-          ) : null}
-          <StyledButton
-            num={num}
-            count={2}
-            type="submit"
-            onClick={exerciseModify}
-          >
-            수정 완료
-          </StyledButton>
+              </StyledButton>
+              {userVideoOpen ? (
+                <StyledVideoContainer onClick={() => setVideoOpen(e => !e)}>
+                  {exerciseURL == null ? (
+                    <div style={{ color: 'black' }}>
+                      아직 영상이 업로드되지 않았습니다.
+                    </div>
+                  ) : (
+                    <ReactPlayer
+                      className="react-player"
+                      url={exerciseURL}
+                      width="200px"
+                      height="200px"
+                      playing={false}
+                      muted
+                      controls // 플레이어 컨트롤 노출 여부
+                      light={false} // 플레이어 모드
+                      pip={false}
+                    />
+                  )}
+                </StyledVideoContainer>
+              ) : null}
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <StyledButton
+                num={num}
+                count={2}
+                type="submit"
+                onClick={exerciseModify}
+              >
+                수정 완료
+              </StyledButton>
+            </Col>
+          </Row>
         </Form>
         <Div />
       </Flexcontainer>
@@ -220,11 +236,11 @@ const Flexcontainer = styled.div`
   border-radius: 20px;
   margin-bottom: 20px;
 `;
-const Row1 = styled(Row)`
-  justify-content: center;
-  margin-bottom: 20px;
-  flex-wrap: nowrap;
-`;
+// const Row1 = styled(Row)`
+//   justify-content: center;
+//   margin-bottom: 20px;
+//   flex-wrap: nowrap;
+// `;
 const Text0 = styled.text`
   font-family: 'Gowun Dodum', sans-serif;
   font-weight: bolder;
@@ -244,29 +260,27 @@ const Text0 = styled.text`
 //   color: ${props => (props.num % 2 === 1 ? '#2ba5f7' : 'white')};
 // `;
 const Text2 = styled.text`
-  font-size: 12px;
-  text-align: left;
-  margin-bottom: 5px;
+  font-size: 15px;
   color: ${props => (props.num % 2 === 1 ? '#2ba5f7' : 'white')};
 `;
-const TextBox = styled.div`
-  padding-left: 5%;
-  text-align: left;
-  border-radius: 30px;
-  border: thin solid
-    ${props => ((props.num + props.count) % 2 === 1 ? '#2ba5f7' : 'white')};
-  width: 90%;
-  background-color: ${props =>
-    (props.num + props.count) % 2 === 1 ? '#fff' : '#2ba5f7'};
-  margin: auto;
-  line-height: 60px;
-  height: 60px;
-  color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
-`;
+// const TextBox = styled.div`
+//   padding-left: 5%;
+//   text-align: left;
+//   border-radius: 30px;
+//   border: thin solid
+//     ${props => ((props.num + props.count) % 2 === 1 ? '#2ba5f7' : 'white')};
+//   width: 90%;
+//   background-color: ${props =>
+//     (props.num + props.count) % 2 === 1 ? '#fff' : '#2ba5f7'};
+//   margin: auto;
+//   line-height: 60px;
+//   height: 60px;
+//   color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
+// `;
 const StyledButton = styled(Button)`
   padding-left: 5%;
   text-align: left;
-  border-radius: 30px;
+  border-radius: 20px;
   border: 1px solid
     ${props => ((props.num + props.count) % 2 === 1 ? '#2ba5f7' : 'white')};
   width: 90%;
@@ -277,16 +291,10 @@ const StyledButton = styled(Button)`
   height: 60px;
   color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
 `;
-const StyledLink = styled(Link)`
-  width: 100%;
-  margin: auto;
-`;
-
 const Div = styled.div`
   width: 100%;
   margin-bottom: 20px;
 `;
-
 const StyledVideoContainer = styled.div`
   display: flex;
   justify-content: center;

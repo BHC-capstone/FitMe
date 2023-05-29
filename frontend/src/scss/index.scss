@@ -28,14 +28,22 @@
   }
 }
 
-// .panel button + button {
-//   margin-left: 10%;
-// }
+details > summary {
+  font-family: 'Gowun Dodum', sans-serif;
+  font-weight: bold;
+  padding: 10px;
+  margin: auto;
+  justify-content: center;
+  background-color: #fff;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 5px;
+  border: 1px solid $primary;
+}
 
-// .panel h2 {
-//   text-align: center;
-//   margin-bottom: 30px;
-// }
+details[open] > summary {
+  border-color: $secondary;
+}
 
 $sidebar-width: 260px;
 $sidebar-color: #fff;
@@ -47,3 +55,65 @@ span.b {
 th.style {
   min-width: 30%;
 }
+
+.h5 {
+  font-family: 'Gowun Dodum', sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5%;
+  border-radius: 10px;
+  background-color: rgb(233, 233, 233);
+}
+
+.c {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 65px;
+}
+
+.head {
+  color: rgb(21, 20, 20);
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 30px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  width: fit-content;
+  margin: 10px auto;
+  padding: 0 10px 0 10px;
+  margin-bottom: 5%;
+}
+
+.scard {
+  width: fit-content;
+  margin: 0 auto;
+  border-radius: 20px;
+  border: 1px solid;
+}
+
+.line {
+  border-left: 1px solid;
+  height: 20px;
+}
+
+.mgauto {
+  margin: auto;
+}
+
+.mgtp {
+  margin-top: 5%;
+}
+
+.mgbt {
+  margin-bottom: 5%;
+}
+
+// .panel button + button {
+//   margin-left: 10%;
+// }
+
+// .panel h2 {
+//   text-align: center;
+//   margin-bottom: 30px;
+// }
