@@ -46,14 +46,6 @@ module.exports = function(sequelize, DataTypes) {
     review_count: {
       type: DataTypes.INTEGER,
       allowNull: true
-    },
-    s3_key: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    trainer_image_url: {
-      type: DataTypes.STRING(255),
-      allowNull: true
     }
   }, {
     sequelize,

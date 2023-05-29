@@ -1,8 +1,6 @@
 import React from 'react';
 import {
-  Button,
   Container,
-  Form,
   Nav,
   Navbar,
   NavDropdown,
@@ -10,19 +8,24 @@ import {
 } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import LogoutButton from './myPage/LogoutButton';
+import { logoutUser } from '../redux/_reducers/userSlice';
 
 export default function TopNav() {
   const navigate = useNavigate();
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
 
-  const goLogin = () => {
-    navigate('/user-login');
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    console.log(user);
+    navigate('/mypage');
   };
-  const goSignup = () => {
-    navigate('/signup');
-  };
+  // const goLogin = () => {
+  //   navigate('/user-login');
+  // };
+  // const goSignup = () => {
+  //   navigate('/signup');
+  // };
 
   return (
     <Navbar expand="sm" bg="white">
@@ -35,6 +38,7 @@ export default function TopNav() {
           id="offcanvasNavbar-expand-sm"
           aria-labelledby="offcanvasNavbarLabel-expand-sm"
           placement="start"
+          responsive="sm"
         >
           <Offcanvas.Header closeButton>
             <Offcanvas.Title id="offcanvasNavbarLabel-expand-sm">
@@ -44,15 +48,15 @@ export default function TopNav() {
           <Offcanvas.Body>
             {user.isLogin === false ? (
               <Nav className="justify-content-end flex-grow-1 pe-3">
-                <Nav.Link href="/signup">서비스 소개</Nav.Link>
+                <Nav.Link href="/">서비스 소개</Nav.Link>
                 <Nav.Link href="/signup">회원가입</Nav.Link>
                 <Nav.Link href="/user-login">로그인</Nav.Link>
               </Nav>
             ) : (
               <Nav className="justify-content-end flex-grow-1 pe-3">
-                <Nav.Link href="/signup">서비스 소개</Nav.Link>
+                <Nav.Link href="/">서비스 소개</Nav.Link>
                 <Nav.Link href="/mypage">마이페이지</Nav.Link>
-                <Nav.Link onClick={<LogoutButton />}>로그아웃</Nav.Link>
+                <Nav.Link onClick={handleLogout}>로그아웃</Nav.Link>
               </Nav>
             )}
           </Offcanvas.Body>

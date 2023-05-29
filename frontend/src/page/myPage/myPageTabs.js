@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
-import styled from 'styled-components';
 import UserInfoTab from '../../components/myPage/UserInfoTab';
 import StatisticsTab from '../../components/myPage/StatisticsTab';
 import PaymentHistoryTab from '../../components/myPage/PaymentHistoryTab';
@@ -54,7 +52,7 @@ function Tabs() {
 
   return (
     <Container fluid className="panel">
-      <div className="head">마이페이지</div>
+      <div className="head">마이 페이지</div>
       <TabMenu
         menuArr={menuArr}
         currentTab={currentTab}

@@ -23,7 +23,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    feedbacks_id: {
+    routine_id: {
       type: DataTypes.INTEGER,
       allowNull: true
     }

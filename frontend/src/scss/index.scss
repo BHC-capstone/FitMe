@@ -45,9 +45,6 @@ details[open] > summary {
   border-color: $secondary;
 }
 
-$sidebar-width: 260px;
-$sidebar-color: #fff;
-
 span.b {
   font-weight: bold;
 }
@@ -92,10 +89,91 @@ th.style {
   border: 1px solid;
 }
 
-.line {
-  border-left: 1px solid;
-  height: 20px;
+.content {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
+
+.file-upload {
+  border-style: dashed;
+  border-radius: 10px;
+  border-width: 2px;
+  margin-left: 10%;
+  margin-right: 10%;
+  padding: 5%;
+  padding-bottom: 1%;
+}
+
+.preview-wrapper {
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  margin: auto;
+}
+
+.preview-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.star {
+  position: relative;
+  font-size: 2rem;
+  color: #ddd;
+  // text-align: left;
+  // padding-left: 50px;
+  // display: flex;
+  margin: auto 0;
+}
+
+.star span {
+  width: 0%;
+  position: absolute;
+  left: 0;
+  color: #ffc107;
+  overflow: hidden;
+  pointer-events: none;
+  // padding-left: 50px;
+  margin: auto 0;
+}
+
+.cardLayout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.upload-list-inline .ant-upload-list-item {
+  float: left;
+  width: 200px;
+  margin-inline-end: 8px;
+}
+
+.ant-upload-rtl.upload-list-inline .ant-upload-list-item {
+  float: right;
+}
+
+.certification-list {
+  margin-top: 20px;
+}
+
+.certification-item {
+  margin-bottom: 10px;
+}
+
+.certification-name {
+  font-size: 18px;
+  color: #333;
+}
+
 
 .mgauto {
   margin: auto;
@@ -107,6 +185,22 @@ th.style {
 
 .mgbt {
   margin-bottom: 5%;
+}
+
+.mglf-3 {
+  margin-left: 3%;
+}
+
+.mglf-8 {
+  margin-left: 8%;
+}
+
+.mglf-10 {
+  margin-left: 10%;
+}
+
+.mgrg {
+  margin-right: 5%;
 }
 
 // .panel button + button {

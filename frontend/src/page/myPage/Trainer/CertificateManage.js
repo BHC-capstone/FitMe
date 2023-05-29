@@ -3,9 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Container, Button } from 'react-bootstrap';
 import axios from 'axios';
-import styled from 'styled-components';
 import sampleImg from '../../../images/sample_certificate.png';
-import '../../../scss/certificateManage.scss';
 
 function CertificateManage() {
   const loginedUser = useSelector(state => state.user);
@@ -58,7 +56,7 @@ function CertificateManage() {
 
   return (
     <Container fluid className="panel">
-      <Head1>자격증 파일 관리</Head1>
+      <div className="head">자격증 파일 관리</div>
       <form className="upload-form">
         <button
           type="button"
@@ -107,15 +105,4 @@ function CertificateManage() {
   );
 }
 
-const Head1 = styled.div`
-  color: rgb(21, 20, 20);
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 30px;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  width: fit-content;
-  margin: 0 auto;
-  padding: 10px;
-`;
 export default CertificateManage;
