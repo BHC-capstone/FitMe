@@ -16,8 +16,7 @@ function UserInputForm({ datatransform }) {
   const [bodyshape, setBodyShape] = useState('');
   const [purpose, setPurpose] = useState('');
   const [lifestyle, setLifeStyle] = useState('');
-
-  function upload(event) {
+  useEffect(() => {
     datatransform({
       height,
       gender,
@@ -30,7 +29,18 @@ function UserInputForm({ datatransform }) {
       purpose,
       lifestyle,
     });
-  }
+  }, [
+    height,
+    gender,
+    age,
+    weight,
+    injury,
+    career,
+    significant,
+    bodyshape,
+    purpose,
+    lifestyle,
+  ]);
   return (
     <Container1 fluid>
       <Flexcontainers>
@@ -49,9 +59,6 @@ function UserInputForm({ datatransform }) {
           height="100px"
           datap={setLifeStyle}
         />
-        <StyledButton variant="primary" onClick={upload}>
-          저장
-        </StyledButton>
       </Flexcontainers>
     </Container1>
   );

@@ -17,17 +17,15 @@ function Routine({ userid, date }) {
     imageInput.current.click();
   };
   useEffect(() => {
+    console.log(date);
     axios
       .get(`https://localhost:4000/calender/mealplan/${userid}/${date}`, {
         withCredentials: true,
       })
       .then(res => {
         setDietdate(res.data.data);
-        setBreakfast(dietdate.breakfast);
-        setDinner(dietdate.lunch);
-        setLunch(dietdate.dinner);
       });
-  }, [userid, date, dietdate.breakfast]);
+  }, [userid, date]);
   const onChangebreakfast = e => {
     setBreakfast(e.target.value);
   };
@@ -81,7 +79,7 @@ function Routine({ userid, date }) {
               >
                 <Form.Control
                   type="text"
-                  value={breakfast}
+                  value={dietdate.breakfast}
                   onChange={onChangebreakfast}
                 />
               </FloatingLabel>

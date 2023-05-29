@@ -158,6 +158,7 @@
     "prop-types": "^15.8.1",
     "punycode": "^2.3.0",
     "queue-microtask": "^1.2.3",
+    "react-iframe": "^1.8.5",
     "react-is": "^16.13.1",
     "regenerator-runtime": "^0.13.11",
     "regexp.prototype.flags": "^1.4.3",

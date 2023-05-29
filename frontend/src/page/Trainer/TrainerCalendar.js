@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import TrainerDietTab from '../../components/trainerCalendar/TrainerDietTab';
 import FeedbackTab from '../../components/FeedbackTab';
 import TrainerExerciseTab from '../../components/trainerCalendar/TrainerExerTab';
+import TrainerFeedBackTab from '../../components/trainerCalendar/TrainerFeedBackTab';
 
 function TrainerCalendar() {
   const { userid } = useParams();
@@ -31,7 +32,7 @@ function TrainerCalendar() {
     }, // dateinfo 정보를 통해 axios로 해당 날짜의 운동 루틴 데이터 넣으면 완료
     {
       name: '트레이너 피드백	',
-      content: <FeedbackTab userid={userid} date={dateinfo} />,
+      content: <TrainerFeedBackTab userid={userid} date={dateinfo} />,
     }, // dateinfo 정보를 통해 axios로 해당 날짜의 피드백 데이터 넣으면 완료
   ];
   const selectMenuHandler = index => {
