@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import TrainerNoFeedBack from './TrainerNoFeedBack';
-import Comments from './Comments';
-import TrainerFeedBack from './TrainerFeedBack';
+import Comments from '../trainerCalendar/Comments';
+import NoFeedBack from './NoFeedBack';
+import ExistFeedBack from './ExistFeedBack';
 // eslint-disable-next-line react/prop-types
-function TrainerFeedBackTab({ userid, date }) {
+function FeedBackTab({ userid, date }) {
   const [Feedbackdate, setFeedBackdate] = useState([]);
   const [Commentdate, setCommentdate] = useState([]);
   const [FeedbackExist, setFeedbackExist] = useState(false);
@@ -16,8 +16,8 @@ function TrainerFeedBackTab({ userid, date }) {
   const loginedUser = useSelector(state => state.user);
 
   useEffect(() => {
-    console.log('새로고침 실행');
-    setFeedBackdate(null);
+    // console.log('새로고침 실행');
+    setFeedBackdate([]);
     setCommentdate([]);
     axios({
       url: `https://localhost:4000/feedback/checkFeedback/${userid}/${date}`,
@@ -33,19 +33,20 @@ function TrainerFeedBackTab({ userid, date }) {
       .catch(err => {
         console.log(err);
       });
-    setFeedbackExist(!!(Feedbackdate != null && Feedbackdate != false));
-    console.log(FeedbackExist);
-  }, [userid, date, repage, FeedbackExist]);
+    setFeedbackExist(!!Feedbackdate);
+  }, [userid, date, repage]);
 
   useEffect(() => {
     setFeedBackdate(Feedbackdate);
     setCommentdate(Commentdate);
-    setFeedbackExist(!!(Feedbackdate != null && Feedbackdate != false));
-  }, [Feedbackdate, Commentdate, repage, FeedbackExist]);
+    setFeedbackExist(!!Feedbackdate);
+  }, [Feedbackdate, Commentdate, repage]);
+
   const onAddDetailDiv = () => {
     // '/comment/:userId/:trainerId'
     axios({
-      url: `https://localhost:4000/feedback/commentTrainer/${loginedUser.id}/${Feedbackdate.id}`,
+      // /comment/:trainerId/:id
+      url: `https://localhost:4000/feedback/comment/${userid}/${Feedbackdate.id}`,
       data: { message: textData },
       method: 'POST',
       withCredentials: true,
@@ -58,6 +59,7 @@ function TrainerFeedBackTab({ userid, date }) {
         console.log('fail');
       });
   };
+
   const onChangeText = e => {
     setTextData(e.target.value);
   };
@@ -66,14 +68,10 @@ function TrainerFeedBackTab({ userid, date }) {
     <div>
       <Flexcontainers>
         {!FeedbackExist ? (
-          <TrainerNoFeedBack
-            userid={userid}
-            date={date}
-            getdata={setFeedbackExist}
-          />
+          <NoFeedBack userid={userid} date={date} getdata={setFeedbackExist} />
         ) : (
           <div>
-            <TrainerFeedBack
+            <ExistFeedBack
               feedbackvideo={
                 Feedbackdate == null
                   ? '../../images/sample_certificate.png'
@@ -83,8 +81,6 @@ function TrainerFeedBackTab({ userid, date }) {
                 Feedbackdate == null ? '' : Feedbackdate.feedback_message
               }
               feedbackid={Feedbackdate == null ? 'x' : Feedbackdate.id}
-              date={date}
-              userid={userid}
             />
             {Commentdate.map((el, index) => (
               // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
@@ -127,18 +123,4 @@ const Flexcontainerg = styled.div`
   flex-direction: row;
   justify-content: space-between;
 `;
-// const StyledButton = styled(Button)`
-//   padding-left: 5%;
-//   text-align: left;
-//   border-radius: 30px;
-//   border: 1px solid
-//     ${props => ((props.num + props.count) % 2 === 1 ? '#2ba5f7' : 'white')};
-//   width: 90%;
-//   background-color: ${props =>
-//     (props.num + props.count) % 2 === 1 ? 'white' : '#2ba5f7'};
-//   margin: auto;
-//   line-height: 60px;
-//   height: 60px;
-//   color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
-// `;
-export default TrainerFeedBackTab;
+export default FeedBackTab;

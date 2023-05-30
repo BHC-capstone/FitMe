@@ -1,12 +1,10 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { Button, Form, Row, Col, FloatingLabel } from 'react-bootstrap';
-import { Link } from 'react-router-dom'; //* ***
+import { Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 // eslint-disable-next-line react/prop-types
 function TrainerNoFeedBack({ userid, date, getdata }) {
-  const [dietImg, setDietImg] = useState([]);
   const loginedUser = useSelector(state => state.user);
   const postFeedBack = e => {
     axios({

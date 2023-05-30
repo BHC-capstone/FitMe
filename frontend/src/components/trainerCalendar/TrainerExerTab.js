@@ -1,8 +1,7 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import { CloseOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import TrainerRoutine from './TrainerRoutine';
 

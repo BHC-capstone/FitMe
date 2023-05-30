@@ -3,12 +3,10 @@
 /* eslint-disable camelcase */
 import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Button, Form, Row, Col, FloatingLabel } from 'react-bootstrap';
-import { Link } from 'react-router-dom'; //* ***
+import { Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { Input } from 'antd';
-// import '../../scss/trainercalendar/uploader.scss';
+
 // eslint-disable-next-line react/prop-types
 function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
   const [Feedbacktext, setFeedBackText] = useState('');
@@ -22,8 +20,8 @@ function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
   let inputRef;
   const videoInput = useRef();
   useEffect(() => {
-    // console.log('?', feedbackvideo);
-    // console.log(feedbacktext);
+    console.log('?', feedbackvideo);
+    console.log(feedbacktext);
     setFeedBackText(feedbacktext);
     setFeedBackURL(feedbackvideo);
     setImage();
@@ -46,10 +44,29 @@ function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
     const preview_URL = URL.createObjectURL(e.target.files[0]);
     const fileType = e.target.files[0].type.split('/')[0];
     setFile({
-      fileObject: e.target.files[0],
+      fileObject: '',
       preview_URL,
       type: fileType,
     });
+    /* / /////
+    const formData = new FormData();
+    formData.append('video', videoInput.current.files[0]);
+    axios({
+      url: `https://localhost:4000/trainer_calender//uploadFeedbackvideo/${date}/${loginedUser.id}/${userid}`,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      data: formData,
+      method: 'POST',
+      withCredentials: true,
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    /// / */
   };
   const deleteImage = () => {
     // createObjectURL()을 통해 생성한 기존 URL을 폐기
@@ -64,6 +81,8 @@ function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
     const formData = new FormData();
     formData.append('video', videoInput.current.files[0]);
     console.log('video', videoInput.current.files[0]);
+    // formData.append('video', file.fileObject);
+    // console.log('video', file.fileObject);
     axios({
       url: `https://localhost:4000/trainer_calender/updateFeedback/${feedbackid}`,
       data: { feedback_message: Feedbacktext },
@@ -78,10 +97,12 @@ function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
       });
     axios({
       url: `https://localhost:4000/trainer_calender/updateFeedbackvideo/${feedbackid}`,
+      // url: `https://localhost:4000/trainer_calender/uploadFeedbackvideo/${date}/${loginedUser.id}/${userid}`,
       headers: {
         'Content-Type': 'multipart/form-data',
       },
       data: formData,
+
       method: 'PUT',
       withCredentials: true,
     })
@@ -97,6 +118,7 @@ function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
   };
   return (
     <Flexcontainers>
+      <Text0>오늘의 피드백</Text0>
       <Flexcontainerg>
         <VideoTexture>
           <input
@@ -112,7 +134,11 @@ function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
             {file.type === 'image' ? (
               <img src={file.preview_URL} />
             ) : (
-              <video controls autoPlay src={file.preview_URL} />
+              <video
+                controls
+                autoPlay
+                src={feedbackvideo != null ? feedbackvideo : file.preview_URL}
+              />
             )}
           </div>
         </VideoTexture>
@@ -132,10 +158,10 @@ function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
         /> */}
       </Flexcontainerg>
       <Flexcontainerg>
-        <Button onClick={() => videoInput.current.click()}>
+        <StyledButton onClick={() => videoInput.current.click()}>
           영상 선택 및 변경
-        </Button>
-        <Button onClick={() => upload()}>피드백 수정</Button>
+        </StyledButton>
+        <StyledButton onClick={() => upload()}>피드백 수정</StyledButton>
       </Flexcontainerg>
     </Flexcontainers>
   );
@@ -148,6 +174,16 @@ const Textarea = styled.div`
   color: white;
   line-height: ${props => (props.height === '20px' ? '20px' : props.height)};
 `;
+const Text0 = styled.text`
+  font-family: 'Gowun Dodum', sans-serif;
+  font-weight: bolder;
+  font-size: 16px;
+  margin-top: 20px;
+  text-align: left;
+  margin-left: 5%;
+  margin-bottom: 10px;
+  color: ${props => (props.num % 2 === 1 ? '#2ba5f7' : 'white')};
+`;
 const Flexcontainerg = styled.div`
   display: flex;
   flex-direction: row;
@@ -155,9 +191,13 @@ const Flexcontainerg = styled.div`
 `;
 const Flexcontainers = styled.div`
   display: flex;
+  background-color: ${props => (props.num % 2 === 1 ? 'white' : '#2ba5f7')};
+  height: fit-content;
   flex-direction: column;
   justify-content: space-between;
-  border: 1px solid black;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  margin-bottom: 20px;
 `;
 const VideoTexture = styled.ul`
   display: flex;
@@ -177,5 +217,8 @@ const VideoTexture = styled.ul`
     }
   }
 `;
-
+const StyledButton = styled(Button)`
+  background-color: white;
+  color: #2ba5f7;
+`;
 export default TrainerFeedBack;
