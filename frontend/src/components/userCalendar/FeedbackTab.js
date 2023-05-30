@@ -88,7 +88,7 @@ function FeedBackTab({ userid, date }) {
               <Comments
                 // eslint-disable-next-line react/no-array-index-key
                 text1={el.message}
-                check={el.user != null}
+                check={el.user_id}
               />
             ))}
             <Flexcontainerg>

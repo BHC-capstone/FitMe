@@ -35,7 +35,11 @@ function ExistFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
             {file.type === 'image' ? (
               <img src={file.preview_URL} />
             ) : (
-              <video controls autoPlay src={file.preview_URL} />
+              <video
+                controls
+                autoPlay
+                src={feedbackvideo != null ? feedbackvideo : file.preview_URL}
+              />
             )}
           </div>
         </VideoTexture>
