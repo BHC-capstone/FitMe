@@ -2,8 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
 import ReactPlayer from 'react-player/lazy';
-import { Link, useNavigate } from 'react-router-dom'; //* ***
-import axios from 'axios';
+import { Link } from 'react-router-dom'; //* ***
 import {
   ArrowDownOutlined,
   ArrowUpOutlined,

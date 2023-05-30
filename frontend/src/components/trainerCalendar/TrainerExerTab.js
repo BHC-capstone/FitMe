@@ -1,8 +1,7 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import { CloseOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import TrainerRoutine from './TrainerRoutine';
 
@@ -101,8 +100,6 @@ function TrainerExerciseTab({ userid, date }) {
       .catch(err => {
         console.log(err);
       });
-
-    // console.log(event.target.files);
   }
   function onVideoRemove(routineid) {
     axios({
@@ -163,19 +160,5 @@ const Flexcontainers = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-`;
-const StyledButton = styled(Button)`
-  padding-left: 5%;
-  text-align: left;
-  border-radius: 30px;
-  border: 1px solid
-    ${props => ((props.num + props.count) % 2 === 1 ? '#2ba5f7' : 'white')};
-  width: 90%;
-  background-color: ${props =>
-    (props.num + props.count) % 2 === 1 ? 'white' : '#2ba5f7'};
-  margin: auto;
-  line-height: 60px;
-  height: 60px;
-  color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
 `;
 export default TrainerExerciseTab;

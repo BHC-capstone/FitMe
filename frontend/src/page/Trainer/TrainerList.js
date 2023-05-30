@@ -27,7 +27,6 @@ export default function TrainerList(props) {
       })
       .then(res => {
         setTrainers(res.data.data);
-        console.log(res.data.data);
       });
   }, []);
 
