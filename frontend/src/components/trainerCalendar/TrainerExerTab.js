@@ -81,7 +81,7 @@ function TrainerExerciseTab({ userid, date }) {
         'Content-Type': 'multipart/form-data',
       },
       data: formData,
-      method: 'POST',
+      method: 'PUT',
       withCredentials: true,
     })
       .then(response => {

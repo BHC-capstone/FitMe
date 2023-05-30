@@ -396,7 +396,6 @@ router.post(
                         message: "해당 운동 루틴이 존재하지 않습니다.",
                     });
                 }
-
                 const uploadParams = {
                     acl: "public-read",
                     ContentType: req.file.mimetype,
@@ -404,9 +403,7 @@ router.post(
                     Body: req.file.buffer,
                     Key: `exerciseroutine/${id}/${routineid}/${req.file.originalname}`,
                 };
-
                 const result = await s3.upload(uploadParams).promise();
-
                 await exercise_routines.update(
                     {
                         user_video_url: result.Location,

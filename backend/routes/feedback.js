@@ -94,7 +94,7 @@ router.post("/comment/:userId", async (req, res) => {
     }
 });
 
-router.post("/comment/:trainerId", async (req, res) => {
+router.post("/commentTrainer/:trainerId", async (req, res) => {
   if (req.session.loggedin) {
       try {
           const { id, trainerId } = req.params;

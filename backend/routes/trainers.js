@@ -29,6 +29,7 @@ router.post(
   '/signup',
   imageUpload.single('certificationFile'),
   async function (req, res) {
+    console.log(req.body);
     if (
       req.body.email &&
       req.body.name &&
@@ -52,6 +53,7 @@ router.post(
             message: '이미 존재하는 아이디입니다.',
           });
         else {
+          console.log(req.body);
           const hashedPassword = await bcrypt.hash(
             req.body.password,
             saltRounds
@@ -323,6 +325,7 @@ router.get('/trainerlist/:id', async function (req, res) {
         attributes: ['name'],
       },
     });
+    console.log(trainerInfo_detail);
     const trainer_reviews = await trainer_review.findAll({
       where: { trainer_id: req.params.id },
     });
@@ -396,26 +399,28 @@ router.post(
   imageUpload.single('image'),
   async function (req, res) {
     if (req.session.loggedin) {
-      const {Id} = req.params;
       try {
+        const { id } = req.params;
         const uploadParams = {
           acl: 'public-read',
           ContentType: 'image/png',
           Bucket: 'fitme-s3',
           Body: req.file.buffer,
-          Key: `certifications/` + trainerInfo.id + '.' + req.file.originalname,
+          Key: `certifications/` +
+          `/${req.params.id}/` +
+          req.file.originalname,
         };
         const result = await s3.upload(uploadParams).promise();
         const certification = await certifications.create(
           {
-            trainer_id: Id,
+            trainer_id: id,
             name: req.file.originalname,
             image_url: result.Location,
           }
         );
         const trainer_certs = await trainer_cert.create(
           {
-            trainer_id: Id,
+            trainer_id: id,
             certification_id: certification.id,
           }
         );

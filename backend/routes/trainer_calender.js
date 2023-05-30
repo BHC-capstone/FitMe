@@ -560,15 +560,16 @@ router.post(
     "/uploadFeedbackvideo/:date/:id/:userId",
     videoupload.single("video"),
     async (req, res) => {
-        if (req.session.loggedin) {
+       // if (req.session.loggedin) {
             try {
                 const { userId, id, date } = req.params;
                 let schedule = await schedules.findOne({
                     where: { user_id: userId, date: date },
                 });
+                if (schedule != null) {
                 const Feedback = await feedbacks.findOne(
                     {
-                        where: { schedule_id: schedule.id },
+                        where: { id: schedule.feedbacks_id },
                     }
                 );
                 const uploadParams = {
@@ -579,6 +580,7 @@ router.post(
                     Key: `feedbacks/${id}/${Feedback.id}/${req.file.originalname}`,
                 };
                 const result = await s3.upload(uploadParams).promise();
+                console.log("ㅇㅇㅇ",req.file);
                 await feedbacks.update(
                     {
                         feedback_video_url: result.Location,
@@ -590,16 +592,23 @@ router.post(
                     data: Feedback,
                     message: "피드백 영상 업로드가 완료되었습니다.",
                 });
+            } else {
+                res.status(404).json({
+                    data: null,
+                    message: "피드백을 찾을 수 없습니다.",
+                });
+                return;
+            }
             } catch (err) {
                 console.log(err);
                 res.status(500).json({ data: null, message: err });
             }
-        } else {
-            res.status(401).json({
-                data: null,
-                message: "로그인이 필요합니다.",
-            });
-        }
+      //  } else {
+      //     res.status(401).json({
+       //         data: null,
+       //         message: "로그인이 필요합니다.",
+       //     });
+      //  }
     }
 );
 
