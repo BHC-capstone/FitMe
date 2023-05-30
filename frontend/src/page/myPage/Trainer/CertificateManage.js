@@ -39,7 +39,7 @@ function CertificateManage() {
     formData.append('file', imgRef.current.files[0]);
     axios
       .post(
-        `http://localhost:4000//addCertificate/${loginedUser.id}`,
+        `http://localhost:4000/trainers/addCertificate/${loginedUser.id}`,
         formData,
         {
           headers: {
@@ -59,7 +59,7 @@ function CertificateManage() {
   return (
     <Container fluid className="panel">
       <Head1>자격증 파일 관리</Head1>
-      <form className="upload-form">
+      <form className="upload-form" onSubmit={handleSubmit}>
         <button
           type="button"
           className="file-upload"

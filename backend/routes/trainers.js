@@ -399,9 +399,8 @@ router.post(
   imageUpload.single('image'),
   async function (req, res) {
     if (req.session.loggedin) {
+      const {Id} = req.params;
       try {
-        let transaction = await sequelize.transaction();
-
         const uploadParams = {
           acl: 'public-read',
           ContentType: 'image/png',
@@ -410,24 +409,19 @@ router.post(
           Key: `certifications/` + trainerInfo.id + '.' + req.file.originalname,
         };
         const result = await s3.upload(uploadParams).promise();
-
         const certification = await certifications.create(
           {
+            trainer_id: Id,
             name: req.file.originalname,
             image_url: result.Location,
-          },
-          { transaction }
+          }
         );
-
         const trainer_certs = await trainer_cert.create(
           {
-            trainer_id: req.params.id,
+            trainer_id: Id,
             certification_id: certification.id,
-          },
-          { transaction }
+          }
         );
-
-        await transaction.commit();
         res.status(200).json({
           data: null,
           message: '성공적으로 자격증을 추가하였습니다.',
@@ -452,11 +446,14 @@ router.post(
           where: { id: req.params.id },
         });
         const s3key = trainerInfo.s3_key;
+        if(s3key != null){
         const deleteParams = {
           Bucket: 'fitme-s3',
           Key: s3key,
         };
         await s3.deleteObject(deleteParams).promise();
+      }
+
         const uploadParams = {
           acl: 'public-read',
           ContentType: 'image/png',
