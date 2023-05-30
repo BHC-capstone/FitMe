@@ -50,28 +50,58 @@ app.use(
   })
 );
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/trainers', trainersRouter);
-app.use('/manage', manageRouter);
-app.use('/request', requestRouter);
-app.use('/calender', calenderRouter);
-app.use('/trainer_calender', trainer_calenderRouter);
-app.use('/feedback', feedbackRouter);
+//db
+
+const con = mysql.createConnection({
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE,
+    port: process.env.MYSQL_PORT,
+    multipleStatements: true,
+});
+
+con.connect(function (err) {
+    if (err) throw err;
+    console.log("connected");
+});
+
+// async function createDB() {
+//     try {
+//         await fs.readFile("./database/DDL.sql", (err, sql) => {
+//             let str = sql.toString();
+//             con.query(str, function (err, result) {
+//                 if (err) throw err;
+//             });
+//         });
+//     } catch (e) {
+//         console.log(e);
+//     }
+// }
+
+// createDB();
+
+app.use("/", indexRouter);
+app.use("/users", usersRouter);
+app.use("/trainers", trainersRouter);
+app.use("/manage", manageRouter);
+app.use("/request", requestRouter);
+app.use("/calender", calenderRouter);
+app.use("/trainer_calender", trainer_calenderRouter);
+app.use("/feedback", feedbackRouter);
 
 let server;
 // 인증서 파일들이 존재하는 경우에만 https 프로토콜을 사용하는 서버를 실행
-if (fs.existsSync('./key.pem') && fs.existsSync('./cert.pem')) {
-  server = https
-    .createServer(
-      {
-        key: fs.readFileSync(__dirname + `/` + 'key.pem', 'utf-8'),
-        cert: fs.readFileSync(__dirname + `/` + 'cert.pem', 'utf-8'),
-      },
-      app
-    )
-    .listen(PORT);
-  console.log('test1');
+if (fs.existsSync("./key.pem") && fs.existsSync("./cert.pem")) {
+    const option = {
+        ca: fs.readFileSync('/etc/letsencrypt/live/fitme.p-e.kr/fullchain.pem'),
+        key: fs.readFileSync('/etc/letsencrypt/live/fitme.p-e.kr/privkey.pem'),
+        cert: fs.readFileSync('/etc/letsencrypt/live/fitme.p-e.kr/cert.pem')
+      };
+  
+     server =  https.createServer(option, app).listen(PORT, () => {
+        console.log('HTTPS 서버가 실행되었습니다. ');
+      });
 } else {
   server = app.listen(PORT);
 }
