@@ -104,14 +104,14 @@ function TrainerFeedBack({
         console.log(err);
       });
     axios({
-      // url: `https://localhost:4000/trainer_calender/updateFeedbackvideo/${feedbackid}`,
-      url: `https://localhost:4000/trainer_calender/uploadFeedbackvideo/${date}/${loginedUser.id}/${userid}`,
+      url: `https://localhost:4000/trainer_calender/updateFeedbackvideo/${feedbackid}`,
+      // url: `https://localhost:4000/trainer_calender/uploadFeedbackvideo/${date}/${loginedUser.id}/${userid}`,
       headers: {
         'Content-Type': 'multipart/form-data',
       },
       data: formData,
 
-      method: 'POST',
+      method: 'PUT',
       withCredentials: true,
     })
       .then(res => {

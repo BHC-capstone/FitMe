@@ -642,6 +642,7 @@ router.put(
             data: null,
             message: "피드백을 찾을 수 없습니다.",
           });
+          console.log(req.file);
           return;
         }
         if (req.file != null) {
@@ -658,7 +659,7 @@ router.put(
             ContentType: req.file.mimetype,
             Bucket: "fitme-s3",
             Body: req.file.buffer,
-            Key: `feedbacks/${id}/${Feedback.id}/${req.file.originalname}`,
+            Key: `feedbacks/${Feedback.id}/${req.file.originalname}`,
           };
           const result = await s3.upload(uploadParams).promise();
           await feedbacks.update(
@@ -682,6 +683,7 @@ router.put(
       } catch (err) {
         console.log(err);
         res.status(500).json({ data: null, message: err });
+        console.log(req.file);
       }
     } else {
       res.status(401).json({
