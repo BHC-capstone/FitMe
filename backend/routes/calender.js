@@ -76,6 +76,7 @@ router.get("/exerciseroutine/:id/:date", async (req, res) => {
         }
     } catch (err) {
         console.log(err);
+        res.status(400).json(err);
     }
     //  } else {
     //     res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
