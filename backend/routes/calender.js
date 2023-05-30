@@ -325,18 +325,41 @@ router.put(
                                 Key: s3Key,
                             };
                             await s3.deleteObject(deleteParams).promise();
+                            await meal_plan.update(
+                                {
+                                    breakfast_image_url: null,
+                                    breakfast_s3_key: null,
+                                },
+                                { where: { id: mealPlan.id } }
+                            );
                         } else if (req.params.meal === "lunch") {
                             const s3Key = mealPlan.lunch_s3_key;
                             const deleteParams = {
                                 Bucket: "fitme-s3",
                                 Key: s3Key,
                             };
+                            await s3.deleteObject(deleteParams).promise();
+                            await meal_plan.update(
+                                {
+                                    lunch_image_url: null,
+                                    lunch_s3_key: null,
+                                },
+                                { where: { id: mealPlan.id } }
+                            );
                         } else if (req.params.meal === "dinner") {
                             const s3Key = mealPlan.dinner_s3_key;
                             const deleteParams = {
                                 Bucket: "fitme-s3",
                                 Key: s3Key,
                             };
+                            await s3.deleteObject(deleteParams).promise();
+                            await meal_plan.update(
+                                {
+                                    dinner_image_url: null,
+                                    dinner_s3_key: null,
+                                },
+                                { where: { id: mealPlan.id } }
+                            );
                         }
                     
                     res.status(200).json({
