@@ -18,7 +18,8 @@ function FeedBackTab({ userid, date }) {
 
   useEffect(() => {
     // console.log('새로고침 실행');
-    setFeedBackdate(null);
+    setFeedBackdate([]);
+    setCommentdate([]);
     axios({
       url: `https://localhost:4000/feedback/checkFeedback/${userid}/${date}`,
       method: 'GET',
