@@ -66,15 +66,15 @@ router.get('/checkFeedback/:Id/:date', async (req, res) => {
 
 
 // feedback 댓글 작성
-router.post("/comment/:userId/:trainerId", async (req, res) => {
+router.post("/comment/:userId", async (req, res) => {
     if (req.session.loggedin) {
         try {
-            const { id, userId, trainerId } = req.params;
+            const { id, userId } = req.params;
             const currentdate = new Date();
             const comment = await comments.create({
                 feedback_id: id,
                 user_id: userId,
-                trainer_id: trainerId,
+                trainer_id: null,
                 date: currentdate,
                 message: req.body.message,
             });
@@ -94,5 +94,32 @@ router.post("/comment/:userId/:trainerId", async (req, res) => {
     }
 });
 
+router.post("/comment/:trainerId", async (req, res) => {
+  if (req.session.loggedin) {
+      try {
+          const { id, trainerId } = req.params;
+          const currentdate = new Date();
+          const comment = await comments.create({
+              feedback_id: id,
+              user_id: null,
+              trainer_id: trainerId,
+              date: currentdate,
+              message: req.body.message,
+          });
+          res.status(200).json({
+              data: comment,
+              message: "댓글이 작성되었습니다.",
+          });
+      } catch (err) {
+          console.log(err);
+          res.status(500).json({ data: null, message: err });
+      }
+  } else {
+      res.status(401).json({
+          data: null,
+          message: "로그인이 필요합니다.",
+      });
+  }
+});
 
 module.exports = router;
