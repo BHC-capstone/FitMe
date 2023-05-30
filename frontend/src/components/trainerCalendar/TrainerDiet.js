@@ -32,7 +32,6 @@ function Routine({ userid, date }) {
       .catch(err => {
         setDietdate({ breakfast: '', lunch: '', dinner: '' });
         console.log(err);
-        setDietdate({ breakfast: '', dinner: '', lunch: '' });
       });
   }, [userid, date]);
 
