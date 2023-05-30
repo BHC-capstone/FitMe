@@ -10,7 +10,7 @@ const {
     trainer_manage,
     meal_plan,
     feedbacks,
-    trainer_manage,
+    // trainer_manage,
 } = require("../models");
 const initModels = require("../models/init-models");
 const models = initModels(sequelize);
@@ -432,7 +432,7 @@ router.post(
                 );
                 await schedules.update(
                     {
-                        feedback_id: Feedback.id,
+                        feedbacks_id: Feedback.id,
                     },
                     { where: { id: schedule.id } }
                 );

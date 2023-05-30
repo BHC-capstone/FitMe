@@ -14,8 +14,9 @@ var trainersRouter = require('./routes/trainers');
 var manageRouter = require('./routes/manage');
 var requestRouter = require('./routes/request');
 var calenderRouter = require('./routes/calender');
-var trainer_calenderRouter = require('./routes/trainer_calender');
 var feedbackRouter = require('./routes/feedback');
+var trainer_calenderRouter = require('./routes/trainer_calender');
+
 
 const PORT = process.env.PORT || 4000;
 
@@ -29,7 +30,7 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: 'https://localhost:3000',
-    methods: ['GET', 'POST', 'OPTIONS'],
+    methods: ['GET', 'POST', 'OPTIONS','PUT'],
     credentials: true,
   })
 );
@@ -78,8 +79,8 @@ if (fs.existsSync('./key.pem') && fs.existsSync('./cert.pem')) {
 
 //frontend와 연동
 app.use(express.static(path.join(__dirname, '../frontend/build')));
-app.get('*', function (req, res) {
-  res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
-});
+// app.get('*', function (req, res) {
+//   res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
+// });
 
 module.exports = app;

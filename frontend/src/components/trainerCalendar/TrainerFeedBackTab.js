@@ -4,7 +4,6 @@ import { Button } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import TrainerRoutine from './TrainerRoutine';
 import TrainerNoFeedBack from './TrainerNoFeedBack';
 import TrainerFeedBack from './TrainerFeedBack';
 import Comments from './Comments';
@@ -14,42 +13,44 @@ function TrainerFeedBackTab({ userid, date }) {
   const [Commentdate, setCommentdate] = useState([]);
   const [FeedbackExist, setFeedbackExist] = useState(false);
   const [textData, setTextData] = useState([]);
-
   const loginedUser = useSelector(state => state.user);
   useEffect(() => {
-    axios
-      .get(
-        `https://localhost:4000/calender/exerciseroutine/${userid}/${date}`,
-        {
-          withCredentials: true,
-        },
-      )
+    setFeedBackdate(null);
+    axios({
+      url: `https://localhost:4000/feedback/checkFeedback/${userid}/${date}`,
+      method: 'GET',
+      withCredentials: true,
+    })
       .then(res => {
-        setFeedBackdate(res.data.data);
+        setFeedBackdate(res.data.data.feedback);
+        setCommentdate(res.data.data.feedbackComment);
         console.log(res.data.data);
+        // console.log('1');
+      })
+      .catch(err => {
+        console.log(err);
       });
-    setFeedbackExist(Feedbackdate != null);
-    axios
-      .get(
-        `https://localhost:4000/calender/exerciseroutine/${userid}/${date}`,
-        {
-          withCredentials: true,
-        },
-      )
-      .then(res => {
-        setCommentdate(res.data.data);
-        console.log(res.data.data);
-      });
-  }, [userid, date, FeedbackExist]);
-
+    setFeedbackExist(!!Feedbackdate);
+  }, [userid, date]);
+  useEffect(() => {
+    setFeedBackdate(Feedbackdate);
+    setCommentdate(Commentdate);
+    setFeedbackExist(!!Feedbackdate);
+  }, [Feedbackdate, Commentdate]);
   const onAddDetailDiv = () => {
-    console.log('버튼 클릭');
-    const countArr = [...Commentdate];
-    const counter = countArr.slice(-1);
-    counter.text = textData;
-    countArr.push(counter); // index 사용 X
-    // countArr[counter] = counter	// index 사용 시 윗줄 대신 사용
-    setCommentdate(countArr);
+    // '/comment/:userId/:trainerId'
+    axios({
+      url: `https://localhost:4000/feedback/comment/${userid}/${loginedUser.id}/${Feedbackdate.id}`,
+      data: { message: textData },
+      method: 'POST',
+      withCredentials: true,
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log('fail');
+      });
   };
   const onChangeText = e => {
     setTextData(e.target.value);
@@ -66,15 +67,22 @@ function TrainerFeedBackTab({ userid, date }) {
           />
         ) : (
           <TrainerFeedBack
-            feedbackvideo="https://fitme-s3.s3.ap-northeast-2.amazonaws.com/exerciseroutine/1/4/sample.mp4"
-            feedbacktext="안녕하세요 초기 인풋값입니다."
+            feedbackvideo={
+              Feedbackdate == null
+                ? '../../images/sample_certificate.png'
+                : Feedbackdate.feedback_video_url
+            }
+            feedbacktext={
+              Feedbackdate == null ? '' : Feedbackdate.feedback_message
+            }
+            feedbackid={Feedbackdate == null ? 'x' : Feedbackdate.id}
           />
         )}
         {Commentdate.map((el, index) => (
           // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
           <Comments
             // eslint-disable-next-line react/no-array-index-key
-            text1={el.text}
+            text1={el.message}
             check={el.user != null}
           />
         ))}

@@ -80,7 +80,7 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
       trainer_id: trainerid,
       id: userid,
       startDate,
-      days: days.value1,
+      // days: days.value1,
       // requst //
       count,
       height: detaildata.height,

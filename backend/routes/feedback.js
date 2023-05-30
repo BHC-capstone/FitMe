@@ -1,6 +1,6 @@
-const express = require('express');
+var express = require('express');
 
-const router = express.Router();
+var router = express.Router();
 const { sequelize } = require('../models');
 const {
   trainers,
@@ -28,23 +28,29 @@ const { s3 } = require('../modules/s3upload');
 dotenv.config();
 
 // check feedback
-router.get('checkFeedback/:Id', async (req, res) => {
+
+///feedback/checkFeedback/1/2023.%205.%2029.
+router.get('/checkFeedback/:Id/:date', async (req, res) => {
+  console.log("test");
   if (req.session.loggedin) {
     try {
       const { Id, date } = req.params;
       const schedule = await schedules.findOne({
         where: { user_id: Id, date },
       });
-      const feedback = await feedbacks.findOne({
-        where: { id: schedule.feedback_id },
-      });
-      const feedbackComment = await comments.findAll({
-        where: { feedback_id: feedback.id },
-        order: [['date', 'ASC']],
-      });
-      if (feedback) {
-        res.status(200).json({ data: [feedback, feedbackComment], message: '' });
-      } else {
+
+      if(schedule.feedbacks_id != null) {
+        const feedback = await feedbacks.findOne({
+          where: { id: schedule.feedbacks_id },
+        });
+        const feedbackComment = await comments.findAll({
+          where: { feedback_id: feedback.id },
+          order: [['date', 'ASC']],
+        });
+
+        res.status(200).json({ data: {feedback, feedbackComment}, message: '' });
+      }
+      else {
         res.status(400).json({
           data: null,
           message: '해당 날짜의 피드백이 존재하지 않습니다.',
@@ -52,6 +58,7 @@ router.get('checkFeedback/:Id', async (req, res) => {
       }
     } catch (err) {
       console.log(err);
+      res.status(400).json(err);
     }
   } else {
     res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
@@ -59,7 +66,7 @@ router.get('checkFeedback/:Id', async (req, res) => {
 });
 
 // feedback 댓글 작성
-router.post('comment/:userId/:trainerId', async (req, res) => {
+router.post('/comment/:userId/:trainerId/:id', async (req, res) => {
   if (req.session.loggedin) {
     try {
       const { id, userId, trainerId } = req.params;

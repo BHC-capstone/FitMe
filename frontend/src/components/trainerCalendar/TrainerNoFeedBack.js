@@ -8,27 +8,17 @@ import { useSelector } from 'react-redux';
 function TrainerNoFeedBack({ userid, date, getdata }) {
   const [dietImg, setDietImg] = useState([]);
   const loginedUser = useSelector(state => state.user);
-
   const postFeedBack = e => {
-    const body = {
-      text: '내용을 작성해주세요',
-    };
-
-    axios
-      // api 주소 작성 필요 userid date, trainerid=loginedUser.id
-      .post('https://localhost:4000/trainers/login', body, {
-        withCredentials: true,
-      })
+    axios({
+      url: `https://localhost:4000/trainer_calender/createFeedback/${date}/${loginedUser.id}/${userid}`,
+      method: 'POST',
+      withCredentials: true,
+    })
       .then(res => {
         console.log(res);
-        if (res.status === 200) {
-          console.log(res.data);
-        } else {
-          alert(res.data.message);
-        }
       })
       .catch(err => {
-        console.log(err);
+        console.log('fail');
       });
     getdata(true);
   };

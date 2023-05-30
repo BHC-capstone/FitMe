@@ -23,6 +23,9 @@ function TrainerExerciseTab({ userid, date }) {
       )
       .then(res => {
         setExerdate(res.data.data);
+      })
+      .catch(err => {
+        console.log(err);
       });
   }, [userid, date]);
 
