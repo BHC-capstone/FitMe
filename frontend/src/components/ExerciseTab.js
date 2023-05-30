@@ -38,7 +38,6 @@ function ExerciseTab({ userid, date }) {
       withCredentials: true,
     })
       .then(response => {
-        console.log(response);
         axios
           .get(
             `https://localhost:4000/calender/exerciseroutine/${userid}/${date}`,
@@ -61,7 +60,6 @@ function ExerciseTab({ userid, date }) {
       withCredentials: true,
     })
       .then(response => {
-        console.log(response);
         axios
           .get(
             `https://localhost:4000/calender/exerciseroutine/${userid}/${date}`,

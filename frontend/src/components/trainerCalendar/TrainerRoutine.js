@@ -60,7 +60,7 @@ function TrainerRoutine({
         exercise_count: timeValue,
         set_count: setValue,
       },
-      method: 'POST',
+      method: 'PUT',
       withCredentials: true,
     })
       .then(res => {

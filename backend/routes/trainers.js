@@ -29,6 +29,7 @@ router.post(
   '/signup',
   imageUpload.single('certificationFile'),
   async function (req, res) {
+    console.log(req.body);
     if (
       req.body.email &&
       req.body.name &&
@@ -52,6 +53,7 @@ router.post(
             message: '이미 존재하는 아이디입니다.',
           });
         else {
+          console.log(req.body);
           const hashedPassword = await bcrypt.hash(
             req.body.password,
             saltRounds
@@ -213,6 +215,7 @@ router.get('/profile/:id', async function (req, res) {
           'introduction',
           'career',
           'review_avg',
+          'trainer_image_url',
         ],
       });
       res.status(200).json({ data: trainerInfo, message: '' });
@@ -323,6 +326,7 @@ router.get('/trainerlist/:id', async function (req, res) {
         attributes: ['name'],
       },
     });
+    console.log(trainerInfo_detail);
     const trainer_reviews = await trainer_review.findAll({
       where: { trainer_id: req.params.id },
     });
@@ -397,34 +401,31 @@ router.post(
   async function (req, res) {
     if (req.session.loggedin) {
       try {
-        let transaction = await sequelize.transaction();
-
+        const { id } = req.params;
         const uploadParams = {
           acl: 'public-read',
           ContentType: 'image/png',
           Bucket: 'fitme-s3',
           Body: req.file.buffer,
-          Key: `certifications/` + trainerInfo.id + '.' + req.file.originalname,
+          Key: `certifications/` +
+          `/${id}/` +
+          req.file.originalname,
         };
         const result = await s3.upload(uploadParams).promise();
-
+        console.log("ㅇㅇㅇ",result);
         const certification = await certifications.create(
           {
+            trainer_id: id,
             name: req.file.originalname,
             image_url: result.Location,
-          },
-          { transaction }
+          }
         );
-
         const trainer_certs = await trainer_cert.create(
           {
-            trainer_id: req.params.id,
+            trainer_id: id,
             certification_id: certification.id,
-          },
-          { transaction }
+          }
         );
-
-        await transaction.commit();
         res.status(200).json({
           data: null,
           message: '성공적으로 자격증을 추가하였습니다.',
@@ -449,11 +450,14 @@ router.post(
           where: { id: req.params.id },
         });
         const s3key = trainerInfo.s3_key;
+        if(s3key != null){
         const deleteParams = {
           Bucket: 'fitme-s3',
           Key: s3key,
         };
         await s3.deleteObject(deleteParams).promise();
+      }
+
         const uploadParams = {
           acl: 'public-read',
           ContentType: 'image/png',

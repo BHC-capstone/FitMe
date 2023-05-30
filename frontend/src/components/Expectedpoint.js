@@ -111,6 +111,7 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
 
   return (
     <div>
+      <DatePick getdata={setDays} />
       <Boxr>
         <Boxc>
           <Head2>PT 횟수</Head2>
@@ -138,8 +139,11 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
           충전
         </Button>
       </Boxr>
-      <DatePick getdata={setDays} />
-      <UserInputForm datatransform={highFunction} />
+      <hr />
+      <details className="mgtp">
+        <summary>PT 신청서 작성</summary>
+        <UserInputForm datatransform={highFunction} />
+      </details>
     </div>
   );
 }

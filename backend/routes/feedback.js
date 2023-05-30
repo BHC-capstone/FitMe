@@ -1,30 +1,31 @@
-var express = require("express");
-var router = express.Router();
-const { sequelize } = require("../models");
-const {
-    trainers,
-    users,
-    pt_requests,
-    exercise_routines,
-    schedules,
-    trainer_manage,
-    meal_plan,
-    feedbacks,
-    comments,
-} = require("../models");
-const initModels = require("../models/init-models");
-const models = initModels(sequelize);
-const dotenv = require("dotenv");
-const multer = require("multer");
-const AWS = require("aws-sdk");
+var express = require('express');
 
-//AWS s3 관련
-const imageUpload = require("../modules/s3upload").upload;
-const videoupload = require("../modules/s3upload").videoUpload;
-const s3 = require("../modules/s3upload").s3;
+var router = express.Router();
+const { sequelize } = require('../models');
+const {
+  trainers,
+  users,
+  pt_requests,
+  exercise_routines,
+  schedules,
+  trainer_manage,
+  meal_plan,
+  feedbacks,
+  comments,
+} = require('../models');
+const initModels = require('../models/init-models');
+
+const models = initModels(sequelize);
+const dotenv = require('dotenv');
+const multer = require('multer');
+const AWS = require('aws-sdk');
+
+// AWS s3 관련
+const imageUpload = require('../modules/s3upload').upload;
+const videoupload = require('../modules/s3upload').videoUpload;
+const { s3 } = require('../modules/s3upload');
 
 dotenv.config();
-
 
 // check feedback
 router.get('/checkFeedback/:Id/:date', async (req, res) => {
@@ -62,37 +63,61 @@ router.get('/checkFeedback/:Id/:date', async (req, res) => {
     }
   });
 
-
-
-
 // feedback 댓글 작성
-router.post("/comment/:userId/:trainerId", async (req, res) => {
-    if (req.session.loggedin) {
-        try {
-            const { id, userId, trainerId } = req.params;
-            const currentdate = new Date();
-            const comment = await comments.create({
-                feedback_id: id,
-                user_id: userId,
-                trainer_id: trainerId,
-                date: currentdate,
-                message: req.body.message,
-            });
-            res.status(200).json({
-                data: comment,
-                message: "댓글이 작성되었습니다.",
-            });
-        } catch (err) {
-            console.log(err);
-            res.status(500).json({ data: null, message: err });
-        }
-    } else {
-        res.status(401).json({
-            data: null,
-            message: "로그인이 필요합니다.",
-        });
-    }
+router.post("/comment/:userId/:id", async (req, res) => {
+  if (req.session.loggedin) {
+      try {
+          const { id, userId } = req.params;
+          const currentdate = new Date();
+          const comment = await comments.create({
+              feedback_id: id,
+              user_id: userId,
+              trainer_id: null,
+              date: currentdate,
+              message: req.body.message,
+          });
+          res.status(200).json({
+              data: comment,
+              message: "댓글이 작성되었습니다.",
+          });
+      } catch (err) {
+          console.log(err);
+          res.status(500).json({ data: null, message: err });
+      }
+  } else {
+      res.status(401).json({
+          data: null,
+          message: "로그인이 필요합니다.",
+      });
+  }
 });
-
+// /commentTrainer/:trainerId
+router.post("/commentTrainer/:trainerId/:id", async (req, res) => {
+  if (req.session.loggedin) {
+      try {
+          const { id, trainerId } = req.params;
+          const currentdate = new Date();
+          const comment = await comments.create({
+              feedback_id: id,
+              user_id: null,
+              trainer_id: trainerId,
+              date: currentdate,
+              message: req.body.message,
+          });
+          res.status(200).json({
+              data: comment,
+              message: "댓글이 작성되었습니다.",
+          });
+      } catch (err) {
+          console.log(err);
+          res.status(500).json({ data: null, message: err });
+      }
+  } else {
+      res.status(401).json({
+          data: null,
+          message: "로그인이 필요합니다.",
+      });
+  }
+});
 
 module.exports = router;

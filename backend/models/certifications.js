@@ -7,7 +7,19 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
+    trainer_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'trainers',
+        key: 'id'
+      }
+    },
     name: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    image_url: {
       type: DataTypes.STRING(255),
       allowNull: true
     }
@@ -22,6 +34,13 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "id" },
+        ]
+      },
+      {
+        name: "trainer_id",
+        using: "BTREE",
+        fields: [
+          { name: "trainer_id" },
         ]
       },
     ]

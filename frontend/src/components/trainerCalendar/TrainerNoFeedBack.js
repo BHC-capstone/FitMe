@@ -16,11 +16,11 @@ function TrainerNoFeedBack({ userid, date, getdata }) {
     })
       .then(res => {
         console.log(res);
+        getdata(true);
       })
       .catch(err => {
         console.log('fail');
       });
-    getdata(true);
   };
   return (
     <Flexcontainers>
