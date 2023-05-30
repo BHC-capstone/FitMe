@@ -28,8 +28,8 @@ function TrainerFeedBack({
   let inputRef;
   const videoInput = useRef();
   useEffect(() => {
-    // console.log('?', feedbackvideo);
-    // console.log(feedbacktext);
+    console.log('?', feedbackvideo);
+    console.log(feedbacktext);
     setFeedBackText(feedbacktext);
     setFeedBackURL(feedbackvideo);
     setImage();
@@ -141,7 +141,11 @@ function TrainerFeedBack({
             {file.type === 'image' ? (
               <img src={file.preview_URL} />
             ) : (
-              <video controls autoPlay src={file.preview_URL} />
+              <video
+                controls
+                autoPlay
+                src={feedbackvideo != null ? feedbackvideo : file.preview_URL}
+              />
             )}
           </div>
         </VideoTexture>

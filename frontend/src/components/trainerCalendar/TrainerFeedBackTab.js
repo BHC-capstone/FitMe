@@ -17,7 +17,7 @@ function TrainerFeedBackTab({ userid, date }) {
   const loginedUser = useSelector(state => state.user);
 
   useEffect(() => {
-    // console.log('새로고침 실행');
+    console.log('새로고침 실행');
     setFeedBackdate(null);
     setCommentdate([]);
     axios({
@@ -34,13 +34,14 @@ function TrainerFeedBackTab({ userid, date }) {
       .catch(err => {
         console.log(err);
       });
-    setFeedbackExist(!!Feedbackdate);
+    setFeedbackExist(!!(Feedbackdate != null && Feedbackdate != false));
+    console.log(FeedbackExist);
   }, [userid, date, repage, FeedbackExist]);
 
   useEffect(() => {
     setFeedBackdate(Feedbackdate);
     setCommentdate(Commentdate);
-    setFeedbackExist(!!Feedbackdate);
+    setFeedbackExist(!!(Feedbackdate != null && Feedbackdate != false));
   }, [Feedbackdate, Commentdate, repage, FeedbackExist]);
   const onAddDetailDiv = () => {
     // '/comment/:userId/:trainerId'
@@ -91,7 +92,7 @@ function TrainerFeedBackTab({ userid, date }) {
               <Comments
                 // eslint-disable-next-line react/no-array-index-key
                 text1={el.message}
-                check={el.user != null}
+                check={el.user_id}
               />
             ))}
             <Flexcontainerg>
