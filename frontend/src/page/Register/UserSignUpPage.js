@@ -75,11 +75,14 @@ export default function TrainerSignUpPage() {
   const goUserLogin = () => {
     navigate('/user-login');
   };
+  const goTrainerSignUp = () => {
+    navigate('/trainer-signup');
+  };
 
   return (
     <div>
       <Container fluid className="panel">
-        <Head1>일반 사용자 회원가입</Head1>
+        <div className="head">수강생 회원가입</div>
         <Form onSubmit={onSubmit}>
           <FloatingLabel
             controlId="floatingInput"
@@ -153,12 +156,7 @@ export default function TrainerSignUpPage() {
           </Row>
           <Row>
             <Col>
-              <FloatingLabel
-                controlId="floatingSelect"
-                label="성별"
-                className="mb-3"
-                required
-              >
+              <FloatingLabel controlId="floatingSelect" label="성별" required>
                 <Form.Select onChange={onChangeGender}>
                   <option>선택하세요</option>
                   <option value="남성">남성</option>
@@ -167,11 +165,7 @@ export default function TrainerSignUpPage() {
               </FloatingLabel>
             </Col>
             <Col>
-              <FloatingLabel
-                controlId="floatingSelect"
-                label="나이"
-                className="mb-3"
-              >
+              <FloatingLabel controlId="floatingSelect" label="나이">
                 <Form.Control
                   type="number"
                   placeholder="Enter age"
@@ -182,26 +176,23 @@ export default function TrainerSignUpPage() {
               </FloatingLabel>
             </Col>
           </Row>
-          <Button variant="primary" type="submit" onClick={onSubmit}>
+          <Button
+            variant="primary"
+            type="submit"
+            className="mgtp"
+            onClick={onSubmit}
+          >
             제출
           </Button>
         </Form>
         <Button variant="link" type="button" onClick={goUserLogin}>
           이미 계정이 있나요?
         </Button>
+        <hr />
+        <Button variant="secondary" type="button" onClick={goTrainerSignUp}>
+          트레이너 회원가입
+        </Button>
       </Container>
     </div>
   );
 }
-
-const Head1 = styled.div`
-  color: rgb(21, 20, 20);
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 30px;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  width: fit-content;
-  margin: 0 auto;
-  padding: 10px;
-`;

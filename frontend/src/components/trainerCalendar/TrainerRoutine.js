@@ -21,6 +21,9 @@ function TrainerRoutine({
   userId,
   date,
   routineid,
+  onRemove,
+  onVideoSubmit,
+  onVideoRemove,
 }) {
   const loginedUser = useSelector(state => state.user);
   const trainerid = loginedUser.id;
@@ -32,7 +35,7 @@ function TrainerRoutine({
     setExercise(exercisename);
     settimeValue(time);
     setSetValue(set);
-  }, [exercisename, time, set, exercisename]);
+  }, []);
 
   const onChangeExercise = e => {
     setExercise(e.target.value);
@@ -48,19 +51,15 @@ function TrainerRoutine({
   };
   const videoInput = useRef();
 
-  function upload(event) {
-    const formData = new FormData();
-    formData.append('name', exercise);
-    formData.append('exercise_count', timeValue);
-    formData.append('set_count', setValue);
-    // formData.append('exercisevideo', exerVideo);
-    formData.append('video', videoInput.current.files[0]);
+  function exerciseModify(event) {
+    event.preventDefault();
     axios({
-      url: `https://localhost:4000/trainer_calender/createExercise/${date}/${trainerid}/${userId}`,
-      headers: {
-        'Content-Type': 'multipart/form-data',
+      url: `https://localhost:4000/trainer_calender/updateExercise/${routineid}`,
+      data: {
+        name: exercise,
+        exercise_count: timeValue,
+        set_count: setValue,
       },
-      data: formData,
       method: 'POST',
       withCredentials: true,
     })
@@ -71,12 +70,16 @@ function TrainerRoutine({
         console.log(err);
       });
   }
+
   return (
     <div>
       <Flexcontainer num={num}>
         <Text0 num={num}>
           오늘의 운동 ({num + 1}){' '}
-          <CloseOutlined style={{ float: 'right', marginRight: '5%' }} />
+          <CloseOutlined
+            style={{ float: 'right', marginRight: '5%' }}
+            onClick={() => onRemove(routineid)}
+          />
         </Text0>
         <Form>
           <Row className="justify-content-md-center">
@@ -103,7 +106,7 @@ function TrainerRoutine({
               />
             </Col>
             <Col xs="2">
-              <Text2 num={0}>회</Text2>
+              <Text2 num={num}>회</Text2>
             </Col>
             <Col xs="2">
               <Form.Control
@@ -113,7 +116,7 @@ function TrainerRoutine({
               />
             </Col>
             <Col xs="2">
-              <Text2 num={0}>세트</Text2>
+              <Text2 num={num}>세트</Text2>
             </Col>
           </Row1>
           <input
@@ -121,7 +124,7 @@ function TrainerRoutine({
             style={{ display: 'none' }}
             ref={videoInput}
             accept="video"
-            onChange={event => onGuideVideoChange(event)}
+            onChange={event => onVideoSubmit(videoInput, routineid)}
           />
           <StyledButton num={num} count={0} onClick={onGuideVideoChange}>
             가이드 영상 업로드
@@ -140,7 +143,7 @@ function TrainerRoutine({
                 pip={false}
               />
               <div style={{ float: 'right', marginLeft: '10%', color: 'gray' }}>
-                <CloseOutlined onClick={() => setVideoOpen(e => !e)} />
+                <CloseOutlined onClick={() => onVideoRemove(routineid)} />
               </div>
             </StyledVideoContainer>
           ) : null}
@@ -175,7 +178,12 @@ function TrainerRoutine({
               )}
             </StyledVideoContainer>
           ) : null}
-          <StyledButton num={num} count={2} type="submit" onClick={upload}>
+          <StyledButton
+            num={num}
+            count={2}
+            type="submit"
+            onClick={exerciseModify}
+          >
             수정 완료
           </StyledButton>
         </Form>

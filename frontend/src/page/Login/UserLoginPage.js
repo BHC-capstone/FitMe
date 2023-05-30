@@ -2,7 +2,14 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Container, Form, Button, FloatingLabel } from 'react-bootstrap';
+import {
+  Container,
+  Form,
+  Row,
+  Col,
+  Button,
+  FloatingLabel,
+} from 'react-bootstrap';
 import styled from 'styled-components';
 import { loginUser } from '../../redux/_reducers/userSlice';
 
@@ -48,11 +55,14 @@ export default function UserLoginPage(props) {
   const goTrainerLogin = () => {
     navigate('/trainer-login');
   };
+  const goLandingPage = () => {
+    navigate('/');
+  };
 
   return (
     <div>
-      <Container className="panel">
-        <Head1>일반 사용자 로그인</Head1>
+      <Container fluid className="panel">
+        <div className="head">수강생 로그인</div>
         <Form onSubmit={onSubmitHandler}>
           <FloatingLabel
             controlId="floatingInput"
@@ -82,34 +92,24 @@ export default function UserLoginPage(props) {
               required
             />
           </FloatingLabel>
-
-          <Button type="submit" variant="primary">
-            로그인
-          </Button>
-          <StyledButton
-            type="button"
-            variant="secondary"
-            onClick={goTrainerLogin}
-          >
-            트레이너 로그인
-          </StyledButton>
+          <Row>
+            <Col>
+              <Button type="submit" variant="primary">
+                로그인
+              </Button>
+            </Col>
+          </Row>
+          <Row>
+            <Button variant="link" type="button" onClick={goLandingPage}>
+              회원가입이 필요하신가요?
+            </Button>
+          </Row>
         </Form>
+        <hr />
+        <Button type="button" variant="secondary" onClick={goTrainerLogin}>
+          트레이너 로그인
+        </Button>
       </Container>
     </div>
   );
 }
-
-const Head1 = styled.div`
-  color: rgb(21, 20, 20);
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 30px;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  width: fit-content;
-  margin: 0 auto;
-  padding: 10px;
-`;
-const StyledButton = styled(Button)`
-  margin-left: 10px;
-`;

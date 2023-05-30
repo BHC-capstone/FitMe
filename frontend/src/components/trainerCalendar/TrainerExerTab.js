@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { CloseOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import TrainerRoutine from './TrainerRoutine';
@@ -9,6 +9,8 @@ import TrainerRoutine from './TrainerRoutine';
 // eslint-disable-next-line react/prop-types
 function TrainerExerciseTab({ userid, date }) {
   const [exerdate, setExerdate] = useState([]);
+  const loginedUser = useSelector(state => state.user);
+  const trainerid = loginedUser.id;
 
   useEffect(() => {
     setExerdate([]);
@@ -18,24 +20,110 @@ function TrainerExerciseTab({ userid, date }) {
       })
       .then(res => {
         setExerdate(res.data.data);
+      })
+      .catch(err => {
+        console.log(err);
       });
   }, [userid, date]);
 
   const onAddDetailDiv = () => {
-    const countArr = [...exerdate];
-    const counter = countArr.slice(-1);
-    countArr.push(counter); // index 사용 X
-    // countArr[counter] = counter	// index 사용 시 윗줄 대신 사용
-    setExerdate(countArr);
-    // axios({
-    //   url: `https://localhost:4000/trainer_calender/createExercise/${date}/${trainerid}/${userId}`,
-    //   headers: {
-    //     'Content-Type': 'multipart/form-data',
-    //   },
-    //   method: 'POST',
-    //   withCredentials: true,
-    // });
+    axios({
+      url: `https://localhost:4000/trainer_calender/createExercise/${date}/${trainerid}/${userid}`,
+      method: 'POST',
+      withCredentials: true,
+    })
+      .then(response => {
+        axios
+          .get(
+            `https://localhost:4000/calender/exerciseroutine/${userid}/${date}`,
+            {
+              withCredentials: true,
+            },
+          )
+          .then(res => {
+            setExerdate(res.data.data);
+          });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
+  function onRemove(routineid) {
+    axios({
+      url: `https://localhost:4000/trainer_calender/deleteExercise/${routineid}`,
+      method: 'POST',
+      withCredentials: true,
+    })
+      .then(response => {
+        axios
+          .get(
+            `https://localhost:4000/calender/exerciseroutine/${userid}/${date}`,
+            {
+              withCredentials: true,
+            },
+          )
+          .then(res => {
+            setExerdate(res.data.data);
+          });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  function onVideoSubmit(videoInput, routineid) {
+    const formData = new FormData();
+    formData.append('video', videoInput.current.files[0]);
+    axios({
+      url: `https://localhost:4000/trainer_calender/uplodadGuideVideo/${trainerid}/${routineid}`,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      data: formData,
+      method: 'POST',
+      withCredentials: true,
+    })
+      .then(response => {
+        console.log(response);
+        axios
+          .get(
+            `https://localhost:4000/calender/exerciseroutine/${userid}/${date}`,
+            {
+              withCredentials: true,
+            },
+          )
+          .then(res => {
+            setExerdate(res.data.data);
+          });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+    // console.log(event.target.files);
+  }
+  function onVideoRemove(routineid) {
+    axios({
+      url: `https://localhost:4000/trainer_calender/deleteGuideVideo/${routineid}`,
+      method: 'POST',
+      withCredentials: true,
+    })
+      .then(response => {
+        console.log(response);
+        axios
+          .get(
+            `https://localhost:4000/calender/exerciseroutine/${userid}/${date}`,
+            {
+              withCredentials: true,
+            },
+          )
+          .then(res => {
+            setExerdate(res.data.data);
+          });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   // 운동 루틴이 배열로 제공 된다고 가정하면 map 함수를 상위에 추가하여 밑의 컴포넌트들을 본문으로 사용할 예정
   return (
@@ -56,6 +144,9 @@ function TrainerExerciseTab({ userid, date }) {
             date={date}
             content={el.content}
             routineid={el.id}
+            onRemove={onRemove}
+            onVideoSubmit={onVideoSubmit}
+            onVideoRemove={onVideoRemove}
           />
         ))}
       </Flexcontainers>

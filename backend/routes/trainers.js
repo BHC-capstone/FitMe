@@ -29,7 +29,6 @@ router.post(
   '/signup',
   imageUpload.single('certificationFile'),
   async function (req, res) {
-    console.log(req.body);
     if (
       req.body.email &&
       req.body.name &&
@@ -53,7 +52,6 @@ router.post(
             message: '이미 존재하는 아이디입니다.',
           });
         else {
-          console.log(req.body);
           const hashedPassword = await bcrypt.hash(
             req.body.password,
             saltRounds
@@ -325,7 +323,6 @@ router.get('/trainerlist/:id', async function (req, res) {
         attributes: ['name'],
       },
     });
-    console.log(trainerInfo_detail);
     const trainer_reviews = await trainer_review.findAll({
       where: { trainer_id: req.params.id },
     });

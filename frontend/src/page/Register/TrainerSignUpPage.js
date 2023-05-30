@@ -109,11 +109,14 @@ export default function TrainerSignUpPage() {
   const goTrainerLogin = () => {
     navigate('/trainer-login');
   };
+  const goUserSignUp = () => {
+    navigate('/user-signup');
+  };
 
   return (
     <div>
       <Container fluid className="panel">
-        <Head1>트레이너 회원가입</Head1>
+        <div className="head">트레이너 회원가입</div>
         <Form>
           <FloatingLabel
             controlId="floatingInput"
@@ -236,40 +239,23 @@ export default function TrainerSignUpPage() {
               onChange={onChangeCertificationFile}
             />
           </Form.Group>
-          <StyledButton variant="primary" type="submit" onClick={onSubmit}>
+          <Button
+            variant="primary"
+            type="submit"
+            className="mgtp"
+            onClick={onSubmit}
+          >
             제출
-          </StyledButton>
+          </Button>
         </Form>
         <Button variant="link" type="button" onClick={goTrainerLogin}>
           이미 계정이 있나요?
+        </Button>
+        <hr />
+        <Button variant="secondary" type="button" onClick={goUserSignUp}>
+          수강생 회원가입
         </Button>
       </Container>
     </div>
   );
 }
-
-const Head1 = styled.div`
-  color: rgb(21, 20, 20);
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 30px;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  width: fit-content;
-  margin: 0 auto;
-  padding: 10px;
-`;
-
-const StyledButton = styled(Button)`
-  // padding-left: 5%;
-  // text-align: left;
-  // border-radius: 30px;
-  // border: 1px solid #ced4da;
-  // width: 100%;
-  // background-color: white;
-  // margin: auto;
-  // line-height: 60px;
-  // height: 55px;
-  // color: black;
-  margin-top: 20px;
-`;

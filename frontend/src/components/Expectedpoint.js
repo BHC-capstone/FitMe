@@ -7,37 +7,53 @@ import propTypes from 'prop-types';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import UserInputForm from './ptrequest/UserInputForm';
+import DatePick from './ptrequest/DatePick';
 
 function Expectedpoint({ startDate, endDate, trainerid }) {
   const loginedUser = useSelector(state => state.user);
   const userid = loginedUser.id;
-  const [days, setdays] = useState([]);
+  const [days, setDays] = useState({ value1: [0, 0, 0, 0, 0, 0, 0] });
+
   const [count, setCount] = useState([]);
   const [detaildata, setDetailData] = useState([]);
   const navigate = useNavigate();
+
   useEffect(() => {
-    console.log(trainerid, '안녕하세요?');
-    setdays(
-      Math.floor(
-        Math.ceil(
-          (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24),
-        ) *
-          (2 / 7),
+    let diffDate = Math.abs(
+      Math.round(
+        (startDate.getTime() - endDate.getTime()) / (1000 * 60 * 60 * 24),
       ),
     );
-    setCount(
-      Math.floor(
-        Math.ceil(
-          (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24),
-        ) *
-          (2 / 7),
-      ),
-    );
-  }, [startDate, endDate]);
+    diffDate += 1;
+    // console.log(diffDate);
+    let counted = 0;
+    for (let j = 0; j < 7; j += 1) {
+      if (days.value1[j] !== 0) {
+        counted += 1;
+      }
+    }
+    // console.log(counted);
+    let dateBig = Math.floor(diffDate / 7) * counted;
+    // console.log('dateBig', dateBig);
+    const dataSmall = diffDate % 7;
+    // console.log(dataSmall);
+    let startDay = startDate.getDay();
+    // console.log('startDay', startDay);
+    for (let i = 0; i < dataSmall; i += 1) {
+      if (startDay > 7) {
+        startDay -= 7;
+      }
+      if (days.value1[startDay] > 0) {
+        dateBig += 1;
+      }
+      startDay += 1;
+    }
+    setCount(dateBig);
+    // console.log(count, '총 날짜');
+  }, [startDate, endDate, count, days]);
+
   const highFunction = ({
     height,
-    gender,
-    age,
     weight,
     injury,
     career,
@@ -48,8 +64,6 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
   }) => {
     setDetailData({
       height,
-      gender,
-      age,
       weight,
       injury,
       career,
@@ -61,17 +75,15 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
   };
   const onSubmitHandler = event => {
     event.preventDefault();
-    console.log(trainerid);
+    // console.log(trainerid);
     const body = {
       trainer_id: trainerid,
       id: userid,
       startDate,
-      days,
+      // days: days.value1,
       // requst //
       count,
       height: detaildata.height,
-      gender: detaildata.gender,
-      age: detaildata.age,
       weight: detaildata.weight,
       injury: detaildata.injury,
       career: detaildata.career,
@@ -110,7 +122,7 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
               ) *
                 (2 / 7),
             )} */}
-            {days}
+            {count}
           </Boxep1>
         </Boxc>
         <Boxc>
@@ -126,6 +138,7 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
           충전
         </Button>
       </Boxr>
+      <DatePick getdata={setDays} />
       <UserInputForm datatransform={highFunction} />
     </div>
   );

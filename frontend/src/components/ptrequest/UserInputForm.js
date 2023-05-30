@@ -7,8 +7,6 @@ import InputBox from './InputBox';
 
 function UserInputForm({ datatransform }) {
   const [height, setHeight] = useState('');
-  const [gender, setGender] = useState('');
-  const [age, setAge] = useState('');
   const [weight, setWeight] = useState('');
   const [injury, setInjury] = useState('');
   const [career, setCareer] = useState('');
@@ -16,12 +14,9 @@ function UserInputForm({ datatransform }) {
   const [bodyshape, setBodyShape] = useState('');
   const [purpose, setPurpose] = useState('');
   const [lifestyle, setLifeStyle] = useState('');
-
-  function upload(event) {
+  useEffect(() => {
     datatransform({
       height,
-      gender,
-      age,
       weight,
       injury,
       career,
@@ -30,13 +25,20 @@ function UserInputForm({ datatransform }) {
       purpose,
       lifestyle,
     });
-  }
+  }, [
+    height,
+    weight,
+    injury,
+    career,
+    significant,
+    bodyshape,
+    purpose,
+    lifestyle,
+  ]);
   return (
-    <Container1 fluid>
+    <Container fluid className="mgtp">
       <Flexcontainers>
         <Head1>PT 신청서</Head1>
-        <InputBox text1="나이" text2="세" datap={setAge} />
-        <InputBox text1="성별" datap={setGender} />
         <InputBox text1="키" text2="cm" datap={setHeight} />
         <InputBox text1="몸무게" text2="kg" datap={setWeight} />
         <InputBox text1="지병 혹은 부상" height="60px" datap={setInjury} />
@@ -49,17 +51,11 @@ function UserInputForm({ datatransform }) {
           height="100px"
           datap={setLifeStyle}
         />
-        <StyledButton variant="primary" onClick={upload}>
-          저장
-        </StyledButton>
       </Flexcontainers>
-    </Container1>
+    </Container>
   );
 }
 
-const Container1 = styled(Container)`
-  margin-top: 10%;
-`;
 const Flexcontainers = styled.div`
   background-color: #fff;
   border-radius: 10px;
@@ -79,7 +75,7 @@ const Head1 = styled.div`
   align-items: center;
   width: fit-content;
   margin: 0 auto;
-  padding: 10px;
+  padding: 10px 10px 10px 10px;
 `;
 const StyledButton = styled(Button)`
   // width: 20%;

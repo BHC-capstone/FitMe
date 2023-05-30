@@ -22,16 +22,8 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.TIME,
       allowNull: true
     },
-    request: {
+    message: {
       type: DataTypes.TEXT,
-      allowNull: true
-    },
-    response: {
-      type: DataTypes.TEXT,
-      allowNull: true
-    },
-    accept: {
-      type: DataTypes.INTEGER,
       allowNull: true
     }
   }, {

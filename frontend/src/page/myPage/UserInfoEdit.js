@@ -11,7 +11,6 @@ import {
   Button,
   FloatingLabel,
 } from 'react-bootstrap';
-import styled from 'styled-components';
 
 function UserEdit({ props }) {
   const loginedUser = useSelector(state => state.user);
@@ -173,7 +172,7 @@ function UserEdit({ props }) {
   return (
     <div>
       <Container fluid className="panel">
-        <Head1>회원 정보 수정</Head1>
+        <div className="head">회원 정보 수정</div>
         <h1
           style={{
             textAlign: 'center',
@@ -327,28 +326,18 @@ function UserEdit({ props }) {
           <Button type="submit" variant="primary" onClick={handleSubmit}>
             변경
           </Button>
-          <Button1 type="button" variant="danger" onClick={goBack}>
+          <Button
+            type="button"
+            variant="danger"
+            className="mglf-3"
+            onClick={goBack}
+          >
             취소
-          </Button1>
+          </Button>
         </Form>
       </Container>
     </div>
   );
 }
-
-const Head1 = styled.div`
-  color: rgb(21, 20, 20);
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 30px;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  width: fit-content;
-  margin: 0 auto;
-  padding: 10px;
-`;
-const Button1 = styled(Button)`
-  margin-left: 3%;
-`;
 
 export default UserEdit;
