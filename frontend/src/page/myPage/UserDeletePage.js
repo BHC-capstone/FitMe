@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Form, Button, Stack, FloatingLabel } from 'react-bootstrap';
-import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { logoutUser } from '../../redux/_reducers/userSlice';
@@ -37,9 +36,13 @@ function WithdrawPage() {
     }
   };
 
+  const deleteCancel = () => {
+    navigate('/mypage');
+  };
+
   return (
-    <Container className="panel">
-      <Head1>회원 탈퇴</Head1>
+    <Container fluid className="panel">
+      <div className="head">회원 탈퇴</div>
       <Stack gap={2} className="col-md-5 mx-auto">
         <Form onSubmit={handleSubmit}>
           <FloatingLabel
@@ -56,14 +59,18 @@ function WithdrawPage() {
               required
             />
           </FloatingLabel>
-          <Link to="/mypage">
-            <Button type="button" variant="secondary">
-              취소하기
-            </Button>
-          </Link>
-          <StyledButton variant="danger" type="submit">
+          <Button
+            type="button"
+            variant="secondary"
+            className="mgtp"
+            onClick={deleteCancel}
+          >
+            취소하기
+          </Button>
+          <hr />
+          <Button variant="danger" type="submit">
             회원탈퇴
-          </StyledButton>
+          </Button>
         </Form>
       </Stack>
     </Container>
@@ -71,18 +78,3 @@ function WithdrawPage() {
 }
 
 export default WithdrawPage;
-
-const Head1 = styled.div`
-  color: rgb(21, 20, 20);
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 30px;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  width: fit-content;
-  margin: 0 auto;
-  padding: 10px;
-`;
-const StyledButton = styled(Button)`
-  margin-left: 10px;
-`;

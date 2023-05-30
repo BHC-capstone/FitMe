@@ -45,8 +45,8 @@ export default function TrainerList(props) {
   };
   return (
     <Container fluid className="panel">
-      <Head1>트레이너 목록</Head1>
-      <Div>
+      <div className="head">트레이너 목록</div>
+      <div className="mglf-10">
         <Stack gap={2}>
           <Row>
             <Col xs="9">
@@ -131,36 +131,7 @@ export default function TrainerList(props) {
           </BoxOne> */}
           </div>
         ))}
-      </Div>
+      </div>
     </Container>
   );
 }
-
-const Layout = styled.div`
-  // display: flex;
-  // flex-direction: column;
-  // align-items: center;
-  max-width: 800px;
-  margin: auto;
-`;
-// const BoxOne = styled.div`
-//   background-color: #cf6a87;
-//   width: 1000px;
-//   height: 200px;
-//   cursor: pointer;
-// `;
-const Head1 = styled.div`
-  color: rgb(21, 20, 20);
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 30px;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  width: fit-content;
-  margin: 0 auto;
-  padding: 10px;
-`;
-
-const Div = styled.div`
-  margin-left: 10%;
-`;

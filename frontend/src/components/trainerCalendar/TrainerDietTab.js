@@ -33,26 +33,4 @@ const Flexcontainers = styled.div`
   flex-direction: column;
   justify-content: space-between;
 `;
-// const Flexcontainerg = styled.div`
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: space-between;
-//   height: 150px;
-// `;
-// const Textbox = styled.div`
-//   float: left;
-//   font-weight: 400;
-//   font-size: 16px;
-// `;
-// const Button1 = styled(Button)`
-//   width: 120px;
-//   float: right;
-//   margin-right: 100px;
-//   margin-top: 0px;
-//   vertical-align: top;
-//   //border: 3px solid white;
-// `;
-// const Rightbox = styled.div`
-//   float: right;
-// `;
 export default TrainerDietTab;

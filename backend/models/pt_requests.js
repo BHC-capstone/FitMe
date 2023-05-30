@@ -9,11 +9,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     user_id: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'users',
-        key: 'id'
-      }
+      allowNull: true
     },
     trainer_id: {
       type: DataTypes.INTEGER,
@@ -35,47 +31,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.TEXT,
       allowNull: true
     },
-    age: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    gender: {
-      type: DataTypes.STRING(10),
-      allowNull: true
-    },
-    height: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    weight: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
     days: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    injury: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    career: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    significant: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    bodyshape: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    purpose: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    lifestyle: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
@@ -94,13 +50,6 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "id" },
-        ]
-      },
-      {
-        name: "user_id",
-        using: "BTREE",
-        fields: [
-          { name: "user_id" },
         ]
       },
     ]

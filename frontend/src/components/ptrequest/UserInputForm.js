@@ -28,7 +28,7 @@ function UserInputForm({ datatransform }) {
     });
   }
   return (
-    <Container1 fluid>
+    <Container fluid className="mgtp">
       <Flexcontainers>
         <Head1>PT 신청서</Head1>
         <InputBox text1="키" text2="cm" datap={setHeight} />
@@ -47,13 +47,10 @@ function UserInputForm({ datatransform }) {
           저장
         </StyledButton>
       </Flexcontainers>
-    </Container1>
+    </Container>
   );
 }
 
-const Container1 = styled(Container)`
-  margin-top: 10%;
-`;
 const Flexcontainers = styled.div`
   background-color: #fff;
   border-radius: 10px;
@@ -73,7 +70,7 @@ const Head1 = styled.div`
   align-items: center;
   width: fit-content;
   margin: 0 auto;
-  padding: 10px;
+  padding: 10px 10px 10px 10px;
 `;
 const StyledButton = styled(Button)`
   // width: 20%;

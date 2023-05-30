@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux';
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 // eslint-disable-next-line react/prop-types
 function Routine({ userid, date }) {
-  const [dietImg, setDietImg] = useState([]);
   const loginedUser = useSelector(state => state.user);
   const [dietdate, setDietdate] = useState([]);
   const [breakfast, setBreakfast] = useState([]);
@@ -85,8 +84,8 @@ function Routine({ userid, date }) {
         <Text0 num={0}>오늘의 식단</Text0>
         <Text1 num={0}>아침 식단</Text1>
         <Text2 num={0}>아침 거르지 말기!</Text2>
-        <Row className="justify-content-md-center">
-          <Col xs="10">
+        <Row className="justify-content-xs-center">
+          <Col xs={{ span: 10, offset: 1 }}>
             <Form.Group>
               <FloatingLabel
                 controlId="floatingInput"
@@ -140,8 +139,8 @@ function Routine({ userid, date }) {
         <Text0 num={1}>오늘의 식단</Text0>
         <Text1 num={1}>점심 식단</Text1>
         <Text2 num={1}>드시기 전에 식단 촬영!</Text2>
-        <Row className="justify-content-md-center">
-          <Col xs="10">
+        <Row className="justify-content-xs-center">
+          <Col xs={{ span: 10, offset: 1 }}>
             <Form.Group>
               <FloatingLabel
                 controlId="floatingInput"
@@ -195,8 +194,8 @@ function Routine({ userid, date }) {
         <Text0 num={2}>오늘의 식단</Text0>
         <Text1 num={2}>저녁 식단</Text1>
         <Text2 num={2}>식사는 9시 전에 끝내기!</Text2>
-        <Row className="justify-content-md-center">
-          <Col xs="10">
+        <Row className="justify-content-xs-center">
+          <Col xs={{ span: 10, offset: 1 }}>
             <Form.Group>
               <FloatingLabel
                 controlId="floatingInput"

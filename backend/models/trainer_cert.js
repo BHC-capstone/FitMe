@@ -13,11 +13,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     certification_id: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'certifications',
-        key: 'id'
-      }
+      allowNull: true
     },
     expiration_date: {
       type: DataTypes.DATEONLY,
@@ -38,13 +34,6 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "id" },
-        ]
-      },
-      {
-        name: "certification_id",
-        using: "BTREE",
-        fields: [
-          { name: "certification_id" },
         ]
       },
     ]

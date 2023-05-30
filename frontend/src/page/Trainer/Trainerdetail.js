@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+// import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
 import axios from 'axios';
@@ -29,9 +29,6 @@ function Trainerdetail() {
         withCredentials: true,
       })
       .then(res => {
-        if (res.status === 401) {
-          navigate('/login');
-        }
         console.log(res.data.data);
         setTrainer(res.data.data);
       });
@@ -94,8 +91,7 @@ const Upbox = styled.ul`
   display: flex;
   flex-wrap: wrap;
   border-radius: 20px;
-  // justify-content: center;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 10px rgb(0, 0, 0, 0.2);
   background-color: #2ba5f7;
   color: rgb(255, 255, 255);
   height: 500px;
@@ -107,9 +103,6 @@ const Box1 = styled.div`
   margin-left: calc(100% / 20);
   background-color: transparent;
   height: fit-content;
-  // padding: 5px;
-  // border-radius: 40px;
-  // border-radius: 0px 35% 35% 0px;
 `;
 const Box2 = styled.div`
   background-color: white;
@@ -117,19 +110,15 @@ const Box2 = styled.div`
   justify-content: center;
   width: 120%;
   height: fit-content;
-  // border-radius: 30px;
   padding: 10% 5% 5% 5%;
   margin-left: -32px;
   border-bottom: 6px solid #f5a302;
 `;
 const Imageposition = styled.div`
-  // float: left;
   width: 230px;
   height: 230px;
   border-radius: 50%;
   border: 2px solid #2ba5f7;
-  // padding-top: calc(100% / 20);
-  // padding-bottom: calc(100% / 20);
   margin-top: calc(100% / 15);
   margin-left: -14px;
   background-color: white;
@@ -142,29 +131,26 @@ const Nameblock = styled.text`
   word-spacing: 20px;
   color: white;
   padding: calc(100% / 50);
-  // padding-top: calc(100% / 20);
   &.a {
     font-family: 'Black Han Sans', sans-serif;
     letter-spacing: 8px;
-    font-size: 20px;
+    font-size: 28px;
     border-bottom: 2px solid white;
-    // font-weight: bold;
   }
   &.b {
     padding-top: calc(100% / 40);
-    font-size: 15px;
+    font-size: 18px;
     font-weight: normal;
     font-family: 'Gowun Dodum', sans-serif;
-    // float: left;
   }
 `;
 const Emailblock = styled.text`
-  // float: left;
   letter-spacing: 2px;
   font-weight: lighter;
   color: black;
   display: flex;
   font-family: 'Gowun Dodum', sans-serif;
+  font-size: 18px;
 `;
 const TabMenu = styled.ul`
   background-color: #ffffff;
@@ -217,7 +203,6 @@ const Desc = styled.div`
 
 const Button1 = styled(Button)`
   float: right;
-  // margin-left: 100px;
   margin-top: 10px;
 `;
 

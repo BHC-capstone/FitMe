@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
-import styled from 'styled-components';
 import UserInfoTab from '../../components/myPage/UserInfoTab';
 import StatisticsTab from '../../components/myPage/StatisticsTab';
 import PaymentHistoryTab from '../../components/myPage/PaymentHistoryTab';
 import TabMenu from '../../components/TabMenu';
 import RequestManage from '../../components/myPage/RequestManage';
 import TrainerProfile from '../../components/myPage/TrainerProfile';
-// import '../../scss/tabs.scss';
 
 function Tabs() {
   const user = useSelector(state => state.user);
@@ -55,7 +52,7 @@ function Tabs() {
 
   return (
     <Container fluid className="panel">
-      <Head1>마이페이지</Head1>
+      <div className="head">마이 페이지</div>
       <TabMenu
         menuArr={menuArr}
         currentTab={currentTab}
@@ -77,15 +74,4 @@ function Tabs() {
   );
 }
 
-const Head1 = styled.div`
-  color: rgb(21, 20, 20);
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 30px;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  width: fit-content;
-  margin: 0 auto;
-  padding: 10px;
-`;
 export default Tabs;

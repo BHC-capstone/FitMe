@@ -15,15 +15,11 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    feedback_video_url: {
+    video_url: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    s3_key: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    feedback_message: {
+    message: {
       type: DataTypes.TEXT,
       allowNull: true
     }

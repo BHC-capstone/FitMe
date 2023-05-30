@@ -119,7 +119,10 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
           충전
         </Button>
       </Boxr>
-      <UserInputForm datatransform={highFunction} />
+      <details className="mt">
+        <summary>PT 신청서 작성</summary>
+        <UserInputForm datatransform={highFunction} />
+      </details>
     </div>
   );
 }
