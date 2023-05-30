@@ -14,6 +14,7 @@ function CertificateManage() {
   const imgRef = useRef();
 
   const saveCertFile = event => {
+    event.preventDefault();
     const file = imgRef.current.files[0];
     if (file) {
       const reader = new FileReader();
@@ -37,17 +38,15 @@ function CertificateManage() {
     event.preventDefault();
     const formData = new FormData();
     formData.append('file', imgRef.current.files[0]);
-    axios
-      .post(
-        `http://localhost:4000//addCertificate/${loginedUser.id}`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-          withCredentials: true,
-        },
-      )
+    axios({
+      method: 'POST',
+      url: `http://localhost:4000/trainers/addCertificate/${loginedUser.id}`,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      data: formData,
+      withCredentials: true,
+    })
       .then(response => {
         console.log(response);
       })
@@ -59,7 +58,7 @@ function CertificateManage() {
   return (
     <Container fluid className="panel">
       <Head1>자격증 파일 관리</Head1>
-      <form className="upload-form">
+      <form className="upload-form" onSubmit={handleSubmit}>
         <button
           type="button"
           className="file-upload"

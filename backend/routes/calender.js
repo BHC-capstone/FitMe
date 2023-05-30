@@ -54,7 +54,7 @@ router.get("/mealplan/:id/:date", async (req, res) => {
 
 // check exercise routine
 router.get("/exerciseroutine/:id/:date", async (req, res) => {
-    //  if (req.session.loggedin) {
+      if (req.session.loggedin) {
     try {
         const { id, date } = req.params;
         console.log("test" + date + date);
@@ -76,11 +76,11 @@ router.get("/exerciseroutine/:id/:date", async (req, res) => {
         }
     } catch (err) {
         console.log(err);
-        res.status(400).json(err);
+        res.status(400).json({ data: null, message: "해당 날짜의 운동루틴이 존재하지 않습니다." });
     }
-    //  } else {
-    //     res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
-    //  }
+      } else {
+         res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+      }   
 });
 
 // upload mealplan picture
@@ -325,18 +325,41 @@ router.put(
                                 Key: s3Key,
                             };
                             await s3.deleteObject(deleteParams).promise();
+                            await meal_plan.update(
+                                {
+                                    breakfast_image_url: null,
+                                    breakfast_s3_key: null,
+                                },
+                                { where: { id: mealPlan.id } }
+                            );
                         } else if (req.params.meal === "lunch") {
                             const s3Key = mealPlan.lunch_s3_key;
                             const deleteParams = {
                                 Bucket: "fitme-s3",
                                 Key: s3Key,
                             };
+                            await s3.deleteObject(deleteParams).promise();
+                            await meal_plan.update(
+                                {
+                                    lunch_image_url: null,
+                                    lunch_s3_key: null,
+                                },
+                                { where: { id: mealPlan.id } }
+                            );
                         } else if (req.params.meal === "dinner") {
                             const s3Key = mealPlan.dinner_s3_key;
                             const deleteParams = {
                                 Bucket: "fitme-s3",
                                 Key: s3Key,
                             };
+                            await s3.deleteObject(deleteParams).promise();
+                            await meal_plan.update(
+                                {
+                                    dinner_image_url: null,
+                                    dinner_s3_key: null,
+                                },
+                                { where: { id: mealPlan.id } }
+                            );
                         }
                     
                     res.status(200).json({
@@ -475,11 +498,11 @@ router.put(
 
 // exercise routine 영상 삭제
 
-router.delete("/exerciseVideodelete/:routineid", 
+router.delete("/exerciseVideodelete/:id/:routineid", async (req, res) => {
     async (req, res) => {
         if (req.session.loggedin) {
             try {
-                const { routineid } = req.params;
+                const { routineid, id } = req.params;
                 const exerciseRoutine = await exercise_routines.findOne({
                     where: { id: routineid },
                 });
@@ -489,7 +512,7 @@ router.delete("/exerciseVideodelete/:routineid",
                         message: "해당 운동 루틴이 존재하지 않습니다.",
                     });
                 }
-                const s3Key = exerciseRoutine.user_s3_key;
+                const s3Key = exerciseRoutine.s3_key;
                 if (s3Key) {
                 const deleteParams = {
                     Bucket: "fitme-s3",
@@ -506,13 +529,6 @@ router.delete("/exerciseVideodelete/:routineid",
                     }
                 );
                 }
-                await exercise_routines.update(
-                    {
-                        user_video_url: null,
-                        user_s3_key: null,
-                    },
-                    { where: { id: routineid } }
-                );
                 res.status(200).json({
                     data: null,
                     message: "운동 영상이 삭제되었습니다.",
@@ -528,7 +544,7 @@ router.delete("/exerciseVideodelete/:routineid",
             });
         }
     }
-);
+});
 
 
 module.exports = router;

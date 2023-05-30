@@ -391,14 +391,11 @@ router.get('/checkptrequest/:id', async function (req, res) {
 });
 
 // add Certificate to aws s3 and certificate table
-router.post(
-  '/addCertificate/:id',
-  imageUpload.single('image'),
+router.post('/addCertificate/:id', imageUpload.single('image'),
   async function (req, res) {
     if (req.session.loggedin) {
       try {
-        let transaction = await sequelize.transaction();
-
+        console.log(req.file);
         const uploadParams = {
           acl: 'public-read',
           ContentType: 'image/png',
@@ -413,18 +410,13 @@ router.post(
             name: req.file.originalname,
             image_url: result.Location,
           },
-          { transaction }
         );
-
         const trainer_certs = await trainer_cert.create(
           {
             trainer_id: req.params.id,
             certification_id: certification.id,
           },
-          { transaction }
         );
-
-        await transaction.commit();
         res.status(200).json({
           data: null,
           message: '성공적으로 자격증을 추가하였습니다.',

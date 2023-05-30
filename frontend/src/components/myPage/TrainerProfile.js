@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Container } from 'react-bootstrap';
 import { Form, Upload, Button } from 'antd';
 import styled from 'styled-components';
-import { UploadOutlined } from '@ant-design/icons';
+import { UploadOutlined, CloseOutlined } from '@ant-design/icons';
 import '../../scss/myPage/trainerProfile.scss';
 
 function TrainerProfile() {
@@ -49,7 +49,13 @@ function TrainerProfile() {
           <br />
           {certifications.map(certification => (
             <div key={certification.id} className="certification-item">
-              <h3 className="certification-name">{certification.name}</h3>
+              <h3 className="certification-name">
+                {certification.name}
+                <div>
+                  <CloseOutlined />
+                </div>
+              </h3>
+              <img src={certification.image_url} alt="자격증" />
             </div>
           ))}
         </div>
