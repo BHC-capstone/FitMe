@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { UploadOutlined, CloseOutlined } from '@ant-design/icons';
 import '../../scss/myPage/trainerProfile.scss';
 
-function TrainerProfile() {
+function TrainerProfile({ trainerId }) {
   const loginedUser = useSelector(state => state.user);
   const [certifications, setCertifications] = useState([]);
 
@@ -18,7 +18,7 @@ function TrainerProfile() {
   const fetchCertifications = async () => {
     try {
       const response = await axios.get(
-        `https://localhost:4000/trainers/getListOfCertification/${loginedUser.id}`,
+        `https://localhost:4000/trainers/getListOfCertification/${trainerId}`,
         { withCredentials: true },
       );
       const { data } = response.data;
@@ -44,7 +44,6 @@ function TrainerProfile() {
           <br />
           {certifications.map(certification => (
             <div key={certification.id} className="certification-item">
-              <h3 className="certification-name">{certification.name}</h3>
               <img
                 style={{ width: '200px', height: '300px' }}
                 src={certification.image_url}

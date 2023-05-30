@@ -16,7 +16,7 @@ function Trainerdetail() {
   const [star, setStar] = useState(1);
   const menuArr = [
     { name: '자기 소개', content: `${trainer.introduction}` },
-    { name: '프로필', content: <TrainerProfileDisplay /> },
+    { name: '프로필', content: <TrainerProfileDisplay trainerId={id} /> },
     { name: '리뷰', content: '리뷰 기능 Loading...' },
   ];
   const navigate = useNavigate();

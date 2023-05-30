@@ -37,7 +37,7 @@ function CertificateManage() {
   const handleSubmit = event => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append('file', imgRef.current.files[0]);
+    formData.append('image', imgRef.current.files[0]);
     axios({
       method: 'POST',
       url: `https://localhost:4000/trainers/addCertificate/${loginedUser.id}`,
