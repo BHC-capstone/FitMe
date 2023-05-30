@@ -484,7 +484,7 @@ router.put(
             const Feedback = await feedbacks.findOne({
                 where: { id: feedbackId },
             });
-            if (!Feedback) {
+            if (Feedback != null) {
                 res.status(404).json({
                     data: null,
                     message: "피드백을 찾을 수 없습니다.",
