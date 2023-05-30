@@ -4,11 +4,11 @@ import { Button } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import TrainerNoFeedBack from './TrainerNoFeedBack';
-import TrainerFeedBack from './TrainerFeedBack';
-import Comments from './Comments';
+import Comments from '../trainerCalendar/Comments';
+import NoFeedBack from './NoFeedBack';
+import ExistFeedBack from './ExistFeedBack';
 // eslint-disable-next-line react/prop-types
-function TrainerFeedBackTab({ userid, date }) {
+function FeedBackTab({ userid, date }) {
   const [Feedbackdate, setFeedBackdate] = useState([]);
   const [Commentdate, setCommentdate] = useState([]);
   const [FeedbackExist, setFeedbackExist] = useState(false);
@@ -35,15 +35,17 @@ function TrainerFeedBackTab({ userid, date }) {
       });
     setFeedbackExist(!!Feedbackdate);
   }, [userid, date, repage]);
+
   useEffect(() => {
     setFeedBackdate(Feedbackdate);
     setCommentdate(Commentdate);
     setFeedbackExist(!!Feedbackdate);
   }, [Feedbackdate, Commentdate, repage]);
+
   const onAddDetailDiv = () => {
     // '/comment/:userId/:trainerId'
     axios({
-      url: `https://localhost:4000/feedback/comment/${userid}/${loginedUser.id}/${Feedbackdate.id}`,
+      url: `https://localhost:4000/feedback/comment/${userid}/${Feedbackdate.trainer_id}/${Feedbackdate.id}`,
       data: { message: textData },
       method: 'POST',
       withCredentials: true,
@@ -56,6 +58,7 @@ function TrainerFeedBackTab({ userid, date }) {
         console.log('fail');
       });
   };
+
   const onChangeText = e => {
     setTextData(e.target.value);
   };
@@ -64,50 +67,48 @@ function TrainerFeedBackTab({ userid, date }) {
     <div>
       <Flexcontainers>
         {!FeedbackExist ? (
-          <TrainerNoFeedBack
-            userid={userid}
-            date={date}
-            getdata={setFeedbackExist}
-          />
+          <NoFeedBack userid={userid} date={date} getdata={setFeedbackExist} />
         ) : (
-          <TrainerFeedBack
-            feedbackvideo={
-              Feedbackdate == null
-                ? '../../images/sample_certificate.png'
-                : Feedbackdate.feedback_video_url
-            }
-            feedbacktext={
-              Feedbackdate == null ? '' : Feedbackdate.feedback_message
-            }
-            feedbackid={Feedbackdate == null ? 'x' : Feedbackdate.id}
-          />
+          <div>
+            <ExistFeedBack
+              feedbackvideo={
+                Feedbackdate == null
+                  ? '../../images/sample_certificate.png'
+                  : Feedbackdate.feedback_video_url
+              }
+              feedbacktext={
+                Feedbackdate == null ? '' : Feedbackdate.feedback_message
+              }
+              feedbackid={Feedbackdate == null ? 'x' : Feedbackdate.id}
+            />
+            {Commentdate.map((el, index) => (
+              // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+              <Comments
+                // eslint-disable-next-line react/no-array-index-key
+                text1={el.message}
+                check={el.user != null}
+              />
+            ))}
+            <Flexcontainerg>
+              <input
+                type="text"
+                // value={textData}
+                onChange={onChangeText}
+                onBlur={onChangeText}
+                style={{
+                  textAlign: 'left',
+                  width: '80%',
+                  border: '2px solid black',
+                  background: 'transparent',
+                }}
+              />
+              <Button variant="primary" type="button" onClick={onAddDetailDiv}>
+                추가 버튼
+              </Button>
+            </Flexcontainerg>
+          </div>
         )}
-        {Commentdate.map((el, index) => (
-          // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
-          <Comments
-            // eslint-disable-next-line react/no-array-index-key
-            text1={el.message}
-            check={el.user != null}
-          />
-        ))}
       </Flexcontainers>
-      <Flexcontainerg>
-        <input
-          type="text"
-          // value={textData}
-          onChange={onChangeText}
-          onBlur={onChangeText}
-          style={{
-            textAlign: 'left',
-            width: '80%',
-            border: '2px solid black',
-            background: 'transparent',
-          }}
-        />
-        <Button variant="primary" type="button" onClick={onAddDetailDiv}>
-          추가 버튼
-        </Button>
-      </Flexcontainerg>
     </div>
   );
 }
@@ -121,18 +122,4 @@ const Flexcontainerg = styled.div`
   flex-direction: row;
   justify-content: space-between;
 `;
-const StyledButton = styled(Button)`
-  padding-left: 5%;
-  text-align: left;
-  border-radius: 30px;
-  border: 1px solid
-    ${props => ((props.num + props.count) % 2 === 1 ? '#2ba5f7' : 'white')};
-  width: 90%;
-  background-color: ${props =>
-    (props.num + props.count) % 2 === 1 ? 'white' : '#2ba5f7'};
-  margin: auto;
-  line-height: 60px;
-  height: 60px;
-  color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
-`;
-export default TrainerFeedBackTab;
+export default FeedBackTab;
