@@ -16,7 +16,7 @@ var requestRouter = require('./routes/request');
 var calenderRouter = require('./routes/calender');
 var feedbackRouter = require('./routes/feedback');
 var trainer_calenderRouter = require('./routes/trainer_calender');
-
+var payRouter = require('./routes/pay');
 
 const PORT = process.env.PORT || 4000;
 
@@ -30,7 +30,7 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: 'https://localhost:3000',
-    methods: ['GET', 'POST', 'OPTIONS','PUT'],
+    methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
     credentials: true,
   })
 );
@@ -59,6 +59,7 @@ app.use('/request', requestRouter);
 app.use('/calender', calenderRouter);
 app.use('/trainer_calender', trainer_calenderRouter);
 app.use('/feedback', feedbackRouter);
+app.use('/pay', payRouter);
 
 let server;
 // 인증서 파일들이 존재하는 경우에만 https 프로토콜을 사용하는 서버를 실행
