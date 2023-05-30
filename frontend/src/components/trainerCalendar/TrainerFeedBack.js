@@ -10,7 +10,13 @@ import { useSelector } from 'react-redux';
 import { Input } from 'antd';
 // import '../../scss/trainercalendar/uploader.scss';
 // eslint-disable-next-line react/prop-types
-function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
+function TrainerFeedBack({
+  feedbackvideo,
+  feedbacktext,
+  feedbackid,
+  date,
+  userid,
+}) {
   const [Feedbacktext, setFeedBackText] = useState('');
   const [Feedbackurl, setFeedBackURL] = useState('');
   const loginedUser = useSelector(state => state.user);
@@ -22,8 +28,8 @@ function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
   let inputRef;
   const videoInput = useRef();
   useEffect(() => {
-    // console.log('?', feedbackvideo);
-    // console.log(feedbacktext);
+    console.log('?', feedbackvideo);
+    console.log(feedbacktext);
     setFeedBackText(feedbacktext);
     setFeedBackURL(feedbackvideo);
     setImage();
@@ -46,10 +52,29 @@ function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
     const preview_URL = URL.createObjectURL(e.target.files[0]);
     const fileType = e.target.files[0].type.split('/')[0];
     setFile({
-      fileObject: e.target.files[0],
+      fileObject: '',
       preview_URL,
       type: fileType,
     });
+    /* / /////
+    const formData = new FormData();
+    formData.append('video', videoInput.current.files[0]);
+    axios({
+      url: `https://localhost:4000/trainer_calender//uploadFeedbackvideo/${date}/${loginedUser.id}/${userid}`,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      data: formData,
+      method: 'POST',
+      withCredentials: true,
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    /// / */
   };
   const deleteImage = () => {
     // createObjectURL()을 통해 생성한 기존 URL을 폐기
@@ -64,6 +89,8 @@ function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
     const formData = new FormData();
     formData.append('video', videoInput.current.files[0]);
     console.log('video', videoInput.current.files[0]);
+    // formData.append('video', file.fileObject);
+    // console.log('video', file.fileObject);
     axios({
       url: `https://localhost:4000/trainer_calender/updateFeedback/${feedbackid}`,
       data: { feedback_message: Feedbacktext },
@@ -77,12 +104,14 @@ function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
         console.log(err);
       });
     axios({
-      url: `https://localhost:4000/trainer_calender/updateFeedbackvideo/${feedbackid}`,
+      // url: `https://localhost:4000/trainer_calender/updateFeedbackvideo/${feedbackid}`,
+      url: `https://localhost:4000/trainer_calender/uploadFeedbackvideo/${date}/${loginedUser.id}/${userid}`,
       headers: {
         'Content-Type': 'multipart/form-data',
       },
       data: formData,
-      method: 'PUT',
+
+      method: 'POST',
       withCredentials: true,
     })
       .then(res => {
@@ -112,7 +141,11 @@ function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
             {file.type === 'image' ? (
               <img src={file.preview_URL} />
             ) : (
-              <video controls autoPlay src={file.preview_URL} />
+              <video
+                controls
+                autoPlay
+                src={feedbackvideo != null ? feedbackvideo : file.preview_URL}
+              />
             )}
           </div>
         </VideoTexture>

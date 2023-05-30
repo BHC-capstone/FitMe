@@ -46,7 +46,8 @@ function FeedBackTab({ userid, date }) {
   const onAddDetailDiv = () => {
     // '/comment/:userId/:trainerId'
     axios({
-      url: `https://localhost:4000/feedback/comment/${userid}/${Feedbackdate.trainer_id}/${Feedbackdate.id}`,
+      // /comment/:trainerId/:id
+      url: `https://localhost:4000/feedback/comment/${userid}/${Feedbackdate.id}`,
       data: { message: textData },
       method: 'POST',
       withCredentials: true,

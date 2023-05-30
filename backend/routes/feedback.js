@@ -64,7 +64,7 @@ router.get('/checkFeedback/:Id/:date', async (req, res) => {
   });
 
 // feedback 댓글 작성
-router.post("/comment/:userId", async (req, res) => {
+router.post("/comment/:userId/:id", async (req, res) => {
   if (req.session.loggedin) {
       try {
           const { id, userId } = req.params;
@@ -91,8 +91,8 @@ router.post("/comment/:userId", async (req, res) => {
       });
   }
 });
-
-router.post("/comment/:trainerId", async (req, res) => {
+// /commentTrainer/:trainerId
+router.post("/commentTrainer/:trainerId/:id", async (req, res) => {
   if (req.session.loggedin) {
       try {
           const { id, trainerId } = req.params;

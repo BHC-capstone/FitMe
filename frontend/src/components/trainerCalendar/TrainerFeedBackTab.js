@@ -5,8 +5,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import TrainerNoFeedBack from './TrainerNoFeedBack';
-import TrainerFeedBack from './TrainerFeedBack';
 import Comments from './Comments';
+import TrainerFeedBack from './TrainerFeedBack';
 // eslint-disable-next-line react/prop-types
 function TrainerFeedBackTab({ userid, date }) {
   const [Feedbackdate, setFeedBackdate] = useState([]);
@@ -17,7 +17,7 @@ function TrainerFeedBackTab({ userid, date }) {
   const loginedUser = useSelector(state => state.user);
 
   useEffect(() => {
-    // console.log('새로고침 실행');
+    console.log('새로고침 실행');
     setFeedBackdate(null);
     setCommentdate([]);
     axios({
@@ -34,18 +34,19 @@ function TrainerFeedBackTab({ userid, date }) {
       .catch(err => {
         console.log(err);
       });
-    setFeedbackExist(!!Feedbackdate);
+    setFeedbackExist(!!(Feedbackdate != null && Feedbackdate != false));
+    console.log(FeedbackExist);
   }, [userid, date, repage, FeedbackExist]);
 
   useEffect(() => {
     setFeedBackdate(Feedbackdate);
     setCommentdate(Commentdate);
-    setFeedbackExist(!!Feedbackdate);
+    setFeedbackExist(!!(Feedbackdate != null && Feedbackdate != false));
   }, [Feedbackdate, Commentdate, repage, FeedbackExist]);
   const onAddDetailDiv = () => {
     // '/comment/:userId/:trainerId'
     axios({
-      url: `https://localhost:4000/feedback/comment/${userid}/${loginedUser.id}/${Feedbackdate.id}`,
+      url: `https://localhost:4000/feedback/commentTrainer/${loginedUser.id}/${Feedbackdate.id}`,
       data: { message: textData },
       method: 'POST',
       withCredentials: true,
@@ -83,13 +84,15 @@ function TrainerFeedBackTab({ userid, date }) {
                 Feedbackdate == null ? '' : Feedbackdate.feedback_message
               }
               feedbackid={Feedbackdate == null ? 'x' : Feedbackdate.id}
+              date={date}
+              userid={userid}
             />
             {Commentdate.map((el, index) => (
               // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
               <Comments
                 // eslint-disable-next-line react/no-array-index-key
                 text1={el.message}
-                check={el.user != null}
+                check={el.user_id}
               />
             ))}
             <Flexcontainerg>
