@@ -661,13 +661,16 @@ router.put(
                 });
                 return;
             }
+            
             if (req.file) {
                 const s3Key = Feedback.s3_key;
+                if (s3Key != null) {
                 const deleteParams = {
                     Bucket: "fitme-s3",
                     Key: s3Key,
                 };
                 await s3.deleteObject(deleteParams).promise();
+            }
                 const uploadParams = {
                     acl: "public-read",
                     ContentType: req.file.mimetype,
