@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Button } from 'react-bootstrap';
+import { Container, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import TrainerNoFeedBack from './TrainerNoFeedBack';
@@ -86,31 +86,43 @@ function TrainerFeedBackTab({ userid, date }) {
               date={date}
               userid={userid}
             />
-            {Commentdate.map((el, index) => (
-              // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
-              <Comments
-                // eslint-disable-next-line react/no-array-index-key
-                text1={el.message}
-                check={el.user_id}
-              />
-            ))}
-            <Flexcontainerg>
-              <input
-                type="text"
-                // value={textData}
-                onChange={onChangeText}
-                onBlur={onChangeText}
-                style={{
-                  textAlign: 'left',
-                  width: '80%',
-                  border: '2px solid black',
-                  background: 'transparent',
-                }}
-              />
-              <Button variant="primary" type="button" onClick={onAddDetailDiv}>
-                추가 버튼
-              </Button>
-            </Flexcontainerg>
+            <details className="mgtp">
+              <summary className="mgbt">피드백 추가</summary>
+              <Container fluid className="content">
+                {Commentdate.map((el, index) => (
+                  // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+                  <Comments
+                    // eslint-disable-next-line react/no-array-index-key
+                    text1={el.message}
+                    check={el.user_id}
+                  />
+                ))}
+                <Flexcontainerg>
+                  <input
+                    className="mgtp"
+                    type="text"
+                    // value={textData}
+                    onChange={onChangeText}
+                    onBlur={onChangeText}
+                    style={{
+                      textAlign: 'left',
+                      width: '80%',
+                      borderRadius: '5px',
+                      border: '1px solid gray',
+                      background: 'transparent',
+                    }}
+                  />
+                  <Button
+                    variant="primary"
+                    type="button"
+                    className="mgtp"
+                    onClick={onAddDetailDiv}
+                  >
+                    추가 버튼
+                  </Button>
+                </Flexcontainerg>
+              </Container>
+            </details>
           </div>
         )}
       </Flexcontainers>
@@ -123,7 +135,6 @@ const Flexcontainers = styled.div`
   justify-content: space-between;
 `;
 const Flexcontainerg = styled.div`
-  display: flex;
   flex-direction: row;
   justify-content: space-between;
 `;

@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { Container } from 'react-bootstrap';
 import DietTab from '../../components/DietTab';
 import ExerciseTab from '../../components/ExerciseTab';
-import FeedbackTab from '../../components/FeedbackTab';
+import FeedbackTab from '../../components/userCalendar/FeedbackTab';
 
 function CalendarPart() {
   const loginedUser = useSelector(state => state.user);

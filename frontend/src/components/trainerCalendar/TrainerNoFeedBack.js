@@ -29,7 +29,6 @@ function TrainerNoFeedBack({ userid, date, getdata }) {
   );
 }
 const Flexcontainers = styled.div`
-  display: flex;
   flex-direction: column;
   justify-content: space-between;
 `;

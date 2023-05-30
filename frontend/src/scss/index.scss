@@ -99,6 +99,12 @@ th.style {
   justify-content: space-between;
 }
 
+.feedback {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .file-upload {
   border-style: dashed;
   border-radius: 10px;
@@ -175,7 +181,7 @@ th.style {
 }
 
 .mgauto {
-  margin: auto;
+  margin: 0 auto;
 }
 
 .mgtp {
@@ -198,10 +204,21 @@ th.style {
   margin-left: 10%;
 }
 
+.mglf-15 {
+  margin-left: 18%;
+}
+
+.mglf-0 {
+  margin-left: -5%;
+}
+
 .mgrg {
   margin-right: 5%;
 }
 
+.jcct {
+  justify-content: center;
+}
 // .panel button + button {
 //   margin-left: 10%;
 // }

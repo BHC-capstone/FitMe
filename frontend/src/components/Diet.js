@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, Row, Col } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom'; //* ***
-import axios from 'axios';
 import { CloseOutlined } from '@ant-design/icons';
 // eslint-disable-next-line react/prop-types
 function Diet({
@@ -183,7 +182,6 @@ const StyledButton = styled(Button)`
   background-color: ${props =>
     (props.num + props.count) % 2 === 1 ? 'white' : '#2ba5f7'};
   margin: auto;
-  line-height: 60px;
   height: 60px;
   z-index: 1;
   color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};

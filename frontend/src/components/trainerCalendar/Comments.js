@@ -23,9 +23,10 @@ const TextareaUser = styled.div`
 const Textarea = styled.div`
   display: inline-block;
   position: relative;
-  background-color: ${props => (props.check != false ? '#ea5936' : 'skyblue')};
+  background-color: white;
+  color: #878fa6;
+  border: 1px solid ${props => (props.check != false ? '#f5a302' : '#2ba5f7')};
   border-radius: 20px;
-  color: #fff;
   padding: 7px 12px;
   margin-bottom: 10px;
   max-width: 230px;
