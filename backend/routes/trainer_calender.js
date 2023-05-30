@@ -10,13 +10,13 @@ const {
     trainer_manage,
     meal_plan,
     feedbacks,
-    trainer_manage,
 } = require("../models");
 const initModels = require("../models/init-models");
 const models = initModels(sequelize);
 const dotenv = require("dotenv");
 const multer = require("multer");
 const AWS = require("aws-sdk");
+const e = require("express");
 
 //AWS s3 관련
 const imageUpload = require("../modules/s3upload").upload;
@@ -54,31 +54,38 @@ router.get("/mealplan/:userId/:date", async (req, res) => {
 });
 
 // check user exercise routine
+// check user exercise routine
 router.get("/exerciseroutine/:userId/:date", async (req, res) => {
-    if (req.session.loggedin) {
-        try {
-            const { userId, date } = req.params;
-            const schedule_date = await schedules.findOne({
-                where: { user_id: userId, date: date },
-            });
-            const exerciseRoutine = await exercise_routines.findAll({
-                where: { schedule_id: schedule_date.id },
-            });
-            console.log(exerciseRoutine);
-            if (exerciseRoutine) {
-                res.status(200).json({ data: exerciseRoutine, message: "" });
-            } else {
-                res.status(400).json({
-                    data: null,
-                    message: "해당 날짜의 운동루틴이 존재하지 않습니다.",
-                });
-            }
-        } catch (err) {
-            console.log(err);
-        }
-    } else {
-        res.status(401).json({ data: null, message: "로그인이 필요합니다." });
-    }
+  if (req.session.loggedin) {
+      try {
+          const { userId, date } = req.params;
+          const schedule_date = await schedules.findOne({
+              where: { user_id: userId, date: date },
+          });
+          if (schedule_date && schedule_date.id != null) {
+              const exerciseRoutine = await exercise_routines.findAll({
+                  where: { schedule_id: schedule_date.id },
+              });
+              if (exerciseRoutine) {
+                  res.status(200).json({ data: exerciseRoutine, message: "" });
+              } else {
+                  res.status(400).json({
+                      data: null,
+                      message: "해당 날짜의 운동루틴이 존재하지 않습니다.",
+                  });
+              }
+          } else {
+              res.status(400).json({
+                  data: null,
+                  message: "해당 날짜의 운동루틴이 존재하지 않습니다.",
+              });
+          }
+      } catch (err) {
+          console.log(err);
+      }
+  } else {
+      res.status(401).json({ data: null, message: "로그인이 필요합니다." });
+  }
 });
 
 // meal_plan 작성
@@ -120,7 +127,6 @@ router.post("/createMealplan/:date/:userId/:id", async (req, res) => {
 router.post(
     "/createExercise/:date/:id/:userId",
     async (req, res) => {
-        console.log(req);
         if (req.session.loggedin) {
             try {
                 const { userId, id, date } = req.params;
@@ -162,7 +168,7 @@ router.post(
 
 
 // exercise routine 수정완료
-router.put("/updateExercise/:exerciseId", 
+router.post("/updateExercise/:exerciseId", 
     async (req, res) => {
     if (req.session.loggedin) {
         try {
@@ -203,8 +209,9 @@ router.put("/updateExercise/:exerciseId",
 });
 
 
+
 //exercise routine 삭제
-router.delete("/deleteExercise/:exerciseId", 
+router.post("/deleteExercise/:exerciseId", 
     async (req, res) => {
     if (req.session.loggedin) {
         try {
@@ -247,7 +254,7 @@ router.delete("/deleteExercise/:exerciseId",
 });
 
 // upload exerciseroutine guide video
-router.put(
+router.post(
     "/uplodadGuideVideo/:id/:exerciseId",
     videoupload.single("video"),
     async (req, res) => {
@@ -302,7 +309,7 @@ router.put(
 );
 
 // gudie video delete
-router.delete("/deleteGuidevideo/:exerciseId", 
+router.post("/deleteGuidevideo/:exerciseId", 
     async (req, res) => {
     if (req.session.loggedin) {
         try {
@@ -323,6 +330,13 @@ router.delete("/deleteGuidevideo/:exerciseId",
                 Key: s3Key,
             };
             await s3.deleteObject(deleteParams).promise();
+            await exercise_routines.update(
+                {
+                    guide_video_url: null,
+                    guide_s3_key: null,
+                },
+                { where: { id: exerciseId } }
+            );
             res.status(200).json({
                 data: null,
                 message: "운동루틴이 삭제되었습니다.",
@@ -338,6 +352,7 @@ router.delete("/deleteGuidevideo/:exerciseId",
         });
     }
 });
+
 
 // guide video update
 router.put("/updateGuidevideo/:exerciseId", 
@@ -432,7 +447,7 @@ router.post(
                 );
                 await schedules.update(
                     {
-                        feedback_id: Feedback.id,
+                        feedbacks_id: Feedback.id,
                     },
                     { where: { id: schedule.id } }
                 );

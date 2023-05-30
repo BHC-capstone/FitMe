@@ -28,16 +28,73 @@ function DietTab({ userid, date }) {
         console.log(res.data.data);
       });
   }, [userid, date]);
+  function onImageChange(event, num) {
+    event.preventDefault();
+    let myUrl = null;
+    if (num === 0)
+      myUrl = `https://localhost:4000/calender/mealpicture/${userid}/${date}/breakfast`;
+    else if (num === 1)
+      myUrl = `https://localhost:4000/calender/mealpicture/${userid}/${date}/lunch`;
+    else
+      myUrl = `https://localhost:4000/calender/mealpicture/${userid}/${date}/dinner`;
 
-  const onCickImageUpload1 = () => {
-    imageInput1.current.click();
-  };
-  const onCickImageUpload2 = () => {
-    imageInput2.current.click();
-  };
-  const onCickImageUpload3 = () => {
-    imageInput3.current.click();
-  };
+    const formData = new FormData();
+    formData.append('img', event.target.files[0]);
+    axios({
+      url: myUrl,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      data: formData,
+      method: 'POST',
+      withCredentials: true,
+    })
+      .then(response => {
+        console.log(response);
+        axios
+          .get(`https://localhost:4000/calender/mealplan/${userid}/${date}`, {
+            withCredentials: true,
+          })
+          .then(res => {
+            setDietdate(res.data.data);
+          });
+      })
+      .catch(err => {
+        console.log('fail');
+      });
+    // console.log(event.target.files);
+  }
+
+  function onImageRemove(num) {
+    let myUrl = null;
+    if (num === 0)
+      myUrl = `https://localhost:4000/calender/mealPicturedelete/${userid}/${date}/breakfast`;
+    else if (num === 1)
+      myUrl = `https://localhost:4000/calender/mealPicturedelete/${userid}/${date}/lunch`;
+    else
+      myUrl = `https://localhost:4000/calender/mealPicturedelete/${userid}/${date}/dinner`;
+
+    axios({
+      url: myUrl,
+      method: 'DELETE',
+      withCredentials: true,
+    })
+      .then(response => {
+        console.log(response);
+        axios
+          .get(`https://localhost:4000/calender/mealplan/${userid}/${date}`, {
+            withCredentials: true,
+          })
+          .then(res => {
+            setDietdate(res.data.data);
+          });
+      })
+      .catch(err => {
+        console.log('fail');
+      });
+    // console.log(event.target.files);
+  }
+
   // 각각 입력받는 api가 3개가 되어야함
   function onBreakfastChange(event) {
     setImageBreakfast(event.target.files[0]);
@@ -114,6 +171,11 @@ function DietTab({ userid, date }) {
         breakfast={dietdate.breakfast}
         lunch={dietdate.lunch}
         dinner={dietdate.dinner}
+        breakfastImg={dietdate.breakfast_image_url}
+        lunchImg={dietdate.lunch_image_url}
+        dinnerImg={dietdate.dinner_image_url}
+        onImageChange={onImageChange}
+        onImageRemove={onImageRemove}
       />
     </Flexcontainers>
   );

@@ -4,6 +4,7 @@ import { Button, Form, Row, Col, FloatingLabel } from 'react-bootstrap';
 import { Link } from 'react-router-dom'; //* ***
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 // eslint-disable-next-line react/prop-types
 function Routine({ userid, date }) {
   const [dietImg, setDietImg] = useState([]);
@@ -12,21 +13,15 @@ function Routine({ userid, date }) {
   const [breakfast, setBreakfast] = useState([]);
   const [lunch, setLunch] = useState([]);
   const [dinner, setDinner] = useState([]);
+  const [breakfastOpen, setBreakfastOpen] = useState(false);
+  const [lunchOpen, setLunchOpen] = useState(false);
+  const [dinnerOpen, setDinnerOpen] = useState(false);
   const imageInput = useRef();
   const onCickImageUpload2 = () => {
     imageInput.current.click();
   };
   useEffect(() => {
-    // axios
-    //   .get(`https://localhost:4000/calender/mealplan/${userid}/${date}`, {
-    //     withCredentials: true,
-    //   })
-    //   .then(res => {
-    //     setDietdate(res.data.data);
-    //     setBreakfast(dietdate.breakfast);
-    //     setDinner(dietdate.dinner);
-    //     setLunch(dietdate.lunch);
-    //   });
+    setDietdate([]);
     axios({
       url: `https://localhost:4000/calender/mealplan/${userid}/${date}`,
       method: 'GET',
@@ -36,6 +31,7 @@ function Routine({ userid, date }) {
         setDietdate(res.data.data);
       })
       .catch(err => {
+        setDietdate({ breakfast: '', lunch: '', dinner: '' });
         console.log(err);
       });
   }, [userid, date]);
@@ -103,8 +99,39 @@ function Routine({ userid, date }) {
                   onChange={onChangebreakfast}
                 />
               </FloatingLabel>
-              <img src={dietdate.breakfast_image_url} alt="아침" width="300" />
             </Form.Group>
+          </Col>
+        </Row>
+        <Row className="justify-content-md-center">
+          <Col xs="10">
+            <StyledButton
+              num={0}
+              count={0}
+              onClick={() => setBreakfastOpen(e => !e)}
+            >
+              회원 식단 사진 확인
+              <div style={{ float: 'right', marginRight: '5%' }}>
+                {breakfastOpen ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
+              </div>
+            </StyledButton>
+            {breakfastOpen ? (
+              <StyledImgContainer num={2} count={2}>
+                {dietdate.breakfast_image_url == null ? (
+                  <div style={{ color: 'black' }}>
+                    아직 이미지가 업로드되지 않았습니다.
+                  </div>
+                ) : (
+                  <img
+                    src={dietdate.breakfast_image_url}
+                    alt="아침"
+                    width="200"
+                    height="200"
+                  />
+                )}
+              </StyledImgContainer>
+            ) : (
+              <div />
+            )}
           </Col>
         </Row>
         <Div />
@@ -127,8 +154,39 @@ function Routine({ userid, date }) {
                   onChange={onChangelunch}
                 />
               </FloatingLabel>
-              <img src={dietdate.lunch_image_url} alt="점심" width="300" />
             </Form.Group>
+          </Col>
+        </Row>
+        <Row className="justify-content-md-center">
+          <Col xs="10">
+            <StyledButton
+              num={1}
+              count={1}
+              onClick={() => setLunchOpen(e => !e)}
+            >
+              회원 식단 사진 확인
+              <div style={{ float: 'right', marginRight: '5%' }}>
+                {lunchOpen ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
+              </div>
+            </StyledButton>
+            {lunchOpen ? (
+              <StyledImgContainer num={2} count={2}>
+                {dietdate.lunch_image_url == null ? (
+                  <div style={{ color: 'black' }}>
+                    아직 이미지가 업로드되지 않았습니다.
+                  </div>
+                ) : (
+                  <img
+                    src={dietdate.lunch_image_url}
+                    alt="점심"
+                    width="200"
+                    height="200"
+                  />
+                )}
+              </StyledImgContainer>
+            ) : (
+              <div />
+            )}
           </Col>
         </Row>
         <Div />
@@ -151,8 +209,39 @@ function Routine({ userid, date }) {
                   onChange={onChangedinner}
                 />
               </FloatingLabel>
-              <img src={dietdate.dinner_image_url} alt="저녁" width="300" />
             </Form.Group>
+          </Col>
+        </Row>
+        <Row className="justify-content-md-center">
+          <Col xs="10">
+            <StyledButton
+              num={2}
+              count={2}
+              onClick={() => setDinnerOpen(e => !e)}
+            >
+              회원 식단 사진 확인
+              <div style={{ float: 'right', marginRight: '5%' }}>
+                {dinnerOpen ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
+              </div>
+            </StyledButton>
+            {dinnerOpen ? (
+              <StyledImgContainer num={2} count={2}>
+                {dietdate.dinner_image_url == null ? (
+                  <div style={{ color: 'black' }}>
+                    아직 이미지가 업로드되지 않았습니다.
+                  </div>
+                ) : (
+                  <img
+                    src={dietdate.dinner_image_url}
+                    alt="저녁"
+                    width="200"
+                    height="200"
+                  />
+                )}
+              </StyledImgContainer>
+            ) : (
+              <div />
+            )}
           </Col>
         </Row>
         <Div />
@@ -197,36 +286,37 @@ const Text2 = styled.text`
   margin-bottom: 5px;
   color: ${props => (props.num % 2 === 1 ? '#2ba5f7' : 'white')};
 `;
-// const Form1 = styled(Form)`
-//   padding-left: 5%;
-//   text-align: left;
-//   border-radius: 30px;
-//   border: thin solid
-//     ${props => ((props.num + props.count) % 2 === 1 ? '#2ba5f7' : 'white')};
-//   width: 90%;
-//   background-color: ${props =>
-//     (props.num + props.count) % 2 === 1 ? '#fff' : '#2ba5f7'};
-//   margin: auto;
-//   margin-bottom: 5px;
-//   line-height: 60px;
-//   height: 60px;
-//   color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
-// `;
-// const StyledButton = styled(Button)`
-//   padding-left: 5%;
-//   text-align: left;
-//   border-radius: 30px;
-//   border: 1px solid
-//     ${props => ((props.num + props.count) % 2 === 1 ? '#2ba5f7' : 'white')};
-//   width: 90%;
-//   background-color: ${props =>
-//     (props.num + props.count) % 2 === 1 ? 'white' : '#2ba5f7'};
-//   margin: auto;
-//   line-height: 60px;
-//   height: 60px;
-//   color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
-// `;
-
+const StyledButton = styled(Button)`
+  padding-left: 5%;
+  text-align: left;
+  border-radius: 30px;
+  border: 1px solid
+    ${props => ((props.num + props.count) % 2 === 1 ? '#2ba5f7' : 'white')};
+  width: 90%;
+  background-color: ${props =>
+    (props.num + props.count) % 2 === 1 ? 'white' : '#2ba5f7'};
+  margin: auto;
+  margin-bottom: 5px;
+  height: 60px;
+  color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
+`;
+const StyledImgContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-left: 5%;
+  padding-top: 40px;
+  border-radius: 0 0px 30px 30px;
+  border: 1px solid #2ba5f7;
+  width: 90%;
+  background-color: ${props =>
+    (props.num + props.count) % 2 === 1 ? '#2ba5f7' : 'white'};
+  margin: auto;
+  margin-top: -35px;
+  margin-bottom: 5px;
+  line-height: 60px;
+  height: 250px;
+  color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
+`;
 const Div = styled(Link)`
   width: 100%;
   margin-bottom: 20px;
