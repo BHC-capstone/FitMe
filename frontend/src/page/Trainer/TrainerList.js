@@ -103,7 +103,7 @@ export default function TrainerList(props) {
                     <p>Age: {trainer.age}</p>
                     <p>Gender: {trainer.gender}</p>
                     <p>Introduction: {trainer.introduction}</p>
-                    <Rate allowHalf defaultValue={trainer.rating} disabled />
+                    {/* <Rate allowHalf defaultValue={trainer.rating} disabled /> */}
                   </>
                 }
               />
