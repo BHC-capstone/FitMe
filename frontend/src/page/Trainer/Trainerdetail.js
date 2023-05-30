@@ -3,10 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
+import { Avatar } from 'antd';
 import axios from 'axios';
 import styled from 'styled-components';
 import Starpoint from '../../components/Starpoint';
-import TrainerProfile from '../../components/myPage/TrainerProfile';
+import TrainerProfileDisplay from './TrainerProfileDisplay';
 
 function Trainerdetail() {
   const { id } = useParams();
@@ -15,7 +16,7 @@ function Trainerdetail() {
   const [star, setStar] = useState(1);
   const menuArr = [
     { name: '자기 소개', content: `${trainer.introduction}` },
-    { name: '프로필', content: <TrainerProfile /> },
+    { name: '프로필', content: <TrainerProfileDisplay /> },
     { name: '리뷰', content: '리뷰 기능 Loading...' },
   ];
   const navigate = useNavigate();
@@ -32,7 +33,6 @@ function Trainerdetail() {
         if (res.status === 401) {
           navigate('/login');
         }
-        console.log(res.data.data);
         setTrainer(res.data.data);
       });
     setStar(3.5);
@@ -47,7 +47,13 @@ function Trainerdetail() {
     <Container fluid className="panel">
       <Head1>트레이너 소개</Head1>
       <Upbox>
-        <Imageposition>이미지</Imageposition>
+        <Imageposition>
+          <Avatar
+            src={trainer.trainer_image_url}
+            size={230}
+            style={{ zIndex: 2 }}
+          />
+        </Imageposition>
         <Box1>
           <Nameblock className="a">{trainer.name}</Nameblock>
           {/* <Nameblock>별점</Nameblock> */}

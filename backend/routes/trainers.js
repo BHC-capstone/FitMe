@@ -213,6 +213,7 @@ router.get('/profile/:id', async function (req, res) {
           'introduction',
           'career',
           'review_avg',
+          'trainer_image_url',
         ],
       });
       res.status(200).json({ data: trainerInfo, message: '' });
