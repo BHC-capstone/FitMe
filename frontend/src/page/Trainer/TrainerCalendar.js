@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { Container } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import TrainerDietTab from '../../components/trainerCalendar/TrainerDietTab';
-import FeedbackTab from '../../components/FeedbackTab';
 import TrainerExerciseTab from '../../components/trainerCalendar/TrainerExerTab';
 import TrainerFeedBackTab from '../../components/trainerCalendar/TrainerFeedBackTab';
 
