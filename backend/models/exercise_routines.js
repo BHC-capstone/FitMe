@@ -47,7 +47,11 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    s3_key: {
+    user_s3_key: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    guide_s3_key: {
       type: DataTypes.STRING(255),
       allowNull: true
     }

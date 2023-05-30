@@ -3,10 +3,25 @@ import styled from 'styled-components';
 import { Button, Row, Col } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom'; //* ***
 import axios from 'axios';
+import { CloseOutlined } from '@ant-design/icons';
 // eslint-disable-next-line react/prop-types
-function Routine({ userid, date, breakfast, lunch, dinner }) {
+function Diet({
+  userid,
+  date,
+  breakfast,
+  lunch,
+  dinner,
+  breakfastImg,
+  lunchImg,
+  dinnerImg,
+  onImageChange,
+  onImageRemove,
+}) {
   const [num, setNum] = useState(0);
   const [dietImg, setDietImg] = useState([]);
+  const breakfastNum = 0;
+  const lunchNum = 1;
+  const dinnerNum = 2;
   const imageInput = useRef();
   const onCickImageUploadBreakfast = () => {
     setNum(0);
@@ -23,36 +38,6 @@ function Routine({ userid, date, breakfast, lunch, dinner }) {
     imageInput.current.click();
   };
 
-  function onImageChange(event) {
-    event.preventDefault();
-    let myUrl = null;
-    if (num === 0)
-      myUrl = `https://localhost:4000/calender/mealpicture/${userid}/${date}/breakfast`;
-    else if (num === 1)
-      myUrl = `https://localhost:4000/calender/mealpicture/${userid}/${date}/lunch`;
-    else
-      myUrl = `https://localhost:4000/calender/mealpicture/${userid}/${date}/dinner`;
-
-    setDietImg(event.target.files[0]);
-    const formData = new FormData();
-    formData.append('img', event.target.files[0]);
-    axios({
-      url: myUrl,
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-      data: formData,
-      method: 'POST',
-      withCredentials: true,
-    })
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log('fail');
-      });
-    // console.log(event.target.files);
-  }
   return (
     <div>
       <Flexcontainer num={0}>
@@ -67,17 +52,25 @@ function Routine({ userid, date, breakfast, lunch, dinner }) {
           style={{ display: 'none' }}
           ref={imageInput}
           accept="image"
-          onChange={event => onImageChange(event)}
+          onChange={event => onImageChange(event, breakfastNum)}
         />
         <StyledButton num={0} count={2} onClick={onCickImageUploadBreakfast}>
-          사진 업로드
+          아침 사진 업로드
         </StyledButton>
+        {breakfastImg ? (
+          <StyledImgContainer num={2} count={2}>
+            <img src={breakfastImg} alt="아침" width="200px" height="200px" />
+            <div style={{ float: 'right', marginLeft: '10%', color: 'gray' }}>
+              <CloseOutlined onClick={() => onImageRemove(breakfastNum)} />
+            </div>
+          </StyledImgContainer>
+        ) : null}
         <Div />
       </Flexcontainer>
       <Flexcontainer num={1}>
         <Text0 num={1}>오늘의 식단</Text0>
         <Text1 num={1}>점심 식단</Text1>
-        <Text2 num={1}>몇 시에 드셨는지도 적어주세요!</Text2>
+        <Text2 num={1}>드시기 전에 식단 촬영!</Text2>
         <TextBox num={1} count={1}>
           <span className="b">점심</span> : {lunch}
         </TextBox>
@@ -86,11 +79,19 @@ function Routine({ userid, date, breakfast, lunch, dinner }) {
           style={{ display: 'none' }}
           ref={imageInput}
           accept="image"
-          onChange={event => onImageChange(event)}
+          onChange={event => onImageChange(event, lunchNum)}
         />
         <StyledButton num={1} count={2} onClick={onCickImageUploadLunch}>
           점심 사진 업로드
         </StyledButton>
+        {lunchImg ? (
+          <StyledImgContainer num={2} count={2}>
+            <img src={lunchImg} alt="점심" width="200px" height="200px" />
+            <div style={{ float: 'right', marginLeft: '10%', color: 'gray' }}>
+              <CloseOutlined onClick={() => onImageRemove(lunchNum)} />
+            </div>
+          </StyledImgContainer>
+        ) : null}
         <Div />
       </Flexcontainer>
       <Flexcontainer num={2}>
@@ -105,11 +106,19 @@ function Routine({ userid, date, breakfast, lunch, dinner }) {
           style={{ display: 'none' }}
           ref={imageInput}
           accept="image"
-          onChange={event => onImageChange(event)}
+          onChange={event => onImageChange(event, dinnerNum)}
         />
         <StyledButton num={2} count={2} onClick={onCickImageUploadDinner}>
           저녁 사진 업로드
         </StyledButton>
+        {dinnerImg ? (
+          <StyledImgContainer num={2} count={2}>
+            <img src={dinnerImg} alt="저녁" width="200px" height="200px" />
+            <div style={{ float: 'right', marginLeft: '10%', color: 'gray' }}>
+              <CloseOutlined onClick={() => onImageRemove(dinnerNum)} />
+            </div>
+          </StyledImgContainer>
+        ) : null}
         <Div />
       </Flexcontainer>
     </div>
@@ -176,6 +185,24 @@ const StyledButton = styled(Button)`
   margin: auto;
   line-height: 60px;
   height: 60px;
+  z-index: 1;
+  color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
+`;
+const StyledImgContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-left: 5%;
+  padding-top: 40px;
+  border-radius: 0 0px 30px 30px;
+  border: 1px solid #2ba5f7;
+  width: 90%;
+  background-color: ${props =>
+    (props.num + props.count) % 2 === 1 ? '#2ba5f7' : 'white'};
+  margin: auto;
+  margin-top: -35px;
+  margin-bottom: 5px;
+  line-height: 60px;
+  height: 250px;
   color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
 `;
 
@@ -184,4 +211,4 @@ const Div = styled(Link)`
   margin-bottom: 20px;
 `;
 
-export default Routine;
+export default Diet;

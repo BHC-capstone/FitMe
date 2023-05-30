@@ -1,5 +1,5 @@
-import { Card, Tag, Form, Input, Select } from 'antd';
-import { Container, Button, ButtonGroup, Row, Col } from 'react-bootstrap';
+import { Card, Form, Input, Select } from 'antd';
+import { Container, Button, Row, Col } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
@@ -22,14 +22,18 @@ function CustomerDetail() {
   const [form] = Form.useForm();
   const [color, setColor] = useState('');
   const navigate = useNavigate();
+
   useEffect(() => {
     axios
       .get(
         `https://localhost:4000/manage/checkptuserdetail/${id}/${loginedUser.id}`,
+        {
+          withCredentials: true,
+        },
       )
       .then(response => {
         setCustomer({
-          name: response.data.data.user_id,
+          name: response.data.data.name,
           remainingPt: response.data.data.remain_pt_count,
           totalPt: response.data.data.total_pt_count,
           memo: response.data.data.manage_memo,
@@ -64,7 +68,7 @@ function CustomerDetail() {
         setColor('red');
         break;
       case '기타':
-        setColor('brown');
+        setColor('blue');
         break;
       default:
     }
@@ -112,6 +116,9 @@ function CustomerDetail() {
                       태그 추가
                     </div>
                   </p>
+                  <p>
+                    <TagList userId={id} closeable tagcount={tags} />
+                  </p>
                   <Row>
                     <Col xs="8">
                       <Form.Item name="tag name" rules={[{ required: true }]}>
@@ -139,9 +146,7 @@ function CustomerDetail() {
                   </Form.Item>
                 </Form>
               </p>
-              <p>
-                <TagList userId={id} closeable tagcount={tags} />
-              </p>
+              <hr />
               <p style={{ fontWeight: 'bold', marginBottom: 0 }}>
                 <div
                   style={{
@@ -164,6 +169,7 @@ function CustomerDetail() {
                   저장
                 </Button>
               </p>
+              <hr />
               <p />
               <Button
                 variant="secondary"

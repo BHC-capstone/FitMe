@@ -5,10 +5,9 @@ import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
 import { ko } from 'date-fns/esm/locale';
 import { useParams } from 'react-router-dom';
-import { Container, Form, Button } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import Expectedpoint from '../../components/Expectedpoint';
 import './Ptrequest.css';
-import UserCaution from '../../components/ptrequest/UserInputForm';
 
 export default function Ptrequest() {
   const { trainerid } = useParams();
@@ -17,63 +16,49 @@ export default function Ptrequest() {
   useEffect(() => {
     console.log(trainerid, '수고하세요');
   }, []);
-  return (
-    <Layout>
-      <Container fluid className="panel">
-        <Head1>PT 신청</Head1>
-        <Boxr>
-          <Boxc>
-            <Head2>PT 시작일</Head2>
-            <StyledDatePicker
-              locale={ko}
-              selected={startDate}
-              dateFormat="yyyy/MM/dd"
-              onChange={date => setStartDate(date)}
-              selectsStart
-              startDate={startDate}
-              endDate={endDate}
-              minDate={new Date()}
-              showDisabledMonthNavigation
-            />
-          </Boxc>
-          <Boxc>
-            <Head2>PT 종료일</Head2>
-            <StyledDatePicker
-              locale={ko}
-              selected={endDate}
-              dateFormat="yyyy/MM/dd"
-              onChange={date => setEndDate(date)}
-              selectsEnd
-              startDate={startDate}
-              endDate={endDate}
-              minDate={new Date()}
-              showDisabledMonthNavigation
-            />
-          </Boxc>
-        </Boxr>
 
-        <Expectedpoint
-          startDate={startDate}
-          endDate={endDate}
-          trainerid={trainerid}
-        />
-      </Container>
-    </Layout>
+  return (
+    <Container fluid className="panel">
+      <div className="head">PT 신청</div>
+      <Boxr>
+        <Boxc>
+          <Head2>PT 시작일</Head2>
+          <StyledDatePicker
+            locale={ko}
+            selected={startDate}
+            dateFormat="yyyy/MM/dd"
+            onChange={date => setStartDate(date)}
+            selectsStart
+            startDate={startDate}
+            endDate={endDate}
+            minDate={new Date()}
+            showDisabledMonthNavigation
+          />
+        </Boxc>
+        <Boxc>
+          <Head2>PT 종료일</Head2>
+          <StyledDatePicker
+            locale={ko}
+            selected={endDate}
+            dateFormat="yyyy/MM/dd"
+            onChange={date => setEndDate(date)}
+            selectsEnd
+            startDate={startDate}
+            endDate={endDate}
+            minDate={new Date()}
+            showDisabledMonthNavigation
+          />
+        </Boxc>
+      </Boxr>
+
+      <Expectedpoint
+        startDate={startDate}
+        endDate={endDate}
+        trainerid={trainerid}
+      />
+    </Container>
   );
 }
-// <div>{Math.floor(Math.ceil((endDate.getTime()-startDate.getTime())/(1000*60*60*24))*(2/7))}</div>
-
-const Head1 = styled.div`
-  color: rgb(21, 20, 20);
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 30px;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  width: fit-content;
-  margin: 0 auto;
-  padding: 10px;
-`;
 const Boxr = styled.div`
   display: flex;
   justify-content: space-around;
@@ -112,12 +97,4 @@ const StyledDatePicker = styled(DatePicker)`
   color: black;
   border-radius: 10px;
   text-align: center;
-`;
-
-const Layout = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 800px;
-  margin: 0 auto;
 `;

@@ -3,9 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Stack, Row, Col, Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import '../../scss/cardLayout.scss';
 import { useSelector } from 'react-redux';
-import styled from 'styled-components';
 import TagList from '../../components/TagList';
 
 function CustomerList() {
@@ -34,9 +32,9 @@ function CustomerList() {
     return p.user_id;
   });
   return (
-    <Container className="panel">
-      <Head1>관리중인 회원 목록</Head1>
-      <Div>
+    <Container fluid className="panel">
+      <div className="head">관리 중인 회원 목록</div>
+      <div className="mglf-8">
         <Stack gap={2}>
           <Row className="justify-content-md-center">
             <Col xs="9">
@@ -126,31 +124,9 @@ function CustomerList() {
             </Card>
           </div>
         ))}
-      </Div>
+      </div>
     </Container>
   );
 }
 
-// const Layout = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   max-width: 800px;
-//   margin: 0 auto;
-// `;
-const Head1 = styled.div`
-  color: rgb(21, 20, 20);
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 30px;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  width: fit-content;
-  margin: 0 auto;
-  padding: 10px;
-`;
-
-const Div = styled.div`
-  margin-left: 8%;
-`;
 export default CustomerList;

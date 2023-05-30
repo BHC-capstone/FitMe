@@ -72,7 +72,7 @@ function RequestDetail({ request, fetch }) {
     try {
       await axios
         .post(
-          `https://localhost:4000/request/cancel/${userId}/${requestId}`,
+          `https://localhost:4000/request/delete/${userId}/${requestId}`,
           {
             response: '취소',
           },

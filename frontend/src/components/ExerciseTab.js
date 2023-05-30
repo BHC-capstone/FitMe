@@ -25,13 +25,64 @@ function ExerciseTab({ userid, date }) {
       )
       .then(res => {
         setExerdate(res.data.data);
-        console.log(res.data.data);
       });
   }, [userid, date]);
   // 운동 루틴이 배열로 제공 된다고 가정하면 map 함수를 상위에 추가하여 밑의 컴포넌트들을 본문으로 사용할 예정
+  function onVideoSubmit(videoInput, routineid) {
+    const formData = new FormData();
+    formData.append('video', videoInput.current.files[0]);
+    axios({
+      url: `https://localhost:4000/calender/exercisevideo/${userid}/${routineid}`,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      data: formData,
+      method: 'POST',
+      withCredentials: true,
+    })
+      .then(response => {
+        console.log(response);
+        axios
+          .get(
+            `https://localhost:4000/calender/exerciseroutine/${userid}/${date}`,
+            {
+              withCredentials: true,
+            },
+          )
+          .then(res => {
+            setExerdate(res.data.data);
+          });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  function onVideoRemove(routineid) {
+    axios({
+      url: `https://localhost:4000/calender/exerciseVideodelete/${routineid}`,
+      method: 'DELETE',
+      withCredentials: true,
+    })
+      .then(response => {
+        console.log(response);
+        axios
+          .get(
+            `https://localhost:4000/calender/exerciseroutine/${userid}/${date}`,
+            {
+              withCredentials: true,
+            },
+          )
+          .then(res => {
+            setExerdate(res.data.data);
+          });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   return (
     <Flexcontainers>
-      {/* <Routine /> */}
       {exerdate.map((el, index) => (
         // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
         <Routine
@@ -44,6 +95,8 @@ function ExerciseTab({ userid, date }) {
           guideURL={el.guide_video_url}
           userid={userid}
           routineid={el.id}
+          onVideoSubmit={onVideoSubmit}
+          onVideoRemove={onVideoRemove}
         />
       ))}
     </Flexcontainers>

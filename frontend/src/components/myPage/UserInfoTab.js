@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Avatar } from 'antd';
 import '../../scss/userInfoTab.scss';
-import { Container } from 'react-bootstrap';
-import { async } from 'regenerator-runtime';
-import LogoutButton from './LogoutButton';
+import { Container, Button } from 'react-bootstrap';
 
-function UserInfoTab({ loginedUser }) {
+export default function UserInfoTab({ loginedUser }) {
+  const navigate = useNavigate();
   const [user, setUser] = React.useState(null);
   const blankImg = `https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png`;
   const [profImg, setProfImg] = useState(blankImg);
@@ -69,6 +68,12 @@ function UserInfoTab({ loginedUser }) {
   if (!user) {
     return <div>회원정보 Loading...</div>;
   }
+  const goEdit = () => {
+    navigate('/mypage/edit');
+  };
+  const goWithdraw = () => {
+    navigate('/mypage/withdraw');
+  };
 
   return (
     <Container>
@@ -103,23 +108,21 @@ function UserInfoTab({ loginedUser }) {
               {user.data.phonenumber}
             </li>
           </ul>
-          <div className="user-info-actions">
-            <Link to="/mypage/edit">
-              <button type="button" className="btn btn-primary">
-                회원정보 수정
-              </button>
-            </Link>
-            <LogoutButton />
-            <Link to="/mypage/withdraw">
-              <button type="button" className="btn btn-danger">
-                회원 탈퇴
-              </button>
-            </Link>
+          <div>
+            <Button variant="primary" type="button" onClick={goEdit}>
+              회원정보 수정
+            </Button>
+            <Button
+              variant="danger"
+              type="button"
+              className="mglf-10"
+              onClick={goWithdraw}
+            >
+              회원 탈퇴
+            </Button>
           </div>
         </div>
       </div>
     </Container>
   );
 }
-
-export default UserInfoTab;

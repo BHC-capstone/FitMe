@@ -25,7 +25,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, "public")));
 
 app.use(
   cors({
@@ -61,7 +61,6 @@ app.use('/trainer_calender', trainer_calenderRouter);
 app.use('/feedback', feedbackRouter);
 app.use('/pay', payRouter);
 
-
 let server;
 // 인증서 파일들이 존재하는 경우에만 https 프로토콜을 사용하는 서버를 실행
 if (fs.existsSync('./key.pem') && fs.existsSync('./cert.pem')) {
@@ -78,4 +77,11 @@ if (fs.existsSync('./key.pem') && fs.existsSync('./cert.pem')) {
 } else {
   server = app.listen(PORT);
 }
+
+//frontend와 연동
+// app.use(express.static(path.join(__dirname, '../frontend/build')));
+// app.get('*', function (req, res) {
+//   res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
+// });
+
 module.exports = app;
