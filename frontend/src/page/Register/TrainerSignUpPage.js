@@ -226,7 +226,7 @@ export default function TrainerSignUpPage() {
           >
             <Form.Control
               as="textarea"
-              placeholder="Leave a instroduction here."
+              placeholder="Leave a introduction here."
               value={introduction}
               onChange={onChangeIntroduction}
             />
