@@ -31,6 +31,7 @@ function Routine({ userid, date }) {
         setDietdate(res.data.data);
       })
       .catch(err => {
+        setDietdate({ breakfast: '', lunch: '', dinner: '' });
         console.log(err);
       });
   }, [userid, date]);
@@ -94,7 +95,7 @@ function Routine({ userid, date }) {
               >
                 <Form.Control
                   type="text"
-                  value={dietdate.breakfast}
+                  value={breakfast}
                   onChange={onChangebreakfast}
                 />
               </FloatingLabel>
