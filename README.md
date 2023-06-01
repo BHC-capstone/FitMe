@@ -139,7 +139,11 @@ https://docs.google.com/spreadsheets/d/124Tb08xdwcXLAvX0HUlZS1Pkdn-8BDyxjXWtX4-o
 
 ### 프로젝트 구조(프론트엔드)
 
-(프론트엔드 폴더 구조 작성)
+- components : 여러 곳에서 사용되는 컴포넌트 파일들을 모아놓은 폴더
+- images : 프로젝트에서 사용되는 이미지 파일을 모아놓은 폴더
+- page : 라우팅될 페이지 파일을 모아놓은 폴더
+- redux : redux를 사용하기 위해 스토어 및 모듈을 모아놓은 폴더
+- scss : 스타일에 사용될 scss 파일을 모아놓은 폴더
 
 ### 프로젝트 구조(백엔드)
 
