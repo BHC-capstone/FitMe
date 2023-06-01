@@ -46,6 +46,8 @@
 
 ### 백엔드 서버
 
+
+
 ## Installation
 
 ```bash
@@ -84,7 +86,13 @@ https://docs.google.com/spreadsheets/d/124Tb08xdwcXLAvX0HUlZS1Pkdn-8BDyxjXWtX4-o
 
 ### 프로젝트 구조(백엔드)
 
-(백엔드 폴더 구조 작성)
+ - config : 설정파일
+ - bin : 실행가능한 파일들
+ - models : sequelize로 생성된 model 파일
+ - modules : module 파일
+ - node modules : node.js에서 프로젝트에서 사용되는 외부 패키지들
+ - public : 정적파일 (js, css)
+ - routes : router 
 
 ### 전체 프로젝트 구조
 
