@@ -46,9 +46,10 @@
 
 ### 백엔드 서버
 
-![image](https://github.com/nodejs/nodejs-logo/blob/master/nodejs-logo.png)
+
 <p align="center">
-  <a href="https://github.com/nodejs/" target="blank"><img src="https://github.com/nodejs/nodejs-logo/blob/master/nodejs-logo.png" width="200" alt="nodejs Logo" /></a>
+  <a href="https://nodejs.org/" target="blank"><img src="(https://nodejs.org/static/images/logo.svg)
+" width="200" alt="nodejs Logo" /></a>
 </p>
 
 
