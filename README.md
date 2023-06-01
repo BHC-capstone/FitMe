@@ -17,6 +17,7 @@
 이 프로젝트는 캡스톤 디자인 과목의 일환으로 5인으로 구성된 BHC팀이 개발하였습니다.
 
 서비스 URL: https://fitme.p-e.kr:4000
+
 시연 영상: https://drive.google.com/file/d/1enToxOaYWihNmt2jZmU92L42E3bCudiq/view?usp=share_link
 
 <br>
@@ -60,8 +61,6 @@ $ npm run start
 
 ### 라이브러리 및 개발 환경
 
-(이미지?, 아니면 설명?)
-
 ### 로컬 서버 시작
 
 ```bash
@@ -70,8 +69,10 @@ $ npm start
 ```
 
 <br>
-## 프로젝트 설명
-애자일 방법론 사용, iteration은 2주간격, scrum은 매주 두번 월요일, 목요일에 진행했습니다.
+
+### 프로젝트 설명
+
+애자일 방법론 사용하였으며 iteration은 2주간격, scrum은 매주 두번 월요일, 목요일에 진행했습니다.
 
 ### iteration일정 및 product backlog
 
