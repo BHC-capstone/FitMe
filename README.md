@@ -46,6 +46,8 @@
 
 ### 백엔드 서버
 
+![node.js 아이콘](https://github.com/nodejs/nodejs-logo/blob/master/nodejs-logo.png)
+
 
 
 ## Installation
