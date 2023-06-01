@@ -1,10 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/node,react,reactnative,database
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,react,reactnative,database
 
-backend/cert.pem
-backend/key.pem
-backend/node_modules
 *.pem
+
+
 ### Database ###
 *.accdb
 *.db
@@ -187,6 +186,7 @@ xcuserdata/
 **/build/
 !src/**/build/
 
+
 # Ignore Gradle GUI config
 gradle-app.setting
 
@@ -363,5 +363,4 @@ google-services.json
 *.hprof
 
 # End of https://www.toptal.com/developers/gitignore/api/node,react,reactnative,database
-
-!**/frontend/build/
+!/frontend/build

@@ -1,14 +1,8 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { Button, Form, Row, Col, FloatingLabel } from 'react-bootstrap';
-import { Link } from 'react-router-dom'; //* ***
-import axios from 'axios';
-import { useSelector } from 'react-redux';
+
 // eslint-disable-next-line react/prop-types
 function NoFeedBack({ userid, date, getdata }) {
-  const [dietImg, setDietImg] = useState([]);
-  const loginedUser = useSelector(state => state.user);
-
   return (
     <Flexcontainers>
       <Textarea>오늘 피드백 없음</Textarea>

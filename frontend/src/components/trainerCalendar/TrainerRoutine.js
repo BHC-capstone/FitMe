@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, Form, Row, Col, FloatingLabel } from 'react-bootstrap';
 import ReactPlayer from 'react-player/lazy';
-import { Link, useNavigate } from 'react-router-dom'; //* ***
 import {
   ArrowDownOutlined,
   ArrowUpOutlined,
@@ -82,8 +81,8 @@ function TrainerRoutine({
           />
         </Text0>
         <Form>
-          <Row className="justify-content-md-center">
-            <Col xs="10">
+          <Row className="justify-content-xs-center">
+            <Col xs={{ span: 10, offset: 1 }}>
               <FloatingLabel
                 controlId="floatingInput"
                 label="운동 이름 입력"
@@ -217,33 +216,11 @@ const Text0 = styled.text`
   margin-bottom: 10px;
   color: ${props => (props.num % 2 === 1 ? '#2ba5f7' : 'white')};
 `;
-// const Text1 = styled.text`
-//   font-family: 'Black Han Sans', sans-serif;
-//   font-size: 28px;
-//   margin-top: 8px;
-//   text-align: left;
-//   margin-left: 5%;
-//   color: ${props => (props.num % 2 === 1 ? '#2ba5f7' : 'white')};
-// `;
 const Text2 = styled.text`
   font-size: 12px;
   text-align: left;
   margin-bottom: 5px;
   color: ${props => (props.num % 2 === 1 ? '#2ba5f7' : 'white')};
-`;
-const TextBox = styled.div`
-  padding-left: 5%;
-  text-align: left;
-  border-radius: 30px;
-  border: thin solid
-    ${props => ((props.num + props.count) % 2 === 1 ? '#2ba5f7' : 'white')};
-  width: 90%;
-  background-color: ${props =>
-    (props.num + props.count) % 2 === 1 ? '#fff' : '#2ba5f7'};
-  margin: auto;
-  line-height: 60px;
-  height: 60px;
-  color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
 `;
 const StyledButton = styled(Button)`
   padding-left: 5%;
@@ -259,16 +236,10 @@ const StyledButton = styled(Button)`
   height: 60px;
   color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
 `;
-const StyledLink = styled(Link)`
-  width: 100%;
-  margin: auto;
-`;
-
 const Div = styled.div`
   width: 100%;
   margin-bottom: 20px;
 `;
-
 const StyledVideoContainer = styled.div`
   display: flex;
   justify-content: center;

@@ -1,7 +1,7 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom'; //* ***
+import { Button, Row, Col } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom'; //* ***
 import { CloseOutlined } from '@ant-design/icons';
 // eslint-disable-next-line react/prop-types
 function Diet({
@@ -19,19 +19,19 @@ function Diet({
   const breakfastNum = 0;
   const lunchNum = 1;
   const dinnerNum = 2;
-  const breakfastImageInput = useRef();
-  const lunchImageInput = useRef();
-  const dinnerImageInput = useRef();
+  const breakfastimageInput = useRef();
+  const lunchimageInput = useRef();
+  const dinnerimageInput = useRef();
   const onCickImageUploadBreakfast = () => {
-    breakfastImageInput.current.click();
+    breakfastimageInput.current.click();
   };
 
   const onCickImageUploadLunch = () => {
-    lunchImageInput.current.click();
+    lunchimageInput.current.click();
   };
 
   const onCickImageUploadDinner = () => {
-    dinnerImageInput.current.click();
+    dinnerimageInput.current.click();
   };
 
   return (
@@ -46,7 +46,7 @@ function Diet({
         <input
           type="file"
           style={{ display: 'none' }}
-          ref={breakfastImageInput}
+          ref={breakfastimageInput}
           accept="image"
           onChange={event => onImageChange(event.target.files[0], breakfastNum)}
         />
@@ -73,7 +73,7 @@ function Diet({
         <input
           type="file"
           style={{ display: 'none' }}
-          ref={lunchImageInput}
+          ref={lunchimageInput}
           accept="image"
           onChange={event => onImageChange(event.target.files[0], lunchNum)}
         />
@@ -100,7 +100,7 @@ function Diet({
         <input
           type="file"
           style={{ display: 'none' }}
-          ref={dinnerImageInput}
+          ref={dinnerimageInput}
           accept="image"
           onChange={event => onImageChange(event.target.files[0], dinnerNum)}
         />
@@ -179,7 +179,6 @@ const StyledButton = styled(Button)`
   background-color: ${props =>
     (props.num + props.count) % 2 === 1 ? 'white' : '#2ba5f7'};
   margin: auto;
-  line-height: 60px;
   height: 60px;
   z-index: 1;
   color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
