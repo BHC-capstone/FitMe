@@ -47,10 +47,7 @@
 ### 백엔드 서버
 
 
-<p align="center">
-  <a href="https://nodejs.org/" target="blank"><img src="(https://nodejs.org/static/images/logo.svg)
-" width="200" alt="nodejs Logo" /></a>
-</p>
+![image](https://github.com/noyouhyun/Capstone/blob/main/%E1%84%82%E1%85%A9%E1%84%83%E1%85%B3.png)
 
 
 
