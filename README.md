@@ -41,8 +41,58 @@
 ![image](https://github.com/BHC-capstone/FitMe/assets/86943988/c0e277cc-ffc7-46c7-96ef-bc2f1280e258)
 
 ### 프론트 서버
+## Dependency
 
-(서버 관련 내용?)
+| 라이브러리 | 버전 |
+|:-------:|:---:|
+|@ant-design/icons|@5.0.1|
+|@fortawesome/fontawesome-svg-core|@6.4.0|
+|@fortawesome/free-regular-svg-icons|@6.4.0|
+| @fortawesome/free-solid-svg-icons|@6.4.0|
+| @fortawesome/react-fontawesome|@0.2.0|
+| @reduxjs/toolkit|@1.9.5|
+| @testing-library/jest-dom|@5.16.5|
+| @testing-library/react|@13.4.0|
+| @testing-library/user-event|@13.5.0|
+| antd|@5.4.6|
+| axios|@1.4.0|
+| bootstrap-icons|@1.10.5|
+| bootstrap|@5.2.3|
+| cross-env|@7.0.3|
+| eslint-config-airbnb|@19.0.4|
+| eslint-config-prettier|@8.8.0|
+| eslint-plugin-import|@2.27.5|
+| eslint-plugin-jsx-a11y|@6.7.1|
+| eslint-plugin-prettier|@4.2.1|
+| eslint-plugin-react-hooks|@4.6.0|
+| eslint-plugin-react|@7.32.2|
+| eslint|@8.38.0|
+| history|@5.3.0|
+| jquery|@3.6.4|
+| prettier|@2.8.7|
+| prop-types|@15.8.1|
+| react-bootstrap|@2.7.4|
+| react-calendar|@4.2.1|
+| react-datepicker|@4.11.0|
+| react-dom|@18.2.0|
+| react-player|@2.12.0|
+| react-redux|@8.0.5|
+| react-router-dom|@6.11.0|
+| react-scripts|@5.0.1|
+| react-simple-star-rating|@5.1.7|
+| react|@18.2.0|
+| redux-devtools-extension|@2.13.9|
+| redux-persist|@6.0.0|
+| redux-persist5@npm:redux-persist|@6.0.0|
+| redux-promise|@0.6.0|
+| redux-thunk|@2.4.2|
+| redux|@4.2.1|
+| sass|@1.62.1|
+| styled-components|@5.3.10|
+| web-vitals|@2.1.4|
+
+
+
 
 ### 백엔드 서버
 
