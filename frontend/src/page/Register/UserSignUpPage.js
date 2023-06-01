@@ -60,7 +60,7 @@ export default function TrainerSignUpPage() {
       gender,
     };
     axios
-      .post('/users/signup', body, {
+      .post('https://fitme.p-e.kr:4000/users/signup', body, {
         withCredentials: true,
       })
       .then(res => {

@@ -18,12 +18,18 @@ export default function UserInfoTab({ loginedUser }) {
       let response = null;
       {
         loginedUser.isTrainer === false
-          ? (response = await axios.get(`/users/profile/${loginedUser.id}`, {
-              withCredentials: true,
-            }))
-          : (response = await axios.get(`/trainers/profile/${loginedUser.id}`, {
-              withCredentials: true,
-            }));
+          ? (response = await axios.get(
+              `https://fitme.p-e.kr:4000/users/profile/${loginedUser.id}`,
+              {
+                withCredentials: true,
+              },
+            ))
+          : (response = await axios.get(
+              `https://fitme.p-e.kr:4000/trainers/profile/${loginedUser.id}`,
+              {
+                withCredentials: true,
+              },
+            ));
       }
       if (response.data !== null) {
         setUser(response.data);
@@ -35,13 +41,13 @@ export default function UserInfoTab({ loginedUser }) {
         {
           loginedUser.isTrainer === false
             ? (response = await axios.get(
-                `/users/profileimg/${loginedUser.id}`,
+                `https://fitme.p-e.kr:4000/users/profileimg/${loginedUser.id}`,
                 {
                   withCredentials: true,
                 },
               ))
             : (response = await axios.get(
-                `/trainers/profileimg/${loginedUser.id}`,
+                `https://fitme.p-e.kr:4000/trainers/profileimg/${loginedUser.id}`,
                 {
                   withCredentials: true,
                 },

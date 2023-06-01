@@ -22,8 +22,8 @@ function WithdrawPage() {
       let url = null;
       {
         loginedUser.isTrainer === false
-          ? (url = `/users/withdraw/${loginedUser.id}`)
-          : (url = `/trainers/withdraw/${loginedUser.id}`);
+          ? (url = `https://fitme.p-e.kr:4000/users/withdraw/${loginedUser.id}`)
+          : (url = `https://fitme.p-e.kr:4000/trainers/withdraw/${loginedUser.id}`);
       }
       const response = await axios.post(url, {
         password,

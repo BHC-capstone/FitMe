@@ -35,11 +35,12 @@ function UserEdit({ props }) {
         let response = null;
         {
           loginedUser.isTrainer === false
-            ? (response = await axios.get(`/users/profile/${loginedUser.id}`, {
-                withCredentials: true,
-              }))
+            ? (response = await axios.get(
+                `https://fitme.p-e.kr:4000/users/profile/${loginedUser.id}`,
+                { withCredentials: true },
+              ))
             : (response = await axios.get(
-                `/trainers/profile/${loginedUser.id}`,
+                `https://fitme.p-e.kr:4000/trainers/profile/${loginedUser.id}`,
                 { withCredentials: true },
               ));
         }
@@ -63,11 +64,11 @@ function UserEdit({ props }) {
         {
           loginedUser.isTrainer === false
             ? (response = await axios.get(
-                `/users/profileImg/${loginedUser.id}`,
+                `https://fitme.p-e.kr:4000/users/profileImg/${loginedUser.id}`,
                 { withCredentials: true },
               ))
             : (response = await axios.get(
-                `/trainers/profileImg/${loginedUser.id}`,
+                `https://fitme.p-e.kr:4000/trainers/profileImg/${loginedUser.id}`,
                 { withCredentials: true },
               ));
         }
@@ -102,8 +103,8 @@ function UserEdit({ props }) {
       let url = null;
       {
         loginedUser.isTrainer === false
-          ? (url = `/users/profile/changeProfile/${loginedUser.id}`)
-          : (url = `/trainers/profile/changeProfile/${loginedUser.id}`);
+          ? (url = `https://fitme.p-e.kr:4000/users/profile/changeProfile/${loginedUser.id}`)
+          : (url = `https://fitme.p-e.kr:4000/trainers/profile/changeProfile/${loginedUser.id}`);
       }
       axios
         .post(
@@ -139,8 +140,8 @@ function UserEdit({ props }) {
     let url = null;
     {
       loginedUser.isTrainer === false
-        ? (url = `/users/changeProfileImage/${loginedUser.id}`)
-        : (url = `/trainers/changeProfileImage/${loginedUser.id}`);
+        ? (url = `https://fitme.p-e.kr:4000/users/changeProfileImage/${loginedUser.id}`)
+        : (url = `https://fitme.p-e.kr:4000/trainers/changeProfileImage/${loginedUser.id}`);
     }
     axios
       .post(url, formImgData, {

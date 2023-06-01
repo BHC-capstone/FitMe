@@ -17,9 +17,12 @@ function ExerciseTab({ userid, date }) {
   useEffect(() => {
     setExerdate([]);
     axios
-      .get(`/calender/exerciseroutine/${userid}/${date}`, {
-        withCredentials: true,
-      })
+      .get(
+        `https://fitme.p-e.kr:4000/calender/exerciseroutine/${userid}/${date}`,
+        {
+          withCredentials: true,
+        },
+      )
       .then(res => {
         setExerdate(res.data.data);
       });
@@ -29,7 +32,7 @@ function ExerciseTab({ userid, date }) {
     const formData = new FormData();
     formData.append('video', videoInput.current.files[0]);
     axios({
-      url: `https://localhost:4000/calender/exercisevideo/${userid}/${routineid}`,
+      url: `https://fitme.p-e.kr:4000/calender/exercisevideo/${userid}/${routineid}`,
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -40,7 +43,7 @@ function ExerciseTab({ userid, date }) {
       .then(response => {
         axios
           .get(
-            `https://localhost:4000/calender/exerciseroutine/${userid}/${date}`,
+            `https://fitme.p-e.kr:4000/calender/exerciseroutine/${userid}/${date}`,
             {
               withCredentials: true,
             },
@@ -55,14 +58,14 @@ function ExerciseTab({ userid, date }) {
   }
   function onVideoRemove(routineid) {
     axios({
-      url: `https://localhost:4000/calender/exerciseVideodelete/${routineid}`,
+      url: `https://fitme.p-e.kr:4000/calender/exerciseVideodelete/${routineid}`,
       method: 'DELETE',
       withCredentials: true,
     })
       .then(response => {
         axios
           .get(
-            `https://localhost:4000/calender/exerciseroutine/${userid}/${date}`,
+            `https://fitme.p-e.kr:4000/calender/exerciseroutine/${userid}/${date}`,
             {
               withCredentials: true,
             },
