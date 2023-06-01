@@ -54,7 +54,7 @@ function RequestDetail({ request, fetch }) {
     try {
       await axios
         .post(
-          `https://localhost:4000/request/accept/${trainerId}/${requestId}`,
+          `https://fitme.p-e.kr:4000/request/accept/${trainerId}/${requestId}`,
           {
             response: '수락',
           },
@@ -72,7 +72,7 @@ function RequestDetail({ request, fetch }) {
     try {
       await axios
         .post(
-          `https://localhost:4000/request/delete/${userId}/${requestId}`,
+          `https://fitme.p-e.kr:4000/request/delete/${userId}/${requestId}`,
           {
             response: '취소',
           },
@@ -92,7 +92,7 @@ function RequestDetail({ request, fetch }) {
   const handleReject = async (trainerId, requestId) => {
     try {
       await axios.post(
-        `https://localhost:4000/request/reject/${trainerId}/${requestId}`,
+        `https://fitme.p-e.kr:4000/request/reject/${trainerId}/${requestId}`,
         {
           response: '거절',
         },
