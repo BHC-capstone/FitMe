@@ -49,6 +49,10 @@
 
 ![image](https://github.com/noyouhyun/Capstone/blob/main/%E1%84%82%E1%85%A9%E1%84%83%E1%85%B3.png)
 
+<p align="center">
+Node.js is a JavaScript runtime environment that allows developers to run JavaScript code outside of a web browser, enabling server-side scripting and the development of scalable and high-performance network applications.</p>
+
+
 
 
 ## Installation
