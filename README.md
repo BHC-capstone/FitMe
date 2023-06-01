@@ -27,7 +27,7 @@
 
 | Role |  Name  | Part                           | Email              |
 | :--: | :----: | :----------------------------- | :----------------- |
-| 팀장 | 박진명 | 백엔드 개발, 백엔드 서버배포   | pjm2476@ajou.ac.kr |
+| 팀장 | 박진명 | 백엔드 개발, 전체 총괄         | pjm2476@ajou.ac.kr |
 | 팀원 | 김재현 | 프론트엔드 개발                | kjh77k@ajou.ac.kr  |
 | 팀원 | 김하현 | 프론트엔드 개발, 웹 퍼블리싱   | snloopy@ajou.ac.kr |
 | 팀원 | 노유현 | 백엔드 개발, 데이터베이스 관리 | noryh@ajou.ac.kr   |
@@ -54,7 +54,6 @@ $ npm install
 ## Running the app
 
 ```bash
-# development
 $ cd backend
 $ npm run start
 ```
@@ -65,8 +64,10 @@ $ npm run start
 
 ### 로컬 서버 시작
 
-> 'npm install'
-> 'npm start'
+```bash
+$ npm install
+$ npm start
+```
 
 <br>
 ## 프로젝트 설명
