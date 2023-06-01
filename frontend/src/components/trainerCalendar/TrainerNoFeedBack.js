@@ -1,12 +1,10 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { Button, Form, Row, Col, FloatingLabel } from 'react-bootstrap';
-import { Link } from 'react-router-dom'; //* ***
+import { Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 // eslint-disable-next-line react/prop-types
 function TrainerNoFeedBack({ userid, date, getdata }) {
-  const [dietImg, setDietImg] = useState([]);
   const loginedUser = useSelector(state => state.user);
   const postFeedBack = e => {
     axios({
@@ -16,11 +14,11 @@ function TrainerNoFeedBack({ userid, date, getdata }) {
     })
       .then(res => {
         console.log(res);
+        getdata(true);
       })
       .catch(err => {
         console.log('fail');
       });
-    getdata(true);
   };
   return (
     <Flexcontainers>
@@ -31,7 +29,6 @@ function TrainerNoFeedBack({ userid, date, getdata }) {
   );
 }
 const Flexcontainers = styled.div`
-  display: flex;
   flex-direction: column;
   justify-content: space-between;
 `;

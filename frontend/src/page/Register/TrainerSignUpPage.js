@@ -198,8 +198,8 @@ export default function TrainerSignUpPage() {
               >
                 <Form.Select value={gender} onChange={onChangeGender}>
                   <option>선택하세요</option>
-                  <option value="male">남성</option>
-                  <option value="female">여성</option>
+                  <option value="남성">남성</option>
+                  <option value="여성">여성</option>
                 </Form.Select>
               </FloatingLabel>
             </Col>
@@ -226,7 +226,7 @@ export default function TrainerSignUpPage() {
           >
             <Form.Control
               as="textarea"
-              placeholder="Leave a instroduction here."
+              placeholder="Leave a introduction here."
               value={introduction}
               onChange={onChangeIntroduction}
             />

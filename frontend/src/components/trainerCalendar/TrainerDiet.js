@@ -16,6 +16,7 @@ function Routine({ userid, date }) {
   const [lunchOpen, setLunchOpen] = useState(false);
   const [dinnerOpen, setDinnerOpen] = useState(false);
   const imageInput = useRef();
+
   const onCickImageUpload2 = () => {
     imageInput.current.click();
   };
@@ -32,7 +33,6 @@ function Routine({ userid, date }) {
       .catch(err => {
         setDietdate({ breakfast: '', lunch: '', dinner: '' });
         console.log(err);
-        setDietdate({ breakfast: '', dinner: '', lunch: '' });
       });
   }, [userid, date]);
 
@@ -95,15 +95,15 @@ function Routine({ userid, date }) {
               >
                 <Form.Control
                   type="text"
-                  value={dietdate.breakfast}
+                  value={breakfast}
                   onChange={onChangebreakfast}
                 />
               </FloatingLabel>
             </Form.Group>
           </Col>
         </Row>
-        <Row className="justify-content-md-center">
-          <Col xs="10">
+        <Row className="justify-content-xs-center">
+          <Col xs={{ span: 10, offset: 1 }}>
             <StyledButton
               num={0}
               count={0}
@@ -157,8 +157,8 @@ function Routine({ userid, date }) {
             </Form.Group>
           </Col>
         </Row>
-        <Row className="justify-content-md-center">
-          <Col xs="10">
+        <Row className="justify-content-xs-center">
+          <Col xs={{ span: 10, offset: 1 }}>
             <StyledButton
               num={1}
               count={1}
@@ -212,8 +212,8 @@ function Routine({ userid, date }) {
             </Form.Group>
           </Col>
         </Row>
-        <Row className="justify-content-md-center">
-          <Col xs="10">
+        <Row className="justify-content-xs-center">
+          <Col xs={{ span: 10, offset: 1 }}>
             <StyledButton
               num={2}
               count={2}

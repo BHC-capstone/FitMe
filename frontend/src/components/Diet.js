@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, Row, Col } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom'; //* ***
-import axios from 'axios';
 import { CloseOutlined } from '@ant-design/icons';
 // eslint-disable-next-line react/prop-types
 function Diet({
@@ -17,25 +16,22 @@ function Diet({
   onImageChange,
   onImageRemove,
 }) {
-  const [num, setNum] = useState(0);
-  const [dietImg, setDietImg] = useState([]);
   const breakfastNum = 0;
   const lunchNum = 1;
   const dinnerNum = 2;
-  const imageInput = useRef();
+  const breakfastimageInput = useRef();
+  const lunchimageInput = useRef();
+  const dinnerimageInput = useRef();
   const onCickImageUploadBreakfast = () => {
-    setNum(0);
-    imageInput.current.click();
+    breakfastimageInput.current.click();
   };
 
   const onCickImageUploadLunch = () => {
-    setNum(1);
-    imageInput.current.click();
+    lunchimageInput.current.click();
   };
 
   const onCickImageUploadDinner = () => {
-    setNum(2);
-    imageInput.current.click();
+    dinnerimageInput.current.click();
   };
 
   return (
@@ -50,9 +46,9 @@ function Diet({
         <input
           type="file"
           style={{ display: 'none' }}
-          ref={imageInput}
+          ref={breakfastimageInput}
           accept="image"
-          onChange={event => onImageChange(event, breakfastNum)}
+          onChange={event => onImageChange(event.target.files[0], breakfastNum)}
         />
         <StyledButton num={0} count={2} onClick={onCickImageUploadBreakfast}>
           아침 사진 업로드
@@ -77,9 +73,9 @@ function Diet({
         <input
           type="file"
           style={{ display: 'none' }}
-          ref={imageInput}
+          ref={lunchimageInput}
           accept="image"
-          onChange={event => onImageChange(event, lunchNum)}
+          onChange={event => onImageChange(event.target.files[0], lunchNum)}
         />
         <StyledButton num={1} count={2} onClick={onCickImageUploadLunch}>
           점심 사진 업로드
@@ -104,9 +100,9 @@ function Diet({
         <input
           type="file"
           style={{ display: 'none' }}
-          ref={imageInput}
+          ref={dinnerimageInput}
           accept="image"
-          onChange={event => onImageChange(event, dinnerNum)}
+          onChange={event => onImageChange(event.target.files[0], dinnerNum)}
         />
         <StyledButton num={2} count={2} onClick={onCickImageUploadDinner}>
           저녁 사진 업로드
@@ -183,7 +179,6 @@ const StyledButton = styled(Button)`
   background-color: ${props =>
     (props.num + props.count) % 2 === 1 ? 'white' : '#2ba5f7'};
   margin: auto;
-  line-height: 60px;
   height: 60px;
   z-index: 1;
   color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};

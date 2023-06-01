@@ -7,14 +7,9 @@ import styled from 'styled-components';
 import { UploadOutlined, CloseOutlined } from '@ant-design/icons';
 import '../../scss/myPage/trainerProfile.scss';
 
-function TrainerProfile() {
+function TrainerProfile({ trainerId }) {
   const loginedUser = useSelector(state => state.user);
   const [certifications, setCertifications] = useState([]);
-  const fileList = [];
-  const handleFileUpload = event => {
-    event.preventDefault();
-    const formData = new FormData();
-  };
 
   useEffect(() => {
     fetchCertifications();
@@ -23,7 +18,7 @@ function TrainerProfile() {
   const fetchCertifications = async () => {
     try {
       const response = await axios.get(
-        `https://localhost:4000/trainers/getListOfCertification/${loginedUser.id}`,
+        `https://localhost:4000/trainers/getListOfCertification/${trainerId}`,
         { withCredentials: true },
       );
       const { data } = response.data;
@@ -49,28 +44,14 @@ function TrainerProfile() {
           <br />
           {certifications.map(certification => (
             <div key={certification.id} className="certification-item">
-              <h3 className="certification-name">
-                {certification.name}
-                <div>
-                  <CloseOutlined />
-                </div>
-              </h3>
-              <img src={certification.image_url} alt="자격증" />
+              <img
+                style={{ width: '200px', height: '300px' }}
+                src={certification.image_url}
+                alt="자격증"
+              />
             </div>
           ))}
         </div>
-        {loginedUser.isTrainer ? (
-          <Form>
-            <Upload
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-              listType="picture"
-              defaultFileList={[...fileList]}
-              className="upload-list-inline"
-            >
-              <Button icon={<UploadOutlined />}>자격증 파일 업로드</Button>
-            </Upload>
-          </Form>
-        ) : null}
       </Container1>
     </div>
   );
