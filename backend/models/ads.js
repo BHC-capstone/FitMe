@@ -1,7 +1,7 @@
-const Sequelize = require("sequelize");
+const Sequelize = require('sequelize');
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define(
-    "ads",
+    'ads',
     {
       id: {
         autoIncrement: true,
@@ -28,16 +28,16 @@ module.exports = function (sequelize, DataTypes) {
     },
     {
       sequelize,
-      tableName: "ads",
+      tableName: 'ads',
       timestamps: false,
       indexes: [
         {
-          name: "PRIMARY",
+          name: 'PRIMARY',
           unique: true,
-          using: "BTREE",
-          fields: [{ name: "id" }],
+          using: 'BTREE',
+          fields: [{ name: 'id' }],
         },
       ],
-    }
+    },
   );
 };

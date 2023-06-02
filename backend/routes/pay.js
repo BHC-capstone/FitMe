@@ -1,29 +1,29 @@
-var express = require("express");
+var express = require('express');
 var router = express.Router();
-const { sequelize } = require("../models");
+const { sequelize } = require('../models');
 const {
-    trainers,
-    users,
-    pt_requests,
-    exercise_routines,
-    schedules,
-    trainer_manage,
-    meal_plan,
-} = require("../models");
-const initModels = require("../models/init-models");
+  trainers,
+  users,
+  pt_requests,
+  exercise_routines,
+  schedules,
+  trainer_manage,
+  meal_plan,
+} = require('../models');
+const initModels = require('../models/init-models');
 const models = initModels(sequelize);
-const dotenv = require("dotenv");
-const multer = require("multer");
-const AWS = require("aws-sdk");
-const { mod } = require("prelude-ls");
+const dotenv = require('dotenv');
+const multer = require('multer');
+const AWS = require('aws-sdk');
+const { mod } = require('prelude-ls');
 
 //AWS s3 관련
-const imageUpload = require("../modules/s3upload").upload;
-const videoupload = require("../modules/s3upload").videoUpload;
-const s3 = require("../modules/s3upload").s3;
+const imageUpload = require('../modules/s3upload').upload;
+const videoupload = require('../modules/s3upload').videoUpload;
+const s3 = require('../modules/s3upload').s3;
 
 dotenv.config();
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);  // Stripe API 키
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY); // Stripe API 키
 
 // 결제 API 엔드포인트
 router.post('/payment', async (req, res) => {
@@ -55,7 +55,5 @@ router.post('/payment', async (req, res) => {
 });
 
 module.exports = router;
-
-
 
 module.exports = router;

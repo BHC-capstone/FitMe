@@ -1,7 +1,7 @@
-const Sequelize = require("sequelize");
+const Sequelize = require('sequelize');
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define(
-    "sessions",
+    'sessions',
     {
       session_id: {
         type: DataTypes.STRING(128),
@@ -19,16 +19,16 @@ module.exports = function (sequelize, DataTypes) {
     },
     {
       sequelize,
-      tableName: "sessions",
+      tableName: 'sessions',
       timestamps: false,
       indexes: [
         {
-          name: "PRIMARY",
+          name: 'PRIMARY',
           unique: true,
-          using: "BTREE",
-          fields: [{ name: "session_id" }],
+          using: 'BTREE',
+          fields: [{ name: 'session_id' }],
         },
       ],
-    }
+    },
   );
 };
