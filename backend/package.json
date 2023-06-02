@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "lint": "./node_modules/.bin/eslint .",
+    "lint": "./node_modules/.bin/eslint $PWD",
     "test": "./node_modules/.bin/jest --verbose ./tests"
   },
   "dependencies": {
