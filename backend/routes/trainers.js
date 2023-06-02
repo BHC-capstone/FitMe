@@ -412,7 +412,6 @@ router.post(
           req.file.originalname,
         };
         const result = await s3.upload(uploadParams).promise();
-        console.log("ㅇㅇㅇ",result);
         const certification = await certifications.create(
           {
             trainer_id: id,
