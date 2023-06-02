@@ -100,32 +100,8 @@
 ![image](https://github.com/noyouhyun/Capstone/blob/main/%E1%84%82%E1%85%A9%E1%84%83%E1%85%B3.png)
 
 <p align="center">
-Node.js is a JavaScript runtime environment that allows developers to run JavaScript code outside of a web browser, enabling server-side scripting and the development of scalable and high-performance network applications.</p>
+Node.js는 웹 브라우저 외부에서 JavaScript 코드를 실행할 수 있는 JavaScript 런타임 환경으로, 서버의 스크립팅 및 확장과 고성능 네트워크 응용프로그램 개발을 가능케 한다.</p>
 
-
-
-
-## Installation
-
-```bash
-$ npm install
-```
-
-## Running the app
-
-```bash
-$ cd backend
-$ npm run start
-```
-
-### 라이브러리 및 개발 환경
-
-### 로컬 서버 시작
-
-```bash
-$ npm install
-$ npm start
-```
 
 <br>
 
