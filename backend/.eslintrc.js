@@ -3,6 +3,7 @@ module.exports = {
     browser: true,
     es6: true,
     node: true,
+    jest: true,
   },
   extends: [
     'airbnb',
@@ -11,7 +12,7 @@ module.exports = {
     'react-app',
     'prettier',
   ],
-  plugins: ['prettier'],
+  plugins: ['prettier', 'jest'],
   rules: {
     'react/prop-types': 'off',
     'import/np-resolved': 'off',
@@ -39,5 +40,11 @@ module.exports = {
         allowBind: true,
       },
     ],
+
+    'jest/no-disabled-tests': 'warn',
+    'jest/no-focused-tests': 'error',
+    'jest/no-identical-title': 'error',
+    'jest/prefer-to-have-length': 'warn',
+    'jest/valid-expect': 'error',
   },
 };
