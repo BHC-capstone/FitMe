@@ -26,7 +26,7 @@ function TrainerProfile() {
   const fetchCertifications = async () => {
     try {
       const response = await axios.get(
-        `https://fitme.p-e.kr:4000/trainers/getListOfCertification/${loginedUser.id}`,
+        `https://localhost:4000/trainers/getListOfCertification/${loginedUser.id}`,
         { withCredentials: true },
       );
       const { data } = response.data;

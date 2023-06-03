@@ -15,13 +15,13 @@ function RequestManage() {
     const response =
       isTrainer === 'true'
         ? await axios.get(
-            `https://fitme.p-e.kr:4000/request/checklists/${loginedUser.id}`,
+            `https://localhost:4000/request/checklists/${loginedUser.id}`,
             {
               withCredentials: true,
             },
           )
         : await axios.get(
-            `https://fitme.p-e.kr:4000/request/checklists/${loginedUser.id}`,
+            `https://localhost:4000/request/checklists/${loginedUser.id}`,
             {
               withCredentials: true,
             },
