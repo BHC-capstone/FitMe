@@ -56,7 +56,7 @@ router.post(
           console.log(req.body);
           const hashedPassword = await bcrypt.hash(
             req.body.password,
-            saltRounds
+            saltRounds,
           );
           const trainer = await trainers.create({
             name: req.body.name,
@@ -84,7 +84,7 @@ router.post(
               name: req.file.originalname,
               image_url: result.Location,
             },
-            { transaction }
+            { transaction },
           );
 
           const trainerPoint = await trainer_points.create(
@@ -92,7 +92,7 @@ router.post(
               trainer_id: trainer.id,
               amount: 0,
             },
-            { transaction }
+            { transaction },
           );
 
           const trainer_certs = await trainer_cert.create(
@@ -100,7 +100,7 @@ router.post(
               trainer_id: trainer.id,
               certification_id: certification.id,
             },
-            { transaction }
+            { transaction },
           );
 
           await transaction.commit();
@@ -117,7 +117,7 @@ router.post(
     } else {
       res.status(400).json({ data: null, message: '모든 정보를 입력하세요' });
     }
-  }
+  },
 );
 
 // trainer login
@@ -131,7 +131,7 @@ router.post('/login', async function (req, res) {
       if (trainerInfo != undefined) {
         const isPasswordValid = await bcrypt.compare(
           req.body.password,
-          trainerInfo.password
+          trainerInfo.password,
         );
         if (isPasswordValid) {
           req.session.save(function () {
@@ -237,7 +237,7 @@ router.post('/profile/changeProfile/:id', async function (req, res) {
         {
           where: { id: req.params.id },
         },
-        { transaction }
+        { transaction },
       );
       if (req.body.password != req.body.password2)
         res.status(401).json({
@@ -258,7 +258,7 @@ router.post('/profile/changeProfile/:id', async function (req, res) {
             introduction: req.body.introduction,
           },
           { where: { id: req.params.id } },
-          { transaction }
+          { transaction },
         );
         res.status(200).json({
           data: null,
@@ -407,24 +407,19 @@ router.post(
           ContentType: 'image/png',
           Bucket: 'fitme-s3',
           Body: req.file.buffer,
-          Key: `certifications/` +
-          `/${id}/` +
-          req.file.originalname,
+          Key: `certifications/` + `/${id}/` + req.file.originalname,
         };
         const result = await s3.upload(uploadParams).promise();
-        const certification = await certifications.create(
-          {
-            trainer_id: id,
-            name: req.file.originalname,
-            image_url: result.Location,
-          }
-        );
-        const trainer_certs = await trainer_cert.create(
-          {
-            trainer_id: id,
-            certification_id: certification.id,
-          }
-        );
+        console.log('ㅇㅇㅇ', result);
+        const certification = await certifications.create({
+          trainer_id: id,
+          name: req.file.originalname,
+          image_url: result.Location,
+        });
+        const trainer_certs = await trainer_cert.create({
+          trainer_id: id,
+          certification_id: certification.id,
+        });
         res.status(200).json({
           data: null,
           message: '성공적으로 자격증을 추가하였습니다.',
@@ -435,7 +430,7 @@ router.post(
     } else {
       res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
     }
-  }
+  },
 );
 
 // myPage profile image upload with aws s3
@@ -449,13 +444,13 @@ router.post(
           where: { id: req.params.id },
         });
         const s3key = trainerInfo.s3_key;
-        if(s3key != null){
-        const deleteParams = {
-          Bucket: 'fitme-s3',
-          Key: s3key,
-        };
-        await s3.deleteObject(deleteParams).promise();
-      }
+        if (s3key != null) {
+          const deleteParams = {
+            Bucket: 'fitme-s3',
+            Key: s3key,
+          };
+          await s3.deleteObject(deleteParams).promise();
+        }
 
         const uploadParams = {
           acl: 'public-read',
@@ -471,7 +466,7 @@ router.post(
           {
             trainer_image_url: result.Location,
           },
-          { where: { id: req.params.id } }
+          { where: { id: req.params.id } },
         );
         res.status(200).json({
           data: null,
@@ -483,7 +478,7 @@ router.post(
     } else {
       res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
     }
-  }
+  },
 );
 
 // get profile image

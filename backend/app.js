@@ -32,7 +32,7 @@ app.use(
     origin: 'https://localhost:3000',
     methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
     credentials: true,
-  })
+  }),
 );
 
 app.use(
@@ -48,7 +48,7 @@ app.use(
       httpOnly: true,
       secure: true,
     },
-  })
+  }),
 );
 
 app.use('/', indexRouter);
@@ -70,7 +70,7 @@ if (fs.existsSync('./key.pem') && fs.existsSync('./cert.pem')) {
         key: fs.readFileSync(__dirname + `/` + 'key.pem', 'utf-8'),
         cert: fs.readFileSync(__dirname + `/` + 'cert.pem', 'utf-8'),
       },
-      app
+      app,
     )
     .listen(PORT);
   console.log('test1');
