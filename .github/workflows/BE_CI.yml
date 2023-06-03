@@ -18,6 +18,18 @@ jobs:
         node-version: [16.x]
 
     steps:
+      - name: Setting .env
+        run: |
+          echo "ACCESS_TOKEN=${{ secrets.ACCESS_TOKEN }}" >> .env
+          echo "AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }}" >> .env
+          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> .env
+          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.MYSQL_DATABASE }}" >> .env
+          echo "MYSQL_HOST=${{ secrets.MYSQL_HOST }}" >> .env
+          echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
+          echo "MYSQL_PORT=${{ secrets.MYSQL_PORT }}" >> .env
+          echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env
+          cat .env
+
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
