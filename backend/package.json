@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "node server.js",
     "lint": "./node_modules/.bin/eslint $PWD",
-    "test": "./node_modules/.bin/jest --verbose ./tests"
+    "test": "./node_modules/.bin/jest --verbose ./tests --forceExit"
   },
   "dependencies": {
     "aws-sdk": "^2.1366.0",

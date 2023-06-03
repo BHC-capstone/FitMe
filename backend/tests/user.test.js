@@ -1,14 +1,11 @@
 const request = require('supertest');
 const app = require('../app');
 
-//user signup test
+// user signup test
 describe('User Signup', () => {
-  afterEach(() => {
-    app.close();
-  });
-  it('정상적인 요청이 들어와 회원가입되는 경우', async () => {
+  it('정상적인 요청이 들어와 회원가입되는 경우', async done => {
     const response = await request(app).post('/users/signup').send({
-      email: '6518@ajou.ac.kr',
+      email: '12125125@ajou.ac.kr',
       name: '박진명',
       password: '1234',
       age: 25,
@@ -31,8 +28,6 @@ describe('User Signup', () => {
     expect(response.body.message).toBe('모든 정보를 입력하세요');
     expect(response.body.data).toBeNull();
   });
-
-  //test
 
   // it('해당하는 이메일이 이미 존재하는 경우', async () => {
   //   const response = await request(app).post('/users/signup').send({
