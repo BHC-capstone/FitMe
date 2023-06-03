@@ -174,24 +174,6 @@ function UserEdit({ props }) {
     <div>
       <Container fluid className="panel">
         <div className="head">회원 정보 수정</div>
-        <h1
-          style={{
-            textAlign: 'center',
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          {loginedUser.isTrainer === true ? (
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => navigate('/mypage/certificate')}
-              style={{ position: 'absolute', right: '1%', marginTop: '10%' }}
-            >
-              트레이너 자격관리
-            </button>
-          ) : null}
-        </h1>
         <Avatar
           src={profImg}
           style={{ margin: '20px' }}
