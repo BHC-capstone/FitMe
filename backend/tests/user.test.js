@@ -3,9 +3,9 @@ const app = require('../app');
 
 // user signup test
 describe('User Signup', () => {
-  it('정상적인 요청이 들어와 회원가입되는 경우', async done => {
+  it('정상적인 요청이 들어와 회원가입되는 경우', async () => {
     const response = await request(app).post('/users/signup').send({
-      email: '12125125@ajou.ac.kr',
+      email: 'user2236236@ajou.ac.kr',
       name: '박진명',
       password: '1234',
       age: 25,
@@ -17,7 +17,6 @@ describe('User Signup', () => {
     expect(response.body.message).toBe('회원가입을 환영합니다');
     expect(response.body.data).toBeNull();
   });
-
   it('field 가 충분치 않아 에러 메시지를 전송해야 하는 경우', async () => {
     const response = await request(app).post('/users/signup').send({
       email: 'user2@ajou.ac.kr',
