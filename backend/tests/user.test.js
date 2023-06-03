@@ -28,6 +28,8 @@ describe('User Signup', () => {
     expect(response.body.data).toBeNull();
   });
 
+  //test
+
   // it('해당하는 이메일이 이미 존재하는 경우', async () => {
   //   const response = await request(app).post('/users/signup').send({
   //     email: 'user@ajou.ac.kr',
