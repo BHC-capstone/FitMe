@@ -12,9 +12,9 @@ module.exports = {
   },
   test: {
     username: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
+    password: 'simplepw',
     database: process.env.MYSQL_DATABASE,
-    host: process.env.MYSQL_HOST,
+    host: '13.209.84.26',
     dialect: 'mysql',
   },
   production: {

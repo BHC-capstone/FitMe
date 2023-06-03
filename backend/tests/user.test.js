@@ -5,7 +5,7 @@ const app = require('../app');
 describe('User Signup', () => {
   it('정상적인 요청이 들어와 회원가입되는 경우', async () => {
     const response = await request(app).post('/users/signup').send({
-      email: 'user125125@ajou.ac.kr',
+      email: '6518@ajou.ac.kr',
       name: '박진명',
       password: '1234',
       age: 25,
