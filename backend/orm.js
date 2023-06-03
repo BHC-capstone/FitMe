@@ -1,11 +1,20 @@
+const dotenv = require('dotenv');
+
+dotenv.config();
+
 const SequelizeAuto = require('sequelize-auto');
-const auto = new SequelizeAuto('FitMe', 'root', '1234', {
-  host: '127.0.0.1',
-  port: '3306',
-  dialect: 'mysql',
-  password: '1234',
-  user: 'root',
-});
+const auto = new SequelizeAuto(
+  'FitMe',
+  process.env.MYSQL_USER,
+  process.env.MYSQL_PASSWORD,
+  {
+    host: process.env.MYSQL_HOST,
+    port: '3306',
+    dialect: 'mysql',
+    password: process.env.MYSQL_PASSWORD,
+    user: process.env.MYSQL_USER,
+  },
+);
 auto.run(err => {
   if (err) throw err;
 });
