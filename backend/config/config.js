@@ -1,5 +1,4 @@
 const dotenv = require('dotenv');
-
 dotenv.config();
 
 module.exports = {
@@ -13,7 +12,7 @@ module.exports = {
   test: {
     username: 'u34',
     password: 'simplepw',
-    database: process.env.MYSQL_DATABASE,
+    database: 'FitMe',
     host: '13.209.84.26',
     dialect: 'mysql',
   },
