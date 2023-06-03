@@ -1,6 +1,7 @@
 const request = require('supertest');
 const app = require('../app');
 
+//user signup test
 describe('User Signup', () => {
   it('정상적인 요청이 들어와 회원가입되는 경우', async () => {
     const response = await request(app).post('/users/signup').send({
