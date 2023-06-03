@@ -29,6 +29,13 @@ jobs:
           echo "MYSQL_PORT=${{ secrets.MYSQL_PORT }}" >> .env
           echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env
           cat .env
+      - name: Create Database
+        run: |
+          mysql -h ${{ secrets.MYSQL_HOST }} -P ${{ secrets.MYSQL_PORT }} -u ${{ secrets.MYSQL_USER }} -p${{ secrets.MYSQL_PASSWORD }} -e "CREATE DATABASE IF NOT EXISTS ${{ secrets.MYSQL_DATABASE }};"
+
+      - name: Run DDL script
+        run: |
+          mysql -h ${{ secrets.MYSQL_HOST }} -P ${{ secrets.MYSQL_PORT }} -u ${{ secrets.MYSQL_USER }} -p${{ secrets.MYSQL_PASSWORD }} ${{ secrets.MYSQL_DATABASE }} < backend/database/ddl.sql
 
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
