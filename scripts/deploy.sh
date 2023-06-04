@@ -7,7 +7,7 @@
 aws s3 cp s3://fitme-s3/practice-deploy.zip /home/ubuntu/action/ --recursive
 
 cd /home/ubuntu/action/
-unzip practice-deploy.zip -d /FitMe/frontend/build
+unzip practice-deploy.zip -d /home/ubuntu/deploy
 rm practice-deploy.zip
 
 #
