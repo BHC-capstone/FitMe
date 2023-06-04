@@ -22,7 +22,7 @@ export default function TrainerList(props) {
 
   useEffect(() => {
     axios
-      .get('https://localhost:4000/trainers/trainerlist', {
+      .get('https://fitme.p-e.kr:4000/trainers/trainerlist', {
         withCredentials: true,
       })
       .then(res => {

@@ -15,9 +15,12 @@ function CustomerList() {
 
   useEffect(() => {
     axios
-      .get(`https://localhost:4000/manage/checkptuserlist/${loginedUser.id}`, {
-        withCredentials: true,
-      })
+      .get(
+        `https://fitme.p-e.kr:4000/manage/checkptuserlist/${loginedUser.id}`,
+        {
+          withCredentials: true,
+        },
+      )
       .then(res => {
         setCustomers(res.data.data);
       });

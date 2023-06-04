@@ -26,7 +26,7 @@ function TrainerProfile() {
   const fetchCertifications = async () => {
     try {
       const response = await axios.get(
-        `https://localhost:4000/trainers/getListOfCertification/${loginedUser.id}`,
+        `https://fitme.p-e.kr:4000/trainers/getListOfCertification/${loginedUser.id}`,
         { withCredentials: true },
       );
       const { data } = response.data;
@@ -39,7 +39,7 @@ function TrainerProfile() {
   const fetchIntroduction = async () => {
     axios({
       method: 'get',
-      url: `https://localhost:4000/trainers/profile/${loginedUser.id}`,
+      url: `https://fitme.p-e.kr:4000/trainers/profile/${loginedUser.id}`,
       withCredentials: true,
     })
       .then(response => {
@@ -55,7 +55,7 @@ function TrainerProfile() {
     e.preventDefault();
     axios({
       method: 'post',
-      url: `https://localhost:4000/trainers/updateIntroduction/${loginedUser.id}`,
+      url: `https://fitme.p-e.kr:4000/trainers/updateIntroduction/${loginedUser.id}`,
       data: {
         introduction,
       },
@@ -72,7 +72,7 @@ function TrainerProfile() {
   const certificationDelete = async id => {
     axios({
       method: 'delete',
-      url: `https://localhost:4000/trainers/deleteCertification/${id}`,
+      url: `https://fitme.p-e.kr:4000/trainers/deleteCertification/${id}`,
       withCredentials: true,
     })
       .then(response => {
