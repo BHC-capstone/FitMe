@@ -17,25 +17,18 @@ function TrainerFeedBackTab({ userid, date }) {
   const blankImg = `https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png`;
 
   useEffect(() => {
-    console.log('새로고침 실행');
     setFeedBackdate(null);
     setCommentdate([]);
     axios({
       url: `https://localhost:4000/feedback/checkFeedback/${userid}/${date}`,
       method: 'GET',
       withCredentials: true,
-    })
-      .then(res => {
-        setFeedBackdate(res.data.data.feedback);
-        setCommentdate(res.data.data.feedbackComment);
-        console.log(res.data.data);
-        // console.log('1');
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    }).then(res => {
+      setFeedBackdate(res.data.data.feedback);
+      setCommentdate(res.data.data.feedbackComment);
+      // console.log('1');
+    });
     setFeedbackExist(!!(Feedbackdate != null && Feedbackdate != false));
-    console.log(FeedbackExist);
   }, [userid, date, repage, FeedbackExist]);
 
   useEffect(() => {
@@ -50,14 +43,9 @@ function TrainerFeedBackTab({ userid, date }) {
       data: { message: textData },
       method: 'POST',
       withCredentials: true,
-    })
-      .then(res => {
-        console.log(res);
-        setRePage(repage + 1);
-      })
-      .catch(err => {
-        console.log('fail');
-      });
+    }).then(res => {
+      setRePage(repage + 1);
+    });
   };
   const onChangeText = e => {
     setTextData(e.target.value);

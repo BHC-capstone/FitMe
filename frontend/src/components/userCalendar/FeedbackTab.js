@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Container, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { set } from 'internal-slot';
 import Comments from '../trainerCalendar/Comments';
 import NoFeedBack from './NoFeedBack';
 import ExistFeedBack from './ExistFeedBack';
@@ -24,16 +23,12 @@ function FeedBackTab({ userid, date }) {
       url: `https://localhost:4000/feedback/checkFeedback/${userid}/${date}`,
       method: 'GET',
       withCredentials: true,
-    })
-      .then(res => {
-        setFeedBackdate(res.data.data.feedback);
-        setCommentdate(res.data.data.feedbackComment);
-        console.log(res.data.data);
-        // console.log('1');
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    }).then(res => {
+      setFeedBackdate(res.data.data.feedback);
+      setCommentdate(res.data.data.feedbackComment);
+      console.log(res.data.data);
+      // console.log('1');
+    });
     setFeedbackExist(!!(Feedbackdate != null && Feedbackdate != false));
   }, [userid, date, repage]);
 
@@ -51,14 +46,9 @@ function FeedBackTab({ userid, date }) {
       data: { message: textData },
       method: 'POST',
       withCredentials: true,
-    })
-      .then(res => {
-        console.log(res);
-        setRePage(repage + 1);
-      })
-      .catch(err => {
-        console.log('fail');
-      });
+    }).then(res => {
+      setRePage(repage + 1);
+    });
   };
 
   const onChangeText = e => {
@@ -74,14 +64,9 @@ function FeedBackTab({ userid, date }) {
       },
       method: 'POST',
       withCredentials: true,
-    })
-      .then(res => {
-        console.log(res);
-        setRePage(repage + 1);
-      })
-      .catch(err => {
-        console.log('fail');
-      });
+    }).then(res => {
+      setRePage(repage + 1);
+    });
   };
   // 운동 루틴이 배열로 제공 된다고 가정하면 map 함수를 상위에 추가하여 밑의 컴포넌트들을 본문으로 사용할 예정
   return (
