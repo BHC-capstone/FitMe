@@ -35,7 +35,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
       - name: Make zip file
-        run: zip -r ./practice-deploy.zip .
+        run: zip -r ./practice-deploy.zip . -x "frontend/*" -i "frontend/build/*"
         shell: bash
 
       - name: Upload to S3
