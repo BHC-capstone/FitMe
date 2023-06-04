@@ -40,7 +40,7 @@ function CertificateManage() {
     formData.append('image', imgRef.current.files[0]);
     axios({
       method: 'POST',
-      url: `https://fitme.p-e.kr:4000/trainers/addCertificate/${loginedUser.id}`,
+      url: `https://localhost:4000/trainers/addCertificate/${loginedUser.id}`,
       headers: {
         'Content-Type': 'multipart/form-data',
       },

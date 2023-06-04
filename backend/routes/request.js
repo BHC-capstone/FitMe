@@ -1,25 +1,25 @@
-var express = require("express");
+var express = require('express');
 var router = express.Router();
-const { sequelize } = require("../models");
+const { sequelize } = require('../models');
 const {
   users,
   trainers,
   pt_requests,
   trainer_manage,
   bodycheck,
-} = require("../models");
-const initModels = require("../models/init-models");
+} = require('../models');
+const initModels = require('../models/init-models');
 const models = initModels(sequelize);
 
 // pt 요청
-router.post("/ptrequest", (req, res) => {
+router.post('/ptrequest', (req, res) => {
   if (req.session.loggedin) {
     try {
       pt_requests
         .findOne({
           where: { trainer_id: req.body.trainer_id, user_id: req.body.id },
         })
-        .then(async (requestInfo) => {
+        .then(async requestInfo => {
           if (requestInfo == undefined) {
             const userInfo = await users.findOne({
               where: { id: req.body.id },
@@ -46,65 +46,65 @@ router.post("/ptrequest", (req, res) => {
             pt_requests.create(newRequest).then(() => {
               res
                 .status(200)
-                .json({ data: null, message: "성공적으로 신청되었습니다." });
+                .json({ data: null, message: '성공적으로 신청되었습니다.' });
             });
           } else {
             res
               .status(401)
-              .json({ data: null, message: "이미 신청한 trainer입니다" });
+              .json({ data: null, message: '이미 신청한 trainer입니다' });
           }
         });
     } catch (err) {
       console.log(err);
     }
   } else {
-    res.status(401).json({ data: null, message: "로그인이 필요합니다." });
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
   }
 });
 
 // user pt 요청 조회
-router.get("/checklist/:id", (req, res) => {
+router.get('/checklist/:id', (req, res) => {
   if (req.session.loggedin) {
     const { id } = req.params;
     pt_requests
       .findAll({
         where: { user_id: id },
       })
-      .then((requestInfo) => {
+      .then(requestInfo => {
         if (requestInfo != undefined) {
-          res.status(200).json({ data: requestInfo, message: "" });
+          res.status(200).json({ data: requestInfo, message: '' });
         } else {
-          res.status(401).json({ data: null, message: "" });
+          res.status(401).json({ data: null, message: '' });
         }
       });
   } else {
-    res.status(401).json({ data: null, message: "로그인이 필요합니다." });
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
   }
 });
 
 // pt 요청 삭제
-router.post("/delete/:user_id/:id", (req, res) => {
+router.post('/delete/:user_id/:id', (req, res) => {
   const { user_id, id } = req.params;
   pt_requests
     .findOne({
       where: { user_id: user_id },
     })
-    .then((requestInfo) => {
+    .then(requestInfo => {
       if (requestInfo != undefined) {
         pt_requests.destroy({
           where: { user_id: user_id, id: id },
         });
         res
           .status(200)
-          .json({ data: null, message: "성공적으로 삭제되었습니다." });
+          .json({ data: null, message: '성공적으로 삭제되었습니다.' });
       } else {
-        res.status(401).json({ data: null, message: "" });
+        res.status(401).json({ data: null, message: '' });
       }
     });
 });
 
 // trainer pt 요청 조회
-router.get("/checklists/:id", async function (req, res) {
+router.get('/checklists/:id', async function (req, res) {
   if (req.session.loggedin) {
     try {
       const { id } = req.params;
@@ -113,26 +113,26 @@ router.get("/checklists/:id", async function (req, res) {
         include: [
           {
             model: users,
-            as: "user",
-            attributes: ["name"],
+            as: 'user',
+            attributes: ['name'],
           },
         ],
       });
-      const ptListWithNames = ptList.map((item) => {
+      const ptListWithNames = ptList.map(item => {
         const { name } = item.user;
         return { ...item.toJSON(), name };
       });
-      res.status(200).json({ data: ptListWithNames, message: "" });
+      res.status(200).json({ data: ptListWithNames, message: '' });
     } catch (err) {
       console.log(err);
     }
   } else {
-    res.status(401).json({ data: null, message: "로그인이 필요합니다." });
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
   }
 });
 
 // trainer pt 요청 user 조회
-router.get("/checklists/:id/:user_id", async function (req, res) {
+router.get('/checklists/:id/:user_id', async function (req, res) {
   if (req.session.loggedin) {
     try {
       const { id, user_id } = req.params;
@@ -143,32 +143,32 @@ router.get("/checklists/:id/:user_id", async function (req, res) {
         where: { trainer_id: id, user_id: user_id },
         include: {
           model: users,
-          as: "user",
-          attributes: ["name"],
-          where: { id: sequelize.col("pt_requests.user_id") },
+          as: 'user',
+          attributes: ['name'],
+          where: { id: sequelize.col('pt_requests.user_id') },
         },
       });
       const requestInfoWithNames = {
         ...requestInfo.toJSON(),
         name: requestInfo.user.name,
       };
-      res.status(200).json({ data: [requestInfo, bodyInfo], message: "" });
+      res.status(200).json({ data: [requestInfo, bodyInfo], message: '' });
     } catch (err) {
       console.log(err);
     }
   } else {
-    res.status(401).json({ data: null, message: "로그인이 필요합니다." });
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
   }
 });
 
 // pt 요청 수락
-router.post("/accept/:trainer_id/:id", (req, res) => {
+router.post('/accept/:trainer_id/:id', (req, res) => {
   const { trainer_id, id } = req.params;
   pt_requests
     .findOne({
       where: { trainer_id: trainer_id, id: id },
     })
-    .then((requestInfo) => {
+    .then(requestInfo => {
       if (requestInfo != undefined) {
         pt_requests
           .update(
@@ -178,7 +178,7 @@ router.post("/accept/:trainer_id/:id", (req, res) => {
             },
             {
               where: { trainer_id: trainer_id, id: id },
-            }
+            },
           )
           .then(() => {
             const trainerManage = {
@@ -194,36 +194,36 @@ router.post("/accept/:trainer_id/:id", (req, res) => {
               .then(() => {
                 res
                   .status(200)
-                  .json({ data: null, message: "성공적으로 수락되었습니다." });
+                  .json({ data: null, message: '성공적으로 수락되었습니다.' });
               })
-              .catch((error) => {
+              .catch(error => {
                 res
                   .status(500)
-                  .json({ data: null, message: "trainerManage insert 오류" });
+                  .json({ data: null, message: 'trainerManage insert 오류' });
               });
           })
-          .catch((error) => {
+          .catch(error => {
             res.status(500).json({ data: null, message: error.message });
           });
       } else {
         res
           .status(401)
-          .json({ data: null, message: "pt request가 존재하지 않습니다." });
+          .json({ data: null, message: 'pt request가 존재하지 않습니다.' });
       }
     })
-    .catch((error) => {
+    .catch(error => {
       res.status(500).json({ data: null, message: error.message });
     });
 });
 
 // pt 요청 거절
-router.post("/reject/:trainer_id/:id", (req, res) => {
+router.post('/reject/:trainer_id/:id', (req, res) => {
   const { trainer_id, id } = req.params;
   pt_requests
     .findOne({
       where: { trainer_id: trainer_id, id: id },
     })
-    .then((requestInfo) => {
+    .then(requestInfo => {
       if (requestInfo != undefined) {
         pt_requests
           .update(
@@ -233,23 +233,23 @@ router.post("/reject/:trainer_id/:id", (req, res) => {
             },
             {
               where: { trainer_id: trainer_id, id: id },
-            }
+            },
           )
           .then(() => {
             res
               .status(200)
-              .json({ data: null, message: "성공적으로 거절되었습니다." });
+              .json({ data: null, message: '성공적으로 거절되었습니다.' });
           })
-          .catch((error) => {
+          .catch(error => {
             res.status(500).json({ data: null, message: error.message });
           });
       } else {
         res
           .status(401)
-          .json({ data: null, message: "pt request가 존재하지 않습니다." });
+          .json({ data: null, message: 'pt request가 존재하지 않습니다.' });
       }
     })
-    .catch((error) => {
+    .catch(error => {
       res.status(500).json({ data: null, message: error.message });
     });
 });

@@ -6,7 +6,7 @@ function TagList({ userId, closeable, tagcount }) {
   const [tags, setTags] = useState([]);
   function deleteTag(tagId) {
     axios
-      .post(`https://fitme.p-e.kr:4000/manage/deletetag/${tagId}`)
+      .post(`https://localhost:4000/manage/deletetag/${tagId}`)
       .then(res => {
         console.log(res);
         console.log(res.data);
@@ -19,7 +19,7 @@ function TagList({ userId, closeable, tagcount }) {
   useEffect(() => {
     const fetchTags = async () => {
       axios
-        .get(`https://fitme.p-e.kr:4000/manage/tag/${userId}`)
+        .get(`https://localhost:4000/manage/tag/${userId}`)
         .then(res => {
           setTags(res.data.data);
         })
