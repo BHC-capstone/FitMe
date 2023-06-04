@@ -36,7 +36,7 @@ jobs:
           aws-region: ap-northeast-2
 
       - name: Make zip file
-        run: zip -r ./practice-deploy.zip ."
+        run: zip -r ./practice-deploy.zip .
         shell: bash
 
       - name: Upload to S3
