@@ -7,11 +7,12 @@
 aws s3 cp s3://fitme-s3/practice-deploy.zip /home/ubuntu/action/ --recursive
 
 cd /home/ubuntu/action/
-unzip practice-deploy.zip -d /home/ubuntu/deploy
+unzip practice-deploy.zip -d ~/home/ubuntu/deploy
 rm practice-deploy.zip
 
+
 #
-cd ~/FitMe/backend
+cd ~/home/ubuntu/deploy/FitMe/backend
 
 if pgrep -f "npm start" >/dev/null; then
   # 실행 중인 경우 종료
