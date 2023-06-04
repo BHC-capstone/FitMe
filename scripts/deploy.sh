@@ -3,8 +3,7 @@
 
 aws s3 cp s3://fitme-s3/practice-deploy.zip /home/ubuntu/action/ --recursive
 
-cp -r /home/ubuntu/action /home/ubuntu/deploy
-
+cp -r /home/ubuntu/action/* /home/ubuntu/FitMe
 cd /home/ubuntu/deploy/FitMe/backend
 
 if pgrep -f "npm start" >/dev/null; then
