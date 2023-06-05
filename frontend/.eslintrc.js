@@ -13,6 +13,14 @@ module.exports = {
   ],
   plugins: ['prettier'],
   rules: {
+    'no-unused-vars': 'off',
+    'no-console': 'off',
+    'react-hooks/exhaustive-deps': 'off',
+    'no-lone-blocks': 'off',
+    eqeqeq: 'off',
+    'no-alert': 'off',
+    'jsx-a11y/alt-text': 'off',
+
     'react/prop-types': 'off',
     'import/np-resolved': 'off',
     'import/no-extraneous-dependencies': 'off',

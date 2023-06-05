@@ -40,7 +40,7 @@ function CertificateManage() {
     formData.append('image', imgRef.current.files[0]);
     axios({
       method: 'POST',
-      url: `https://localhost:4000/trainers/addCertificate/${loginedUser.id}`,
+      url: `https://fitme.p-e.kr:4000/trainers/addCertificate/${loginedUser.id}`,
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -92,7 +92,6 @@ function CertificateManage() {
           </div>
           <div className="upload-text">
             <p>자격증 파일을 업로드 해주세요.</p>
-            <p>자격증 파일은 최대 1개까지 업로드 가능합니다.</p>
           </div>
           <Button variant="primary" type="button">
             파일 선택

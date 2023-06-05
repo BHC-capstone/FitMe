@@ -1,0 +1,54 @@
+name: decloy CD
+
+on:
+  push:
+    branches: ['AWS-EC2']
+  pull_request:
+    branches: ['AWS-EC2']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      # 모듈 설치
+      - name: Install modules
+        run: npm install
+        working-directory: frontend
+      # 빌드
+      - name: Build project
+        run: npm run build
+        working-directory: frontend
+      # 배포
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Make zip file
+        run: zip -r ./practice-deploy.zip . -x "*/node_modules/*"
+        shell: bash
+
+      - name: Upload to S3
+        run: aws s3 cp --region ap-northeast-2 ./practice-deploy.zip s3://$S3_BUCKET_NAME/practice-deploy.zip
+        env:
+          S3_BUCKET_NAME: fitme-s3
+      # CodeDeploy에게 배포 명령을 내린다.
+      - name: Code Deploy
+        run: >
+          aws deploy create-deployment --application-name fitme-codedeploy
+          --deployment-config-name CodeDeployDefault.AllAtOnce
+          --deployment-group-name GROUP
+          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=practice-deploy.zip
+        env:
+          S3_BUCKET_NAME: fitme-s3

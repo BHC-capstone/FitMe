@@ -53,7 +53,7 @@ function TrainerRoutine({
   function exerciseModify(event) {
     event.preventDefault();
     axios({
-      url: `https://localhost:4000/trainer_calender/updateExercise/${routineid}`,
+      url: `https://fitme.p-e.kr:4000/trainer_calender/updateExercise/${routineid}`,
       data: {
         name: exercise,
         exercise_count: timeValue,

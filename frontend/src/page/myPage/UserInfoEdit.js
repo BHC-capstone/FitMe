@@ -36,11 +36,11 @@ function UserEdit({ props }) {
         {
           loginedUser.isTrainer === false
             ? (response = await axios.get(
-                `https://localhost:4000/users/profile/${loginedUser.id}`,
+                `https://fitme.p-e.kr:4000/users/profile/${loginedUser.id}`,
                 { withCredentials: true },
               ))
             : (response = await axios.get(
-                `https://localhost:4000/trainers/profile/${loginedUser.id}`,
+                `https://fitme.p-e.kr:4000/trainers/profile/${loginedUser.id}`,
                 { withCredentials: true },
               ));
         }
@@ -64,11 +64,11 @@ function UserEdit({ props }) {
         {
           loginedUser.isTrainer === false
             ? (response = await axios.get(
-                `https://localhost:4000/users/profileImg/${loginedUser.id}`,
+                `https://fitme.p-e.kr:4000/users/profileImg/${loginedUser.id}`,
                 { withCredentials: true },
               ))
             : (response = await axios.get(
-                `https://localhost:4000/trainers/profileImg/${loginedUser.id}`,
+                `https://fitme.p-e.kr:4000/trainers/profileImg/${loginedUser.id}`,
                 { withCredentials: true },
               ));
         }
@@ -103,8 +103,8 @@ function UserEdit({ props }) {
       let url = null;
       {
         loginedUser.isTrainer === false
-          ? (url = `https://localhost:4000/users/profile/changeProfile/${loginedUser.id}`)
-          : (url = `https://localhost:4000/trainers/profile/changeProfile/${loginedUser.id}`);
+          ? (url = `https://fitme.p-e.kr:4000/users/profile/changeProfile/${loginedUser.id}`)
+          : (url = `https://fitme.p-e.kr:4000/trainers/profile/changeProfile/${loginedUser.id}`);
       }
       axios
         .post(
@@ -140,8 +140,8 @@ function UserEdit({ props }) {
     let url = null;
     {
       loginedUser.isTrainer === false
-        ? (url = `https://localhost:4000/users/changeProfileImage/${loginedUser.id}`)
-        : (url = `https://localhost:4000/trainers/changeProfileImage/${loginedUser.id}`);
+        ? (url = `https://fitme.p-e.kr:4000/users/changeProfileImage/${loginedUser.id}`)
+        : (url = `https://fitme.p-e.kr:4000/trainers/changeProfileImage/${loginedUser.id}`);
     }
     axios
       .post(url, formImgData, {
@@ -174,24 +174,6 @@ function UserEdit({ props }) {
     <div>
       <Container fluid className="panel">
         <div className="head">회원 정보 수정</div>
-        <h1
-          style={{
-            textAlign: 'center',
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          {loginedUser.isTrainer === true ? (
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => navigate('/mypage/certificate')}
-              style={{ position: 'absolute', right: '1%', marginTop: '10%' }}
-            >
-              트레이너 자격관리
-            </button>
-          ) : null}
-        </h1>
         <Avatar
           src={profImg}
           style={{ margin: '20px' }}
