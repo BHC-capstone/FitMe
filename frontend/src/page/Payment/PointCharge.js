@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Input, Radio, Space } from 'antd';
+import { Input, Radio, Space, Divider } from 'antd';
 import axios from 'axios';
 import { Container } from 'react-bootstrap';
 import { set } from 'internal-slot';
+import styled from 'styled-components';
 import payIcon from '../../images/payment_icon_yellow_small.png';
 
 function PointCharge() {
@@ -35,14 +36,15 @@ function PointCharge() {
     fetchPoint();
   }, []);
 
-  function postChargeTry(tid) {
+  function postChargeTry(tid, amount, createdAt) {
     axios({
       method: 'post',
       url: 'https://localhost:4000/users/charge-success',
       data: {
         tid,
         uid: loginedUser.id,
-        point: pointCharge === -1 ? pointChargeEtc : pointCharge,
+        amount,
+        created_at: createdAt,
       },
       withCredentials: true,
     })
@@ -90,6 +92,10 @@ function PointCharge() {
       },
       params,
     }).then(response => {
+      const createdAt = response.data.created_at;
+      const { tid } = response.data;
+      const { amount } = response.data;
+      postChargeTry(tid, amount, createdAt);
       const redirectUrl = response.data.next_redirect_pc_url;
       window.location.href = redirectUrl;
     });
@@ -97,10 +103,10 @@ function PointCharge() {
 
   return (
     <Container fluid className="panel">
-      <h1>포인트 충전</h1>
-      <h2>포인트는 1원 단위로 충전 가능합니다.</h2>
-      <h2>현재 포인트: {point}</h2>
-      <form>
+      <TextTop>포인트 충전</TextTop>
+      <Divider style={{ marginTop: '1px' }} />
+      <TextPoint>현재 포인트: {point}</TextPoint>
+      <form style={{ margin: '20px' }}>
         <Space direction="vertical">
           <Radio.Group
             onChange={e => {
@@ -110,10 +116,13 @@ function PointCharge() {
           >
             <Space direction="vertical">
               <Radio value={10000}>10,000</Radio>
+              <Divider style={{ margin: '1px' }} />
               <Radio value={50000}>50,000</Radio>
+              <Divider style={{ margin: '1px' }} />
               <Radio value={100000}>100,000</Radio>
+              <Divider style={{ margin: '1px' }} />
               <Radio value={-1}>
-                기타 금액
+                직접 입력
                 {pointCharge === -1 ? (
                   <Input
                     style={{
@@ -131,7 +140,11 @@ function PointCharge() {
           <button
             type="button"
             onClick={chargePoint}
-            style={{ border: 'none', background: 'transparent' }}
+            style={{
+              border: 'none',
+              background: 'transparent',
+              marginTop: '30px',
+            }}
           >
             <img src={payIcon} width="70%" height="70%" />
           </button>
@@ -145,5 +158,17 @@ function PointCharge() {
     </Container>
   );
 }
+
+const TextTop = styled.text`
+  font-family: 'Gowun Dodum', sans-serif;
+  font-size: 28px;
+  color: #2ba5f7;
+`;
+
+const TextPoint = styled.text`
+  font-family: 'Gowun Dodum', sans-serif;
+  font-size: 20px;
+  color: #2ba5f7;
+`;
 
 export default PointCharge;
