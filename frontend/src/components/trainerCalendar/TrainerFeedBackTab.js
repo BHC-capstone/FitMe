@@ -14,27 +14,21 @@ function TrainerFeedBackTab({ userid, date }) {
   const [textData, setTextData] = useState([]);
   const [repage, setRePage] = useState(0);
   const loginedUser = useSelector(state => state.user);
+  const blankImg = `https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png`;
 
   useEffect(() => {
-    console.log('새로고침 실행');
     setFeedBackdate(null);
     setCommentdate([]);
     axios({
       url: `https://fitme.p-e.kr:4000/feedback/checkFeedback/${userid}/${date}`,
       method: 'GET',
       withCredentials: true,
-    })
-      .then(res => {
-        setFeedBackdate(res.data.data.feedback);
-        setCommentdate(res.data.data.feedbackComment);
-        console.log(res.data.data);
-        // console.log('1');
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    }).then(res => {
+      setFeedBackdate(res.data.data.feedback);
+      setCommentdate(res.data.data.feedbackComment);
+      // console.log('1');
+    });
     setFeedbackExist(!!(Feedbackdate != null && Feedbackdate != false));
-    console.log(FeedbackExist);
   }, [userid, date, repage, FeedbackExist]);
 
   useEffect(() => {
@@ -49,14 +43,9 @@ function TrainerFeedBackTab({ userid, date }) {
       data: { message: textData },
       method: 'POST',
       withCredentials: true,
-    })
-      .then(res => {
-        console.log(res);
-        setRePage(repage + 1);
-      })
-      .catch(err => {
-        console.log('fail');
-      });
+    }).then(res => {
+      setRePage(repage + 1);
+    });
   };
   const onChangeText = e => {
     setTextData(e.target.value);
@@ -87,7 +76,40 @@ function TrainerFeedBackTab({ userid, date }) {
               userid={userid}
             />
             <details className="mgtp">
-              <summary className="mgbt">피드백 추가</summary>
+              <summary className="mgbt">회원 신체정보</summary>
+              <Container fluid className="content">
+                <div className="mgtp">
+                  <div className="mgbt">키</div>
+                  <div className="mgbt">{Feedbackdate.height}</div>
+                </div>
+                <div className="mgtp">
+                  <div className="mgbt">몸무게</div>
+                  <div className="mgbt">{Feedbackdate.weight}</div>
+                </div>
+                <div className="mgtp">
+                  <div className="mgbt">BMI</div>
+                  <div className="mgbt">{Feedbackdate.bmi}</div>
+                </div>
+                <div className="mgtp">
+                  <div className="mgbt">신체 사진</div>
+                  <div className="mgbt">
+                    <img
+                      src={
+                        Feedbackdate.body_photo_url == null
+                          ? blankImg
+                          : Feedbackdate.body_photo_url
+                      }
+                      alt="신체 사진"
+                      width="100"
+                      height="100"
+                    />
+                  </div>
+                </div>
+              </Container>
+            </details>
+
+            <details className="mgtp">
+              <summary className="mgbt">추가 요청사항</summary>
               <Container fluid className="content">
                 {Commentdate.map((el, index) => (
                   // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
@@ -118,7 +140,7 @@ function TrainerFeedBackTab({ userid, date }) {
                     className="mgtp"
                     onClick={onAddDetailDiv}
                   >
-                    추가 버튼
+                    전송
                   </Button>
                 </Flexcontainerg>
               </Container>
