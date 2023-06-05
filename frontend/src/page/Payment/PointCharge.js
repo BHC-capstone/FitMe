@@ -35,9 +35,31 @@ function PointCharge() {
     fetchPoint();
   }, []);
 
+  function postChargeTry(tid) {
+    axios({
+      method: 'post',
+      url: 'https://localhost:4000/users/charge-success',
+      data: {
+        tid,
+        uid: loginedUser.id,
+        point: pointCharge === -1 ? pointChargeEtc : pointCharge,
+      },
+      withCredentials: true,
+    })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
   const chargePoint = async () => {
     if (pointCharge < 1000) {
-      if (pointCharge === -1 && pointChargeEtc < 1000) {
+      if (
+        pointCharge === -1 &&
+        (isNaN(pointChargeEtc) || pointChargeEtc < 1000)
+      ) {
         setAlertDisplay(1);
         return;
       }
@@ -87,7 +109,6 @@ function PointCharge() {
             value={pointCharge}
           >
             <Space direction="vertical">
-              <Radio value={500}>500</Radio>
               <Radio value={10000}>10,000</Radio>
               <Radio value={50000}>50,000</Radio>
               <Radio value={100000}>100,000</Radio>
@@ -115,7 +136,7 @@ function PointCharge() {
             <img src={payIcon} width="70%" height="70%" />
           </button>
           {alertDisplay === 1 ? (
-            <div style={{ color: 'red', fontSize: '5' }}>
+            <div style={{ color: 'red', fontSize: '13px' }}>
               1000원 이상부터 충전 가능합니다.
             </div>
           ) : null}
