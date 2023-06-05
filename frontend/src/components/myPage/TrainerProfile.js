@@ -55,7 +55,7 @@ function TrainerProfile() {
     e.preventDefault();
     axios({
       method: 'post',
-      url: `https://localhost:4000/trainers/updateIntroduction/${loginedUser.id}`,
+      url: `https://localhost:4000/trainers/profile/changeProfile/${loginedUser.id}`,
       data: {
         introduction,
       },

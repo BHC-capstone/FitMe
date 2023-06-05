@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Input, Radio, Space, Divider } from 'antd';
 import axios from 'axios';
 import { Container } from 'react-bootstrap';
-import { set } from 'internal-slot';
+import { CopyrightOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import payIcon from '../../images/payment_icon_yellow_small.png';
 
@@ -115,14 +115,20 @@ function PointCharge() {
             value={pointCharge}
           >
             <Space direction="vertical">
-              <Radio value={10000}>10,000</Radio>
+              <Radio value={10000}>
+                <CopyrightOutlined /> 10,000
+              </Radio>
               <Divider style={{ margin: '1px' }} />
-              <Radio value={50000}>50,000</Radio>
+              <Radio value={50000}>
+                <CopyrightOutlined /> 50,000
+              </Radio>
               <Divider style={{ margin: '1px' }} />
-              <Radio value={100000}>100,000</Radio>
+              <Radio value={100000}>
+                <CopyrightOutlined /> 100,000
+              </Radio>
               <Divider style={{ margin: '1px' }} />
               <Radio value={-1}>
-                직접 입력
+                <CopyrightOutlined /> 직접 입력
                 {pointCharge === -1 ? (
                   <Input
                     style={{
