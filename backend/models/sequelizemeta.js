@@ -1,7 +1,7 @@
-const Sequelize = require("sequelize");
+const Sequelize = require('sequelize');
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define(
-    "sequelizemeta",
+    'sequelizemeta',
     {
       name: {
         type: DataTypes.STRING(255),
@@ -11,22 +11,22 @@ module.exports = function (sequelize, DataTypes) {
     },
     {
       sequelize,
-      tableName: "sequelizemeta",
+      tableName: 'sequelizemeta',
       timestamps: false,
       indexes: [
         {
-          name: "PRIMARY",
+          name: 'PRIMARY',
           unique: true,
-          using: "BTREE",
-          fields: [{ name: "name" }],
+          using: 'BTREE',
+          fields: [{ name: 'name' }],
         },
         {
-          name: "name",
+          name: 'name',
           unique: true,
-          using: "BTREE",
-          fields: [{ name: "name" }],
+          using: 'BTREE',
+          fields: [{ name: 'name' }],
         },
       ],
-    }
+    },
   );
 };

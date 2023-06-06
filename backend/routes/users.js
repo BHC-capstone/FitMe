@@ -96,12 +96,12 @@ router.post("/login", async function (req, res) {
         } else {
           res
             .status(401)
-            .json({ data: null, message: "로그인 정보가 일치하지 않습니다" });
+            .json({ data: null, message: "비밀번호가 일치하지 않습니다" });
         }
       } else {
         res
-          .status(401)
-          .json({ data: null, message: "로그인 정보가 일치하지 않습니다" });
+          .status(400)
+          .json({ data: null, message: "아이디가 일치하지 않습니다" });
       }
     } catch (err) {
       console.log(err);
@@ -162,39 +162,94 @@ router.get("/profile/:id", async function (req, res) {
 router.post("/profile/changeProfile/:id", async function (req, res) {
   if (req.session.loggedin) {
     try {
+      let transaction = await sequelize.transaction();
       const userInfo = await users.findOne({
         where: { id: req.params.id },
       });
-      if (req.body.password != req.body.password2)
-        res
-          .status(401)
-          .json({ data: null, message: "입력된 비밀번호가 서로 다릅니다." });
-      else {
-        try {
-          const hashedPassword = await bcrypt.hash(
-            req.body.password,
-            saltRounds
-          );
-          await users.update(
-            {
-              email: req.body.email,
-              name: req.body.name,
-              password: hashedPassword,
-              age: req.body.age,
-              gender: req.body.gender,
-              phonenumber: req.body.phonenumber,
-            },
-            { where: { id: req.params.id } }
-          );
-          res
-            .status(200)
-            .json({ data: null, message: "성공적으로 변경되었습니다." });
-        } catch (err) {
-          console.log(err);
-        }
+      const passwordMatch = await bcrypt.compare(
+        req.body.currentPassword,
+        userInfo.password
+      );
+
+      if (!passwordMatch) {
+        res.status(401).json({
+          data: null,
+          message: "현재 비밀번호가 일치하지 않습니다.",
+        });
+      } else {
+        await users.update(
+          {
+            email: req.body.email,
+            name: req.body.name,
+            password: hashedPassword,
+            age: req.body.age,
+            gender: req.body.gender,
+            phonenumber: req.body.phonenumber,
+          },
+          { where: { id: req.params.id } },
+          { transaction }
+        );
+
+        await transaction.commit();
+
+        res.status(200).json({
+          data: null,
+          message: "성공적으로 변경되었습니다.",
+        });
       }
     } catch (err) {
       console.log(err);
+      res
+        .status(500)
+        .json({ data: null, message: "서버 오류가 발생했습니다." });
+    }
+  } else {
+    res.status(401).json({ data: null, message: "로그인이 필요합니다." });
+  }
+});
+
+// trainer password change
+router.post("/profile/changePassword/:id", async function (req, res) {
+  if (req.session.loggedin) {
+    try {
+      const { id } = req.params;
+      const { currentPassword, newPassword, newPassword2 } = req.body;
+      const userInfo = await users.findOne({
+        where: { id: req.params.id },
+      });
+      const passwordMatch = await bcrypt.compare(
+        currentPassword,
+        userInfo.password
+      );
+      if (!passwordMatch) {
+        return res.status(401).json({
+          data: null,
+          message: "현재 비밀번호가 일치하지 않습니다.",
+        });
+      }
+      if (newPassword !== newPassword2) {
+        return res.status(401).json({
+          data: null,
+          message: "입력된 새 비밀번호가 일치하지 않습니다.",
+        });
+      }
+      const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+      await users.update(
+        {
+          password: hashedPassword,
+        },
+        { where: { id } }
+      );
+
+      res.status(200).json({
+        data: null,
+        message: "성공적으로 비밀번호가 변경되었습니다.",
+      });
+    } catch (err) {
+      console.log(err);
+      res
+        .status(500)
+        .json({ data: null, message: "서버 오류가 발생했습니다." });
     }
   } else {
     res.status(401).json({ data: null, message: "로그인이 필요합니다." });
@@ -358,6 +413,7 @@ router.post("/bodyinfo/:id", async function (req, res) {
       await bodycheck.update(
         {
           body_image_url: result.Location,
+          body_s3_key: result.Key,
         },
         { where: { id: bodyInfo.id } }
       );
@@ -376,10 +432,32 @@ router.post("/bodyinfo/:id", async function (req, res) {
 router.get("/checkbodyinfo/:id", async function (req, res) {
   if (req.session.loggedin) {
     try {
+      const currentDate = new Date();
+      const pastDate = new Date();
+      pastDate.setDate(currentDate.getDate() - 7);
+
       const bodyInfo = await bodycheck.findAll({
-        where: { user_id: req.params.id },
+        where: {
+          user_id: req.params.id,
+          date: {
+            [Op.between]: [pastDate, currentDate],
+          },
+        },
+        order: [["date", "ASC"]],
       });
-      res.status(200).json({ data: bodyInfo, message: "" });
+
+      const dateRange = getDatesInRange(pastDate, currentDate);
+      const missingDates = getMissingDates(bodyInfo, dateRange);
+
+      if (missingDates.length > 0) {
+        res.status(200).json({
+          data: bodyInfo,
+          message: "누락된 데이터가 있습니다.",
+          missingDates,
+        });
+      } else {
+        res.status(200).json({ data: bodyInfo, message: "" });
+      }
     } catch (err) {
       console.log(err);
       res
@@ -390,5 +468,25 @@ router.get("/checkbodyinfo/:id", async function (req, res) {
     res.status(401).json({ data: null, message: "로그인이 필요합니다." });
   }
 });
+
+// 날짜 범위 배열 생성
+function getDatesInRange(startDate, endDate) {
+  const dates = [];
+  const current = new Date(startDate);
+  while (current <= endDate) {
+    dates.push(new Date(current));
+    current.setDate(current.getDate() + 1);
+  }
+  return dates;
+}
+
+// 누락된 날짜 배열 생성
+function getMissingDates(data, dateRange) {
+  const existingDates = data.map((item) => item.date);
+  const missingDates = dateRange.filter(
+    (date) => !existingDates.includes(date)
+  );
+  return missingDates;
+}
 
 module.exports = router;

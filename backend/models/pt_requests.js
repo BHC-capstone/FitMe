@@ -27,6 +27,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true
     },
+    price: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
     request: {
       type: DataTypes.TEXT,
       allowNull: true

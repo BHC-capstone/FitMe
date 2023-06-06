@@ -1,7 +1,7 @@
-const Sequelize = require("sequelize");
+const Sequelize = require('sequelize');
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define(
-    "calender",
+    'calender',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -23,16 +23,16 @@ module.exports = function (sequelize, DataTypes) {
     },
     {
       sequelize,
-      tableName: "calender",
+      tableName: 'calender',
       timestamps: false,
       indexes: [
         {
-          name: "PRIMARY",
+          name: 'PRIMARY',
           unique: true,
-          using: "BTREE",
-          fields: [{ name: "id" }],
+          using: 'BTREE',
+          fields: [{ name: 'id' }],
         },
       ],
-    }
+    },
   );
 };

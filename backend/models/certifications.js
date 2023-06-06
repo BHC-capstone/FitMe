@@ -22,6 +22,14 @@ module.exports = function(sequelize, DataTypes) {
     image_url: {
       type: DataTypes.STRING(255),
       allowNull: true
+    },
+    certification_s3_key: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    trainer_certification_auth: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true
     }
   }, {
     sequelize,

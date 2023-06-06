@@ -12,50 +12,84 @@ const initModels = require("../models/init-models");
 const models = initModels(sequelize);
 
 // pt 요청
-router.post("/ptrequest", (req, res) => {
+router.post("/ptrequest", async (req, res) => {
   if (req.session.loggedin) {
     try {
-      pt_requests
-        .findOne({
-          where: { trainer_id: req.body.trainer_id, user_id: req.body.id },
-        })
-        .then(async (requestInfo) => {
-          if (requestInfo == undefined) {
-            const userInfo = await users.findOne({
-              where: { id: req.body.id },
-            });
-            const newRequest = {
-              user_id: req.body.id,
-              trainer_id: req.body.trainer_id,
-              date: req.body.startDate,
-              count: req.body.count,
-              request: req.body.request,
-              days: req.body.days,
-              gender: userInfo.gender,
-              age: userInfo.age,
-              height: req.body.height,
-              weight: req.body.weight,
-              injury: req.body.injury,
-              career: req.body.career,
-              significant: req.body.significant,
-              bodyshape: req.body.bodyshape,
-              purpose: req.body.purpose,
-              lifestyle: req.body.lifestyle,
-              accept: false,
-            };
-            pt_requests.create(newRequest).then(() => {
-              res
-                .status(200)
-                .json({ data: null, message: "성공적으로 신청되었습니다." });
-            });
-          } else {
-            res
-              .status(401)
-              .json({ data: null, message: "이미 신청한 trainer입니다" });
-          }
-        });
+      const trainerId = req.body.trainer_id;
+      const userId = req.body.id;
+
+      const existingRequest = await pt_requests.findOne({
+        where: { trainer_id: trainerId, user_id: userId },
+      });
+
+      if (existingRequest !== null) {
+        return res
+          .status(401)
+          .json({ data: null, message: "이미 신청한 trainer입니다" });
+      }
+
+      const userInfo = await users.findOne({
+        where: { id: userId },
+      });
+
+      const trainerInfo = await trainers.findOne({
+        where: { trainer_id: trainerId },
+      });
+
+      const ptPoint = trainerInfo.pt_point;
+      const count = req.body.count;
+      const totalPrice = ptPoint * count;
+
+      if (userInfo.user_point < totalPrice) {
+        return res
+          .status(401)
+          .json({ data: null, message: "포인트가 부족합니다." });
+      }
+
+      await sequelize.transaction(async (transaction) => {
+        await pt_requests.create(
+          {
+            user_id: userId,
+            trainer_id: trainerId,
+            date: req.body.startDate,
+            count: count,
+            price: totalPrice,
+            request: req.body.request,
+            days: req.body.days,
+            gender: userInfo.gender,
+            age: userInfo.age,
+            height: req.body.height,
+            weight: req.body.weight,
+            injury: req.body.injury,
+            career: req.body.career,
+            significant: req.body.significant,
+            bodyshape: req.body.bodyshape,
+            purpose: req.body.purpose,
+            lifestyle: req.body.lifestyle,
+            accept: false,
+          },
+          { transaction }
+        );
+
+        await user_point.update(
+          { user_point: sequelize.literal(`user_point - ${totalPrice}`) },
+          { where: { user_id: userId }, transaction }
+        );
+
+        await trainer_point.update(
+          { trainer_point: sequelize.literal(`trainer_point + ${totalPrice}`) },
+          { where: { trainer_id: trainerId }, transaction }
+        );
+      });
+
+      res
+        .status(200)
+        .json({ data: null, message: "성공적으로 신청되었습니다." });
     } catch (err) {
       console.log(err);
+      res
+        .status(500)
+        .json({ data: null, message: "서버 오류가 발생했습니다." });
     }
   } else {
     res.status(401).json({ data: null, message: "로그인이 필요합니다." });
@@ -166,7 +200,7 @@ router.post("/accept/:trainer_id/:id", (req, res) => {
   const { trainer_id, id } = req.params;
   pt_requests
     .findOne({
-      where: { trainer_id: trainer_id, id: id },
+      where: { trainer_id, id },
     })
     .then((requestInfo) => {
       if (requestInfo != undefined) {
@@ -177,16 +211,44 @@ router.post("/accept/:trainer_id/:id", (req, res) => {
               accept: true,
             },
             {
-              where: { trainer_id: trainer_id, id: id },
+              where: { trainer_id, id },
             }
           )
           .then(() => {
+            const {
+              gender,
+              age,
+              height,
+              weight,
+              injury,
+              career,
+              significant,
+              bodyshape,
+              purpose,
+              lifestyle,
+            } = requestInfo;
+
+            const memoData = {
+              gender,
+              age,
+              height,
+              weight,
+              injury,
+              career,
+              significant,
+              bodyshape,
+              purpose,
+              lifestyle,
+            };
+
+            const memo = Object.values(memoData).join(", ");
+
             const trainerManage = {
               user_id: requestInfo.user_id,
               trainer_id: requestInfo.trainer_id,
               total_pt_count: requestInfo.count,
               remain_pt_count: requestInfo.count,
-              manage_memo: requestInfo.request,
+              manage_memo: memo,
             };
 
             trainer_manage

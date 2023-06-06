@@ -1,4 +1,5 @@
 var DataTypes = require("sequelize").DataTypes;
+var _AdminStatistics = require("./AdminStatistics");
 var _ads = require("./ads");
 var _bodycheck = require("./bodycheck");
 var _certifications = require("./certifications");
@@ -9,6 +10,7 @@ var _exercise_routines = require("./exercise_routines");
 var _expertises = require("./expertises");
 var _feedbacks = require("./feedbacks");
 var _meal_plan = require("./meal_plan");
+var _payment = require("./payment");
 var _pt_requests = require("./pt_requests");
 var _schedules = require("./schedules");
 var _trainer_cert = require("./trainer_cert");
@@ -22,6 +24,7 @@ var _user_tag = require("./user_tag");
 var _users = require("./users");
 
 function initModels(sequelize) {
+  var AdminStatistics = _AdminStatistics(sequelize, DataTypes);
   var ads = _ads(sequelize, DataTypes);
   var bodycheck = _bodycheck(sequelize, DataTypes);
   var certifications = _certifications(sequelize, DataTypes);
@@ -32,6 +35,7 @@ function initModels(sequelize) {
   var expertises = _expertises(sequelize, DataTypes);
   var feedbacks = _feedbacks(sequelize, DataTypes);
   var meal_plan = _meal_plan(sequelize, DataTypes);
+  var payment = _payment(sequelize, DataTypes);
   var pt_requests = _pt_requests(sequelize, DataTypes);
   var schedules = _schedules(sequelize, DataTypes);
   var trainer_cert = _trainer_cert(sequelize, DataTypes);
@@ -56,6 +60,7 @@ function initModels(sequelize) {
   users.hasMany(trainer_manage, { as: "trainer_manages", foreignKey: "user_id"});
 
   return {
+    AdminStatistics,
     ads,
     bodycheck,
     certifications,
@@ -66,6 +71,7 @@ function initModels(sequelize) {
     expertises,
     feedbacks,
     meal_plan,
+    payment,
     pt_requests,
     schedules,
     trainer_cert,

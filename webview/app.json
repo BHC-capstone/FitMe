@@ -11,7 +11,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -19,7 +21,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.pjm2476.webview"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -30,9 +33,14 @@
       }
     },
     "owner": "pjm2476",
-
     "packagerOpts": {
-      "sourceExts": ["js", "json", "ts", "tsx", "jsx"]
+      "sourceExts": [
+        "js",
+        "json",
+        "ts",
+        "tsx",
+        "jsx"
+      ]
     }
   }
 }
