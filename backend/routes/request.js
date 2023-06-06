@@ -38,7 +38,7 @@ router.post('/ptrequest', async (req, res) => {
         where: { trainer_id: trainerId },
       });
 
-      if (userInfo.user_point < totalPrice) {
+      if (userInfo.amount < totalPrice) {
         return res
           .status(401)
           .json({ data: null, message: '포인트가 부족합니다.' });
@@ -290,7 +290,7 @@ router.post('/accept/:trainer_id/:id', (req, res) => {
             trainer_manage
               .create(trainerManage)
               .then(() => {
-                trainer_points // 추가된 부분
+                trainer_points
                   .findOne({ where: { trainer_id } })
                   .then(pointsInfo => {
                     if (pointsInfo != undefined) {
