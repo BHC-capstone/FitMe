@@ -42,6 +42,7 @@ router.post(
     ) {
       let transaction;
       try {
+        const currentDate = new Date();
         transaction = await sequelize.transaction();
 
         const trainerInfo = await trainers.findOne({

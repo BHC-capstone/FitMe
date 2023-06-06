@@ -1,10 +1,13 @@
 const request = require('supertest');
 const app = require('../app');
 let users = require('../models').users;
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
-
 // user signup test
+
+const sequelize = require('../models').sequelize;
+beforeAll(async () => {
+  await sequelize.sync({});
+});
+
 describe('User Signup', () => {
   afterAll(async () => {
     await users.destroy({

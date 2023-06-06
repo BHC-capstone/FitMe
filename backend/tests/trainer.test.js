@@ -3,12 +3,17 @@ const app = require('../app');
 let trainers = require('../models').trainers;
 let fs = require('fs');
 let path = require('path');
+
+const sequelize = require('../models').sequelize;
+beforeAll(async () => {
+  await sequelize.sync({});
+});
+
 // 세션 mocking
 // const session = require('express-session');
 // jest.mock('express-session');
 
 const testDir = path.join(__dirname, 'files');
-
 const testFilePath = path.join(testDir, 'test-file.jpg');
 fs.writeFileSync(testFilePath, '테스트 파일');
 
@@ -33,6 +38,7 @@ describe('Trainer Signup', () => {
       .field('phonenumber', '01012345678')
       .field('introduction', '트레이너 소개')
       .field('pt_point', 100)
+      .field('Content-Type', 'multipart/form-data')
       .attach('certificationFile', testFilePath);
 
     expect(response.status).toBe(200);
