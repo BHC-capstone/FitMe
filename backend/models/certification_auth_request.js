@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('certifications', {
+  return sequelize.define('certification_auth_request', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -14,6 +14,10 @@ module.exports = function(sequelize, DataTypes) {
         model: 'trainers',
         key: 'id'
       }
+    },
+    trainer_request_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true
     },
     name: {
       type: DataTypes.STRING(255),
@@ -29,7 +33,7 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'certifications',
+    tableName: 'certification_auth_request',
     timestamps: false,
     indexes: [
       {
