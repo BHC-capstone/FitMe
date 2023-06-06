@@ -17,6 +17,9 @@ var calenderRouter = require('./routes/calender');
 var trainer_calenderRouter = require('./routes/trainer_calender');
 var feedbackRouter = require('./routes/feedback');
 var payRouter = require('./routes/pay');
+var adminRouter = require('./routes/administrator');
+
+const PORT = process.env.PORT || 4000;
 
 var app = express();
 app.use(logger('dev'));
@@ -58,13 +61,12 @@ app.use('/calender', calenderRouter);
 app.use('/trainer_calender', trainer_calenderRouter);
 app.use('/feedback', feedbackRouter);
 app.use('/pay', payRouter);
+app.use('/admin', adminRouter);
 
 //frontend와 연동
 app.use(express.static(path.join(__dirname, '../frontend/build')));
 app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
 });
-
-//back end ci test
 
 module.exports = app;

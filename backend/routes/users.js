@@ -114,7 +114,7 @@ router.post('/login', async function (req, res) {
       } else {
         res.status(400).json({
           data: null,
-          message: '일치하는 이메일이 존재하지 않습니다',
+          message: '이메일 혹은 비밀번호가 일치하지 않습니다',
         });
       }
     } catch (err) {

@@ -1,10 +1,13 @@
 const request = require('supertest');
 const app = require('../app');
 let users = require('../models').users;
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
-
 // user signup test
+
+const sequelize = require('../models').sequelize;
+beforeAll(async () => {
+  await sequelize.sync({});
+});
+
 describe('User Signup', () => {
   afterAll(async () => {
     await users.destroy({
@@ -101,7 +104,9 @@ describe('User Login', () => {
     const response = await request(app).post('/users/login').send(invalidUser);
 
     expect(response.status).toBe(400);
-    expect(response.body.message).toBe('일치하는 이메일이 존재하지 않습니다');
+    expect(response.body.message).toBe(
+      '이메일 혹은 비밀번호가 일치하지 않습니다',
+    );
     expect(response.body.data).toBeNull();
   });
 
