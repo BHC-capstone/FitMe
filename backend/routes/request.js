@@ -17,6 +17,7 @@ const models = initModels(sequelize);
 router.post('/ptrequest', async (req, res) => {
   if (req.session.loggedin) {
     try {
+      const currentDate = new Date();
       const trainerId = req.body.trainer_id;
       const userId = req.body.id;
 
