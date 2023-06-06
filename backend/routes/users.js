@@ -5,10 +5,8 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const { sequelize } = require('../models');
 const { Model } = require('sequelize');
-
 const initModels = require('../models/init-models');
 const models = initModels(sequelize);
-
 const imageUpload = require('../modules/s3upload').upload;
 const s3 = require('../modules/s3upload').s3;
 
@@ -16,7 +14,6 @@ models.users.findOne;
 
 // uesr signup
 router.post('/signup', async function (req, res) {
-  console.log(req.body);
   if (
     (req.body.email,
     req.body.name,
@@ -28,7 +25,6 @@ router.post('/signup', async function (req, res) {
     let transaction;
     try {
       transaction = await sequelize.transaction();
-
       const userInfo = await users.findOne({
         where: { email: req.body.email },
         attributes: ['email'],
@@ -40,7 +36,6 @@ router.post('/signup', async function (req, res) {
           .status(409)
           .json({ data: result, message: '이미 존재하는 아이디입니다' });
       else {
-        console.log(req.body);
         const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
         const user = await users.create({
           email: req.body.email,
@@ -51,7 +46,7 @@ router.post('/signup', async function (req, res) {
           phonenumber: req.body.phonenumber,
           transaction,
         });
-
+        console.log(user);
         const userPoint = await user_points.create(
           {
             user_id: user.id,

@@ -28,18 +28,18 @@ describe('User Signup', () => {
     expect(response.body.data).toBeNull();
   });
 
-  // it('해당하는 이메일이 이미 존재하는 경우', async () => {
-  //   const response = await request(app).post('/users/signup').send({
-  //     email: 'user@ajou.ac.kr',
-  //     name: '박진명',
-  //     password: '1234',
-  //     age: 25,
-  //     gender: 'male',
-  //     phonenumber: '01012341234',
-  //   });
+  it('해당하는 이메일이 이미 존재하는 경우', async () => {
+    const response = await request(app).post('/users/signup').send({
+      email: 'user@ajou.ac.kr',
+      name: '박진명',
+      password: '1234',
+      age: 25,
+      gender: 'male',
+      phonenumber: '01012341234',
+    });
 
-  //   expect(response.status).toBe(409);
-  //   expect(response.body.message).toBe('이미 존재하는 아이디입니다');
-  //   expect(response.body.data).toBeNull();
-  // });
+    expect(response.status).toBe(409);
+    expect(response.body.message).toBe('이미 존재하는 아이디입니다');
+    expect(response.body.data).toBeNull();
+  });
 });

@@ -70,7 +70,7 @@ export default function TrainerSignUpPage() {
     // };
 
     // axios
-    //   .post('http://fitme.p-e.kr:4000/trainers/signup', body)
+    //   .post('http://localhost:4000/trainers/signup', body)
     //   .then((res) => {
     //     if (res.data.success) {
     //       navigate('/login');
@@ -93,13 +93,13 @@ export default function TrainerSignUpPage() {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
-      url: 'https://fitme.p-e.kr:4000/trainers/signup',
+      url: 'https://localhost:4000/trainers/signup',
       data: formData,
       method: 'POST',
     })
       .then(res => {
-        navigate('/trainer-login');
         alert(res.data.message);
+        navigate('/trainer-login');
       })
       .catch(err => {
         console.log(err);
@@ -169,6 +169,7 @@ export default function TrainerSignUpPage() {
                   placeholder="Enter name"
                   value={name}
                   onChange={onChangeName}
+                  required
                 />
               </FloatingLabel>
             </Col>
@@ -196,7 +197,7 @@ export default function TrainerSignUpPage() {
                 className="mb-3"
                 required
               >
-                <Form.Select value={gender} onChange={onChangeGender}>
+                <Form.Select value={gender} onChange={onChangeGender} required>
                   <option>선택하세요</option>
                   <option value="남성">남성</option>
                   <option value="여성">여성</option>
@@ -239,12 +240,7 @@ export default function TrainerSignUpPage() {
               onChange={onChangeCertificationFile}
             />
           </Form.Group>
-          <Button
-            variant="primary"
-            type="submit"
-            className="mgtp"
-            onClick={onSubmit}
-          >
+          <Button variant="primary" type="submit" className="mgtp">
             제출
           </Button>
         </Form>

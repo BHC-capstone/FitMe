@@ -60,7 +60,7 @@ export default function TrainerSignUpPage() {
       gender,
     };
     axios
-      .post('https://fitme.p-e.kr:4000/users/signup', body, {
+      .post('https://localhost:4000/users/signup', body, {
         withCredentials: true,
       })
       .then(res => {
@@ -90,6 +90,7 @@ export default function TrainerSignUpPage() {
             className="mb-3"
           >
             <Form.Control
+              id="email"
               type="email"
               placeholder="Enter email"
               value={email}
@@ -101,6 +102,7 @@ export default function TrainerSignUpPage() {
             controlId="floatingInput"
             label="비밀번호"
             className="mb-3"
+            required
           >
             <Form.Control
               type="password"
@@ -129,12 +131,14 @@ export default function TrainerSignUpPage() {
                 controlId="floatingInput"
                 label="이름"
                 className="mb-3"
+                required
               >
                 <Form.Control
                   type="text"
                   placeholder="Enter name"
                   value={name}
                   onChange={onChangeName}
+                  required
                 />
               </FloatingLabel>
             </Col>
@@ -157,7 +161,7 @@ export default function TrainerSignUpPage() {
           <Row>
             <Col>
               <FloatingLabel controlId="floatingSelect" label="성별" required>
-                <Form.Select onChange={onChangeGender}>
+                <Form.Select onChange={onChangeGender} required>
                   <option>선택하세요</option>
                   <option value="남성">남성</option>
                   <option value="여성">여성</option>
@@ -176,12 +180,7 @@ export default function TrainerSignUpPage() {
               </FloatingLabel>
             </Col>
           </Row>
-          <Button
-            variant="primary"
-            type="submit"
-            className="mgtp"
-            onClick={onSubmit}
-          >
+          <Button variant="primary" type="submit" className="mgtp">
             제출
           </Button>
         </Form>
