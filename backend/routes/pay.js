@@ -117,6 +117,7 @@ router.post('/payment/approve', async (req, res) => {
         payment_Id: paymentId,
         amount: amount,
         point: point,
+        createdAt: new Date(),
       });
       res.status(200).json({ data: paymentId, amount, message: '결제 승인' });
     } else {
