@@ -64,11 +64,16 @@ export default function TrainerSignUpPage() {
         withCredentials: true,
       })
       .then(res => {
-        navigate('/user-login');
-        alert(res.data.message);
+        console.log(res.data.data);
+        if (res.status === 200) {
+          navigate('/user-login');
+          alert(res.data.message);
+        } else {
+          alert(res.data.message);
+        }
       })
       .catch(err => {
-        console.log(err);
+        alert(err.response.data.message);
       });
   };
 

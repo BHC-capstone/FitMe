@@ -34,7 +34,7 @@ router.post('/signup', async function (req, res) {
       if (userInfo != undefined)
         res
           .status(409)
-          .json({ data: result, message: '이미 존재하는 아이디입니다' });
+          .json({ data: null, message: '이미 존재하는 이메일입니다' });
       else {
         const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
         const user = await users.create({
@@ -46,7 +46,6 @@ router.post('/signup', async function (req, res) {
           phonenumber: req.body.phonenumber,
           transaction,
         });
-        console.log(user);
         const userPoint = await user_points.create(
           {
             user_id: user.id,
@@ -94,9 +93,10 @@ router.post('/login', async function (req, res) {
             .json({ data: null, message: '비밀번호가 일치하지 않습니다' });
         }
       } else {
-        res
-          .status(400)
-          .json({ data: null, message: '아이디가 일치하지 않습니다' });
+        res.status(400).json({
+          data: null,
+          message: '일치하는 이메일이 존재하지 않습니다',
+        });
       }
     } catch (err) {
       console.log(err);
@@ -104,7 +104,7 @@ router.post('/login', async function (req, res) {
   } else {
     res
       .status(400)
-      .json({ data: null, message: '아이디와 비밀번호를 입력하세요' });
+      .json({ data: null, message: '이메일과 비밀번호를 입력하세요' });
   }
 });
 
