@@ -7,6 +7,7 @@ const {
   pt_requests,
   trainer_manage,
   bodycheck,
+  user_point,
 } = require('../models');
 const initModels = require('../models/init-models');
 const models = initModels(sequelize);
@@ -87,7 +88,27 @@ router.post('/ptrequest', async (req, res) => {
   }
 });
 
-//회당 가격 가져오는 api만들기
+// price per one pt
+router.get('/price/:id', (req, res) => {
+  if (req.session.loggedin) {
+    const { id } = req.params;
+    trainers
+      .findOne({
+        where: { trainer_id: id },
+        attributes: ['pt_point'],
+      })
+      .then(trainerInfo => {
+        if (trainerInfo != undefined) {
+          res.status(200).json({ data: trainerInfo, message: '' });
+        } else {
+          res.status(401).json({ data: null, message: '' });
+        }
+      });
+  } else {
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+  }
+});
+
 // user pt 요청 조회
 router.get('/checklist/:id', (req, res) => {
   if (req.session.loggedin) {
@@ -261,12 +282,10 @@ router.post('/accept/:trainer_id/:id', (req, res) => {
                           { where: { trainer_id } },
                         )
                         .then(() => {
-                          res
-                            .status(200)
-                            .json({
-                              data: null,
-                              message: '성공적으로 수락되었습니다.',
-                            });
+                          res.status(200).json({
+                            data: null,
+                            message: '성공적으로 수락되었습니다.',
+                          });
                         })
                         .catch(error => {
                           res.status(500).json({

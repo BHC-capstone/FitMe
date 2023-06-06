@@ -7,7 +7,6 @@ const {
   pt_requests,
   certifications,
   trainer_cert,
-  trainer_review,
   trainer_sign_request,
   certification_auth_request,
 } = require('../models');
@@ -220,7 +219,6 @@ router.get('/profile/:id', async function (req, res) {
           'phonenumber',
           'introduction',
           'career',
-          'review_avg',
           'trainer_image_url',
         ],
       });
@@ -391,7 +389,6 @@ router.get('/trainerlist', async function (req, res) {
           'gender',
           'introduction',
           'phonenumber',
-          'review_avg',
         ],
       });
       res.status(200).json({ data: trainerInfo, message: '' });
@@ -417,7 +414,6 @@ router.get('/trainerlist/:id', async function (req, res) {
         'email',
         'introduction',
         'career',
-        'review_avg',
         'trainer_image_url',
       ],
       include: {
@@ -432,11 +428,8 @@ router.get('/trainerlist/:id', async function (req, res) {
       },
     });
     console.log(trainerInfo_detail);
-    const trainer_reviews = await trainer_review.findAll({
-      where: { trainer_id: req.params.id },
-    });
     res.status(200).json({
-      data: { trainerInfo_detail, trainer_reviews },
+      data: { trainerInfo_detail },
       message: '',
     });
   } catch (err) {
