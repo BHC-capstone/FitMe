@@ -85,6 +85,7 @@ router.post(
               trainer_id: trainer.id,
               name: req.file.originalname,
               image_url: result.Location,
+              certification_s3_key: result.Key,
             },
             { transaction }
           );
@@ -645,6 +646,7 @@ router.post("/deleteCertification/:id", async function (req, res) {
       });
     } catch (err) {
       console.log(err);
+      res.status(500).json({ data: null, message: "서버에러" });
     }
   } else {
     res.status(401).json({ data: null, message: "로그인이 필요합니다." });

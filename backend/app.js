@@ -63,23 +63,6 @@ app.use("/feedback", feedbackRouter);
 app.use("/pay", payRouter);
 app.use("/admin", adminRouter);
 
-let server;
-// 인증서 파일들이 존재하는 경우에만 https 프로토콜을 사용하는 서버를 실행
-if (fs.existsSync("./key.pem") && fs.existsSync("./cert.pem")) {
-  server = https
-    .createServer(
-      {
-        key: fs.readFileSync(__dirname + `/` + "key.pem", "utf-8"),
-        cert: fs.readFileSync(__dirname + `/` + "cert.pem", "utf-8"),
-      },
-      app
-    )
-    .listen(PORT);
-  console.log("test1");
-} else {
-  server = app.listen(PORT);
-}
-
 //frontend와 연동
 // app.use(express.static(path.join(__dirname, '../frontend/build')));
 // app.get('*', function (req, res) {

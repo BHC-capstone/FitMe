@@ -1,23 +1,31 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('user_points', {
+  return sequelize.define('AdminStatistics', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    user_id: {
+    date: {
+      type: DataTypes.DATEONLY,
+      allowNull: true
+    },
+    trainer_count: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    amount: {
+    user_count: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    pt_request_count: {
       type: DataTypes.INTEGER,
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'user_points',
+    tableName: 'AdminStatistics',
     timestamps: false,
     indexes: [
       {

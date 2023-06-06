@@ -70,7 +70,7 @@ export default function TrainerSignUpPage() {
     // };
 
     // axios
-    //   .post('http://fitme.p-e.kr:4000/trainers/signup', body)
+    //   .post('http://localhost:4000/trainers/signup', body)
     //   .then((res) => {
     //     if (res.data.success) {
     //       navigate('/login');
@@ -93,7 +93,7 @@ export default function TrainerSignUpPage() {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
-      url: 'https://fitme.p-e.kr:4000/trainers/signup',
+      url: 'https://localhost:4000/trainers/signup',
       data: formData,
       method: 'POST',
     })
