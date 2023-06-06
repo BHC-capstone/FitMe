@@ -117,7 +117,7 @@ export default function TrainerSignUpPage() {
     <div>
       <Container fluid className="panel">
         <div className="head">트레이너 회원가입</div>
-        <Form>
+        <Form onSubmit={onSubmit}>
           <FloatingLabel
             controlId="floatingInput"
             label="이메일"
