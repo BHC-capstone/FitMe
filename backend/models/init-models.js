@@ -7,6 +7,9 @@ var _certifications = require("./certifications");
 var _comments = require("./comments");
 var _community_comments = require("./community_comments");
 var _community_posts = require("./community_posts");
+var _dailyrequestcounts = require("./dailyrequestcounts");
+var _dailytrainercounts = require("./dailytrainercounts");
+var _dailyusercounts = require("./dailyusercounts");
 var _exercise_routines = require("./exercise_routines");
 var _expertises = require("./expertises");
 var _feedbacks = require("./feedbacks");
@@ -32,6 +35,9 @@ function initModels(sequelize) {
   var comments = _comments(sequelize, DataTypes);
   var community_comments = _community_comments(sequelize, DataTypes);
   var community_posts = _community_posts(sequelize, DataTypes);
+  var dailyrequestcounts = _dailyrequestcounts(sequelize, DataTypes);
+  var dailytrainercounts = _dailytrainercounts(sequelize, DataTypes);
+  var dailyusercounts = _dailyusercounts(sequelize, DataTypes);
   var exercise_routines = _exercise_routines(sequelize, DataTypes);
   var expertises = _expertises(sequelize, DataTypes);
   var feedbacks = _feedbacks(sequelize, DataTypes);
@@ -89,6 +95,9 @@ function initModels(sequelize) {
     comments,
     community_comments,
     community_posts,
+    dailyrequestcounts,
+    dailytrainercounts,
+    dailyusercounts,
     exercise_routines,
     expertises,
     feedbacks,
