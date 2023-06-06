@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('AdminStatistics', {
+  return sequelize.define('dailyTrainerCounts', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -11,21 +11,13 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DATEONLY,
       allowNull: true
     },
-    trainer_count: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    user_count: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    pt_request_count: {
+    count: {
       type: DataTypes.INTEGER,
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'AdminStatistics',
+    tableName: 'dailyTrainerCounts',
     timestamps: false,
     indexes: [
       {
