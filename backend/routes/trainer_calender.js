@@ -405,6 +405,11 @@ router.put(
 
 // feedback 작성
 router.post('/createFeedback/:date/:id/:userId', async (req, res) => {
+  const currentdate = new Date();
+  const year = currentdate.getFullYear();
+  const month = currentdate.getMonth() + 1;
+  const day = currentdate.getDate();
+  const newdate = year + '-' + month + '-' + day;
   if (req.session.loggedin) {
     try {
       const { userId, id, date } = req.params;
@@ -422,6 +427,7 @@ router.post('/createFeedback/:date/:id/:userId', async (req, res) => {
         schedule_id: schedule.id,
         user_id: userId,
         trainer_id: id,
+        date: newdate,
       });
       await schedules.update(
         {

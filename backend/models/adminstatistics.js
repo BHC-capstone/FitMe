@@ -1,35 +1,31 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('certifications', {
+  return sequelize.define('adminstatistics', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    trainer_id: {
+    date: {
+      type: DataTypes.DATEONLY,
+      allowNull: true
+    },
+    trainer_count: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'trainers',
-        key: 'id'
-      }
-    },
-    name: {
-      type: DataTypes.STRING(255),
       allowNull: true
     },
-    image_url: {
-      type: DataTypes.STRING(255),
+    user_count: {
+      type: DataTypes.INTEGER,
       allowNull: true
     },
-    certification_s3_key: {
-      type: DataTypes.STRING(255),
+    pt_request_count: {
+      type: DataTypes.INTEGER,
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'certifications',
+    tableName: 'adminstatistics',
     timestamps: false,
     indexes: [
       {
@@ -38,13 +34,6 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "id" },
-        ]
-      },
-      {
-        name: "trainer_id",
-        using: "BTREE",
-        fields: [
-          { name: "trainer_id" },
         ]
       },
     ]
