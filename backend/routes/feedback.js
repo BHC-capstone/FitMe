@@ -121,4 +121,35 @@ router.post('/commentTrainer/:trainerId/:id', async (req, res) => {
   }
 });
 
+// user bodyinfo create
+router.post('/bodyinfo/:feedbackid', async function (req, res) {
+  if (req.session.loggedin) {
+    try {
+      const { feedbackId } = req.params;
+      const Feedback = await feedbacks.findOne({
+        where: { id: feedbackId },
+      });
+      if (Feedback !== undefined) {
+        const { height, weight } = req.body;
+        const bmi = weight / (height / 100) ** 2;
+        await feedbacks.update(
+          {
+            height: height,
+            weight: weight,
+            bmi: bmi,
+          },
+          { where: { id: feedbackId } },
+        );
+      }
+      res
+        .status(200)
+        .json({ data: bodyInfo, message: '성공적으로 등록되었습니다.' });
+    } catch (err) {
+      console.log(err);
+    }
+  } else {
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+  }
+});
+
 module.exports = router;

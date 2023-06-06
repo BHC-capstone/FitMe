@@ -7,7 +7,8 @@ const {
   pt_requests,
   certifications,
   trainer_cert,
-  trainer_review,
+  trainer_sign_request,
+  certification_auth_request,
 } = require('../models');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -58,7 +59,7 @@ router.post(
             req.body.password,
             saltRounds,
           );
-          const trainer = await trainers.create({
+          const trainer = await trainer_sign_request.create({
             name: req.body.name,
             password: hashedPassword,
             email: req.body.email,
@@ -66,6 +67,7 @@ router.post(
             gender: req.body.gender,
             phonenumber: req.body.phonenumber,
             introduction: req.body.introduction,
+            pt_point: req.body.pt_point,
           });
 
           const uploadParams = {
@@ -78,11 +80,12 @@ router.post(
 
           const result = await s3.upload(uploadParams).promise();
 
-          const certification = await certifications.create(
+          const certification = await certification_auth_request.create(
             {
-              trainer_id: trainer.id,
+              trainer_request_id: trainer.id,
               name: req.file.originalname,
               image_url: result.Location,
+              certification_s3_key: result.Key,
             },
             { transaction },
           );
@@ -91,14 +94,6 @@ router.post(
             {
               trainer_id: trainer.id,
               amount: 0,
-            },
-            { transaction },
-          );
-
-          const trainer_certs = await trainer_cert.create(
-            {
-              trainer_id: trainer.id,
-              certification_id: certification.id,
             },
             { transaction },
           );
@@ -134,10 +129,20 @@ router.post('/login', async function (req, res) {
           trainerInfo.password,
         );
         if (isPasswordValid) {
-          req.session.save(function () {
-            req.session.loggedin = true;
-            res.json({ data: trainerInfo, message: '로그인에 성공하였습니다' });
-          });
+          if (trainerInfo.trainer_auth == 1) {
+            req.session.save(function () {
+              req.session.loggedin = true;
+              res.json({
+                data: trainerInfo,
+                message: '로그인에 성공하였습니다',
+              });
+            });
+          } else {
+            res.status(401).json({
+              data: null,
+              message: '승인되지 않은 트레이너입니다.',
+            });
+          }
         } else {
           res
             .status(401)
@@ -214,7 +219,6 @@ router.get('/profile/:id', async function (req, res) {
           'phonenumber',
           'introduction',
           'career',
-          'review_avg',
           'trainer_image_url',
         ],
       });
@@ -233,25 +237,25 @@ router.post('/profile/changeProfile/:id', async function (req, res) {
     try {
       let transaction = await sequelize.transaction();
 
-      const trinersInfo = await trainers.findOne(
-        {
-          where: { id: req.params.id },
-        },
-        { transaction },
+      const trainerInfo = await trainers.findOne({
+        where: { id: req.params.id },
+      });
+
+      const passwordMatch = await bcrypt.compare(
+        req.body.currentPassword,
+        trainerInfo.password,
       );
-      if (req.body.password != req.body.password2)
+
+      if (!passwordMatch) {
         res.status(401).json({
           data: null,
-          message: '입력된 비밀번호가 서로 다릅니다.',
+          message: '현재 비밀번호가 일치하지 않습니다.',
         });
-      else {
-        const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
-
+      } else {
         await trainers.update(
           {
             email: req.body.email,
             name: req.body.name,
-            password: hashedPassword,
             age: req.body.age,
             gender: req.body.gender,
             phonenumber: req.body.phonenumber,
@@ -260,11 +264,110 @@ router.post('/profile/changeProfile/:id', async function (req, res) {
           { where: { id: req.params.id } },
           { transaction },
         );
+
+        await transaction.commit();
+
         res.status(200).json({
           data: null,
           message: '성공적으로 변경되었습니다.',
         });
       }
+    } catch (err) {
+      console.log(err);
+      res
+        .status(500)
+        .json({ data: null, message: '서버 오류가 발생했습니다.' });
+    }
+  } else {
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+  }
+});
+
+// trainer password change
+router.post('/profile/changePassword/:id', async function (req, res) {
+  if (req.session.loggedin) {
+    try {
+      const { id } = req.params;
+      const { currentPassword, newPassword, newPassword2 } = req.body;
+      const trainerInfo = await trainers.findOne({ where: { id } });
+      const passwordMatch = await bcrypt.compare(
+        currentPassword,
+        trainerInfo.password,
+      );
+
+      if (!passwordMatch) {
+        return res.status(401).json({
+          data: null,
+          message: '현재 비밀번호가 일치하지 않습니다.',
+        });
+      }
+      if (newPassword !== newPassword2) {
+        return res.status(401).json({
+          data: null,
+          message: '입력된 새 비밀번호가 일치하지 않습니다.',
+        });
+      }
+
+      const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+
+      await trainers.update(
+        {
+          password: hashedPassword,
+        },
+        { where: { id } },
+      );
+
+      res.status(200).json({
+        data: null,
+        message: '성공적으로 비밀번호가 변경되었습니다.',
+      });
+    } catch (err) {
+      console.log(err);
+      res
+        .status(500)
+        .json({ data: null, message: '서버 오류가 발생했습니다.' });
+    }
+  } else {
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+  }
+});
+
+// trainer pt_point change
+router.post('/profile/changePtPoint/:id', async function (req, res) {
+  if (req.session.loggedin) {
+    try {
+      await trainers.update(
+        {
+          pt_point: req.body.pt_point,
+        },
+        { where: { id: req.params.id } },
+      );
+      res.status(200).json({
+        data: null,
+        message: '성공적으로 변경되었습니다.',
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  } else {
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+  }
+});
+
+// trainer introduction change
+router.post('/profile/changeIntroduction/:id', async function (req, res) {
+  if (req.session.loggedin) {
+    try {
+      await trainers.update(
+        {
+          introduction: req.body.introduction,
+        },
+        { where: { id: req.params.id } },
+      );
+      res.status(200).json({
+        data: null,
+        message: '성공적으로 변경되었습니다.',
+      });
     } catch (err) {
       console.log(err);
     }
@@ -286,7 +389,6 @@ router.get('/trainerlist', async function (req, res) {
           'gender',
           'introduction',
           'phonenumber',
-          'review_avg',
         ],
       });
       res.status(200).json({ data: trainerInfo, message: '' });
@@ -312,7 +414,6 @@ router.get('/trainerlist/:id', async function (req, res) {
         'email',
         'introduction',
         'career',
-        'review_avg',
         'trainer_image_url',
       ],
       include: {
@@ -327,11 +428,8 @@ router.get('/trainerlist/:id', async function (req, res) {
       },
     });
     console.log(trainerInfo_detail);
-    const trainer_reviews = await trainer_review.findAll({
-      where: { trainer_id: req.params.id },
-    });
     res.status(200).json({
-      data: { trainerInfo_detail, trainer_reviews },
+      data: { trainerInfo_detail },
       message: '',
     });
   } catch (err) {
@@ -410,15 +508,11 @@ router.post(
           Key: `certifications/` + `/${id}/` + req.file.originalname,
         };
         const result = await s3.upload(uploadParams).promise();
-        console.log('ㅇㅇㅇ', result);
-        const certification = await certifications.create({
+        const certification = await certification_auth_request.create({
           trainer_id: id,
           name: req.file.originalname,
           image_url: result.Location,
-        });
-        const trainer_certs = await trainer_cert.create({
-          trainer_id: id,
-          certification_id: certification.id,
+          certification_s3_key: result.Key,
         });
         res.status(200).json({
           data: null,
@@ -465,6 +559,7 @@ router.post(
         await trainers.update(
           {
             trainer_image_url: result.Location,
+            s3_key: result.Key,
           },
           { where: { id: req.params.id } },
         );
@@ -496,6 +591,7 @@ router.get('/profileImg/:id', async function (req, res) {
   }
 });
 
+// get trainer certification list
 router.get('/getListOfCertification/:id', async function (req, res) {
   if (req.session.loggedin) {
     try {
@@ -508,6 +604,34 @@ router.get('/getListOfCertification/:id', async function (req, res) {
       res.status(500).json({ data: null, message: '서버에러' });
     }
   } else res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+});
+
+// trainer certification delete
+router.post('/deleteCertification/:id', async function (req, res) {
+  if (req.session.loggedin) {
+    try {
+      const { id } = req.params;
+      const certification = await certifications.findOne({
+        where: { id: id },
+      });
+      const s3key = certification.certification_s3_key;
+      const deleteParams = {
+        Bucket: 'fitme-s3',
+        Key: s3key,
+      };
+      await s3.deleteObject(deleteParams).promise();
+      await trainer_cert.destroy({ where: { certification_id: id } });
+      await certifications.destroy({ where: { id: id } });
+      res.status(200).json({
+        data: null,
+        message: '성공적으로 자격증을 삭제하였습니다.',
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  } else {
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+  }
 });
 
 module.exports = router;
