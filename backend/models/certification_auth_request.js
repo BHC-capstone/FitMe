@@ -9,11 +9,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     trainer_id: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'trainers',
-        key: 'id'
-      }
+      allowNull: true
     },
     trainer_request_id: {
       type: DataTypes.INTEGER,
@@ -42,13 +38,6 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "id" },
-        ]
-      },
-      {
-        name: "trainer_id",
-        using: "BTREE",
-        fields: [
-          { name: "trainer_id" },
         ]
       },
     ]

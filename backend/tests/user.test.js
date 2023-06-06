@@ -104,7 +104,9 @@ describe('User Login', () => {
     const response = await request(app).post('/users/login').send(invalidUser);
 
     expect(response.status).toBe(400);
-    expect(response.body.message).toBe('일치하는 이메일이 존재하지 않습니다');
+    expect(response.body.message).toBe(
+      '이메일 혹은 비밀번호가 일치하지 않습니다',
+    );
     expect(response.body.data).toBeNull();
   });
 
