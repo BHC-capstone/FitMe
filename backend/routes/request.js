@@ -8,7 +8,7 @@ const {
   trainer_manage,
   bodycheck,
   user_points,
-  dailyRequestCounts,
+  dailyrequestcounts,
 } = require('../models');
 const initModels = require('../models/init-models');
 const models = initModels(sequelize);
@@ -74,17 +74,17 @@ router.post('/ptrequest', async (req, res) => {
           { where: { user_id: userId }, transaction },
         );
 
-        const requestCount = await dailyRequestCounts.findOne({
+        const requestCount = await dailyrequestcounts.findOne({
           where: { date: currentDate },
           transaction,
         });
         if (requestCount) {
-          await dailyRequestCounts.update(
+          await dailyrequestcounts.update(
             { count: requestCount.count + 1 },
             { where: { date: currentDate }, transaction },
           );
         } else {
-          await dailyRequestCounts.create(
+          await dailyrequestcounts.create(
             {
               date: currentDate,
               count: 1,

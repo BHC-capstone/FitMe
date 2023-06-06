@@ -9,7 +9,7 @@ const {
   trainer_cert,
   trainer_sign_request,
   certification_auth_request,
-  dailyTrainerCounts,
+  dailytrainercounts,
 } = require('../models');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -99,17 +99,17 @@ router.post(
             { transaction },
           );
 
-          const trainerCount = await dailyTrainerCounts.findOne({
+          const trainerCount = await dailytrainercounts.findOne({
             where: { date: currentDate },
             transaction,
           });
           if (trainerCount) {
-            await dailyTrainerCounts.update(
+            await dailytrainercounts.update(
               { count: trainerCount.count + 1 },
               { where: { date: currentDate }, transaction },
             );
           } else {
-            await dailyTrainerCounts.create(
+            await dailytrainercounts.create(
               {
                 date: currentDate,
                 count: 1,

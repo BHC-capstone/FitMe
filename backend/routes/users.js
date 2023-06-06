@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { users, user_points, feedbacks, dailyUserCounts } = require('../models');
+const { users, user_points, feedbacks, dailyusercounts } = require('../models');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const { sequelize } = require('../models');
@@ -61,17 +61,17 @@ router.post('/signup', async function (req, res) {
           { transaction },
         );
 
-        const userCount = await dailyUserCounts.findOne({
+        const userCount = await dailyusercounts.findOne({
           where: { date: currentDate },
           transaction,
         });
         if (userCount) {
-          await dailyUserCounts.update(
+          await dailyusercounts.update(
             { count: userCount.count + 1 },
             { where: { date: currentDate }, transaction },
           );
         } else {
-          await dailyUserCounts.create(
+          await dailyusercounts.create(
             {
               date: currentDate,
               count: 1,
