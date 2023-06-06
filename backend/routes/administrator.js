@@ -15,6 +15,9 @@ const {
   certification_auth_request,
   trainer_points,
   trainer_cert,
+  dailyTrainerCounts,
+  dailyUserCounts,
+  dailyRequestCounts,
 } = require('../models');
 const initModels = require('../models/init-models');
 const models = initModels(sequelize);
@@ -31,24 +34,125 @@ const s3 = require('../modules/s3upload').s3;
 
 dotenv.config();
 
-// admin trainer,user,pt_request list
-router.get('/', async (req, res) => {
+// admin trainer countlist
+router.get('/trainercount', async (req, res) => {
   try {
+    const serviceStartDate = new Date('서비스 시작 날짜');
     const currentDate = new Date();
-    const trainerCount = await trainers.count();
-    const userCount = await users.count();
-    const ptRequestCount = await pt_requests.count();
 
-    const adminStatistics = await AdminStatistics.create({
-      trainer_count: trainerCount,
-      user_count: userCount,
-      pt_request_count: ptRequestCount,
-      date: currentDate,
-    });
+    const trainerCounts = [];
+    let startDate = new Date(serviceStartDate);
 
+    while (startDate <= currentDate) {
+      const endDate = new Date(startDate);
+      endDate.setDate(endDate.getDate() + 6);
+
+      const trainerCount = await dailyTrainerCounts.sum('count', {
+        where: {
+          date: {
+            [Op.between]: [startDate, endDate],
+          },
+        },
+      });
+
+      if (!trainerCount) {
+        trainerCount = 0;
+      }
+
+      trainerCounts.push({
+        startDate: startDate,
+        endDate: endDate,
+        count: trainerCount,
+      });
+      startDate.setDate(startDate.getDate() + 7); // 다음 주의 시작 날짜로 이동
+    }
     res.status(200).json({
-      data: adminStatistics,
-      message: '당일 트레이너, 유저, 피티요청 수',
+      data: { trainerCounts: trainerCounts },
+      message: '일주일간의 트레이너 수',
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ data: null, message: 'Error' });
+  }
+});
+
+// admin user countlist
+router.get('/usercount', async (req, res) => {
+  try {
+    const serviceStartDate = new Date('서비스 시작 날짜');
+    const currentDate = new Date();
+
+    const userCounts = [];
+    let startDate = new Date(serviceStartDate);
+
+    while (startDate <= currentDate) {
+      const endDate = new Date(startDate);
+      endDate.setDate(endDate.getDate() + 6);
+
+      const userCount = await dailyUserCounts.sum('count', {
+        where: {
+          date: {
+            [Op.between]: [startDate, endDate],
+          },
+        },
+      });
+
+      if (!userCount) {
+        userCount = 0;
+      }
+
+      userCounts.push({
+        startDate: startDate,
+        endDate: endDate,
+        count: userCount,
+      });
+      startDate.setDate(startDate.getDate() + 7); // 다음 주의 시작 날짜로 이동
+    }
+    res.status(200).json({
+      data: { userCounts: userCounts },
+      message: '일주일간의 유저 수',
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ data: null, message: 'Error' });
+  }
+});
+
+// admin pt_request countlist
+router.get('/requestcount', async (req, res) => {
+  try {
+    const serviceStartDate = new Date('서비스 시작 날짜');
+    const currentDate = new Date();
+
+    const requestCounts = [];
+    let startDate = new Date(serviceStartDate);
+
+    while (startDate <= currentDate) {
+      const endDate = new Date(startDate);
+      endDate.setDate(endDate.getDate() + 6);
+
+      const requestCount = await dailyRequestCounts.sum('count', {
+        where: {
+          date: {
+            [Op.between]: [startDate, endDate],
+          },
+        },
+      });
+
+      if (!requestCount) {
+        requestCount = 0;
+      }
+
+      requestCounts.push({
+        startDate: startDate,
+        endDate: endDate,
+        count: requestCount,
+      });
+      startDate.setDate(startDate.getDate() + 7); // 다음 주의 시작 날짜로 이동
+    }
+    res.status(200).json({
+      data: { requestCounts: requestCounts },
+      message: '일주일간의 pt 요청 수',
     });
   } catch (err) {
     console.log(err);

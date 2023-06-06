@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { users, user_points, feedbacks } = require('../models');
+const { users, user_points, feedbacks, dailyUserCounts } = require('../models');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const { sequelize } = require('../models');
@@ -24,6 +24,7 @@ router.post('/signup', async function (req, res) {
   ) {
     let transaction;
     try {
+      const currentDate = new Date();
       transaction = await sequelize.transaction();
       const userInfo = await users.findOne({
         where: { email: req.body.email },
@@ -54,8 +55,26 @@ router.post('/signup', async function (req, res) {
           { transaction },
         );
 
-        await transaction.commit();
+        const userCount = await dailyUserCounts.findOne({
+          where: { date: currentDate },
+          transaction,
+        });
+        if (userCount) {
+          await dailyUserCounts.update(
+            { count: userCount.count + 1 },
+            { where: { date: currentDate }, transaction },
+          );
+        } else {
+          await dailyUserCounts.create(
+            {
+              date: currentDate,
+              count: 1,
+            },
+            { transaction },
+          );
+        }
 
+        await transaction.commit();
         res.status(200).json({ data: null, message: '회원가입을 환영합니다' });
       }
     } catch (err) {
