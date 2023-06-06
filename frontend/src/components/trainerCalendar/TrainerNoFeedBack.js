@@ -8,7 +8,7 @@ function TrainerNoFeedBack({ userid, date, getdata }) {
   const loginedUser = useSelector(state => state.user);
   const postFeedBack = e => {
     axios({
-      url: `https://fitme.p-e.kr:4000/trainer_calender/createFeedback/${date}/${loginedUser.id}/${userid}`,
+      url: `https://localhost:4000/trainer_calender/createFeedback/${date}/${loginedUser.id}/${userid}`,
       method: 'POST',
       withCredentials: true,
     })

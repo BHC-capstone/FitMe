@@ -52,7 +52,7 @@ router.post(
         if (trainerInfo != undefined)
           res.status(409).json({
             data: trainerInfo,
-            message: '이미 존재하는 아이디입니다.',
+            message: '이미 존재하는 이메일입니다.',
           });
         else {
           console.log(req.body);
@@ -181,7 +181,7 @@ router.post('/login', async function (req, res) {
   } else {
     res.status(400).json({
       data: null,
-      message: '아이디와 비밀번호를 입력하세요',
+      message: '이메일과 비밀번호를 입력하세요',
     });
   }
 });

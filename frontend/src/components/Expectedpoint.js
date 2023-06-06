@@ -93,7 +93,7 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
       lifestyle: detaildata.lifestyle,
     };
     axios
-      .post(`https://fitme.p-e.kr:4000/request/ptrequest`, body, {
+      .post(`https://localhost:4000/request/ptrequest`, body, {
         withCredentials: true,
       })
       .then(res => {
