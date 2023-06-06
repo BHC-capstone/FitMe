@@ -84,6 +84,7 @@ router.post(
           const certification = await certification_auth_request.create(
             {
               trainer_request_id: trainer.id,
+              trainer_id: 0,
               name: req.file.originalname,
               image_url: result.Location,
               certification_s3_key: result.Key,
