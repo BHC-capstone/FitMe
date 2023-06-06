@@ -67,8 +67,9 @@ router.post('/payment', async (req, res) => {
     const { data } = response;
 
     const pgToken = data.pg_token;
+    const tId = data.tid;
 
-    res.status(200).json({ data: pgToken, message: '결제 준비' });
+    res.status(200).json({ data: { pgToken, tId }, message: '결제 준비' });
   } catch (error) {
     console.error(err);
     res.status(500).json({ error: '결제 에러' });
@@ -78,11 +79,11 @@ router.post('/payment', async (req, res) => {
 // 결제 승인
 router.post('/payment/approve', async (req, res) => {
   try {
-    const { pgToken, userId, tid } = req.params;
+    const { pgToken, userId, tId } = req.params;
 
     const approveData = {
       cid: 'TC0ONETIME',
-      tid: tid,
+      tid: tId,
       partner_order_id: 'FitMePointCharge',
       partner_user_id: userId,
       pg_token: pgToken,
