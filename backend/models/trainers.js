@@ -43,18 +43,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    review_avg: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    review_count: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    trainer_auth: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true
-    },
     s3_key: {
       type: DataTypes.STRING(255),
       allowNull: true

@@ -1,51 +1,59 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('feedbacks', {
+  return sequelize.define('trainer_sign_request', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    user_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    trainer_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    date: {
-      type: DataTypes.DATEONLY,
-      allowNull: true
-    },
-    height: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    weight: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    bmi: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    feedback_video_url: {
+    email: {
       type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    name: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    password: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    age: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    gender: {
+      type: DataTypes.STRING(10),
+      allowNull: true
+    },
+    phonenumber: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    introduction: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    career: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    pt_point: {
+      type: DataTypes.INTEGER,
       allowNull: true
     },
     s3_key: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    feedback_message: {
-      type: DataTypes.TEXT,
+    trainer_image_url: {
+      type: DataTypes.STRING(255),
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'feedbacks',
+    tableName: 'trainer_sign_request',
     timestamps: false,
     indexes: [
       {
