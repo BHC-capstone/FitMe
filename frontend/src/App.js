@@ -53,11 +53,11 @@ export default function App() {
         <Route path="/customer-management/:id" element={<CustomerDetail />} />
         <Route path="/calendar" element={<CalendarPart />} />
         <Route path="/trainercalendar/:userid" element={<TrainerCalendar />} />
-        <Route path="/master" element={<MasterMain />} />
         <Route path="/pointcharge" element={<PointCharge />} />
         <Route path="/charge-success" element={<ChargeSuccess />} />
         <Route path="/charge-fail" element={<ChargeFail />} />
         <Route path="/charge-cancel" element={<ChargeCancel />} />
+        <Route path="/master" element={<MasterMain />} />
       </Routes>
     </div>
   );

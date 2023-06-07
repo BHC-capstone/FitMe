@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import { Collapse, Button, Avatar } from 'antd';
 import axios from 'axios';
 import styled from 'styled-components';
+import Request from '../../components/myPage/Request';
+import RequestDetail from '../../components/myPage/RequestDetail';
 import RequestDetailTrainer from '../../components/master/RequestDetailTrainer';
 import RequestTrainer from '../../components/master/RequestTrainer';
 
@@ -13,7 +15,7 @@ function MasterTrainerRequest() {
 
   const fetchRequests = async () => {
     const response = await axios.get(
-      `https://fitme.p-e.kr:4000/administrator/trainerlist`,
+      `https://localhost:4000/administrator/trainerlist`,
     );
     setRequests(response.data.data);
   };

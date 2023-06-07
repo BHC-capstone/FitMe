@@ -11,22 +11,34 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    payment_id: {
+    tid: {
       type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    created: {
+      type: DataTypes.DATEONLY,
+      allowNull: true
+    },
+    approved: {
+      type: DataTypes.DATEONLY,
       allowNull: true
     },
     amount: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    point: {
-      type: DataTypes.INTEGER,
+    status: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    payname: {
+      type: DataTypes.STRING(255),
       allowNull: true
     }
   }, {
     sequelize,
     tableName: 'payhistory',
-    timestamps: true,
+    timestamps: false,
     indexes: [
       {
         name: "PRIMARY",

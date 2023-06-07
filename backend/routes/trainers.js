@@ -31,6 +31,7 @@ router.post(
   '/signup',
   imageUpload.single('certificationFile'),
   async function (req, res) {
+    console.log(req.body);
     if (
       req.body.email &&
       req.body.name &&
@@ -44,6 +45,17 @@ router.post(
         const currentDate = new Date();
         transaction = await sequelize.transaction();
 
+        const trainer_request = await trainer_sign_request.findOne({
+          where: { email: req.body.email },
+          attributes: ['email'],
+          transaction,
+        });
+        if(trainer_request != undefined)
+          res.status(409).json({
+            data: trainer_request,
+            message: '이미 신청된 이메일입니다.',
+          });
+
         const trainerInfo = await trainers.findOne({
           where: { email: req.body.email },
           attributes: ['email'],
@@ -55,6 +67,7 @@ router.post(
             message: '이미 존재하는 이메일입니다.',
           });
         else {
+          console.log(req.body);
           const hashedPassword = await bcrypt.hash(
             req.body.password,
             saltRounds,
@@ -91,6 +104,14 @@ router.post(
             { transaction },
           );
 
+          const trainerPoint = await trainer_points.create(
+            {
+              trainer_id: trainer.id,
+              amount: 0,
+            },
+            { transaction },
+          );
+
           const trainerCount = await dailytrainercounts.findOne({
             where: { date: currentDate },
             transaction,
@@ -113,7 +134,7 @@ router.post(
           await transaction.commit();
           res
             .status(200)
-            .json({ data: null, message: '회원가입 신청이 완료되었습니다' }); //데스크탑 수정포인트
+            .json({ data: null, message: '회원가입 신청이 완료되었습니다.' });
         }
       } catch (err) {
         console.log(err);
@@ -432,6 +453,7 @@ router.get('/trainerlist/:id', async function (req, res) {
         attributes: ['name'],
       },
     });
+    console.log(trainerInfo_detail);
     res.status(200).json({
       data: { trainerInfo_detail },
       message: '',
@@ -638,9 +660,11 @@ router.post('/deleteCertification/:id', async function (req, res) {
     res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
   }
 });
+
 // trainer 회당 가격 가져오기
 router.get('/getPrice/:Id', async function (req, res) {
   try {
+    const Id = req.body;
     const price = await trainers.findOne({
       where: { id: req.params.Id },
       attributes: ['pt_point'],
@@ -651,4 +675,5 @@ router.get('/getPrice/:Id', async function (req, res) {
   }
 }
 );
+
 module.exports = router;

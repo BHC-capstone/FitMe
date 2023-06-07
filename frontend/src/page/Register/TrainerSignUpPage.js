@@ -9,6 +9,7 @@ import {
   Button,
   FloatingLabel,
 } from 'react-bootstrap';
+import styled from 'styled-components';
 
 export default function TrainerSignUpPage() {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ export default function TrainerSignUpPage() {
   const [gender, setGender] = React.useState('');
   const [age, setAge] = React.useState('');
   const [certificationFile, setCertificationFile] = React.useState(null);
+  const [pointforPt, setPointforPt] = React.useState(0);
   const [introduction, setIntroduction] = React.useState('');
 
   const onChangeEmail = e => {
@@ -50,6 +52,9 @@ export default function TrainerSignUpPage() {
   const onChangePhonenumber = e => {
     setPhonenumber(e.target.value);
   };
+  const onChangePoint = e => {
+    setPointforPt(e.target.value);
+  };
 
   // eslint-disable-next-line consistent-return
   const onSubmit = e => {
@@ -57,26 +62,6 @@ export default function TrainerSignUpPage() {
     if (password !== passwordCheck) {
       return setPasswordCheck('');
     }
-
-    // const body = {
-    //   email,
-    //   name,
-    //   password,
-    //   phonenumber,
-    //   age,
-    //   gender,
-    //   introduction,
-    // };
-
-    // axios
-    //   .post('http://fitme.p-e.kr:4000/trainers/signup', body)
-    //   .then((res) => {
-    //     if (res.data.success) {
-    //       navigate('/login');
-    //     } else {
-    //       alert(res.data.message);
-    //     }
-    //   })
 
     const formData = new FormData();
     formData.append('email', email);
@@ -87,12 +72,13 @@ export default function TrainerSignUpPage() {
     formData.append('gender', gender);
     formData.append('introduction', introduction);
     formData.append('certificationFile', certificationFile);
+    formData.append('pt_point', pointforPt);
 
     axios({
       headers: {
         'Content-Type': 'multipart/form-data',
       },
-      url: 'https://fitme.p-e.kr:4000/trainers/signup',
+      url: 'https://localhost:4000/trainers/signup',
       data: formData,
       method: 'POST',
     })
@@ -211,9 +197,22 @@ export default function TrainerSignUpPage() {
               >
                 <Form.Control
                   type="number"
-                  placeholder="Enter age"
+                  placeholder="나이 입력"
                   value={age}
                   onChange={onChangeAge}
+                  required
+                />
+              </FloatingLabel>
+              <FloatingLabel
+                controlId="floatingSelect"
+                label="회당 PT 가격 (원)"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="number"
+                  placeholder="PT회당 가격 입력"
+                  value={pointforPt}
+                  onChange={onChangePoint}
                   required
                 />
               </FloatingLabel>

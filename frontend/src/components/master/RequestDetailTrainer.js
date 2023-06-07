@@ -7,20 +7,25 @@ import { Avatar, Descriptions } from 'antd';
 import '../myPage/RequestDetail.css';
 import styled from 'styled-components';
 
-function ButtonDisplay({ requestId, handleAccept, handleReject }) {
+function ButtonDisplay({
+  loginedUserId,
+  requestId,
+  handleAccept,
+  handleReject,
+}) {
   return (
     <>
       <StyledButton1
         variant="primary"
         type="button"
-        onClick={() => handleAccept({ requestId })}
+        onClick={() => handleAccept(loginedUserId, requestId)}
       >
         수락
       </StyledButton1>
       <StyledButton2
         variant="danger"
         type="button"
-        onClick={() => handleReject({ requestId })}
+        onClick={() => handleReject(loginedUserId, requestId)}
       >
         거절
       </StyledButton2>
@@ -29,33 +34,43 @@ function ButtonDisplay({ requestId, handleAccept, handleReject }) {
 }
 
 function RequestDetailTrainer({ request, fetch }) {
-  const navigate = useNavigate();
-  const handleAccept = async ({ requestId }) => {
-    axios({
-      method: 'post',
-      url: `https://fitme.p-e.kr:4000/administrator/trainerauth/${requestId}`,
-    })
-      .then(response => {
-        console.log(response);
-        fetch();
-      })
-      .catch(error => {
-        alert(error.response.data.message);
-      });
+  const handleAccept = async () => {
+    try {
+      await axios
+        .post(
+          `https://localhost:4000/administrator/trainerauth/${request.id}`,
+          {
+            response: '수락',
+          },
+        )
+        .then(res => {
+          // console.log();
+        });
+      // fetchRequest();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const handleReject = async ({ requestId }) => {
-    axios({
-      method: 'post',
-      url: `https://fitme.p-e.kr:4000/administrator/trainerreject/${requestId}`,
-    })
-      .then(response => {
-        console.log(response);
-        fetch();
-      })
-      .catch(error => {
-        alert(error.response.data.message);
-      });
+  const handleReject = async () => {
+    try {
+      await axios
+        .post(
+          ``,
+          {
+            response: '거절',
+          },
+          {
+            withCredentials: true,
+          },
+        )
+        .then(res => {
+          // console.log();
+        });
+      fetch();
+    } catch (error) {
+      console.error(error);
+    }
   };
   useEffect(() => {
     fetch();
@@ -70,19 +85,21 @@ function RequestDetailTrainer({ request, fetch }) {
               <span className="item-value">{request.name}</span>
             </Descriptions.Item>
             <Descriptions.Item label=" 전화번호">
-              {request && request.phonenumber}
+              {request && request.age}
             </Descriptions.Item>
             <Descriptions.Item label=" 성별">
               {request.gender}
             </Descriptions.Item>
-            <Descriptions.Item label=" 나이">{request.age}</Descriptions.Item>
+            <Descriptions.Item label=" 나이">
+              {request.height}
+            </Descriptions.Item>
             <Descriptions.Item label=" 자기소개">
-              {request.introduction}
+              {request.weight}
             </Descriptions.Item>
             <Descriptions.Item label=" 트레이너 자격증">
               <img
                 style={{ width: '200px', height: '300px' }}
-                src={request.trainer_image_url}
+                src={request.image_url}
                 alt="자격증"
               />
             </Descriptions.Item>

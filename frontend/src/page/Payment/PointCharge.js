@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Input, Radio, Space, Divider } from 'antd';
 import axios from 'axios';
 import { Container } from 'react-bootstrap';
-import { CopyrightOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoins } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
 import payIcon from '../../images/payment_icon_yellow_small.png';
+import { payUser } from '../../redux/_reducers/userSlice';
 
 function PointCharge() {
+  const dispatch = useDispatch();
   const loginedUser = useSelector(state => state.user);
   const [point, setPoint] = useState(0);
   const [pointCharge, setPointCharge] = useState('');
@@ -23,7 +24,7 @@ function PointCharge() {
   const fetchPoint = async () => {
     axios({
       method: 'get',
-      url: `https://fitme.p-e.kr:4000/users/profile/${loginedUser.id}`,
+      url: `https://localhost:4000/users/profile/${loginedUser.id}`,
       withCredentials: true,
     })
       .then(response => {
@@ -31,7 +32,7 @@ function PointCharge() {
         setPoint(data.point);
       })
       .catch(err => {
-        alert(err.response.data.message);
+        console.log(err);
       });
   };
   useEffect(() => {
@@ -41,7 +42,7 @@ function PointCharge() {
   function postChargeTry(tid, amount, createdAt) {
     axios({
       method: 'post',
-      url: 'https://fitme.p-e.kr:4000/users/charge-success',
+      url: 'https://localhost:4000/users/charge-success',
       data: {
         tid,
         uid: loginedUser.id,
@@ -54,7 +55,7 @@ function PointCharge() {
         console.log(response);
       })
       .catch(error => {
-        alert(error.response.data.message);
+        console.log(error);
       });
   }
 
@@ -72,35 +73,53 @@ function PointCharge() {
         return;
       }
     }
-    const params = {
-      cid: 'TC0ONETIME',
-      partner_order_id: 'FitMePointCharge',
-      partner_user_id: `user${loginedUser.id}`,
-      item_name: 'FitMe 포인트 충전',
-      quantity: 1,
-      total_amount: pointCharge === -1 ? pointChargeEtc : pointCharge,
-      vat_amount: 0,
-      tax_free_amount: 0,
-      approval_url: 'https://fitme.p-e.kr:4000/charge-success',
-      fail_url: 'https://fitme.p-e.kr:4000/charge-fail',
-      cancel_url: 'https://fitme.p-e.kr:4000/charge-cancel',
-    };
     axios({
       method: 'post',
-      url: 'https://kapi.kakao.com/v1/payment/ready',
-      headers: {
-        Authorization: `KakaoAK ${MY_ADMIN_KEY}`,
-        'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+      url: 'https://localhost:4000/pay/payment',
+      data: {
+        amount: pointCharge === -1 ? pointChargeEtc : pointCharge,
+        userId: loginedUser.id,
       },
-      params,
-    }).then(response => {
-      const createdAt = response.data.created_at;
-      const { tid } = response.data;
-      const { amount } = response.data;
-      postChargeTry(tid, amount, createdAt);
-      const redirectUrl = response.data.next_redirect_pc_url;
-      window.location.href = redirectUrl;
-    });
+    })
+      .then(response => {
+        const { data } = response.data;
+        const { redirectUrl } = data;
+        dispatch(payUser(data));
+        window.location.href = redirectUrl;
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+    // const params = {
+    //   cid: 'TC0ONETIME',
+    //   partner_order_id: 'FitMePointCharge',
+    //   partner_user_id: `user${loginedUser.id}`,
+    //   item_name: 'FitMe 포인트 충전',
+    //   quantity: 1,
+    //   total_amount: pointCharge === -1 ? pointChargeEtc : pointCharge,
+    //   vat_amount: 0,
+    //   tax_free_amount: 0,
+    //   approval_url: 'https://localhost:3000/charge-success',
+    //   fail_url: 'https://localhost:3000/charge-fail',
+    //   cancel_url: 'https://localhost:3000/charge-cancel',
+    // };
+    // axios({
+    //   method: 'post',
+    //   url: 'https://kapi.kakao.com/v1/payment/ready',
+    //   headers: {
+    //     Authorization: `KakaoAK ${MY_ADMIN_KEY}`,
+    //     'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+    //   },
+    //   params,
+    // }).then(response => {
+    //   const createdAt = response.data.created_at;
+    //   const { tid } = response.data;
+    //   const { amount } = response.data;
+    //   postChargeTry(tid, amount, createdAt);
+    //   const redirectUrl = response.data.next_redirect_pc_url;
+    //   window.location.href = redirectUrl;
+    // });
   };
 
   return (
