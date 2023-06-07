@@ -7,25 +7,20 @@ import { Avatar, Descriptions } from 'antd';
 import '../myPage/RequestDetail.css';
 import styled from 'styled-components';
 
-function ButtonDisplay({
-  loginedUserId,
-  requestId,
-  handleAccept,
-  handleReject,
-}) {
+function ButtonDisplay({ requestId, handleAccept, handleReject }) {
   return (
     <>
       <StyledButton1
         variant="primary"
         type="button"
-        onClick={() => handleAccept()}
+        onClick={() => handleAccept({ requestId })}
       >
         수락
       </StyledButton1>
       <StyledButton2
         variant="danger"
         type="button"
-        onClick={() => handleReject()}
+        onClick={() => handleReject({ requestId })}
       >
         거절
       </StyledButton2>
@@ -34,48 +29,33 @@ function ButtonDisplay({
 }
 
 function RequestDetailCertification({ request, fetch }) {
-  const loginedUser = useSelector(state => state.user);
   const navigate = useNavigate();
-  const handleAccept = async () => {
-    try {
-      await axios
-        .post(
-          ``,
-          {
-            response: '수락',
-          },
-          {
-            withCredentials: true,
-          },
-        )
-        .then(res => {
-          // console.log();
-        });
-      // fetchRequest();
-    } catch (error) {
-      console.error(error);
-    }
+  const handleAccept = async ({ requestId }) => {
+    axios({
+      method: 'post',
+      url: `https://localhost:4000/administrator/trainer/certificateauth/${requestId}`,
+    })
+      .then(response => {
+        console.log(response);
+        fetch();
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
-  const handleReject = async () => {
-    try {
-      await axios
-        .post(
-          ``,
-          {
-            response: '거절',
-          },
-          {
-            withCredentials: true,
-          },
-        )
-        .then(res => {
-          // console.log();
-        });
-      fetch();
-    } catch (error) {
-      console.error(error);
-    }
+  const handleReject = async ({ requestId }) => {
+    axios({
+      method: 'post',
+      url: `https://localhost:4000/administrator/trainer/certificatereject/${requestId}`,
+    })
+      .then(response => {
+        console.log(response);
+        fetch();
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
   useEffect(() => {
     fetch();
@@ -89,11 +69,8 @@ function RequestDetailCertification({ request, fetch }) {
             <Descriptions.Item label="트레이너 이름">
               <span className="item-value">{request.name}</span>
             </Descriptions.Item>
-            <Descriptions.Item label=" 자격증 취득 날짜">
-              {request.height}
-            </Descriptions.Item>
-            <Descriptions.Item label=" 자격증 설명">
-              {request.weight}
+            <Descriptions.Item label=" 트레이너 아이디">
+              {request.trainer_id}
             </Descriptions.Item>
             <Descriptions.Item label="추가할 트레이너 자격증">
               <img
@@ -106,8 +83,7 @@ function RequestDetailCertification({ request, fetch }) {
           <ButtonDisplay
             handleAccept={handleAccept}
             handleReject={handleReject}
-            loginedUserId={loginedUser.id}
-            requestId={request.id}
+            requestId={request.trainer_id}
           />
           <div />
         </div>

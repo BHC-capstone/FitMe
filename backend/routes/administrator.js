@@ -20,6 +20,7 @@ const {
   dailyrequestcounts,
 } = require('../models');
 const initModels = require('../models/init-models');
+const { Op } = require('sequelize');
 const models = initModels(sequelize);
 const dotenv = require('dotenv');
 const multer = require('multer');
@@ -79,7 +80,7 @@ router.get('/trainercount', async (req, res) => {
 // admin user countlist
 router.get('/usercount', async (req, res) => {
   try {
-    const serviceStartDate = new Date('서비스 시작 날짜');
+    const serviceStartDate = new Date('2023-06-07');
     const currentDate = new Date();
 
     const userCounts = [];
@@ -192,6 +193,7 @@ router.get('/trainer/certificatelist', async (req, res) => {
 router.post('/trainerauth/:Id', async (req, res) => {
   try {
     const { Id } = req.params;
+    console.log("이거뭐냐?",req.params);
     const trainer = await trainer_sign_request.findOne({
       where: { id: Id },
     });

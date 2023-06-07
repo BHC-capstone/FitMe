@@ -13,9 +13,11 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
   const loginedUser = useSelector(state => state.user);
   const userid = loginedUser.id;
   const [days, setDays] = useState({ value1: [0, 0, 0, 0, 0, 0, 0] });
-
+  const [price, setPrice] = useState(1);
   const [count, setCount] = useState([]);
   const [detaildata, setDetailData] = useState([]);
+  const [totalprice, setTotalPrice] = useState(0);
+  const [userpoint, setUserPoint] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -52,6 +54,27 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
     // console.log(count, '총 날짜');
   }, [startDate, endDate, count, days]);
 
+  useEffect(() => {
+    fetchRequests();
+  }, []);
+  /// userpoint/:id
+
+  const fetchRequests = async () => {
+    console.log('트레이너 아이디', trainerid);
+    const response = await axios.get(
+      `https://localhost:4000/trainers/getPrice/${trainerid}`,
+    );
+    console.log(response.data.data);
+    console.log('잘 되냐?');
+    setPrice(response.data.data.price);
+    setTotalPrice(count * price);
+    const response1 = await axios.get(
+      `https://localhost:4000/users/userpoint/${userid}`,
+    );
+    setUserPoint(response1.data.data.amount);
+    console.log(price);
+    console.log(userpoint);
+  };
   const highFunction = ({
     height,
     weight,
@@ -83,6 +106,7 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
       // days: days.value1,
       // requst //
       count,
+      totalprice,
       height: detaildata.height,
       weight: detaildata.weight,
       injury: detaildata.injury,
@@ -91,7 +115,6 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
       bodyshape: detaildata.bodyshape,
       purpose: detaildata.purpose,
       lifestyle: detaildata.lifestyle,
-      totalPrice: count * 10,
     };
     axios
       .post(`https://localhost:4000/request/ptrequest`, body, {
@@ -100,14 +123,13 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
       .then(res => {
         navigate('/mypage');
         if (res.status === 200) {
-          alert(res.data.message);
-          navigate('/mypage');
+          console.log(res);
         } else {
-          alert(res.data.message);
+          console.log(res);
         }
       })
       .catch(err => {
-        alert(err.response.data.message);
+        console.log(err);
       });
   };
 
@@ -125,12 +147,12 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
               ) *
                 (2 / 7),
             )} */}
-            {count}
+            {count * price}
           </Boxep1>
         </Boxc>
         <Boxc>
-          <Head2>보유 포인트</Head2>
-          <Boxep2>100</Boxep2>
+          <Head2>현재 보유 포인트</Head2>
+          <Boxep2>{userpoint}</Boxep2>
         </Boxc>
       </Boxr>
       <Boxr>
@@ -181,7 +203,7 @@ const Boxc = styled.div`
   align-items: center;
   font-weight: bold;
   text-align: left;
-  width: 150px;
+  width: 162px;
   border-radius: 10px;
   background-color: rgb(233, 233, 233);
   padding: 10px;

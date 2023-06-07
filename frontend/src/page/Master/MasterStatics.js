@@ -8,7 +8,7 @@ import UserStatics from '../../components/master/UserStatics';
 import TrainerStatics from '../../components/master/TrainerStatics';
 import PtStatics from '../../components/master/PtStatics';
 
-function MasterMain() {
+function MasterStatics() {
   const [currentTab, clickTab] = useState(0);
 
   const menuArr = [
@@ -91,4 +91,4 @@ const Desc = styled.div`
   margin: auto 0;
   text-align: center;
 `;
-export default MasterMain;
+export default MasterStatics;

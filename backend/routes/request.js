@@ -20,7 +20,7 @@ router.post('/ptrequest', async (req, res) => {
       const currentDate = new Date();
       const trainerId = req.body.trainer_id;
       const userId = req.body.id;
-
+      const totalPrice = req.body.totalprice;
       const existingRequest = await pt_requests.findOne({
         where: { trainer_id: trainerId, user_id: userId },
       });
