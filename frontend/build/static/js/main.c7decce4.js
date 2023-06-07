@@ -81348,7 +81348,7 @@
                         });
                       })
                       .catch(function (e) {
-                        console.log('fail');
+                        console.log(err.response.data.message);
                       });
                 },
                 onImageRemove: function (e) {
@@ -81377,7 +81377,7 @@
                         });
                       })
                       .catch(function (e) {
-                        console.log('fail');
+                        console.log(err.response.data.message);
                       });
                 },
               }),
@@ -83152,7 +83152,7 @@
                     console.log(e), r(!0);
                   })
                   .catch(function (e) {
-                    console.log('fail');
+                    console.log(err.response.data.message);
                   });
               },
               children: '\ucd94\uac00 \ubc84\ud2bc',

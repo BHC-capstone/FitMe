@@ -17,7 +17,7 @@ function TrainerNoFeedBack({ userid, date, getdata }) {
         getdata(true);
       })
       .catch(err => {
-        console.log('fail');
+        console.log(err.response.data.message);
       });
   };
   return (

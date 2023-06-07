@@ -49,7 +49,7 @@ function DietTab({ userid, date }) {
           });
       })
       .catch(err => {
-        console.log('fail');
+        console.log(err.response.data.message);
       });
   }
 
@@ -80,7 +80,7 @@ function DietTab({ userid, date }) {
           });
       })
       .catch(err => {
-        console.log('fail');
+        console.log(err.response.data.message);
       });
   }
   return (
