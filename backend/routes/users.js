@@ -1,14 +1,12 @@
 var express = require('express');
 var router = express.Router();
-const { users, user_points, feedbacks, dailyUserCounts } = require('../models');
+const { users, user_points, feedbacks, dailyusercounts } = require('../models');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const { sequelize } = require('../models');
 const { Model } = require('sequelize');
-
 const initModels = require('../models/init-models');
 const models = initModels(sequelize);
-
 const imageUpload = require('../modules/s3upload').upload;
 const s3 = require('../modules/s3upload').s3;
 
@@ -16,7 +14,6 @@ models.users.findOne;
 
 // uesr signup
 router.post('/signup', async function (req, res) {
-  console.log(req.body);
   if (
     (req.body.email,
     req.body.name,
@@ -29,7 +26,6 @@ router.post('/signup', async function (req, res) {
     try {
       const currentDate = new Date();
       transaction = await sequelize.transaction();
-
       const userInfo = await users.findOne({
         where: { email: req.body.email },
         attributes: ['email'],
@@ -39,9 +35,8 @@ router.post('/signup', async function (req, res) {
       if (userInfo != undefined)
         res
           .status(409)
-          .json({ data: result, message: '이미 존재하는 아이디입니다' });
+          .json({ data: null, message: '이미 존재하는 이메일입니다' });
       else {
-        console.log(req.body);
         const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
         const user = await users.create({
           email: req.body.email,
@@ -52,7 +47,6 @@ router.post('/signup', async function (req, res) {
           phonenumber: req.body.phonenumber,
           transaction,
         });
-
         const userPoint = await user_points.create(
           {
             user_id: user.id,
@@ -61,17 +55,17 @@ router.post('/signup', async function (req, res) {
           { transaction },
         );
 
-        const userCount = await dailyUserCounts.findOne({
+        const userCount = await dailyusercounts.findOne({
           where: { date: currentDate },
           transaction,
         });
         if (userCount) {
-          await dailyUserCounts.update(
+          await dailyusercounts.update(
             { count: userCount.count + 1 },
             { where: { date: currentDate }, transaction },
           );
         } else {
-          await dailyUserCounts.create(
+          await dailyusercounts.create(
             {
               date: currentDate,
               count: 1,
@@ -118,9 +112,10 @@ router.post('/login', async function (req, res) {
             .json({ data: null, message: '비밀번호가 일치하지 않습니다' });
         }
       } else {
-        res
-          .status(400)
-          .json({ data: null, message: '아이디가 일치하지 않습니다' });
+        res.status(400).json({
+          data: null,
+          message: '이메일 혹은 비밀번호가 일치하지 않습니다',
+        });
       }
     } catch (err) {
       console.log(err);
@@ -128,7 +123,7 @@ router.post('/login', async function (req, res) {
   } else {
     res
       .status(400)
-      .json({ data: null, message: '아이디와 비밀번호를 입력하세요' });
+      .json({ data: null, message: '이메일과 비밀번호를 입력하세요' });
   }
 });
 

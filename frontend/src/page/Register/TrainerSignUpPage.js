@@ -83,8 +83,8 @@ export default function TrainerSignUpPage() {
       method: 'POST',
     })
       .then(res => {
-        navigate('/trainer-login');
         alert(res.data.message);
+        navigate('/trainer-login');
       })
       .catch(err => {
         alert(err.response.data.message);
@@ -154,6 +154,7 @@ export default function TrainerSignUpPage() {
                   placeholder="Enter name"
                   value={name}
                   onChange={onChangeName}
+                  required
                 />
               </FloatingLabel>
             </Col>
@@ -181,7 +182,7 @@ export default function TrainerSignUpPage() {
                 className="mb-3"
                 required
               >
-                <Form.Select value={gender} onChange={onChangeGender}>
+                <Form.Select value={gender} onChange={onChangeGender} required>
                   <option>선택하세요</option>
                   <option value="남성">남성</option>
                   <option value="여성">여성</option>

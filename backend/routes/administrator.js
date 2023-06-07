@@ -15,9 +15,9 @@ const {
   certification_auth_request,
   trainer_points,
   trainer_cert,
-  dailyTrainerCounts,
-  dailyUserCounts,
-  dailyRequestCounts,
+  dailytrainercounts,
+  dailyusercounts,
+  dailyrequestcounts,
 } = require('../models');
 const initModels = require('../models/init-models');
 const models = initModels(sequelize);
@@ -47,7 +47,7 @@ router.get('/trainercount', async (req, res) => {
       const endDate = new Date(startDate);
       endDate.setDate(endDate.getDate() + 6);
 
-      const trainerCount = await dailyTrainerCounts.sum('count', {
+      const trainerCount = await dailytrainercounts.sum('count', {
         where: {
           date: {
             [Op.between]: [startDate, endDate],
@@ -89,7 +89,7 @@ router.get('/usercount', async (req, res) => {
       const endDate = new Date(startDate);
       endDate.setDate(endDate.getDate() + 6);
 
-      const userCount = await dailyUserCounts.sum('count', {
+      const userCount = await dailyusercounts.sum('count', {
         where: {
           date: {
             [Op.between]: [startDate, endDate],
@@ -131,7 +131,7 @@ router.get('/requestcount', async (req, res) => {
       const endDate = new Date(startDate);
       endDate.setDate(endDate.getDate() + 6);
 
-      const requestCount = await dailyRequestCounts.sum('count', {
+      const requestCount = await dailyrequestcounts.sum('count', {
         where: {
           date: {
             [Op.between]: [startDate, endDate],
@@ -189,7 +189,7 @@ router.get('/trainer/certificatelist', async (req, res) => {
 });
 
 // admin trainer signup auth
-router.post('/trainer', async (req, res) => {
+router.post('/trainerauth/:Id', async (req, res) => {
   try {
     const { Id } = req.params;
     const trainer = await trainer_sign_request.findOne({
@@ -227,7 +227,7 @@ router.post('/trainer', async (req, res) => {
 });
 
 // admin trainer signup reject
-router.post('/trainer', async (req, res) => {
+router.post('/trainerreject/:Id', async (req, res) => {
   try {
     const { Id } = req.params;
     const trainer = await trainer_sign_request.findOne({
@@ -240,7 +240,7 @@ router.post('/trainer', async (req, res) => {
       await certification_auth_request.destroy({
         where: { trainer_request_id: Id },
       });
-      res.status(200).json({ data: null, message: '승인되었습니다.' });
+      res.status(200).json({ data: null, message: '거절되었습니다.' });
     } else {
       res.status(400).json({ data: null, message: '없는 트레이너 입니다.' });
     }
@@ -251,14 +251,15 @@ router.post('/trainer', async (req, res) => {
 });
 
 // admin trainer certification auth
-router.post('/trainer/certificate', async (req, res) => {
+router.post('/trainer/certificateauth/:Id', async (req, res) => {
   try {
     const { Id } = req.params;
     const trainercert = await certification_auth_request.findOne({
       where: { trainer_id: Id },
     });
     if (trainercert) {
-      await certifications.update({
+      const cert = await certifications.create({
+        trainer_id: trainercert.trainer_id,
         name: trainercert.name,
         image_url: trainercert.image_url,
         certification_s3_key: trainercert.certification_s3_key,
@@ -270,7 +271,7 @@ router.post('/trainer/certificate', async (req, res) => {
       await certification_auth_request.destroy({
         where: { id: trainercert.id },
       });
-      res.status(200).json({ data: null, message: '거절되었습니다.' });
+      res.status(200).json({ data: null, message: '승인되었습니다.' });
     } else {
       res.status(400).json({ data: null, message: '없는 증명서 입니다.' });
     }
@@ -281,7 +282,7 @@ router.post('/trainer/certificate', async (req, res) => {
 });
 
 // admin trainer certification reject
-router.post('/trainer/certificate', async (req, res) => {
+router.post('/trainer/certificatereject/:Id', async (req, res) => {
   try {
     const { Id } = req.params;
     const trainercert = await certification_auth_request.findOne({
