@@ -56,20 +56,23 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
 
   useEffect(() => {
     fetchRequests();
-  }, []);
+  }, [count]);
   /// userpoint/:id
 
   const fetchRequests = async () => {
-    console.log('트레이너 아이디', trainerid);
+    // console.log('트레이너 아이디', trainerid);
     const response = await axios.get(
       `https://localhost:4000/trainers/getPrice/${trainerid}`,
     );
-    console.log(response.data.data);
-    console.log('잘 되냐?');
-    setPrice(response.data.data.price);
+    // console.log(response.data.data);
+    // console.log('잘 되냐?');
+    setPrice(response.data.data.pt_point);
     setTotalPrice(count * price);
     const response1 = await axios.get(
       `https://localhost:4000/users/userpoint/${userid}`,
+      {
+        withCredentials: true,
+      },
     );
     setUserPoint(response1.data.data.amount);
     console.log(price);
@@ -147,12 +150,14 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
               ) *
                 (2 / 7),
             )} */}
-            {count * price}
+            {count}
           </Boxep1>
         </Boxc>
         <Boxc>
-          <Head2>현재 보유 포인트</Head2>
-          <Boxep2>{userpoint}</Boxep2>
+          <Head2>예상 비용/보유 금액</Head2>
+          <Boxep2>
+            {totalprice} / {userpoint}
+          </Boxep2>
         </Boxc>
       </Boxr>
       <Boxr>
