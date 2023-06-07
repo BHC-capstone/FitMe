@@ -266,38 +266,25 @@ router.post('/profile/changeProfile/:id', async function (req, res) {
       const trainerInfo = await trainers.findOne({
         where: { id: req.params.id },
       });
-
-      const passwordMatch = await bcrypt.compare(
-        req.body.currentPassword,
-        trainerInfo.password,
+      await trainers.update(
+        {
+          email: req.body.email,
+          name: req.body.name,
+          age: req.body.age,
+          gender: req.body.gender,
+          phonenumber: req.body.phonenumber,
+          introduction: req.body.introduction,
+        },
+        { where: { id: req.params.id } },
+        { transaction },
       );
 
-      if (!passwordMatch) {
-        res.status(401).json({
-          data: null,
-          message: '현재 비밀번호가 일치하지 않습니다.',
-        });
-      } else {
-        await trainers.update(
-          {
-            email: req.body.email,
-            name: req.body.name,
-            age: req.body.age,
-            gender: req.body.gender,
-            phonenumber: req.body.phonenumber,
-            introduction: req.body.introduction,
-          },
-          { where: { id: req.params.id } },
-          { transaction },
-        );
+      await transaction.commit();
 
-        await transaction.commit();
-
-        res.status(200).json({
-          data: null,
-          message: '성공적으로 변경되었습니다.',
-        });
-      }
+      res.status(200).json({
+        data: null,
+        message: '성공적으로 변경되었습니다.',
+      });
     } catch (err) {
       console.log(err);
       res
