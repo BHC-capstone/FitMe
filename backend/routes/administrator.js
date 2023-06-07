@@ -15,9 +15,9 @@ const {
   certification_auth_request,
   trainer_points,
   trainer_cert,
-  dailyTrainerCounts,
-  dailyUserCounts,
-  dailyRequestCounts,
+  dailytrainercounts,
+  dailyusercounts,
+  dailyrequestcounts,
 } = require('../models');
 const initModels = require('../models/init-models');
 const models = initModels(sequelize);
@@ -47,7 +47,7 @@ router.get('/trainercount', async (req, res) => {
       const endDate = new Date(startDate);
       endDate.setDate(endDate.getDate() + 6);
 
-      const trainerCount = await dailyTrainerCounts.sum('count', {
+      const trainerCount = await dailytrainercounts.sum('count', {
         where: {
           date: {
             [Op.between]: [startDate, endDate],
@@ -89,7 +89,7 @@ router.get('/usercount', async (req, res) => {
       const endDate = new Date(startDate);
       endDate.setDate(endDate.getDate() + 6);
 
-      const userCount = await dailyUserCounts.sum('count', {
+      const userCount = await dailyusercounts.sum('count', {
         where: {
           date: {
             [Op.between]: [startDate, endDate],
@@ -131,7 +131,7 @@ router.get('/requestcount', async (req, res) => {
       const endDate = new Date(startDate);
       endDate.setDate(endDate.getDate() + 6);
 
-      const requestCount = await dailyRequestCounts.sum('count', {
+      const requestCount = await dailyrequestcounts.sum('count', {
         where: {
           date: {
             [Op.between]: [startDate, endDate],

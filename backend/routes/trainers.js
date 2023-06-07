@@ -9,7 +9,7 @@ const {
   trainer_cert,
   trainer_sign_request,
   certification_auth_request,
-  dailyTrainerCounts,
+  dailytrainercounts,
 } = require('../models');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -42,6 +42,7 @@ router.post(
     ) {
       let transaction;
       try {
+        const currentDate = new Date();
         transaction = await sequelize.transaction();
 
         const trainerInfo = await trainers.findOne({
@@ -52,7 +53,7 @@ router.post(
         if (trainerInfo != undefined)
           res.status(409).json({
             data: trainerInfo,
-            message: '이미 존재하는 아이디입니다.',
+            message: '이미 존재하는 이메일입니다.',
           });
         else {
           console.log(req.body);
@@ -84,6 +85,7 @@ router.post(
           const certification = await certification_auth_request.create(
             {
               trainer_request_id: trainer.id,
+              trainer_id: 0,
               name: req.file.originalname,
               image_url: result.Location,
               certification_s3_key: result.Key,
@@ -99,17 +101,17 @@ router.post(
             { transaction },
           );
 
-          const trainerCount = await dailyTrainerCounts.findOne({
+          const trainerCount = await dailytrainercounts.findOne({
             where: { date: currentDate },
             transaction,
           });
           if (trainerCount) {
-            await dailyTrainerCounts.update(
+            await dailytrainercounts.update(
               { count: trainerCount.count + 1 },
               { where: { date: currentDate }, transaction },
             );
           } else {
-            await dailyTrainerCounts.create(
+            await dailytrainercounts.create(
               {
                 date: currentDate,
                 count: 1,
@@ -149,20 +151,13 @@ router.post('/login', async function (req, res) {
           trainerInfo.password,
         );
         if (isPasswordValid) {
-          if (trainerInfo.trainer_auth == 1) {
-            req.session.save(function () {
-              req.session.loggedin = true;
-              res.json({
-                data: trainerInfo,
-                message: '로그인에 성공하였습니다',
-              });
+          req.session.save(function () {
+            req.session.loggedin = true;
+            res.json({
+              data: trainerInfo,
+              message: '로그인에 성공하였습니다',
             });
-          } else {
-            res.status(401).json({
-              data: null,
-              message: '승인되지 않은 트레이너입니다.',
-            });
-          }
+          });
         } else {
           res
             .status(401)
@@ -180,7 +175,7 @@ router.post('/login', async function (req, res) {
   } else {
     res.status(400).json({
       data: null,
-      message: '아이디와 비밀번호를 입력하세요',
+      message: '이메일과 비밀번호를 입력하세요',
     });
   }
 });
@@ -648,7 +643,7 @@ router.post('/deleteCertification/:id', async function (req, res) {
       });
     } catch (err) {
       console.log(err);
-      res.status(500).json({ data: null, message: "서버에러" });
+      res.status(500).json({ data: null, message: '서버에러' });
     }
   } else {
     res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
