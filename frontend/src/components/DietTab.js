@@ -49,9 +49,7 @@ function DietTab({ userid, date }) {
             setDietdate(res.data.data);
           });
       })
-      .catch(err => {
-        console.log(err.response.data.message);
-      });
+      .catch(err => {});
   }
 
   function onImageRemove(num) {
@@ -81,9 +79,7 @@ function DietTab({ userid, date }) {
             setDietdate(res.data.data);
           });
       })
-      .catch(err => {
-        console.log(err.response.data.message);
-      });
+      .catch(err => {});
   }
   return (
     <Flexcontainers>
