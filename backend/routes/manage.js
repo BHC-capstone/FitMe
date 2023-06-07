@@ -54,7 +54,6 @@ router.get('/checkptuserdetail/:user_id/:id', async function (req, res) {
       name: check_pt_user_detail.user.name,
     };
     res.status(200).json({ data: userWithNames, message: '' });
-    res.status(200).json({ data: check_pt_user_detail, message: '' });
   } catch (err) {
     console.log(err);
   }
