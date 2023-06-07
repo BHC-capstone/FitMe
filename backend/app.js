@@ -61,7 +61,7 @@ app.use('/calender', calenderRouter);
 app.use('/trainer_calender', trainer_calenderRouter);
 app.use('/feedback', feedbackRouter);
 app.use('/pay', payRouter);
-app.use('/admin', adminRouter);
+app.use('/administrator', adminRouter);
 
 //frontend와 연동
 app.use(express.static(path.join(__dirname, '../frontend/build')));
