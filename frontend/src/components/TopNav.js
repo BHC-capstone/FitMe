@@ -17,9 +17,27 @@ export default function TopNav() {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-    dispatch(logoutUser());
-    console.log(user);
-    navigate('/mypage');
+    if (user.isTrainer === false) {
+      axios.get('https://localhost:4000/users/logout').then(response => {
+        if (response.status === 200) {
+          alert(response.data.message);
+          dispatch(logoutUser());
+          navigate('user-login');
+        } else {
+          alert(response.data.message);
+        }
+      });
+    } else {
+      axios.get('https://localhost:4000/trainers/logout').then(response => {
+        if (response.status === 200) {
+          alert(response.data.message);
+          dispatch(logoutUser());
+          navigate('trainer-login');
+        } else {
+          alert(response.data.message);
+        }
+      });
+    }
   };
 
   const [point, setPoint] = useState(0);
@@ -31,7 +49,7 @@ export default function TopNav() {
       withCredentials: true,
     }).then(response => {
       const { data } = response.data;
-      setPoint(data.user_point_amount);
+      setPoint(data.amount);
     });
   }, []);
 
@@ -74,7 +92,7 @@ export default function TopNav() {
                 ) : (
                   <Nav.Link href="/customer-list">관리 중인 수강생</Nav.Link>
                 )}
-                <Nav.Link onClick={handleLogout}>로그아웃</Nav.Link>\
+                <Nav.Link onClick={handleLogout}>로그아웃</Nav.Link>
               </Nav>
             )}
           </Offcanvas.Body>
