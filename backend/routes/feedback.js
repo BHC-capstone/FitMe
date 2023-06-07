@@ -29,7 +29,6 @@ dotenv.config();
 
 // check feedback
 router.get('/checkFeedback/:Id/:date', async (req, res) => {
-  console.log('test');
   if (req.session.loggedin) {
     try {
       const { Id, date } = req.params;

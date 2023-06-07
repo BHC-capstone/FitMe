@@ -32,7 +32,6 @@ if (fs.existsSync('./key.pem') && fs.existsSync('./cert.pem')) {
       app,
     )
     .listen(PORT);
-  console.log('test1');
 } else {
   server = app.listen(PORT);
 }

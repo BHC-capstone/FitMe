@@ -59,7 +59,6 @@ router.get('/exerciseroutine/:id/:date', async (req, res) => {
   if (req.session.loggedin) {
     try {
       const { id, date } = req.params;
-      console.log('test' + date + date);
       const schedule_date = await schedules.findOne({
         where: { user_id: id, date: date },
       });
@@ -67,7 +66,6 @@ router.get('/exerciseroutine/:id/:date', async (req, res) => {
       const exerciseRoutine = await exercise_routines.findAll({
         where: { schedule_id: schedule_date.id },
       });
-      console.log(exerciseRoutine);
       if (exerciseRoutine) {
         res.status(200).json({ data: exerciseRoutine, message: '' });
       } else {

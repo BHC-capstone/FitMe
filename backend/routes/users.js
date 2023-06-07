@@ -160,7 +160,6 @@ router.post('/withdraw/:id', async function (req, res) {
 
 // user info
 router.get('/profile/:id', async function (req, res) {
-  console.log(req.session.loggedin);
   try {
     const userInfo = await users.findOne({
       where: { id: req.params.id },
