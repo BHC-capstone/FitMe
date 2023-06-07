@@ -58,7 +58,7 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
       `https://localhost:4000/trainers/getPrice/${trainerid}`,
     );
     setPrice(response.data.data.pt_point);
-    setTotalPrice(count * price);
+    setTotalPrice(count * response.data.data.pt_point);
     const response1 = await axios.get(
       `https://localhost:4000/users/userpoint/${userid}`,
       {
@@ -112,13 +112,13 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
       .then(res => {
         navigate('/mypage');
         if (res.status === 200) {
-          console.log(res);
+          alert(res.data.message);
         } else {
-          console.log(res);
+          alert(res.data.message);
         }
       })
       .catch(err => {
-        console.log(err);
+        alert(err.response.data.message);
       });
   };
 

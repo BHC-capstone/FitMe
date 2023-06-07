@@ -195,7 +195,7 @@ router.post('/profile/changeProfile/:id', async function (req, res) {
           {
             email: req.body.email,
             name: req.body.name,
-            password: hashedPassword,
+            password: userInfo.password,
             age: req.body.age,
             gender: req.body.gender,
             phonenumber: req.body.phonenumber,

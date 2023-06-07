@@ -31,22 +31,6 @@ $darkBg2: #373b43;
 $darkBg3: #464c59;
 $darkBorder: rgba(0, 0, 0, 0.3);
 
-$theme-colors: (
-  'primary': $primary,
-  'secondary': $secondary,
-  'success': $success,
-  'info': $info,
-  'warning': $warning,
-  'danger': $danger,
-  'light': $light,
-  'dark': $dark,
-  'light-primary': #d6e4f3,
-  'light-success': #d5f3f2,
-  'light-info': #d3edfa,
-  'light-warning': #f8ecdc,
-  'light-danger': #f8dddd,
-);
-
 // scss-docs-start gray-color-variables
 $white: #fff !default;
 $gray-100: #f8f9fa !default;
@@ -60,24 +44,18 @@ $gray-800: #343a40 !default;
 $gray-900: #1e2a35 !default;
 $black: #000 !default;
 
-/*******************/
 // Theme Text Contrast
-/********************/
 $min-contrast-ratio: 2;
 
-/*******************/
 // Theme body bg & text color
-/********************/
 $body-bg: $gray-200 !default;
 $body-color: $gray-900 !default;
-$offcanvas-horizontal-width: 280px;
+$offcanvas-horizontal-width: 250px;
 
 $sidebar-width: 200px;
 $sidebar-color: #fff;
 
-/*******************/
 // Theme common variable
-/********************/
 $border-radius: 0.3rem !default;
 $box-shadow: 0 0.5rem 1rem rgba($black, 0.05);
 $headings-font-weight: 600 !default;
@@ -87,7 +65,6 @@ $card-box-shadow: $box-shadow !default;
 $grid-gutter-width: 1.85rem !default;
 
 $input-bg: $white !default;
-/*******************/
+
 // Theme btn
-/********************/
 $btn-focus-width: 0px;

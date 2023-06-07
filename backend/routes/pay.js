@@ -44,7 +44,7 @@ router.post('/payment', async (req, res) => {
       partner_order_id: 'FitMePointCharge',
       partner_user_id: userId,
       item_name: 'FitMe 포인트 충전',
-      quantitiy: 1,
+      quantity: 1,
       total_amount: amount,
       vat_amount: 0,
       tax_free_amount: 0,
@@ -68,10 +68,11 @@ router.post('/payment', async (req, res) => {
 
     const pgToken = data.pg_token;
     const tId = data.tid;
+    console.log(data);
 
     res.status(200).json({ data: { pgToken, tId }, message: '결제 준비' });
-  } catch (error) {
-    console.error(err);
+  } catch (err) {
+    console.log(err);
     res.status(500).json({ error: '결제 에러' });
   }
 });
@@ -105,6 +106,7 @@ router.post('/payment/approve', async (req, res) => {
     const isSuccess = data.is_approved;
     const paymentId = data.partner_order_id;
     const amount = data.amount;
+    console.log(data);
 
     if (isSuccess) {
       const point = Math.floor(amount * 0.1);
@@ -123,8 +125,8 @@ router.post('/payment/approve', async (req, res) => {
     } else {
       res.status(200).json({ message: '결제 실패' });
     }
-  } catch (error) {
-    console.error(err);
+  } catch (err) {
+    console.log(err);
     res.status(500).json({ error: '결제 승인 에러' });
   }
 });
@@ -137,8 +139,8 @@ router.get('/payment/user/:userId', async (req, res) => {
       where: { user_id: userId },
     });
     res.status(200).json({ data: payhistory, message: '결제 내역 조회' });
-  } catch (error) {
-    console.error(err);
+  } catch (err) {
+    console.log(err);
     res.status(500).json({ error: '결제 내역 조회 에러' });
   }
 });

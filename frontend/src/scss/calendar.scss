@@ -2,11 +2,9 @@
   width: 380px;
   max-width: fit-content;
   background: #fff;
-  // border: 1px solid #a0a096;
-  line-height: 1.125em;
+  // line-height: 1.125em;
   margin: 0% 0 10% 0;
   border-radius: 20px;
-  // box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   font-family: 'Gowun Dodum', sans-serif;
 }
 
@@ -34,6 +32,7 @@
 }
 
 .react-calendar button {
+  font-size: larger;
   margin: 0;
   border: 0;
   outline: none;
@@ -52,6 +51,7 @@
 }
 
 .react-calendar__navigation button {
+  font-weight: bold;
   min-width: 44px;
   background: none;
 }
