@@ -115,7 +115,7 @@ function UserEdit({ props }) {
             age: formData.age,
             gender: formData.gender,
             phonenumber: formData.phonenumber,
-            password: formData.password,
+            currentPassword: formData.password,
             password2: formData.password2,
           },
           {
