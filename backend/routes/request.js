@@ -7,6 +7,7 @@ const {
   pt_requests,
   trainer_manage,
   bodycheck,
+  trainer_points,
   user_points,
   dailyrequestcounts,
 } = require('../models');
@@ -43,17 +44,17 @@ router.post('/ptrequest', async (req, res) => {
         where: { id: trainerId },
       });
 
-      if (userpoint.amount < req.body.totalPrice) {
+      if (userpoint.amount < req.body.totalprice) {
         return res
           .status(401)
           .json({ data: null, message: '포인트가 부족합니다.' });
       }
 
-      await sequelize.transaction(async transaction => {
+      const transaction = await sequelize.transaction();
+
+      try {
         if (req.body.height == '' || req.body.weight == '') {
-          res
-            .status(400)
-            .json({ data: null, message: '키와 몸무게를 입력해주세요.' });
+          throw new Error('키와 몸무게를 입력해주세요.');
         } else {
           await pt_requests.create(
             {
@@ -108,7 +109,10 @@ router.post('/ptrequest', async (req, res) => {
             .status(200)
             .json({ data: null, message: '성공적으로 신청되었습니다.' });
         }
-      });
+      } catch (err) {
+        await transaction.rollback();
+        throw err;
+      }
     } catch (err) {
       console.log(err);
       res
