@@ -50,7 +50,7 @@ router.post(
           attributes: ['email'],
           transaction,
         });
-        if(trainer_request != undefined)
+        if (trainer_request != undefined)
           res.status(409).json({
             data: trainer_request,
             message: '이미 신청된 이메일입니다.',
@@ -613,6 +613,9 @@ router.get('/profileImg/:id', async function (req, res) {
       res.status(200).json({ data: profileImg, message: '' });
     } catch (err) {
       console.log(err);
+      res
+        .status(500)
+        .json({ data: null, message: '서버 오류가 발생했습니다.' });
     }
   }
 });
@@ -673,7 +676,6 @@ router.get('/getPrice/:Id', async function (req, res) {
   } catch (err) {
     console.log(err);
   }
-}
-);
+});
 
 module.exports = router;

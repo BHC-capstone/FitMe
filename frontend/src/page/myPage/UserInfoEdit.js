@@ -117,7 +117,7 @@ function UserEdit({ props }) {
           age: formData.age,
           gender: formData.gender,
           phonenumber: formData.phonenumber,
-          currnetPassword: formData.currentPassword,
+          currentPassword: formData.currentPassword,
         },
         {
           withCredentials: true,
@@ -213,7 +213,7 @@ function UserEdit({ props }) {
         <div className="head">회원 정보 수정</div>
         <Avatar
           src={profImg}
-          style={{ margin: '20px' }}
+          style={{ margin: '20px', cursor: 'pointer' }}
           size={200}
           onClick={() => {
             imgRef.current.click();
@@ -277,8 +277,8 @@ function UserEdit({ props }) {
                   onChange={handleChange}
                 >
                   <option>선택하세요</option>
-                  <option value="male">남성</option>
-                  <option value="female">여성</option>
+                  <option value="남성">남성</option>
+                  <option value="여성">여성</option>
                 </Form.Select>
               </FloatingLabel>
             </Col>
@@ -306,9 +306,9 @@ function UserEdit({ props }) {
           >
             <Form.Control
               type="password"
-              placeholder="Password"
-              id="password"
-              name="password"
+              placeholder="currentPassword"
+              id="currentPassword"
+              name="currentPassword"
               value={formData.currentPassword}
               onChange={handleChange}
               required

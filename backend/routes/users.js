@@ -195,7 +195,6 @@ router.post('/profile/changeProfile/:id', async function (req, res) {
           {
             email: req.body.email,
             name: req.body.name,
-            password: hashedPassword,
             age: req.body.age,
             gender: req.body.gender,
             phonenumber: req.body.phonenumber,
@@ -382,6 +381,9 @@ router.get('/profileImg/:id', async function (req, res) {
       res.status(200).json({ data: profileImg, message: '' });
     } catch (err) {
       console.log(err);
+      res
+        .status(500)
+        .json({ data: null, message: '서버 오류가 발생했습니다.' });
     }
   }
 });
