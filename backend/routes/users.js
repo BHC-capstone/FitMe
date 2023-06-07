@@ -160,6 +160,7 @@ router.post('/withdraw/:id', async function (req, res) {
 
 // user info
 router.get('/profile/:id', async function (req, res) {
+  console.log(req.session.loggedin);
   try {
     const userInfo = await users.findOne({
       where: { id: req.params.id },
@@ -194,7 +195,6 @@ router.post('/profile/changeProfile/:id', async function (req, res) {
           {
             email: req.body.email,
             name: req.body.name,
-            password: userInfo.password,
             age: req.body.age,
             gender: req.body.gender,
             phonenumber: req.body.phonenumber,
@@ -381,6 +381,9 @@ router.get('/profileImg/:id', async function (req, res) {
       res.status(200).json({ data: profileImg, message: '' });
     } catch (err) {
       console.log(err);
+      res
+        .status(500)
+        .json({ data: null, message: '서버 오류가 발생했습니다.' });
     }
   }
 });
