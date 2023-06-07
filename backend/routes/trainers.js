@@ -642,17 +642,16 @@ router.post('/deleteCertification/:id', async function (req, res) {
   }
 });
 // trainer 회당 가격 가져오기
-router.get('/getPrice/:id', async function (req, res) {
-  if (req.session.loggedin) {
-    try {
-      const trainerInfo = await trainers.findOne({
-        where: { id: req.params.id },
-      });
-      const price = trainerInfo.pt_point;
-      res.status(200).json({ data: price, message: '' });
-    } catch (err) {
-      console.log(err);
-    }
+router.get('/getPrice/:Id', async function (req, res) {
+  try {
+    const price = await trainers.findOne({
+      where: { id: req.params.Id },
+      attributes: ['pt_point'],
+    });
+    res.status(200).json({ data: price, message: '' });
+  } catch (err) {
+    console.log(err);
   }
-});
+}
+);
 module.exports = router;

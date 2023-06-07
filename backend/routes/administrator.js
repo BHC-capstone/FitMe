@@ -38,7 +38,7 @@ dotenv.config();
 // admin trainer countlist
 router.get('/trainercount', async (req, res) => {
   try {
-    const serviceStartDate = new Date('서비스 시작 날짜');
+    const serviceStartDate = new Date('2023-06-01');
     const currentDate = new Date();
 
     const trainerCounts = [];
@@ -56,17 +56,15 @@ router.get('/trainercount', async (req, res) => {
         },
       });
 
-      if (!trainerCount) {
-        trainerCount = 0;
-      }
-
       trainerCounts.push({
-        startDate: startDate,
-        endDate: endDate,
-        count: trainerCount,
+        startDate: startDate.toISOString().split('T')[0],
+        endDate: endDate.toISOString().split('T')[0],
+        count: trainerCount || 0,
       });
-      startDate.setDate(startDate.getDate() + 7); // 다음 주의 시작 날짜로 이동
+
+      startDate.setDate(startDate.getDate() + 7); 
     }
+
     res.status(200).json({
       data: { trainerCounts: trainerCounts },
       message: '일주일간의 트레이너 수',
@@ -77,10 +75,11 @@ router.get('/trainercount', async (req, res) => {
   }
 });
 
+
 // admin user countlist
 router.get('/usercount', async (req, res) => {
   try {
-    const serviceStartDate = new Date('2023-06-07');
+    const serviceStartDate = new Date('서비스 시작 날짜');
     const currentDate = new Date();
 
     const userCounts = [];
@@ -98,17 +97,15 @@ router.get('/usercount', async (req, res) => {
         },
       });
 
-      if (!userCount) {
-        userCount = 0;
-      }
-
       userCounts.push({
-        startDate: startDate,
-        endDate: endDate,
-        count: userCount,
+        startDate: startDate.toISOString().split('T')[0],
+        endDate: endDate.toISOString().split('T')[0],
+        count: userCount || 0,
       });
-      startDate.setDate(startDate.getDate() + 7); // 다음 주의 시작 날짜로 이동
+
+      startDate.setDate(startDate.getDate() + 7); 
     }
+
     res.status(200).json({
       data: { userCounts: userCounts },
       message: '일주일간의 유저 수',
@@ -140,26 +137,25 @@ router.get('/requestcount', async (req, res) => {
         },
       });
 
-      if (!requestCount) {
-        requestCount = 0;
-      }
-
       requestCounts.push({
-        startDate: startDate,
-        endDate: endDate,
-        count: requestCount,
+        startDate: startDate.toISOString().split('T')[0],
+        endDate: endDate.toISOString().split('T')[0],
+        count: requestCount || 0,
       });
-      startDate.setDate(startDate.getDate() + 7); // 다음 주의 시작 날짜로 이동
+
+      startDate.setDate(startDate.getDate() + 7); 
     }
+
     res.status(200).json({
       data: { requestCounts: requestCounts },
-      message: '일주일간의 pt 요청 수',
+      message: '일주일간의 PT 요청 수',
     });
   } catch (err) {
     console.log(err);
     res.status(500).json({ data: null, message: 'Error' });
   }
 });
+
 
 // admin trainer signup auth list
 router.get('/trainerlist', async (req, res) => {
@@ -193,7 +189,6 @@ router.get('/trainer/certificatelist', async (req, res) => {
 router.post('/trainerauth/:Id', async (req, res) => {
   try {
     const { Id } = req.params;
-    console.log("이거뭐냐?",req.params);
     const trainer = await trainer_sign_request.findOne({
       where: { id: Id },
     });
