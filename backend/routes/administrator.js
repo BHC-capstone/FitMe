@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 var express = require('express');
 var router = express.Router();
 const { sequelize } = require('../models');
@@ -38,11 +39,12 @@ dotenv.config();
 // admin trainer countlist
 router.get('/trainercount', async (req, res) => {
   try {
-    const serviceStartDate = new Date('2023-06-01');
+    const serviceStartDate = new Date('2023-05-21');
     const currentDate = new Date();
 
     const trainerCounts = [];
     let startDate = new Date(serviceStartDate);
+    let weekcount = 1;
 
     while (startDate <= currentDate) {
       const endDate = new Date(startDate);
@@ -57,12 +59,12 @@ router.get('/trainercount', async (req, res) => {
       });
 
       trainerCounts.push({
-        startDate: startDate.toISOString().split('T')[0],
-        endDate: endDate.toISOString().split('T')[0],
+        weekend: weekcount,
         count: trainerCount || 0,
       });
 
-      startDate.setDate(startDate.getDate() + 7); 
+      startDate.setDate(startDate.getDate() + 7);
+      weekcount += 1;
     }
 
     res.status(200).json({
@@ -75,15 +77,15 @@ router.get('/trainercount', async (req, res) => {
   }
 });
 
-
 // admin user countlist
 router.get('/usercount', async (req, res) => {
   try {
-    const serviceStartDate = new Date('서비스 시작 날짜');
+    const serviceStartDate = new Date('2023-05-21');
     const currentDate = new Date();
 
     const userCounts = [];
     let startDate = new Date(serviceStartDate);
+    let weekcount = 1;
 
     while (startDate <= currentDate) {
       const endDate = new Date(startDate);
@@ -98,12 +100,12 @@ router.get('/usercount', async (req, res) => {
       });
 
       userCounts.push({
-        startDate: startDate.toISOString().split('T')[0],
-        endDate: endDate.toISOString().split('T')[0],
+        weekend: weekcount,
         count: userCount || 0,
       });
 
-      startDate.setDate(startDate.getDate() + 7); 
+      startDate.setDate(startDate.getDate() + 7);
+      weekcount += 1;
     }
 
     res.status(200).json({
@@ -119,11 +121,12 @@ router.get('/usercount', async (req, res) => {
 // admin pt_request countlist
 router.get('/requestcount', async (req, res) => {
   try {
-    const serviceStartDate = new Date('서비스 시작 날짜');
+    const serviceStartDate = new Date('2023-05-21');
     const currentDate = new Date();
 
     const requestCounts = [];
     let startDate = new Date(serviceStartDate);
+    let weekcount = 1;
 
     while (startDate <= currentDate) {
       const endDate = new Date(startDate);
@@ -138,12 +141,12 @@ router.get('/requestcount', async (req, res) => {
       });
 
       requestCounts.push({
-        startDate: startDate.toISOString().split('T')[0],
-        endDate: endDate.toISOString().split('T')[0],
+        weekend: weekcount,
         count: requestCount || 0,
       });
 
-      startDate.setDate(startDate.getDate() + 7); 
+      startDate.setDate(startDate.getDate() + 7);
+      weekcount += 1;
     }
 
     res.status(200).json({
@@ -155,7 +158,6 @@ router.get('/requestcount', async (req, res) => {
     res.status(500).json({ data: null, message: 'Error' });
   }
 });
-
 
 // admin trainer signup auth list
 router.get('/trainerlist', async (req, res) => {

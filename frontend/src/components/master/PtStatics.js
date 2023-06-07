@@ -11,12 +11,12 @@ import {
 import axios from 'axios';
 
 export default function PtStatics({}) {
-  const [requests, setRequests] = useState(null);
-
+  const [requests, setRequests] = useState([]);
+  const [data, setData] = useState([]);
   const fetchRequests = async () => {
-    const response = await axios.get(``, {
-      withCredentials: true,
-    });
+    const response = await axios.get(
+      `https://localhost:4000/administrator/requestcount`,
+    );
     setRequests(response.data.data);
   };
 
@@ -24,20 +24,15 @@ export default function PtStatics({}) {
     fetchRequests();
   }, []);
   return (
-    <VictoryChart height={200} width={300} theme={VictoryTheme.material}>
+    <VictoryChart height={300} width={300} theme={VictoryTheme.material}>
       <VictoryLine
         style={{
           data: { stroke: '#c43a31' },
           parent: { border: '1px solid #ccc' },
         }}
-        data={[
-          { x: 1, y: 2 },
-          { x: 2, y: 3 },
-          { x: 3, y: 5 },
-          { x: 4, y: 4 },
-          { x: 5, y: 7 },
-          { x: 6, y: 7 },
-        ]}
+        data={requests.requestCounts}
+        x="weekend"
+        y="count"
       />
       <VictoryAxis
         crossAxis
@@ -45,7 +40,7 @@ export default function PtStatics({}) {
         height={300}
         domain={[0, 10]}
         theme={VictoryTheme.material}
-        offsetY={20}
+        offsetY={30}
         standalone={false}
       />
       <VictoryAxis

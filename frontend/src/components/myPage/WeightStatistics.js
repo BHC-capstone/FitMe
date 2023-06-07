@@ -9,17 +9,23 @@ import {
   VictoryAxis,
 } from 'victory';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
-export default function TrainerStatics({}) {
+export default function WeightStatics({}) {
+  const loginedUser = useSelector(state => state.user);
   const [requests, setRequests] = useState([]);
-  const [data, setData] = useState([]);
   const fetchRequests = async () => {
-    const response = await axios.get(
-      `https://localhost:4000/administrator/trainercount`,
-    );
-    setRequests(response.data.data);
+    axios
+      .get(`https://localhost:4000/users/checkbodyinfo/${loginedUser.id}`, {
+        withCredentials: true,
+      })
+      .then(response => {
+        setRequests(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
-
   useEffect(() => {
     fetchRequests();
   }, []);
@@ -30,7 +36,7 @@ export default function TrainerStatics({}) {
           data: { stroke: '#c43a31' },
           parent: { border: '1px solid #ccc' },
         }}
-        data={requests.trainerCounts}
+        data={[]}
         x="weekend"
         y="count"
       />

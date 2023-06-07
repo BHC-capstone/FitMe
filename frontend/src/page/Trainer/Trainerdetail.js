@@ -6,7 +6,6 @@ import { Container, Form, Button } from 'react-bootstrap';
 import { Avatar } from 'antd';
 import axios from 'axios';
 import styled from 'styled-components';
-import Starpoint from '../../components/Starpoint';
 import TrainerProfileDisplay from './TrainerProfileDisplay';
 
 function Trainerdetail() {
@@ -57,7 +56,6 @@ function Trainerdetail() {
         <Box1>
           <Nameblock className="a">{trainer.name}</Nameblock>
           {/* <Nameblock>별점</Nameblock> */}
-          <Starpoint starpoint={star} />
           <Nameblock className="b">
             {trainer.gender} {trainer.age}세
           </Nameblock>

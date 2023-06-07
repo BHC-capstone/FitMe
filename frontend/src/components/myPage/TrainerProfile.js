@@ -61,9 +61,7 @@ function TrainerProfile() {
       },
       withCredentials: true,
     })
-      .then(response => {
-        console.log(response);
-      })
+      .then(response => {})
       .catch(err => {
         console.log(err);
       });

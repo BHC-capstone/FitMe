@@ -4,9 +4,9 @@ import Calendar from 'react-calendar';
 import '../../scss/calendar.scss';
 import styled from 'styled-components';
 import { Container } from 'react-bootstrap';
-import DietTab from '../../components/DietTab';
-import ExerciseTab from '../../components/ExerciseTab';
 import FeedbackTab from '../../components/userCalendar/FeedbackTab';
+import DietTab from '../../components/userCalendar/DietTab';
+import ExerciseTab from '../../components/userCalendar/ExerciseTab';
 
 function CalendarPart() {
   const loginedUser = useSelector(state => state.user);

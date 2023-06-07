@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { ko } from 'date-fns/esm/locale';
 import { useParams } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
-import Expectedpoint from '../../components/Expectedpoint';
+import Expectedpoint from '../../components/ptrequest/Expectedpoint';
 import './Ptrequest.css';
 
 export default function Ptrequest() {

@@ -13,12 +13,12 @@ function MasterMain() {
 
   const menuArr = [
     {
-      name: '자격증 신청',
-      content: <MasterCertification />,
-    }, // dateinfo 정보를 통해 axios로 해당 날짜의 식단 데이터 넣으면 완료
-    {
       name: '트레이너 신청',
       content: <MasterTrainerRequest />,
+    }, // dateinfo 정보를 통해 axios로 해당 날짜의 식단 데이터 넣으면 완료
+    {
+      name: '자격증 신청',
+      content: <MasterCertification />,
     }, // dateinfo 정보를 통해 axios로 해당 날짜의 운동 루틴 데이터 넣으면 완료
     {
       name: '통계',

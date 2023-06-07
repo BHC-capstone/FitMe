@@ -36,7 +36,6 @@ function RequestDetailTrainer({ request, fetch }) {
       url: `https://localhost:4000/administrator/trainerauth/${requestId}`,
     })
       .then(response => {
-        console.log(response);
         fetch();
       })
       .catch(error => {
@@ -50,7 +49,6 @@ function RequestDetailTrainer({ request, fetch }) {
       url: `https://localhost:4000/administrator/trainerreject/${requestId}`,
     })
       .then(response => {
-        console.log(response);
         fetch();
       })
       .catch(error => {
