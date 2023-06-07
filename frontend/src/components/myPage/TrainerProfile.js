@@ -89,7 +89,7 @@ function TrainerProfile() {
     e.preventDefault();
     axios({
       method: 'post',
-      url: `https://localhost:4000/trainers/profile/changePtPrice/${loginedUser.id}`,
+      url: `https://localhost:4000/trainers/profile/changePtPoint/${loginedUser.id}`,
       data: {
         pt_point: ptPrice,
       },
@@ -122,7 +122,7 @@ function TrainerProfile() {
       <Container1 fluid>
         <div className="profile">
           <Head1>회당 PT 가격 설정</Head1>
-          <Form onSubmit={handleFileUpload}>
+          <Form onSubmit={submitPtPrice}>
             <FloatingLabel
               controlId="floatingTextarea"
               label="회당 PT 가격"

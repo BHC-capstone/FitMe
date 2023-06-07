@@ -34,18 +34,13 @@ function ButtonDisplay({
 }
 
 function RequestDetailTrainer({ request, fetch }) {
-  const loginedUser = useSelector(state => state.user);
-  const navigate = useNavigate();
   const handleAccept = async () => {
     try {
       await axios
         .post(
-          ``,
+          `https://localhost:4000/administrator/trainerauth/${request.id}`,
           {
             response: '수락',
-          },
-          {
-            withCredentials: true,
           },
         )
         .then(res => {
@@ -112,7 +107,6 @@ function RequestDetailTrainer({ request, fetch }) {
           <ButtonDisplay
             handleAccept={handleAccept}
             handleReject={handleReject}
-            loginedUserId={loginedUser.id}
             requestId={request.id}
           />
           <div />

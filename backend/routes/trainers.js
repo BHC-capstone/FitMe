@@ -45,6 +45,17 @@ router.post(
         const currentDate = new Date();
         transaction = await sequelize.transaction();
 
+        const trainer_request = await trainer_sign_request.findOne({
+          where: { email: req.body.email },
+          attributes: ['email'],
+          transaction,
+        });
+        if(trainer_request != undefined)
+          res.status(409).json({
+            data: trainer_request,
+            message: '이미 신청된 이메일입니다.',
+          });
+
         const trainerInfo = await trainers.findOne({
           where: { email: req.body.email },
           attributes: ['email'],
@@ -123,7 +134,7 @@ router.post(
           await transaction.commit();
           res
             .status(200)
-            .json({ data: null, message: '회원가입을 환영합니다.' });
+            .json({ data: null, message: '회원가입 신청이 완료되었습니다.' });
         }
       } catch (err) {
         console.log(err);
