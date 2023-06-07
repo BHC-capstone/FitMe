@@ -37,6 +37,7 @@ function DietTab({ userid, date }) {
       withCredentials: true,
     })
       .then(response => {
+        alert(response.data.message);
         axios
           .get(
             `https://fitme.p-e.kr:4000/calender/mealplan/${userid}/${date}`,
@@ -68,6 +69,7 @@ function DietTab({ userid, date }) {
       withCredentials: true,
     })
       .then(response => {
+        alert(response.data.message);
         axios
           .get(
             `https://fitme.p-e.kr:4000/calender/mealplan/${userid}/${date}`,

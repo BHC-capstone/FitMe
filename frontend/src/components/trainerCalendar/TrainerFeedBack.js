@@ -90,7 +90,7 @@ function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
       withCredentials: true,
     })
       .then(res => {
-        console.log(res);
+        alert(res.data.message);
       })
       .catch(err => {
         alert(err.response.data.message);
@@ -107,7 +107,7 @@ function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
       withCredentials: true,
     })
       .then(res => {
-        console.log(res);
+        alert(res.data.message);
       })
       .catch(err => {
         alert(err.response.data.message);

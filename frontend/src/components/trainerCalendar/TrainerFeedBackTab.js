@@ -75,7 +75,7 @@ function TrainerFeedBackTab({ userid, date }) {
               date={date}
               userid={userid}
             />
-            <details className="mgtp">
+            {/* <details className="mgtp">
               <summary className="mgbt">회원 신체정보</summary>
               <Container fluid className="content">
                 <div className="mgtp">
@@ -106,7 +106,7 @@ function TrainerFeedBackTab({ userid, date }) {
                   </div>
                 </div>
               </Container>
-            </details>
+            </details> */}
 
             <details className="mgtp">
               <summary className="mgbt">추가 요청사항</summary>
