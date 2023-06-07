@@ -151,20 +151,13 @@ router.post('/login', async function (req, res) {
           trainerInfo.password,
         );
         if (isPasswordValid) {
-          if (trainerInfo.trainer_auth == 1) {
-            req.session.save(function () {
-              req.session.loggedin = true;
-              res.json({
-                data: trainerInfo,
-                message: '로그인에 성공하였습니다',
-              });
+          req.session.save(function () {
+            req.session.loggedin = true;
+            res.json({
+              data: trainerInfo,
+              message: '로그인에 성공하였습니다',
             });
-          } else {
-            res.status(401).json({
-              data: null,
-              message: '승인되지 않은 트레이너입니다.',
-            });
-          }
+          });
         } else {
           res
             .status(401)

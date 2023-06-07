@@ -189,7 +189,7 @@ router.get('/trainer/certificatelist', async (req, res) => {
 });
 
 // admin trainer signup auth
-router.post('/trainer', async (req, res) => {
+router.post('/trainer/:Id', async (req, res) => {
   try {
     const { Id } = req.params;
     const trainer = await trainer_sign_request.findOne({
@@ -227,7 +227,7 @@ router.post('/trainer', async (req, res) => {
 });
 
 // admin trainer signup reject
-router.post('/trainer', async (req, res) => {
+router.post('/trainer/:Id', async (req, res) => {
   try {
     const { Id } = req.params;
     const trainer = await trainer_sign_request.findOne({
@@ -251,7 +251,7 @@ router.post('/trainer', async (req, res) => {
 });
 
 // admin trainer certification auth
-router.post('/trainer/certificate', async (req, res) => {
+router.post('/trainer/certificate/:Id', async (req, res) => {
   try {
     const { Id } = req.params;
     const trainercert = await certification_auth_request.findOne({
@@ -281,7 +281,7 @@ router.post('/trainer/certificate', async (req, res) => {
 });
 
 // admin trainer certification reject
-router.post('/trainer/certificate', async (req, res) => {
+router.post('/trainer/certificate/:Id', async (req, res) => {
   try {
     const { Id } = req.params;
     const trainercert = await certification_auth_request.findOne({
