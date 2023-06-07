@@ -91,6 +91,7 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
       bodyshape: detaildata.bodyshape,
       purpose: detaildata.purpose,
       lifestyle: detaildata.lifestyle,
+      totalPrice: count * 10,
     };
     axios
       .post(`https://localhost:4000/request/ptrequest`, body, {
@@ -99,13 +100,14 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
       .then(res => {
         navigate('/mypage');
         if (res.status === 200) {
-          console.log(res);
+          alert(res.data.message);
+          navigate('/mypage');
         } else {
-          console.log(res);
+          alert(res.data.message);
         }
       })
       .catch(err => {
-        console.log(err);
+        alert(err.response.data.message);
       });
   };
 

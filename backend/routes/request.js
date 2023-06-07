@@ -31,73 +31,83 @@ router.post('/ptrequest', async (req, res) => {
           .json({ data: null, message: '이미 신청한 trainer입니다' });
       }
 
+      const userpoint = await user_points.findOne({
+        where: { id: userId },
+      });
+
       const userInfo = await users.findOne({
         where: { id: userId },
       });
 
       const trainerInfo = await trainers.findOne({
-        where: { trainer_id: trainerId },
+        where: { id: trainerId },
       });
 
-      if (userInfo.amount < totalPrice) {
+      if (userpoint.amount < req.body.totalPrice) {
         return res
           .status(401)
           .json({ data: null, message: '포인트가 부족합니다.' });
       }
 
       await sequelize.transaction(async transaction => {
-        await pt_requests.create(
-          {
-            user_id: userId,
-            trainer_id: trainerId,
-            date: req.body.startDate,
-            count: count,
-            price: req.body.price,
-            request: req.body.request,
-            days: req.body.days,
-            gender: userInfo.gender,
-            age: userInfo.age,
-            height: req.body.height,
-            weight: req.body.weight,
-            injury: req.body.injury,
-            career: req.body.career,
-            significant: req.body.significant,
-            bodyshape: req.body.bodyshape,
-            purpose: req.body.purpose,
-            lifestyle: req.body.lifestyle,
-            accept: false,
-          },
-          { transaction },
-        );
-
-        await user_points.update(
-          { amount: sequelize.literal(`amount - ${totalPrice}`) },
-          { where: { user_id: userId }, transaction },
-        );
-
-        const requestCount = await dailyrequestcounts.findOne({
-          where: { date: currentDate },
-          transaction,
-        });
-        if (requestCount) {
-          await dailyrequestcounts.update(
-            { count: requestCount.count + 1 },
-            { where: { date: currentDate }, transaction },
-          );
+        if (req.body.height == '' || req.body.weight == '') {
+          res
+            .status(400)
+            .json({ data: null, message: '키와 몸무게를 입력해주세요.' });
         } else {
-          await dailyrequestcounts.create(
+          await pt_requests.create(
             {
-              date: currentDate,
-              count: 1,
+              user_id: userId,
+              trainer_id: trainerId,
+              date: req.body.startDate,
+              count: req.body.count,
+              price: req.body.price,
+              request: req.body.request,
+              days: req.body.days,
+              gender: userInfo.gender,
+              age: userInfo.age,
+              height: req.body.height,
+              weight: req.body.weight,
+              injury: req.body.injury,
+              career: req.body.career,
+              significant: req.body.significant,
+              bodyshape: req.body.bodyshape,
+              purpose: req.body.purpose,
+              lifestyle: req.body.lifestyle,
+              accept: false,
             },
             { transaction },
           );
-        }
 
-        await transaction.commit();
-        res
-          .status(200)
-          .json({ data: null, message: '성공적으로 신청되었습니다.' });
+          await user_points.update(
+            { amount: sequelize.literal(`amount - ${req.body.totalPrice}`) },
+            { where: { user_id: userId }, transaction },
+          );
+
+          const requestCount = await dailyrequestcounts.findOne({
+            where: { date: currentDate },
+            transaction,
+          });
+          if (requestCount) {
+            await dailyrequestcounts.update(
+              { count: requestCount.count + 1 },
+              { where: { date: currentDate }, transaction },
+            );
+          } else {
+            await dailyrequestcounts.create(
+              {
+                date: currentDate,
+                count: 1,
+              },
+              { transaction },
+            );
+          }
+
+          await transaction.commit();
+          res
+            .status(200)
+            .json({ data: null, message: '성공적으로 신청되었습니다.' });
+        }
       });
     } catch (err) {
       console.log(err);
