@@ -38,7 +38,7 @@ router.post("/signup", async function (req, res) {
       if (userInfo != undefined)
         res
           .status(409)
-          .json({ data: result, message: "이미 존재하는 아이디입니다" });
+          .json({ data: result, message: "이미 존재하는 아이디입니다." });
       else {
         console.log(req.body);
         const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
@@ -62,7 +62,7 @@ router.post("/signup", async function (req, res) {
 
         await transaction.commit();
 
-        res.status(200).json({ data: null, message: "회원가입을 환영합니다" });
+        res.status(200).json({ data: null, message: "회원가입을 환영합니다." });
       }
     } catch (err) {
       console.log(err);
@@ -72,7 +72,7 @@ router.post("/signup", async function (req, res) {
       }
     }
   } else {
-    res.status(400).json({ data: null, message: "모든 정보를 입력하세요" });
+    res.status(400).json({ data: null, message: "모든 정보를 입력하세요." });
   }
 });
 
@@ -91,17 +91,17 @@ router.post("/login", async function (req, res) {
         if (isPasswordValid) {
           req.session.save(function () {
             req.session.loggedin = true;
-            res.json({ data: userInfo, message: "로그인에 성공하였습니다" });
+            res.json({ data: userInfo, message: "로그인에 성공하였습니다." });
           });
         } else {
           res
             .status(401)
-            .json({ data: null, message: "로그인 정보가 일치하지 않습니다" });
+            .json({ data: null, message: "로그인 정보가 일치하지 않습니다." });
         }
       } else {
         res
           .status(401)
-          .json({ data: null, message: "로그인 정보가 일치하지 않습니다" });
+          .json({ data: null, message: "로그인 정보가 일치하지 않습니다." });
       }
     } catch (err) {
       console.log(err);
@@ -109,7 +109,7 @@ router.post("/login", async function (req, res) {
   } else {
     res
       .status(400)
-      .json({ data: null, message: "아이디와 비밀번호를 입력하세요" });
+      .json({ data: null, message: "아이디와 비밀번호를 입력하세요." });
   }
 });
 
@@ -118,7 +118,7 @@ router.get("/logout", function (req, res) {
   req.session.loggedin = false;
   res
     .status(200)
-    .json({ data: null, message: "성공적으로 로그아웃되었습니다" });
+    .json({ data: null, message: "성공적으로 로그아웃되었습니다." });
 });
 
 // user delete
@@ -134,7 +134,7 @@ router.post("/withdraw/:id", async function (req, res) {
       });
       res
         .status(200)
-        .json({ data: null, message: "성공적으로 탈퇴되었습니다" });
+        .json({ data: null, message: "성공적으로 탈퇴되었습니다." });
     }
   } catch (err) {
     console.log(err);
@@ -266,13 +266,14 @@ router.post(
         const userInfo = await users.findOne({
           where: { id: req.params.id },
         });
-
         const s3key = userInfo.s3_key;
-        const deleteParams = {
-          Bucket: "fitme-s3",
-          Key: s3key,
-        };
-        await s3.deleteObject(deleteParams).promise();
+        if (s3key != null) {
+          const deleteParams = {
+            Bucket: "fitme-s3",
+            Key: s3key,
+          };
+          await s3.deleteObject(deleteParams).promise();
+        }
         const uploadParams = {
           acl: "public-read",
           ContentType: "image/png",

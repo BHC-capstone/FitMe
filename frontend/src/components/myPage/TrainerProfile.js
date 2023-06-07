@@ -1,13 +1,16 @@
 import { React, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import { Container } from 'react-bootstrap';
-import { Form, Upload, Button } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { Container, FloatingLabel, Form, Button } from 'react-bootstrap';
+import styled from 'styled-components';
+import { UploadOutlined, CloseOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 
 function TrainerProfile() {
   const loginedUser = useSelector(state => state.user);
+  const navigate = useNavigate();
   const [certifications, setCertifications] = useState([]);
+  const [introduction, setIntroduction] = useState('');
   const fileList = [];
   const handleFileUpload = event => {
     event.preventDefault();
@@ -16,6 +19,7 @@ function TrainerProfile() {
 
   useEffect(() => {
     fetchCertifications();
+    fetchIntroduction();
   }, []);
 
   const fetchCertifications = async () => {
@@ -31,33 +35,119 @@ function TrainerProfile() {
     }
   };
 
+  const fetchIntroduction = async () => {
+    axios({
+      method: 'get',
+      url: `https://localhost:4000/trainers/profile/${loginedUser.id}`,
+      withCredentials: true,
+    })
+      .then(response => {
+        const { data } = response.data;
+        setIntroduction(data.introduction);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const submitIntroduction = async e => {
+    e.preventDefault();
+    axios({
+      method: 'post',
+      url: `https://localhost:4000/trainers/updateIntroduction/${loginedUser.id}`,
+      data: {
+        introduction,
+      },
+      withCredentials: true,
+    })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const certificationDelete = async id => {
+    axios({
+      method: 'delete',
+      url: `https://localhost:4000/trainers/deleteCertification/${id}`,
+      withCredentials: true,
+    })
+      .then(response => {
+        fetchCertifications();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className="trainer-profile">
-      <Container fluid className="content">
+      <Container1 fluid>
+        <div className="profile">
+          <div className="head">자기 소개</div>
+          <Form onSubmit={submitIntroduction}>
+            <FloatingLabel
+              controlId="floatingTextarea"
+              label="자기 소개"
+              className="mb-3"
+            >
+              <Form.Control
+                as="textarea"
+                placeholder="자기 소개를 입력해주세요."
+                style={{ height: '100px' }}
+                value={introduction}
+                onChange={e => setIntroduction(e.target.value)}
+              />
+            </FloatingLabel>
+            <Button variant="primary" type="submit">
+              저장
+            </Button>
+          </Form>
+        </div>
+      </Container1>
+
+      <Container1 fluid>
         <div className="certification-list">
           <div className="head">보유 자격증</div>
-          <br />
+          <Button
+            variant="primary"
+            onClick={() => navigate('/mypage/certificate')}
+          >
+            트레이너 자격증 업로드
+          </Button>
           {certifications.map(certification => (
             <div key={certification.id} className="certification-item">
-              <h3 className="certification-name">{certification.name}</h3>
+              <h3 className="certification-name">
+                {certification.name}
+                <div>
+                  <CloseOutlined onClick={certificationDelete} />
+                </div>
+              </h3>
+              <img
+                src={certification.image_url}
+                style={{ width: '200px', height: 'auto' }}
+                alt="자격증"
+              />
             </div>
           ))}
         </div>
-        {loginedUser.isTrainer ? (
-          <Form>
-            <Upload
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-              listType="picture"
-              defaultFileList={[...fileList]}
-              className="upload-list-inline"
-            >
-              <Button icon={<UploadOutlined />}>자격증 파일 업로드</Button>
-            </Upload>
-          </Form>
-        ) : null}
-      </Container>
+      </Container1>
     </div>
   );
 }
+
+const Container1 = styled(Container)`
+  margin-bottom: 10%;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  //border: 2px solid black;
+`;
 
 export default TrainerProfile;

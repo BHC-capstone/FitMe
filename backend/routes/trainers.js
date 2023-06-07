@@ -115,7 +115,7 @@ router.post(
         }
       }
     } else {
-      res.status(400).json({ data: null, message: "모든 정보를 입력하세요" });
+      res.status(400).json({ data: null, message: "모든 정보를 입력하세요." });
     }
   }
 );
@@ -136,17 +136,20 @@ router.post("/login", async function (req, res) {
         if (isPasswordValid) {
           req.session.save(function () {
             req.session.loggedin = true;
-            res.json({ data: trainerInfo, message: "로그인에 성공하였습니다" });
+            res.json({
+              data: trainerInfo,
+              message: "로그인에 성공하였습니다.",
+            });
           });
         } else {
           res
             .status(401)
-            .json({ data: null, message: "비밀번호가 일치하지 않습니다" });
+            .json({ data: null, message: "비밀번호가 일치하지 않습니다." });
         }
       } else {
         res.status(401).json({
           data: null,
-          message: "로그인 정보가 일치하지 않습니다",
+          message: "로그인 정보가 일치하지 않습니다.",
         });
       }
     } catch (err) {
@@ -155,7 +158,7 @@ router.post("/login", async function (req, res) {
   } else {
     res.status(400).json({
       data: null,
-      message: "아이디와 비밀번호를 입력하세요",
+      message: "아이디와 비밀번호를 입력하세요.",
     });
   }
 });
@@ -165,7 +168,7 @@ router.get("/logout", function (req, res) {
   req.session.loggedin = false;
   res.status(200).json({
     data: null,
-    message: "성공적으로 로그아웃되었습니다",
+    message: "성공적으로 로그아웃되었습니다.",
   });
 });
 
@@ -183,7 +186,7 @@ router.post("/withdraw/:id", async function (req, res) {
           });
           res.status(200).json({
             data: null,
-            message: "성공적으로 탈퇴되었습니다",
+            message: "성공적으로 탈퇴되었습니다.",
           });
         } else {
           res.status(401).json({
@@ -351,7 +354,7 @@ router.get("/trainerlist/:name", async function (req, res) {
       } else {
         res.status(200).json({
           data: null,
-          message: "검색결과가 없습니다",
+          message: "검색 결과가 없습니다.",
         });
       }
     } catch (err) {
@@ -410,7 +413,6 @@ router.post(
           Key: `certifications/` + `/${id}/` + req.file.originalname,
         };
         const result = await s3.upload(uploadParams).promise();
-        console.log("ㅇㅇㅇ", result);
         const certification = await certifications.create({
           trainer_id: id,
           name: req.file.originalname,
@@ -505,7 +507,7 @@ router.get("/getListOfCertification/:id", async function (req, res) {
 
       res.status(200).json({ data: certificationList, message: "" });
     } catch (err) {
-      res.status(500).json({ data: null, message: "서버에러" });
+      res.status(500).json({ data: null, message: "서버 에러" });
     }
   } else res.status(401).json({ data: null, message: "로그인이 필요합니다." });
 });

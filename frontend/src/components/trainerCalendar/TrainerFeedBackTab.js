@@ -138,18 +138,5 @@ const Flexcontainerg = styled.div`
   flex-direction: row;
   justify-content: space-between;
 `;
-// const StyledButton = styled(Button)`
-//   padding-left: 5%;
-//   text-align: left;
-//   border-radius: 30px;
-//   border: 1px solid
-//     ${props => ((props.num + props.count) % 2 === 1 ? '#2ba5f7' : 'white')};
-//   width: 90%;
-//   background-color: ${props =>
-//     (props.num + props.count) % 2 === 1 ? 'white' : '#2ba5f7'};
-//   margin: auto;
-//   line-height: 60px;
-//   height: 60px;
-//   color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
-// `;
+
 export default TrainerFeedBackTab;

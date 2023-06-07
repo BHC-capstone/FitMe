@@ -78,12 +78,10 @@ router.get("/exerciseroutine/:id/:date", async (req, res) => {
       }
     } catch (err) {
       console.log(err);
-      res
-        .status(400)
-        .json({
-          data: null,
-          message: "해당 날짜의 운동루틴이 존재하지 않습니다.",
-        });
+      res.status(400).json({
+        data: null,
+        message: "해당 날짜의 운동루틴이 존재하지 않습니다.",
+      });
     }
   } else {
     res.status(401).json({ data: null, message: "로그인이 필요합니다." });
@@ -124,7 +122,6 @@ router.post(
           });
         }
 
-        console.log(req.file);
         const uploadParams = {
           acl: "public-read",
           ContentType: "image/png",
@@ -177,6 +174,10 @@ router.post(
         });
       } catch (err) {
         console.log(err);
+        res.status(500).json({
+          data: null,
+          message: "오류가 발생했습니다.",
+        });
       }
     } else {
       res.status(401).json({
@@ -400,7 +401,6 @@ router.post(
             message: "해당 운동 루틴이 존재하지 않습니다.",
           });
         }
-
         const uploadParams = {
           acl: "public-read",
           ContentType: req.file.mimetype,
@@ -408,9 +408,7 @@ router.post(
           Body: req.file.buffer,
           Key: `exerciseroutine/${id}/${routineid}/${req.file.originalname}`,
         };
-
         const result = await s3.upload(uploadParams).promise();
-
         await exercise_routines.update(
           {
             user_video_url: result.Location,

@@ -127,7 +127,7 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
           </Boxep1>
         </Boxc>
         <Boxc>
-          <Head2>현재 보유 포인트</Head2>
+          <Head2>보유 포인트</Head2>
           <Boxep2>100</Boxep2>
         </Boxc>
       </Boxr>
@@ -179,7 +179,7 @@ const Boxc = styled.div`
   align-items: center;
   font-weight: bold;
   text-align: left;
-  width: 162px;
+  width: 150px;
   border-radius: 10px;
   background-color: rgb(233, 233, 233);
   padding: 10px;
