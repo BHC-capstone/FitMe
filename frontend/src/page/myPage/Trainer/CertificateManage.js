@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { Container, Button } from 'react-bootstrap';
 import axios from 'axios';
 import sampleImg from '../../../images/sample_certificate.png';
@@ -12,6 +11,7 @@ function CertificateManage() {
   const imgRef = useRef();
 
   const saveCertFile = event => {
+    event.preventDefault();
     const file = imgRef.current.files[0];
     if (file) {
       const reader = new FileReader();
@@ -34,18 +34,16 @@ function CertificateManage() {
   const handleSubmit = event => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append('file', imgRef.current.files[0]);
-    axios
-      .post(
-        `http://localhost:4000//addCertificate/${loginedUser.id}`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-          withCredentials: true,
-        },
-      )
+    formData.append('image', imgRef.current.files[0]);
+    axios({
+      method: 'POST',
+      url: `https://localhost:4000/trainers/addCertificate/${loginedUser.id}`,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      data: formData,
+      withCredentials: true,
+    })
       .then(response => {
         console.log(response);
       })
@@ -57,7 +55,7 @@ function CertificateManage() {
   return (
     <Container fluid className="panel">
       <div className="head">자격증 파일 관리</div>
-      <form className="upload-form">
+      <form className="upload-form" onSubmit={handleSubmit}>
         <button
           type="button"
           className="file-upload"
@@ -76,10 +74,6 @@ function CertificateManage() {
               display: 'none',
             }}
           />
-          {/* <label htmlFor="file-input" className="file-input-label">
-            파일 선택
-          </label> */}
-
           <div
             className="preview-wrapper"
             style={{
@@ -91,9 +85,8 @@ function CertificateManage() {
           </div>
           <div className="upload-text">
             <p>자격증 파일을 업로드 해주세요.</p>
-            <p>자격증 파일은 최대 1개까지 업로드 가능합니다.</p>
           </div>
-          <Button variant="secondary" type="button" className="mgbt">
+          <Button variant="primary" type="button">
             파일 선택
           </Button>
         </button>

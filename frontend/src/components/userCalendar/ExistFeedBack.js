@@ -1,12 +1,11 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable no-return-assign */
 /* eslint-disable camelcase */
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Form, FloatingLabel } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 
-// import '../../scss/trainercalendar/uploader.scss';
 // eslint-disable-next-line react/prop-types
 function ExistFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
   const [Feedbacktext, setFeedBackText] = useState('');

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+
 // eslint-disable-next-line react/prop-types
 function TrainerNoFeedBack({ userid, date, getdata }) {
   const loginedUser = useSelector(state => state.user);
@@ -14,11 +15,11 @@ function TrainerNoFeedBack({ userid, date, getdata }) {
     })
       .then(res => {
         console.log(res);
+        getdata(true);
       })
       .catch(err => {
         console.log('fail');
       });
-    getdata(true);
   };
   return (
     <Flexcontainers>

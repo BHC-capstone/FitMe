@@ -39,11 +39,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.TEXT,
       allowNull: true
     },
-    review_avg: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    review_count: {
+    pt_point: {
       type: DataTypes.INTEGER,
       allowNull: true
     },

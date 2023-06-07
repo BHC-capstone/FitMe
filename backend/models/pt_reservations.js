@@ -1,7 +1,7 @@
-const Sequelize = require("sequelize");
+const Sequelize = require('sequelize');
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define(
-    "pt_reservations",
+    'pt_reservations',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -31,16 +31,16 @@ module.exports = function (sequelize, DataTypes) {
     },
     {
       sequelize,
-      tableName: "pt_reservations",
+      tableName: 'pt_reservations',
       timestamps: false,
       indexes: [
         {
-          name: "PRIMARY",
+          name: 'PRIMARY',
           unique: true,
-          using: "BTREE",
-          fields: [{ name: "id" }],
+          using: 'BTREE',
+          fields: [{ name: 'id' }],
         },
       ],
-    }
+    },
   );
 };

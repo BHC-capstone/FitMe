@@ -5,19 +5,18 @@ import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, Form, FloatingLabel } from 'react-bootstrap';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
 
 // eslint-disable-next-line react/prop-types
 function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
   const [Feedbacktext, setFeedBackText] = useState('');
   const [Feedbackurl, setFeedBackURL] = useState('');
-  const loginedUser = useSelector(state => state.user);
+
   const [file, setFile] = useState({
     fileObject: '',
     preview_URL: 'img/default_image.png',
     type: 'video',
   });
-  let inputRef;
+
   const videoInput = useRef();
   useEffect(() => {
     console.log('?', feedbackvideo);

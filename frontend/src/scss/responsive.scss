@@ -1,14 +1,11 @@
-/* 노트북 & 테블릿 가로 (해상도 1024px ~ 1279px)*/
-@media all and (min-width: 1024px) and (max-width: 1279px) {
-}
-
+// 해상도 470px ~
 @media all and (min-width: 470px) {
   .list {
     margin-left: 5%;
   }
 }
 
-/* 모바일 가로 & 테블릿 세로 (해상도 480px ~ 1024px)*/
+// 해상도 420px ~ 469px
 @media all and (min-width: 420px) and (max-width: 469px) {
   .tab {
     .submenu {
@@ -20,8 +17,12 @@
     height: 220px;
   }
 
+  .h5 {
+    height: 60px;
+  }
+
   .h4 {
-    font-size: 0.9rem;
+    height: 60px;
   }
 
   .user-info-tab {
@@ -80,7 +81,7 @@
   }
 }
 
-/* 모바일 세로 (해상도 ~ 479px)*/
+// 해상도 380px ~ 419px
 @media all and (min-width: 380px) and (max-width: 419px) {
   .tab {
     .submenu {
@@ -140,11 +141,16 @@
   }
 }
 
+// 해상도 ~ 379px
 @media all and (max-width: 379px) {
   .tab {
     .submenu {
       font-size: 0.7rem;
     }
+  }
+
+  .c {
+    height: 90px;
   }
 
   .user-info-tab {

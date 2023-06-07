@@ -15,6 +15,22 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true
     },
+    date: {
+      type: DataTypes.DATEONLY,
+      allowNull: true
+    },
+    height: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    weight: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    bmi: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
     feedback_video_url: {
       type: DataTypes.STRING(255),
       allowNull: true

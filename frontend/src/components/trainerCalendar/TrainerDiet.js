@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'; //* ***
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
+
 // eslint-disable-next-line react/prop-types
 function Routine({ userid, date }) {
   const loginedUser = useSelector(state => state.user);
@@ -17,9 +18,6 @@ function Routine({ userid, date }) {
   const [dinnerOpen, setDinnerOpen] = useState(false);
   const imageInput = useRef();
 
-  const onCickImageUpload2 = () => {
-    imageInput.current.click();
-  };
   useEffect(() => {
     setDietdate([]);
     axios({
@@ -31,6 +29,7 @@ function Routine({ userid, date }) {
         setDietdate(res.data.data);
       })
       .catch(err => {
+        setDietdate({ breakfast: '', lunch: '', dinner: '' });
         console.log(err);
       });
   }, [userid, date]);
@@ -94,7 +93,7 @@ function Routine({ userid, date }) {
               >
                 <Form.Control
                   type="text"
-                  value={dietdate.breakfast}
+                  value={breakfast}
                   onChange={onChangebreakfast}
                 />
               </FloatingLabel>

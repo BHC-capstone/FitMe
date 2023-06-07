@@ -12,8 +12,6 @@ function Comments({ text1, check }) {
     </TextareaUser>
   );
 }
-// <TextBox num={1} count={1}>
-//        color: ${props => (props.num % 2 === 1 ? '#2ba5f7' : 'white')};
 
 const TextareaUser = styled.div`
   margin-top: 10px;

@@ -1,6 +1,6 @@
-var express = require("express");
+var express = require('express');
 var router = express.Router();
-const { sequelize } = require("../models");
+const { sequelize } = require('../models');
 const {
   trainers,
   users,
@@ -10,50 +10,50 @@ const {
   trainer_manage,
   meal_plan,
   feedbacks,
-} = require("../models");
-const initModels = require("../models/init-models");
+} = require('../models');
+const initModels = require('../models/init-models');
 const models = initModels(sequelize);
-const dotenv = require("dotenv");
-const multer = require("multer");
-const AWS = require("aws-sdk");
+const dotenv = require('dotenv');
+const multer = require('multer');
+const AWS = require('aws-sdk');
 
 //AWS s3 관련
-const imageUpload = require("../modules/s3upload").upload;
-const videoupload = require("../modules/s3upload").videoUpload;
-const s3 = require("../modules/s3upload").s3;
+const imageUpload = require('../modules/s3upload').upload;
+const videoupload = require('../modules/s3upload').videoUpload;
+const s3 = require('../modules/s3upload').s3;
 
 dotenv.config();
 
 // check user meal plan
-router.get("/mealplan/:userId/:date", async (req, res) => {
+router.get('/mealplan/:userId/:date', async (req, res) => {
   if (req.session.loggedin) {
     try {
       const { userId, date } = req.params;
       const mealPlanDate = await schedules.findOne({
         where: { user_id: userId, date: date },
-        attributes: ["meal_plan_id"],
+        attributes: ['meal_plan_id'],
       });
       const mealPlan = await meal_plan.findOne({
         where: { id: mealPlanDate.meal_plan_id },
       });
       if (mealPlan) {
-        res.status(200).json({ data: mealPlan, message: "" });
+        res.status(200).json({ data: mealPlan, message: '' });
       } else {
         res.status(400).json({
           data: null,
-          message: "해당 날짜의 식단이 존재하지 않습니다.",
+          message: '해당 날짜의 식단이 존재하지 않습니다.',
         });
       }
     } catch (err) {
       console.log(err);
     }
   } else {
-    res.status(401).json({ data: null, message: "로그인이 필요합니다." });
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
   }
 });
 
 // check user exercise routine
-router.get("/exerciseroutine/:userId/:date", async (req, res) => {
+router.get('/exerciseroutine/:userId/:date', async (req, res) => {
   if (req.session.loggedin) {
     try {
       const { userId, date } = req.params;
@@ -65,29 +65,29 @@ router.get("/exerciseroutine/:userId/:date", async (req, res) => {
           where: { schedule_id: schedule_date.id },
         });
         if (exerciseRoutine) {
-          res.status(200).json({ data: exerciseRoutine, message: "" });
+          res.status(200).json({ data: exerciseRoutine, message: '' });
         } else {
           res.status(400).json({
             data: null,
-            message: "해당 날짜의 운동루틴이 존재하지 않습니다.",
+            message: '해당 날짜의 운동루틴이 존재하지 않습니다.',
           });
         }
       } else {
         res.status(400).json({
           data: null,
-          message: "해당 날짜의 운동루틴이 존재하지 않습니다.",
+          message: '해당 날짜의 운동루틴이 존재하지 않습니다.',
         });
       }
     } catch (err) {
       console.log(err);
     }
   } else {
-    res.status(401).json({ data: null, message: "로그인이 필요합니다." });
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
   }
 });
 
 // meal_plan 작성
-router.post("/createMealplan/:date/:userId/:id", async (req, res) => {
+router.post('/createMealplan/:date/:userId/:id', async (req, res) => {
   if (req.session.loggedin) {
     try {
       const { id, userId, date } = req.params;
@@ -111,18 +111,18 @@ router.post("/createMealplan/:date/:userId/:id", async (req, res) => {
       await schedule.update({ meal_plan_id: mealPlan.id });
       res.status(200).json({
         data: mealPlan,
-        message: "식단이 생성되었습니다",
+        message: '식단이 생성되었습니다.',
       });
     } catch (err) {
       console.log(err);
     }
   } else {
-    res.status(401).json({ data: null, message: "로그인이 필요합니다." });
+    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
   }
 });
 
 // exercise_routine 추가
-router.post("/createExercise/:date/:id/:userId", async (req, res) => {
+router.post('/createExercise/:date/:id/:userId', async (req, res) => {
   console.log(req);
   if (req.session.loggedin) {
     try {
@@ -144,7 +144,7 @@ router.post("/createExercise/:date/:id/:userId", async (req, res) => {
       });
       res.status(200).json({
         data: exerciseRoutine,
-        message: "운동루틴 추가가 완료되었습니다.",
+        message: '운동루틴 추가가 완료되었습니다.',
       });
     } catch (err) {
       console.log(err);
@@ -153,13 +153,13 @@ router.post("/createExercise/:date/:id/:userId", async (req, res) => {
   } else {
     res.status(401).json({
       data: null,
-      message: "로그인이 필요합니다.",
+      message: '로그인이 필요합니다.',
     });
   }
 });
 
 // exercise routine 수정완료
-router.put("/updateExercise/:exerciseId", async (req, res) => {
+router.put('/updateExercise/:exerciseId', async (req, res) => {
   if (req.session.loggedin) {
     try {
       const { exerciseId } = req.params;
@@ -169,7 +169,7 @@ router.put("/updateExercise/:exerciseId", async (req, res) => {
       if (!exerciseRoutine) {
         res.status(404).json({
           data: null,
-          message: "운동루틴을 찾을 수 없습니다.",
+          message: '운동루틴을 찾을 수 없습니다.',
         });
         return;
       }
@@ -180,11 +180,11 @@ router.put("/updateExercise/:exerciseId", async (req, res) => {
           set_count: req.body.set_count,
           exercise_count: req.body.exercise_count,
         },
-        { where: { id: exerciseId } }
+        { where: { id: exerciseId } },
       );
       res.status(200).json({
         data: null,
-        message: "운동루틴이 수정되었습니다.",
+        message: '운동루틴이 수정되었습니다.',
       });
     } catch (err) {
       console.log(err);
@@ -193,13 +193,13 @@ router.put("/updateExercise/:exerciseId", async (req, res) => {
   } else {
     res.status(401).json({
       data: null,
-      message: "로그인이 필요합니다.",
+      message: '로그인이 필요합니다.',
     });
   }
 });
 
 //exercise routine 삭제
-router.delete("/deleteExercise/:exerciseId", async (req, res) => {
+router.delete('/deleteExercise/:exerciseId', async (req, res) => {
   if (req.session.loggedin) {
     try {
       const { exerciseId } = req.params;
@@ -209,14 +209,14 @@ router.delete("/deleteExercise/:exerciseId", async (req, res) => {
       if (!exerciseRoutine) {
         res.status(404).json({
           data: null,
-          message: "운동루틴을 찾을 수 없습니다.",
+          message: '운동루틴을 찾을 수 없습니다.',
         });
         return;
       }
       const s3Key = exerciseRoutine.guide_s3_key;
       if (s3Key) {
         const deleteParams = {
-          Bucket: "fitme-s3",
+          Bucket: 'fitme-s3',
           Key: s3Key,
         };
         await s3.deleteObject(deleteParams).promise();
@@ -226,7 +226,7 @@ router.delete("/deleteExercise/:exerciseId", async (req, res) => {
       });
       res.status(200).json({
         data: null,
-        message: "운동루틴이 삭제되었습니다.",
+        message: '운동루틴이 삭제되었습니다.',
       });
     } catch (err) {
       console.log(err);
@@ -235,15 +235,15 @@ router.delete("/deleteExercise/:exerciseId", async (req, res) => {
   } else {
     res.status(401).json({
       data: null,
-      message: "로그인이 필요합니다.",
+      message: '로그인이 필요합니다.',
     });
   }
 });
 
 // upload exerciseroutine guide video
 router.put(
-  "/uplodadGuideVideo/:id/:exerciseId",
-  videoupload.single("video"),
+  '/uplodadGuideVideo/:id/:exerciseId',
+  videoupload.single('video'),
   async (req, res) => {
     if (req.session.loggedin) {
       try {
@@ -254,13 +254,13 @@ router.put(
         if (!exerciseRoutine) {
           return res.status(400).json({
             data: null,
-            message: "해당 운동 루틴이 존재하지 않습니다.",
+            message: '해당 운동 루틴이 존재하지 않습니다.',
           });
         }
         const uploadParams = {
-          acl: "public-read",
+          acl: 'public-read',
           ContentType: req.file.mimetype,
-          Bucket: "fitme-s3",
+          Bucket: 'fitme-s3',
           Body: req.file.buffer,
           Key: `exerciseroutine/${id}/${exerciseId}/${req.file.originalname}`,
         };
@@ -272,31 +272,31 @@ router.put(
           },
           {
             where: { id: exerciseId },
-          }
+          },
         );
 
         res.status(200).json({
           data: null,
-          message: "가이드영상 업로드가 완료되었습니다.",
+          message: '가이드영상 업로드가 완료되었습니다.',
         });
       } catch (err) {
         console.log(err);
         res.status(500).json({
           data: null,
-          message: "서버 오류가 발생했습니다.",
+          message: '서버 오류가 발생했습니다.',
         });
       }
     } else {
       res.status(401).json({
         data: null,
-        message: "로그인이 필요합니다.",
+        message: '로그인이 필요합니다.',
       });
     }
-  }
+  },
 );
 
 // gudie video delete
-router.delete("/deleteGuidevideo/:exerciseId", async (req, res) => {
+router.delete('/deleteGuidevideo/:exerciseId', async (req, res) => {
   if (req.session.loggedin) {
     try {
       const { exerciseId } = req.params;
@@ -306,13 +306,13 @@ router.delete("/deleteGuidevideo/:exerciseId", async (req, res) => {
       if (!exerciseRoutine) {
         res.status(404).json({
           data: null,
-          message: "운동루틴을 찾을 수 없습니다.",
+          message: '운동루틴을 찾을 수 없습니다.',
         });
         return;
       }
       const s3Key = exerciseRoutine.guide_s3_key;
       const deleteParams = {
-        Bucket: "fitme-s3",
+        Bucket: 'fitme-s3',
         Key: s3Key,
       };
       await s3.deleteObject(deleteParams).promise();
@@ -321,11 +321,11 @@ router.delete("/deleteGuidevideo/:exerciseId", async (req, res) => {
           guide_video_url: null,
           guide_s3_key: null,
         },
-        { where: { id: exerciseId } }
+        { where: { id: exerciseId } },
       );
       res.status(200).json({
         data: null,
-        message: "운동루틴이 삭제되었습니다.",
+        message: '운동루틴이 삭제되었습니다.',
       });
     } catch (err) {
       console.log(err);
@@ -334,15 +334,15 @@ router.delete("/deleteGuidevideo/:exerciseId", async (req, res) => {
   } else {
     res.status(401).json({
       data: null,
-      message: "로그인이 필요합니다.",
+      message: '로그인이 필요합니다.',
     });
   }
 });
 
 // guide video update
 router.put(
-  "/updateGuidevideo/:exerciseId",
-  videoupload.single("video"),
+  '/updateGuidevideo/:exerciseId',
+  videoupload.single('video'),
   async (req, res) => {
     if (req.session.loggedin) {
       try {
@@ -353,21 +353,21 @@ router.put(
         if (!exerciseRoutine) {
           res.status(404).json({
             data: null,
-            message: "운동루틴을 찾을 수 없습니다.",
+            message: '운동루틴을 찾을 수 없습니다.',
           });
           return;
         }
         if (req.file != null) {
           const s3Key = exerciseRoutine.guide_s3_key;
           const deleteParams = {
-            Bucket: "fitme-s3",
+            Bucket: 'fitme-s3',
             Key: s3Key,
           };
           await s3.deleteObject(deleteParams).promise();
           const uploadParams = {
-            acl: "public-read",
+            acl: 'public-read',
             ContentType: req.file.mimetype,
-            Bucket: "fitme-s3",
+            Bucket: 'fitme-s3',
             Body: req.file.buffer,
             Key: `exerciseroutine/${id}/${exerciseId}/${req.file.originalname}`,
           };
@@ -377,16 +377,16 @@ router.put(
               guide_video_url: result.Location,
               guide_s3_key: result.Key,
             },
-            { where: { id: exerciseId } }
+            { where: { id: exerciseId } },
           );
           res.status(200).json({
             data: null,
-            message: "가이드 비디오가 수정되었습니다.",
+            message: '가이드 비디오가 수정되었습니다.',
           });
         } else {
           res.status(404).json({
             data: null,
-            message: "업로드된 영상이 없습니다.",
+            message: '업로드된 영상이 없습니다.',
           });
           return;
         }
@@ -397,14 +397,19 @@ router.put(
     } else {
       res.status(401).json({
         data: null,
-        message: "로그인이 필요합니다.",
+        message: '로그인이 필요합니다.',
       });
     }
-  }
+  },
 );
 
 // feedback 작성
-router.post("/createFeedback/:date/:id/:userId", async (req, res) => {
+router.post('/createFeedback/:date/:id/:userId', async (req, res) => {
+  const currentdate = new Date();
+  const year = currentdate.getFullYear();
+  const month = currentdate.getMonth() + 1;
+  const day = currentdate.getDate();
+  const newdate = year + '-' + month + '-' + day;
   if (req.session.loggedin) {
     try {
       const { userId, id, date } = req.params;
@@ -422,12 +427,13 @@ router.post("/createFeedback/:date/:id/:userId", async (req, res) => {
         schedule_id: schedule.id,
         user_id: userId,
         trainer_id: id,
+        date: newdate,
       });
       await schedules.update(
         {
           feedbacks_id: Feedback.id,
         },
-        { where: { id: schedule.id } }
+        { where: { id: schedule.id } },
       );
       const count = await trainer_manage.findOne({
         where: { user_id: userId, trainer_id: id },
@@ -436,11 +442,11 @@ router.post("/createFeedback/:date/:id/:userId", async (req, res) => {
         {
           remain_pt_count: count.remain_pt_count - 1,
         },
-        { where: { user_id: userId, trainer_id: id } }
+        { where: { user_id: userId, trainer_id: id } },
       );
       res.status(200).json({
         data: Feedback,
-        message: "피드백 업로드가 완료되었습니다.",
+        message: '피드백 업로드가 완료되었습니다.',
       });
     } catch (err) {
       console.log(err);
@@ -449,13 +455,13 @@ router.post("/createFeedback/:date/:id/:userId", async (req, res) => {
   } else {
     res.status(401).json({
       data: null,
-      message: "로그인이 필요합니다.",
+      message: '로그인이 필요합니다.',
     });
   }
 });
 
 // feedback 수정
-router.put("/updateFeedback/:feedbackId", async (req, res) => {
+router.put('/updateFeedback/:feedbackId', async (req, res) => {
   if (req.session.loggedin) {
     try {
       const { feedbackId } = req.params;
@@ -465,7 +471,7 @@ router.put("/updateFeedback/:feedbackId", async (req, res) => {
       if (!Feedback) {
         res.status(404).json({
           data: null,
-          message: "피드백을 찾을 수 없습니다.",
+          message: '피드백을 찾을 수 없습니다.',
         });
         return;
       }
@@ -473,11 +479,11 @@ router.put("/updateFeedback/:feedbackId", async (req, res) => {
         {
           feedback_message: req.body.feedback_message,
         },
-        { where: { id: feedbackId } }
+        { where: { id: feedbackId } },
       );
       res.status(200).json({
         data: null,
-        message: "피드백이 수정되었습니다.",
+        message: '피드백이 수정되었습니다.',
       });
     } catch (err) {
       console.log(err);
@@ -486,13 +492,13 @@ router.put("/updateFeedback/:feedbackId", async (req, res) => {
   } else {
     res.status(401).json({
       data: null,
-      message: "로그인이 필요합니다.",
+      message: '로그인이 필요합니다.',
     });
   }
 });
 
 // feedback 삭제
-router.delete("/deleteFeedback/:feedbackId", async (req, res) => {
+router.delete('/deleteFeedback/:feedbackId', async (req, res) => {
   if (req.session.loggedin) {
     try {
       const { feedbackId } = req.params;
@@ -502,14 +508,14 @@ router.delete("/deleteFeedback/:feedbackId", async (req, res) => {
       if (!Feedback) {
         res.status(404).json({
           data: null,
-          message: "피드백을 찾을 수 없습니다.",
+          message: '피드백을 찾을 수 없습니다.',
         });
         return;
       }
       const s3Key = Feedback.s3_key;
       if (s3Key) {
         const deleteParams = {
-          Bucket: "fitme-s3",
+          Bucket: 'fitme-s3',
           Key: s3Key,
         };
         await s3.deleteObject(deleteParams).promise();
@@ -519,7 +525,7 @@ router.delete("/deleteFeedback/:feedbackId", async (req, res) => {
       });
       res.status(200).json({
         data: null,
-        message: "피드백이 삭제되었습니다.",
+        message: '피드백이 삭제되었습니다.',
       });
     } catch (err) {
       console.log(err);
@@ -528,15 +534,15 @@ router.delete("/deleteFeedback/:feedbackId", async (req, res) => {
   } else {
     res.status(401).json({
       data: null,
-      message: "로그인이 필요합니다.",
+      message: '로그인이 필요합니다.',
     });
   }
 });
 
 // feedback video 업로드
 router.post(
-  "/uploadFeedbackvideo/:date/:id/:userId",
-  videoupload.single("video"),
+  '/uploadFeedbackvideo/:date/:id/:userId',
+  videoupload.single('video'),
   async (req, res) => {
     if (req.session.loggedin) {
       try {
@@ -549,9 +555,9 @@ router.post(
             where: { id: schedule.feedbacks_id },
           });
           const uploadParams = {
-            acl: "public-read",
+            acl: 'public-read',
             ContentType: req.file.mimetype,
-            Bucket: "fitme-s3",
+            Bucket: 'fitme-s3',
             Body: req.file.buffer,
             Key: `feedbacks/${id}/${Feedback.id}/${req.file.originalname}`,
           };
@@ -561,16 +567,16 @@ router.post(
               feedback_video_url: result.Location,
               s3_key: result.Key,
             },
-            { where: { id: Feedback.id } }
+            { where: { id: Feedback.id } },
           );
           res.status(200).json({
             data: Feedback,
-            message: "피드백 영상 업로드가 완료되었습니다.",
+            message: '피드백 영상 업로드가 완료되었습니다.',
           });
         } else {
           res.status(404).json({
             data: null,
-            message: "피드백을 찾을 수 없습니다.",
+            message: '피드백을 찾을 수 없습니다.',
           });
           return;
         }
@@ -581,14 +587,14 @@ router.post(
     } else {
       res.status(401).json({
         data: null,
-        message: "로그인이 필요합니다.",
+        message: '로그인이 필요합니다.',
       });
     }
-  }
+  },
 );
 
 // feedback 영상 삭제
-router.delete("/deleteFeedbackvideo/:feedbackId", async (req, res) => {
+router.delete('/deleteFeedbackvideo/:feedbackId', async (req, res) => {
   if (req.session.loggedin) {
     try {
       const { feedbackId } = req.params;
@@ -598,21 +604,21 @@ router.delete("/deleteFeedbackvideo/:feedbackId", async (req, res) => {
       if (!Feedback) {
         res.status(404).json({
           data: null,
-          message: "피드백을 찾을 수 없습니다.",
+          message: '피드백을 찾을 수 없습니다.',
         });
         return;
       }
       const s3Key = Feedback.s3_key;
       if (s3Key) {
         const deleteParams = {
-          Bucket: "fitme-s3",
+          Bucket: 'fitme-s3',
           Key: s3Key,
         };
         await s3.deleteObject(deleteParams).promise();
       }
       res.status(200).json({
         data: null,
-        message: "피드백 영상이 삭제되었습니다.",
+        message: '피드백 영상이 삭제되었습니다.',
       });
     } catch (err) {
       console.log(err);
@@ -621,15 +627,15 @@ router.delete("/deleteFeedbackvideo/:feedbackId", async (req, res) => {
   } else {
     res.status(401).json({
       data: null,
-      message: "로그인이 필요합니다.",
+      message: '로그인이 필요합니다.',
     });
   }
 });
 
 // feedback 영상 수정
 router.put(
-  "/updateFeedbackvideo/:feedbackId",
-  videoupload.single("video"),
+  '/updateFeedbackvideo/:feedbackId',
+  videoupload.single('video'),
   async (req, res) => {
     if (req.session.loggedin) {
       try {
@@ -640,7 +646,7 @@ router.put(
         if (!Feedback) {
           res.status(404).json({
             data: null,
-            message: "피드백을 찾을 수 없습니다.",
+            message: '피드백을 찾을 수 없습니다.',
           });
           console.log(req.file);
           return;
@@ -649,15 +655,15 @@ router.put(
           const s3Key = Feedback.s3_key;
           if (s3Key != null) {
             const deleteParams = {
-              Bucket: "fitme-s3",
+              Bucket: 'fitme-s3',
               Key: s3Key,
             };
             await s3.deleteObject(deleteParams).promise();
           }
           const uploadParams = {
-            acl: "public-read",
+            acl: 'public-read',
             ContentType: req.file.mimetype,
-            Bucket: "fitme-s3",
+            Bucket: 'fitme-s3',
             Body: req.file.buffer,
             Key: `feedbacks/${Feedback.id}/${req.file.originalname}`,
           };
@@ -667,16 +673,16 @@ router.put(
               feedback_video_url: result.Location,
               s3_key: result.Key,
             },
-            { where: { id: feedbackId } }
+            { where: { id: feedbackId } },
           );
           res.status(200).json({
             data: null,
-            message: "피드백 비디오가 수정되었습니다.",
+            message: '피드백 비디오가 수정되었습니다.',
           });
         } else {
           res.status(404).json({
             data: null,
-            message: "업로드된 영상이 없습니다.",
+            message: '업로드된 영상이 없습니다.',
           });
           return;
         }
@@ -688,10 +694,10 @@ router.put(
     } else {
       res.status(401).json({
         data: null,
-        message: "로그인이 필요합니다.",
+        message: '로그인이 필요합니다.',
       });
     }
-  }
+  },
 );
 
 module.exports = router;

@@ -23,7 +23,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    certifications_s3_key: {
+    certification_s3_key: {
       type: DataTypes.STRING(255),
       allowNull: true
     }

@@ -5,13 +5,16 @@
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.28.0",
-    "eslint-plugin-react-hooks": "^4.3.0"
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "jest": "^29.5.0"
   },
   "name": "fitme",
   "description": "# 팀원소개",
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
+    "@nivo/bar": "^0.83.0",
+    "@nivo/core": "^0.83.0",
     "acorn": "^8.8.2",
     "acorn-jsx": "^5.3.2",
     "ajv": "^6.12.6",
@@ -161,6 +164,7 @@
     "react-iframe": "^1.8.5",
     "react-is": "^16.13.1",
     "react-player": "^2.12.0",
+    "recharts": "^2.6.2",
     "regenerator-runtime": "^0.13.11",
     "regexp.prototype.flags": "^1.4.3",
     "resolve": "^1.22.3",

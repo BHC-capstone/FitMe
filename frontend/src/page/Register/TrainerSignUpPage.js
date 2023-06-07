@@ -21,6 +21,7 @@ export default function TrainerSignUpPage() {
   const [gender, setGender] = React.useState('');
   const [age, setAge] = React.useState('');
   const [certificationFile, setCertificationFile] = React.useState(null);
+  const [pointforPt, setPointforPt] = React.useState(0);
   const [introduction, setIntroduction] = React.useState('');
 
   const onChangeEmail = e => {
@@ -50,6 +51,9 @@ export default function TrainerSignUpPage() {
   const onChangePhonenumber = e => {
     setPhonenumber(e.target.value);
   };
+  const onChangePoint = e => {
+    setPointforPt(e.target.value);
+  };
 
   // eslint-disable-next-line consistent-return
   const onSubmit = e => {
@@ -57,26 +61,6 @@ export default function TrainerSignUpPage() {
     if (password !== passwordCheck) {
       return setPasswordCheck('');
     }
-
-    // const body = {
-    //   email,
-    //   name,
-    //   password,
-    //   phonenumber,
-    //   age,
-    //   gender,
-    //   introduction,
-    // };
-
-    // axios
-    //   .post('http://localhost:4000/trainers/signup', body)
-    //   .then((res) => {
-    //     if (res.data.success) {
-    //       navigate('/login');
-    //     } else {
-    //       alert(res.data.message);
-    //     }
-    //   })
 
     const formData = new FormData();
     formData.append('email', email);
@@ -87,6 +71,7 @@ export default function TrainerSignUpPage() {
     formData.append('gender', gender);
     formData.append('introduction', introduction);
     formData.append('certificationFile', certificationFile);
+    formData.append('pt_point', pointforPt);
 
     axios({
       headers: {
@@ -97,11 +82,11 @@ export default function TrainerSignUpPage() {
       method: 'POST',
     })
       .then(res => {
-        navigate('/trainer-login');
         alert(res.data.message);
+        navigate('/trainer-login');
       })
       .catch(err => {
-        console.log(err);
+        alert(err.response.data.message);
       });
   };
 
@@ -116,7 +101,7 @@ export default function TrainerSignUpPage() {
     <div>
       <Container fluid className="panel">
         <div className="head">트레이너 회원가입</div>
-        <Form>
+        <Form onSubmit={onSubmit}>
           <FloatingLabel
             controlId="floatingInput"
             label="이메일"
@@ -168,6 +153,7 @@ export default function TrainerSignUpPage() {
                   placeholder="Enter name"
                   value={name}
                   onChange={onChangeName}
+                  required
                 />
               </FloatingLabel>
             </Col>
@@ -195,10 +181,10 @@ export default function TrainerSignUpPage() {
                 className="mb-3"
                 required
               >
-                <Form.Select value={gender} onChange={onChangeGender}>
+                <Form.Select value={gender} onChange={onChangeGender} required>
                   <option>선택하세요</option>
-                  <option value="male">남성</option>
-                  <option value="female">여성</option>
+                  <option value="남성">남성</option>
+                  <option value="여성">여성</option>
                 </Form.Select>
               </FloatingLabel>
             </Col>
@@ -210,9 +196,22 @@ export default function TrainerSignUpPage() {
               >
                 <Form.Control
                   type="number"
-                  placeholder="Enter age"
+                  placeholder="나이 입력"
                   value={age}
                   onChange={onChangeAge}
+                  required
+                />
+              </FloatingLabel>
+              <FloatingLabel
+                controlId="floatingSelect"
+                label="회당 PT 가격 (원)"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="number"
+                  placeholder="PT회당 가격 입력"
+                  value={pointforPt}
+                  onChange={onChangePoint}
                   required
                 />
               </FloatingLabel>
@@ -238,12 +237,7 @@ export default function TrainerSignUpPage() {
               onChange={onChangeCertificationFile}
             />
           </Form.Group>
-          <Button
-            variant="primary"
-            type="submit"
-            className="mgtp"
-            onClick={onSubmit}
-          >
+          <Button variant="primary" type="submit" className="mgtp">
             제출
           </Button>
         </Form>

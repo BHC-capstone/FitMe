@@ -12,6 +12,7 @@ function TrainerProfile() {
   const [certifications, setCertifications] = useState([]);
   const [introduction, setIntroduction] = useState('');
   const [ptPrice, setPtPrice] = useState(0);
+
   const fileList = [];
   const handleFileUpload = event => {
     event.preventDefault();
@@ -120,6 +121,7 @@ function TrainerProfile() {
     <div className="trainer-profile">
       <Container1 fluid>
         <div className="profile">
+          <div className="head">회당 PT 가격 설정</div>
           <Form onSubmit={submitPtPrice}>
             <FloatingLabel
               controlId="floatingTextarea"
@@ -175,12 +177,19 @@ function TrainerProfile() {
                 <div>
                   <CloseOutlined onClick={certificationDelete} />
                 </div>
+
+                <div>
+                  <CloseOutlined
+                    onClick={() => certificationDelete(certification.id)}
+                  />
+                </div>
               </h3>
               <img
                 src={certification.image_url}
-                style={{ width: '200px', height: 'auto' }}
+                style={{ width: '230px', height: 'auto' }}
                 alt="자격증"
               />
+              <img src={certification.image_url} alt="자격증" />
             </div>
           ))}
         </div>
@@ -198,7 +207,6 @@ const Container1 = styled(Container)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  //border: 2px solid black;
 `;
 
 export default TrainerProfile;

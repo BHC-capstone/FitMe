@@ -8,6 +8,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@nivo/line": "^0.83.0",
     "@reduxjs/toolkit": "^1.9.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -17,6 +18,7 @@
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.5",
     "history": "^5.3.0",
+    "index": "^0.4.0",
     "jquery": "^3.6.4",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
@@ -25,7 +27,7 @@
     "react-datepicker": "^4.11.0",
     "react-dom": "^18.2.0",
     "react-player": "^2.12.0",
-    "react-redux": "^8.0.5",
+    "react-redux": "^8.0.7",
     "react-router-dom": "^6.11.0",
     "react-scripts": "5.0.1",
     "react-simple-star-rating": "^5.1.7",
@@ -37,11 +39,12 @@
     "redux-thunk": "^2.4.2",
     "sass": "^1.62.0",
     "styled-components": "^5.3.10",
+    "victory": "^36.6.10",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "cross-env HTTPS=true react-scripts start",
-    "build": "react-scripts build",
+    "build": "GENERATE_SOURCEMAP=false npx react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

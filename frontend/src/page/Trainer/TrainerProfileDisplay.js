@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { Container } from 'react-bootstrap';
 import { Form, Upload } from 'antd';
-import { UploadOutlined, CloseOutlined } from '@ant-design/icons';
 
 function TrainerProfile({ trainerId }) {
   const loginedUser = useSelector(state => state.user);

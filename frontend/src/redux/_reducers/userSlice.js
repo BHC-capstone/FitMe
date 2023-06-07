@@ -6,6 +6,7 @@ const initialState = {
     isTrainer: false,
     id: '',
     isLogin: false,
+    tid: '',
   },
 };
 
@@ -40,6 +41,10 @@ export const userSlice = createSlice({
       state.id = '';
       state.isLogin = false;
       state.isTrainer = false;
+      return state;
+    },
+    payUser: (state, action) => {
+      state.tid = action.payload.tId;
       return state;
     },
   },
