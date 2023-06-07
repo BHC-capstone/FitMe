@@ -14,10 +14,11 @@ export default function UserStatics({}) {
   const [requests, setRequests] = useState(null);
 
   const fetchRequests = async () => {
-    const response = await axios.get(``, {
-      withCredentials: true,
-    });
+    const response = await axios.get(
+      `https://localhost:4000/administrator/usercount`,
+    );
     setRequests(response.data.data);
+    console.log(response.data.data);
   };
 
   useEffect(() => {

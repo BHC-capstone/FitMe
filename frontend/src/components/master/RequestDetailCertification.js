@@ -33,7 +33,7 @@ function RequestDetailCertification({ request, fetch }) {
   const handleAccept = async ({ requestId }) => {
     axios({
       method: 'post',
-      url: `https://localhost:4000/admin/trainer/certificateauth/${requestId}`,
+      url: `https://localhost:4000/administrator/trainer/certificateauth/${requestId}`,
     })
       .then(response => {
         console.log(response);
@@ -47,7 +47,7 @@ function RequestDetailCertification({ request, fetch }) {
   const handleReject = async ({ requestId }) => {
     axios({
       method: 'post',
-      url: `https://localhost:4000/admin/trainer/certificate/${requestId}`,
+      url: `https://localhost:4000/administrator/trainer/certificatereject/${requestId}`,
     })
       .then(response => {
         console.log(response);
@@ -83,7 +83,7 @@ function RequestDetailCertification({ request, fetch }) {
           <ButtonDisplay
             handleAccept={handleAccept}
             handleReject={handleReject}
-            requestId={request.id}
+            requestId={request.trainer_id}
           />
           <div />
         </div>

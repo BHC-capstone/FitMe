@@ -33,7 +33,7 @@ function RequestDetailTrainer({ request, fetch }) {
   const handleAccept = async ({ requestId }) => {
     axios({
       method: 'post',
-      url: `https://localhost:4000/admin/trainerauth/${requestId}`,
+      url: `https://localhost:4000/administrator/trainerauth/${requestId}`,
     })
       .then(response => {
         console.log(response);
@@ -47,7 +47,7 @@ function RequestDetailTrainer({ request, fetch }) {
   const handleReject = async ({ requestId }) => {
     axios({
       method: 'post',
-      url: `https://localhost:4000/admin/trainerreject/${requestId}`,
+      url: `https://localhost:4000/administrator/trainerreject/${requestId}`,
     })
       .then(response => {
         console.log(response);

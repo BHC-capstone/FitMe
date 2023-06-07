@@ -13,9 +13,7 @@ export default function Ptrequest() {
   const { trainerid } = useParams();
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  useEffect(() => {
-    console.log(trainerid, '수고하세요');
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <Container fluid className="panel">

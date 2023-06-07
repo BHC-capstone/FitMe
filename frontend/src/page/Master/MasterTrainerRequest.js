@@ -13,7 +13,7 @@ function MasterTrainerRequest() {
 
   const fetchRequests = async () => {
     const response = await axios.get(
-      `https://localhost:4000/admin/trainerlist`,
+      `https://localhost:4000/administrator/trainerlist`,
     );
     setRequests(response.data.data);
   };
