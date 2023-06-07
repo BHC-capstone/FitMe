@@ -240,7 +240,7 @@ router.post('/trainerreject/:Id', async (req, res) => {
       await certification_auth_request.destroy({
         where: { trainer_request_id: Id },
       });
-      res.status(200).json({ data: null, message: '승인되었습니다.' });
+      res.status(200).json({ data: null, message: '거절되었습니다.' });
     } else {
       res.status(400).json({ data: null, message: '없는 트레이너 입니다.' });
     }
@@ -258,7 +258,8 @@ router.post('/trainer/certificateauth/:Id', async (req, res) => {
       where: { trainer_id: Id },
     });
     if (trainercert) {
-      await certifications.update({
+      const cert = await certifications.create({
+        trainer_id: trainercert.trainer_id,
         name: trainercert.name,
         image_url: trainercert.image_url,
         certification_s3_key: trainercert.certification_s3_key,
@@ -270,7 +271,7 @@ router.post('/trainer/certificateauth/:Id', async (req, res) => {
       await certification_auth_request.destroy({
         where: { id: trainercert.id },
       });
-      res.status(200).json({ data: null, message: '거절되었습니다.' });
+      res.status(200).json({ data: null, message: '승인되었습니다.' });
     } else {
       res.status(400).json({ data: null, message: '없는 증명서 입니다.' });
     }
