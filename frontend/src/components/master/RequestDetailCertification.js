@@ -33,7 +33,7 @@ function RequestDetailCertification({ request, fetch }) {
   const handleAccept = async ({ requestId }) => {
     axios({
       method: 'post',
-      url: `https://localhost:4000/administrator/trainer/certificateauth/${requestId}`,
+      url: `https://fitme.p-e.kr:4000/administrator/trainer/certificateauth/${requestId}`,
     })
       .then(response => {
         console.log(response);
@@ -47,7 +47,7 @@ function RequestDetailCertification({ request, fetch }) {
   const handleReject = async ({ requestId }) => {
     axios({
       method: 'post',
-      url: `https://localhost:4000/administrator/trainer/certificatereject/${requestId}`,
+      url: `https://fitme.p-e.kr:4000/administrator/trainer/certificatereject/${requestId}`,
     })
       .then(response => {
         console.log(response);

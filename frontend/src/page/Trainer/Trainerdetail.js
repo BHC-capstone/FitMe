@@ -23,7 +23,7 @@ function Trainerdetail() {
   };
   useEffect(() => {
     axios
-      .get(`https://localhost:4000/trainers/profile/${id}`, {
+      .get(`https://fitme.p-e.kr:4000/trainers/profile/${id}`, {
         withCredentials: true,
       })
       .then(res => {

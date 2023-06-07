@@ -23,7 +23,7 @@ function PointCharge() {
   const fetchPoint = async () => {
     axios({
       method: 'get',
-      url: `https://localhost:4000/users/profile/${loginedUser.id}`,
+      url: `https://fitme.p-e.kr:4000/users/profile/${loginedUser.id}`,
       withCredentials: true,
     })
       .then(response => {
@@ -41,7 +41,7 @@ function PointCharge() {
   function postChargeTry(tid, amount, createdAt) {
     axios({
       method: 'post',
-      url: 'https://localhost:4000/users/charge-success',
+      url: 'https://fitme.p-e.kr:4000/users/charge-success',
       data: {
         tid,
         uid: loginedUser.id,

@@ -33,7 +33,7 @@ function RequestDetailTrainer({ request, fetch }) {
   const handleAccept = async ({ requestId }) => {
     axios({
       method: 'post',
-      url: `https://localhost:4000/administrator/trainerauth/${requestId}`,
+      url: `https://fitme.p-e.kr:4000/administrator/trainerauth/${requestId}`,
     })
       .then(response => {
         console.log(response);
@@ -47,7 +47,7 @@ function RequestDetailTrainer({ request, fetch }) {
   const handleReject = async ({ requestId }) => {
     axios({
       method: 'post',
-      url: `https://localhost:4000/administrator/trainerreject/${requestId}`,
+      url: `https://fitme.p-e.kr:4000/administrator/trainerreject/${requestId}`,
     })
       .then(response => {
         console.log(response);

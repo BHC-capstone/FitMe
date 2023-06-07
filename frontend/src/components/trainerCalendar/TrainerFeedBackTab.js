@@ -20,7 +20,7 @@ function TrainerFeedBackTab({ userid, date }) {
     setFeedBackdate(null);
     setCommentdate([]);
     axios({
-      url: `https://localhost:4000/feedback/checkFeedback/${userid}/${date}`,
+      url: `https://fitme.p-e.kr:4000/feedback/checkFeedback/${userid}/${date}`,
       method: 'GET',
       withCredentials: true,
     }).then(res => {
@@ -39,7 +39,7 @@ function TrainerFeedBackTab({ userid, date }) {
   const onAddDetailDiv = () => {
     // '/comment/:userId/:trainerId'
     axios({
-      url: `https://localhost:4000/feedback/commentTrainer/${loginedUser.id}/${Feedbackdate.id}`,
+      url: `https://fitme.p-e.kr:4000/feedback/commentTrainer/${loginedUser.id}/${Feedbackdate.id}`,
       data: { message: textData },
       method: 'POST',
       withCredentials: true,

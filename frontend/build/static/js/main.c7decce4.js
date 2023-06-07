@@ -30817,7 +30817,7 @@
               age: C,
               gender: b,
             };
-            oa.post('https://localhost:4000/users/signup', n, {
+            oa.post('https://fitme.p-e.kr:4000/users/signup', n, {
               withCredentials: !0,
             })
               .then(function (e) {
@@ -31203,7 +31203,7 @@
                         n.append('certificationFile', E),
                         oa({
                           headers: { 'Content-Type': 'multipart/form-data' },
-                          url: 'https://localhost:4000/trainers/signup',
+                          url: 'https://fitme.p-e.kr:4000/trainers/signup',
                           data: n,
                           method: 'POST',
                         })
@@ -32725,7 +32725,7 @@
                 onSubmit: function (e) {
                   e.preventDefault();
                   var t = { email: a, password: s };
-                  oa.post('https://localhost:4000/users/login', t, {
+                  oa.post('https://fitme.p-e.kr:4000/users/login', t, {
                     withCredentials: !0,
                   })
                     .then(function (e) {
@@ -32828,7 +32828,7 @@
                 onSubmit: function (e) {
                   e.preventDefault();
                   var t = { email: a, password: s };
-                  oa.post('https://localhost:4000/trainers/login', t, {
+                  oa.post('https://fitme.p-e.kr:4000/trainers/login', t, {
                     withCredentials: !0,
                   })
                     .then(function (e) {
@@ -46764,7 +46764,7 @@
           o = r[0],
           a = r[1];
         (0, e.useEffect)(function () {
-          oa.get('https://localhost:4000/trainers/trainerlist', {
+          oa.get('https://fitme.p-e.kr:4000/trainers/trainerlist', {
             withCredentials: !0,
           }).then(function (e) {
             a(e.data.data);
@@ -62904,7 +62904,7 @@
                             (e.prev = 0),
                             (e.next = 3),
                             oa.get(
-                              'https://localhost:4000/trainers/getListOfCertification/'.concat(
+                              'https://fitme.p-e.kr:4000/trainers/getListOfCertification/'.concat(
                                 n,
                               ),
                               { withCredentials: !0 },
@@ -63046,7 +63046,7 @@
             p = ve();
           (0, e.useEffect)(function () {
             oa
-              .get('https://localhost:4000/trainers/profile/'.concat(t), {
+              .get('https://fitme.p-e.kr:4000/trainers/profile/'.concat(t), {
                 withCredentials: !0,
               })
               .then(function (e) {
@@ -66735,7 +66735,7 @@
                       purpose: h.purpose,
                       lifestyle: h.lifestyle,
                     };
-                    oa.post('https://localhost:4000/request/ptrequest', t, {
+                    oa.post('https://fitme.p-e.kr:4000/request/ptrequest', t, {
                       withCredentials: !0,
                     })
                       .then(function (e) {
@@ -66951,10 +66951,10 @@
               var t = null;
               (t =
                 !1 === n.isTrainer
-                  ? 'https://localhost:4000/users/profile/changeProfile/'.concat(
+                  ? 'https://fitme.p-e.kr:4000/users/profile/changeProfile/'.concat(
                       n.id,
                     )
-                  : 'https://localhost:4000/trainers/profile/changeProfile/'.concat(
+                  : 'https://fitme.p-e.kr:4000/trainers/profile/changeProfile/'.concat(
                       n.id,
                     )),
                 oa
@@ -66980,10 +66980,10 @@
                         var r = null;
                         (r =
                           !1 === n.isTrainer
-                            ? 'https://localhost:4000/users/changeProfileImage/'.concat(
+                            ? 'https://fitme.p-e.kr:4000/users/changeProfileImage/'.concat(
                                 n.id,
                               )
-                            : 'https://localhost:4000/trainers/changeProfileImage/'.concat(
+                            : 'https://fitme.p-e.kr:4000/trainers/changeProfileImage/'.concat(
                                 n.id,
                               )),
                           oa
@@ -67037,7 +67037,7 @@
                                 return (
                                   (e.next = 5),
                                   oa.get(
-                                    'https://localhost:4000/users/profile/'.concat(
+                                    'https://fitme.p-e.kr:4000/users/profile/'.concat(
                                       n.id,
                                     ),
                                     { withCredentials: !0 },
@@ -67050,7 +67050,7 @@
                                 return (
                                   (e.next = 10),
                                   oa.get(
-                                    'https://localhost:4000/trainers/profile/'.concat(
+                                    'https://fitme.p-e.kr:4000/trainers/profile/'.concat(
                                       n.id,
                                     ),
                                     { withCredentials: !0 },
@@ -67104,7 +67104,7 @@
                                 return (
                                   (e.next = 5),
                                   oa.get(
-                                    'https://localhost:4000/users/profileImg/'.concat(
+                                    'https://fitme.p-e.kr:4000/users/profileImg/'.concat(
                                       n.id,
                                     ),
                                     { withCredentials: !0 },
@@ -67117,7 +67117,7 @@
                                 return (
                                   (e.next = 10),
                                   oa.get(
-                                    'https://localhost:4000/trainers/profileImg/'.concat(
+                                    'https://fitme.p-e.kr:4000/trainers/profileImg/'.concat(
                                       n.id,
                                     ),
                                     { withCredentials: !0 },
@@ -69648,7 +69648,7 @@
           !0 !== n.isTrainer &&
             oa({
               method: 'get',
-              url: 'https://localhost:4000/users/profile/'.concat(n.id),
+              url: 'https://fitme.p-e.kr:4000/users/profile/'.concat(n.id),
               withCredentials: !0,
             }).then(function (e) {
               var t = e.data.data;
@@ -69788,7 +69788,7 @@
                             return (
                               (e.next = 6),
                               oa.get(
-                                'https://localhost:4000/users/profile/'.concat(
+                                'https://fitme.p-e.kr:4000/users/profile/'.concat(
                                   n.id,
                                 ),
                                 { withCredentials: !0 },
@@ -69801,7 +69801,7 @@
                             return (
                               (e.next = 11),
                               oa.get(
-                                'https://localhost:4000/trainers/profile/'.concat(
+                                'https://fitme.p-e.kr:4000/trainers/profile/'.concat(
                                   n.id,
                                 ),
                                 { withCredentials: !0 },
@@ -69840,7 +69840,7 @@
                               return (
                                 (e.next = 5),
                                 oa.get(
-                                  'https://localhost:4000/users/profileimg/'.concat(
+                                  'https://fitme.p-e.kr:4000/users/profileimg/'.concat(
                                     n.id,
                                   ),
                                   { withCredentials: !0 },
@@ -69853,7 +69853,7 @@
                               return (
                                 (e.next = 10),
                                 oa.get(
-                                  'https://localhost:4000/trainers/profileimg/'.concat(
+                                  'https://fitme.p-e.kr:4000/trainers/profileimg/'.concat(
                                     n.id,
                                   ),
                                   { withCredentials: !0 },
@@ -71650,7 +71650,7 @@
                               (e.next = 3),
                               oa
                                 .post(
-                                  'https://localhost:4000/request/accept/'
+                                  'https://fitme.p-e.kr:4000/request/accept/'
                                     .concat(t, '/')
                                     .concat(n),
                                   { response: '\uc218\ub77d' },
@@ -71694,7 +71694,7 @@
                               (e.next = 3),
                               oa
                                 .post(
-                                  'https://localhost:4000/request/delete/'
+                                  'https://fitme.p-e.kr:4000/request/delete/'
                                     .concat(t, '/')
                                     .concat(n),
                                   { response: '\ucde8\uc18c' },
@@ -71738,7 +71738,7 @@
                               (e.prev = 0),
                               (e.next = 3),
                               oa.post(
-                                'https://localhost:4000/request/reject/'
+                                'https://fitme.p-e.kr:4000/request/reject/'
                                   .concat(t, '/')
                                   .concat(n),
                                 { response: '\uac70\uc808' },
@@ -71887,7 +71887,7 @@
                           return (
                             (e.next = 3),
                             oa.get(
-                              'https://localhost:4000/request/checklists/'.concat(
+                              'https://fitme.p-e.kr:4000/request/checklists/'.concat(
                                 o.id,
                               ),
                               { withCredentials: !0 },
@@ -71900,7 +71900,7 @@
                           return (
                             (e.next = 8),
                             oa.get(
-                              'https://localhost:4000/request/checklists/'.concat(
+                              'https://fitme.p-e.kr:4000/request/checklists/'.concat(
                                 o.id,
                               ),
                               { withCredentials: !0 },
@@ -71982,7 +71982,7 @@
                               (e.prev = 0),
                               (e.next = 3),
                               oa.get(
-                                'https://localhost:4000/trainers/getListOfCertification/'.concat(
+                                'https://fitme.p-e.kr:4000/trainers/getListOfCertification/'.concat(
                                   t.id,
                                 ),
                                 { withCredentials: !0 },
@@ -72022,7 +72022,7 @@
                         case 0:
                           oa({
                             method: 'get',
-                            url: 'https://localhost:4000/trainers/profile/'.concat(
+                            url: 'https://fitme.p-e.kr:4000/trainers/profile/'.concat(
                               t.id,
                             ),
                             withCredentials: !0,
@@ -72055,7 +72055,7 @@
                           n.preventDefault(),
                             oa({
                               method: 'post',
-                              url: 'https://localhost:4000/trainers/profile/changeProfile/'.concat(
+                              url: 'https://fitme.p-e.kr:4000/trainers/profile/changeProfile/'.concat(
                                 t.id,
                               ),
                               data: { introduction: l },
@@ -72087,7 +72087,7 @@
                         case 0:
                           oa({
                             method: 'delete',
-                            url: 'https://localhost:4000/trainers/deleteCertification/'.concat(
+                            url: 'https://fitme.p-e.kr:4000/trainers/deleteCertification/'.concat(
                               t,
                             ),
                             withCredentials: !0,
@@ -72598,7 +72598,7 @@
                         switch ((e.prev = e.next)) {
                           case 0:
                             oa.get(
-                              'https://localhost:4000/manage/tag/'.concat(n),
+                              'https://fitme.p-e.kr:4000/manage/tag/'.concat(n),
                             )
                               .then(function (e) {
                                 l(e.data.data);
@@ -72633,7 +72633,7 @@
                           (t = e.id),
                           void oa
                             .post(
-                              'https://localhost:4000/manage/deletetag/'.concat(
+                              'https://fitme.p-e.kr:4000/manage/deletetag/'.concat(
                                 t,
                               ),
                             )
@@ -72673,7 +72673,9 @@
             i[1],
             (0, e.useEffect)(function () {
               oa.get(
-                'https://localhost:4000/manage/checkptuserlist/'.concat(t.id),
+                'https://fitme.p-e.kr:4000/manage/checkptuserlist/'.concat(
+                  t.id,
+                ),
                 { withCredentials: !0 },
               ).then(function (e) {
                 a(e.data.data);
@@ -78018,7 +78020,7 @@
           return (
             (0, e.useEffect)(function () {
               oa.get(
-                'https://localhost:4000/manage/checkptuserdetail/'
+                'https://fitme.p-e.kr:4000/manage/checkptuserdetail/'
                   .concat(o, '/')
                   .concat(s.id),
                 { withCredentials: !0 },
@@ -78066,7 +78068,7 @@
                           children: (0, xn.jsxs)(WE, {
                             onFinish: function (e) {
                               oa.post(
-                                'https://localhost:4000/manage/maketag/'
+                                'https://fitme.p-e.kr:4000/manage/maketag/'
                                   .concat(o, '/')
                                   .concat(s.id),
                                 { tag_name: e['tag name'], tag_color: d },
@@ -78184,7 +78186,7 @@
                               variant: 'primary',
                               onClick: function () {
                                 oa.post(
-                                  'https://localhost:4000/manage/updatememo/'
+                                  'https://fitme.p-e.kr:4000/manage/updatememo/'
                                     .concat(o, '/')
                                     .concat(s.id),
                                   { memo: i.memo },
@@ -78246,10 +78248,10 @@
                             (r = null),
                             (r =
                               !1 === o.isTrainer
-                                ? 'https://localhost:4000/users/withdraw/'.concat(
+                                ? 'https://fitme.p-e.kr:4000/users/withdraw/'.concat(
                                     o.id,
                                   )
-                                : 'https://localhost:4000/trainers/withdraw/'.concat(
+                                : 'https://fitme.p-e.kr:4000/trainers/withdraw/'.concat(
                                     o.id,
                                   )),
                             (e.next = 7),
@@ -81291,7 +81293,7 @@
                 i(''),
                   oa
                     .get(
-                      'https://localhost:4000/calender/mealplan/'
+                      'https://fitme.p-e.kr:4000/calender/mealplan/'
                         .concat(n, '/')
                         .concat(r),
                       { withCredentials: !0 },
@@ -81316,14 +81318,14 @@
                   var o = null;
                   o =
                     0 === t
-                      ? 'https://localhost:4000/calender/mealpicture/'
+                      ? 'https://fitme.p-e.kr:4000/calender/mealpicture/'
                           .concat(n, '/')
                           .concat(r, '/breakfast')
                       : 1 === t
-                      ? 'https://localhost:4000/calender/mealpicture/'
+                      ? 'https://fitme.p-e.kr:4000/calender/mealpicture/'
                           .concat(n, '/')
                           .concat(r, '/lunch')
-                      : 'https://localhost:4000/calender/mealpicture/'
+                      : 'https://fitme.p-e.kr:4000/calender/mealpicture/'
                           .concat(n, '/')
                           .concat(r, '/dinner');
                   var a = new FormData();
@@ -81337,7 +81339,7 @@
                     })
                       .then(function (e) {
                         oa.get(
-                          'https://localhost:4000/calender/mealplan/'
+                          'https://fitme.p-e.kr:4000/calender/mealplan/'
                             .concat(n, '/')
                             .concat(r),
                           { withCredentials: !0 },
@@ -81353,20 +81355,20 @@
                   var t = null;
                   (t =
                     0 === e
-                      ? 'https://localhost:4000/calender/mealPicturedelete/'
+                      ? 'https://fitme.p-e.kr:4000/calender/mealPicturedelete/'
                           .concat(n, '/')
                           .concat(r, '/breakfast')
                       : 1 === e
-                      ? 'https://localhost:4000/calender/mealPicturedelete/'
+                      ? 'https://fitme.p-e.kr:4000/calender/mealPicturedelete/'
                           .concat(n, '/')
                           .concat(r, '/lunch')
-                      : 'https://localhost:4000/calender/mealPicturedelete/'
+                      : 'https://fitme.p-e.kr:4000/calender/mealPicturedelete/'
                           .concat(n, '/')
                           .concat(r, '/dinner')),
                     oa({ url: t, method: 'DELETE', withCredentials: !0 })
                       .then(function (e) {
                         oa.get(
-                          'https://localhost:4000/calender/mealplan/'
+                          'https://fitme.p-e.kr:4000/calender/mealplan/'
                             .concat(n, '/')
                             .concat(r),
                           { withCredentials: !0 },
@@ -81663,7 +81665,7 @@
             var o = new FormData();
             o.append('video', e.current.files[0]),
               oa({
-                url: 'https://localhost:4000/calender/exercisevideo/'
+                url: 'https://fitme.p-e.kr:4000/calender/exercisevideo/'
                   .concat(n, '/')
                   .concat(t),
                 headers: { 'Content-Type': 'multipart/form-data' },
@@ -81673,7 +81675,7 @@
               })
                 .then(function (e) {
                   oa.get(
-                    'https://localhost:4000/calender/exerciseroutine/'
+                    'https://fitme.p-e.kr:4000/calender/exerciseroutine/'
                       .concat(n, '/')
                       .concat(r),
                     { withCredentials: !0 },
@@ -81687,7 +81689,7 @@
           }
           function s(e) {
             oa({
-              url: 'https://localhost:4000/calender/exerciseVideodelete/'.concat(
+              url: 'https://fitme.p-e.kr:4000/calender/exerciseVideodelete/'.concat(
                 e,
               ),
               method: 'DELETE',
@@ -81695,7 +81697,7 @@
             })
               .then(function (e) {
                 oa.get(
-                  'https://localhost:4000/calender/exerciseroutine/'
+                  'https://fitme.p-e.kr:4000/calender/exerciseroutine/'
                     .concat(n, '/')
                     .concat(r),
                   { withCredentials: !0 },
@@ -81714,7 +81716,7 @@
                 i([]),
                   oa
                     .get(
-                      'https://localhost:4000/calender/exerciseroutine/'
+                      'https://fitme.p-e.kr:4000/calender/exerciseroutine/'
                         .concat(n, '/')
                         .concat(r),
                       { withCredentials: !0 },
@@ -81941,7 +81943,7 @@
                 i([]),
                   u([]),
                   oa({
-                    url: 'https://localhost:4000/feedback/checkFeedback/'
+                    url: 'https://fitme.p-e.kr:4000/feedback/checkFeedback/'
                       .concat(n, '/')
                       .concat(r),
                     method: 'GET',
@@ -82041,7 +82043,7 @@
                                   className: 'mgbt',
                                   onChange: function (e) {
                                     oa({
-                                      url: 'https://localhost:4000/feedback/uploadImage/'
+                                      url: 'https://fitme.p-e.kr:4000/feedback/uploadImage/'
                                         .concat(n, '/')
                                         .concat(a.id),
                                       data: e.target.files[0],
@@ -82104,7 +82106,7 @@
                                   className: 'mgtp',
                                   onClick: function () {
                                     oa({
-                                      url: 'https://localhost:4000/feedback/comment/'
+                                      url: 'https://fitme.p-e.kr:4000/feedback/comment/'
                                         .concat(n, '/')
                                         .concat(a.id),
                                       data: { message: m },
@@ -82336,7 +82338,7 @@
               function () {
                 l([]),
                   oa({
-                    url: 'https://localhost:4000/calender/mealplan/'
+                    url: 'https://fitme.p-e.kr:4000/calender/mealplan/'
                       .concat(n, '/')
                       .concat(r),
                     method: 'GET',
@@ -82618,7 +82620,7 @@
                     e.preventDefault();
                     var t = { breakfast: u, lunch: p, dinner: v };
                     oa.post(
-                      'https://localhost:4000/trainer_calender/createMealplan/'
+                      'https://fitme.p-e.kr:4000/trainer_calender/createMealplan/'
                         .concat(r, '/')
                         .concat(n, '/')
                         .concat(o.id),
@@ -82940,7 +82942,7 @@
                       onClick: function (e) {
                         e.preventDefault(),
                           oa({
-                            url: 'https://localhost:4000/trainer_calender/updateExercise/'.concat(
+                            url: 'https://fitme.p-e.kr:4000/trainer_calender/updateExercise/'.concat(
                               s,
                             ),
                             data: { name: h, exercise_count: g, set_count: w },
@@ -82981,7 +82983,7 @@
             }).id;
           function s(e) {
             oa({
-              url: 'https://localhost:4000/trainer_calender/deleteExercise/'.concat(
+              url: 'https://fitme.p-e.kr:4000/trainer_calender/deleteExercise/'.concat(
                 e,
               ),
               method: 'POST',
@@ -82989,7 +82991,7 @@
             })
               .then(function (e) {
                 oa.get(
-                  'https://localhost:4000/calender/exerciseroutine/'
+                  'https://fitme.p-e.kr:4000/calender/exerciseroutine/'
                     .concat(n, '/')
                     .concat(r),
                   { withCredentials: !0 },
@@ -83005,7 +83007,7 @@
             var o = new FormData();
             o.append('video', e.current.files[0]),
               oa({
-                url: 'https://localhost:4000/trainer_calender/uplodadGuideVideo/'
+                url: 'https://fitme.p-e.kr:4000/trainer_calender/uplodadGuideVideo/'
                   .concat(l, '/')
                   .concat(t),
                 headers: { 'Content-Type': 'multipart/form-data' },
@@ -83017,7 +83019,7 @@
                   console.log(e),
                     oa
                       .get(
-                        'https://localhost:4000/calender/exerciseroutine/'
+                        'https://fitme.p-e.kr:4000/calender/exerciseroutine/'
                           .concat(n, '/')
                           .concat(r),
                         { withCredentials: !0 },
@@ -83032,7 +83034,7 @@
           }
           function d(e) {
             oa({
-              url: 'https://localhost:4000/trainer_calender/deleteGuideVideo/'.concat(
+              url: 'https://fitme.p-e.kr:4000/trainer_calender/deleteGuideVideo/'.concat(
                 e,
               ),
               method: 'POST',
@@ -83042,7 +83044,7 @@
                 console.log(e),
                   oa
                     .get(
-                      'https://localhost:4000/calender/exerciseroutine/'
+                      'https://fitme.p-e.kr:4000/calender/exerciseroutine/'
                         .concat(n, '/')
                         .concat(r),
                       { withCredentials: !0 },
@@ -83061,7 +83063,7 @@
                 i([]),
                   oa
                     .get(
-                      'https://localhost:4000/calender/exerciseroutine/'
+                      'https://fitme.p-e.kr:4000/calender/exerciseroutine/'
                         .concat(n, '/')
                         .concat(r),
                       { withCredentials: !0 },
@@ -83088,7 +83090,7 @@
                   type: 'button',
                   onClick: function () {
                     oa({
-                      url: 'https://localhost:4000/trainer_calender/createExercise/'
+                      url: 'https://fitme.p-e.kr:4000/trainer_calender/createExercise/'
                         .concat(r, '/')
                         .concat(l, '/')
                         .concat(n),
@@ -83097,7 +83099,7 @@
                     })
                       .then(function (e) {
                         oa.get(
-                          'https://localhost:4000/calender/exerciseroutine/'
+                          'https://fitme.p-e.kr:4000/calender/exerciseroutine/'
                             .concat(n, '/')
                             .concat(r),
                           { withCredentials: !0 },
@@ -83139,7 +83141,7 @@
               type: 'button',
               onClick: function (e) {
                 oa({
-                  url: 'https://localhost:4000/trainer_calender/createFeedback/'
+                  url: 'https://fitme.p-e.kr:4000/trainer_calender/createFeedback/'
                     .concat(n, '/')
                     .concat(o.id, '/')
                     .concat(t),
@@ -83317,7 +83319,7 @@
                         e.append('video', m.current.files[0]),
                           console.log('video', m.current.files[0]),
                           oa({
-                            url: 'https://localhost:4000/trainer_calender/updateFeedback/'.concat(
+                            url: 'https://fitme.p-e.kr:4000/trainer_calender/updateFeedback/'.concat(
                               o,
                             ),
                             data: { feedback_message: i },
@@ -83331,7 +83333,7 @@
                               console.log(e);
                             }),
                           oa({
-                            url: 'https://localhost:4000/trainer_calender/updateFeedbackvideo/'.concat(
+                            url: 'https://fitme.p-e.kr:4000/trainer_calender/updateFeedbackvideo/'.concat(
                               o,
                             ),
                             headers: { 'Content-Type': 'multipart/form-data' },
@@ -83397,7 +83399,7 @@
               i(null),
                 u([]),
                 oa({
-                  url: 'https://localhost:4000/feedback/checkFeedback/'
+                  url: 'https://fitme.p-e.kr:4000/feedback/checkFeedback/'
                     .concat(n, '/')
                     .concat(r),
                   method: 'GET',
@@ -83544,7 +83546,7 @@
                                     className: 'mgtp',
                                     onClick: function () {
                                       oa({
-                                        url: 'https://localhost:4000/feedback/commentTrainer/'
+                                        url: 'https://fitme.p-e.kr:4000/feedback/commentTrainer/'
                                           .concat(w.id, '/')
                                           .concat(a.id),
                                         data: { message: m },
@@ -83699,7 +83701,7 @@
                     n.append('image', s.current.files[0]),
                       oa({
                         method: 'POST',
-                        url: 'https://localhost:4000/trainers/addCertificate/'.concat(
+                        url: 'https://fitme.p-e.kr:4000/trainers/addCertificate/'.concat(
                           t.id,
                         ),
                         headers: { 'Content-Type': 'multipart/form-data' },
@@ -85004,7 +85006,7 @@
                           case 0:
                             oa({
                               method: 'get',
-                              url: 'https://localhost:4000/users/profile/'.concat(
+                              url: 'https://fitme.p-e.kr:4000/users/profile/'.concat(
                                 t.id,
                               ),
                               withCredentials: !0,
@@ -85030,7 +85032,7 @@
           function g(e, n, r) {
             oa({
               method: 'post',
-              url: 'https://localhost:4000/users/charge-success',
+              url: 'https://fitme.p-e.kr:4000/users/charge-success',
               data: { tid: e, uid: t.id, amount: n, created_at: r },
               withCredentials: !0,
             })
