@@ -78,7 +78,7 @@ export default function TrainerSignUpPage() {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
-      url: 'https://localhost:4000/trainers/signup',
+      url: 'https://fitme.p-e.kr:4000/trainers/signup',
       data: formData,
       method: 'POST',
     })

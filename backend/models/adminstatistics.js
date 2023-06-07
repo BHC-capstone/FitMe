@@ -1,10 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-<<<<<<< HEAD:backend/models/adminstatistics.js
   return sequelize.define('adminstatistics', {
-=======
-  return sequelize.define('AdminStatistics', {
->>>>>>> jaehyun:backend/models/AdminStatistics.js
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -29,11 +25,7 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     sequelize,
-<<<<<<< HEAD:backend/models/adminstatistics.js
     tableName: 'adminstatistics',
-=======
-    tableName: 'AdminStatistics',
->>>>>>> jaehyun:backend/models/AdminStatistics.js
     timestamps: false,
     indexes: [
       {

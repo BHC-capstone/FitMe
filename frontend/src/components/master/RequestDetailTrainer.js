@@ -38,7 +38,7 @@ function RequestDetailTrainer({ request, fetch }) {
     try {
       await axios
         .post(
-          `https://localhost:4000/administrator/trainerauth/${request.id}`,
+          `https://fitme.p-e.kr:4000/administrator/trainerauth/${request.id}`,
           {
             response: '수락',
           },

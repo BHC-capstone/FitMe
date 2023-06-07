@@ -25,7 +25,7 @@ function ChargeSuccess() {
     console.log(loginedUser.tid);
     axios({
       method: 'post',
-      url: 'https://localhost:4000/pay/payment/approve',
+      url: 'https://fitme.p-e.kr:4000/pay/payment/approve',
       data: {
         pgToken,
         userId: loginedUser.id,

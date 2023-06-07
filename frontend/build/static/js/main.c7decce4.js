@@ -52775,7 +52775,7 @@
                   var s = l.v4().source,
                     u = l.v6().source;
                   return (ek = new RegExp(
-                    '(?:^(?:(?:(?:[a-z]+:)?//)|www\\.)(?:\\S+(?::\\S*)?@)?(?:localhost|' +
+                    '(?:^(?:(?:(?:[a-z]+:)?//)|www\\.)(?:\\S+(?::\\S*)?@)?(?:fitme.p-e.kr|' +
                       s +
                       '|' +
                       u +

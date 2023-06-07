@@ -1,8 +1,5 @@
 var DataTypes = require("sequelize").DataTypes;
-<<<<<<< HEAD
 var _adminstatistics = require("./adminstatistics");
-=======
->>>>>>> jaehyun
 var _ads = require("./ads");
 var _bodycheck = require("./bodycheck");
 var _certification_auth_request = require("./certification_auth_request");
@@ -31,10 +28,7 @@ var _user_tag = require("./user_tag");
 var _users = require("./users");
 
 function initModels(sequelize) {
-<<<<<<< HEAD
   var adminstatistics = _adminstatistics(sequelize, DataTypes);
-=======
->>>>>>> jaehyun
   var ads = _ads(sequelize, DataTypes);
   var bodycheck = _bodycheck(sequelize, DataTypes);
   var certification_auth_request = _certification_auth_request(sequelize, DataTypes);
@@ -74,10 +68,7 @@ function initModels(sequelize) {
   users.hasMany(trainer_manage, { as: "trainer_manages", foreignKey: "user_id"});
 
   return {
-<<<<<<< HEAD
     adminstatistics,
-=======
->>>>>>> jaehyun
     ads,
     bodycheck,
     certification_auth_request,

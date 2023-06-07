@@ -28,7 +28,7 @@ function TrainerProfile() {
   const fetchPtPrice = async () => {
     axios({
       method: 'get',
-      url: `https://localhost:4000/trainers/getPrice/${loginedUser.id}`,
+      url: `https://fitme.p-e.kr:4000/trainers/getPrice/${loginedUser.id}`,
       withCredentials: true,
     })
       .then(response => {
@@ -89,7 +89,7 @@ function TrainerProfile() {
     e.preventDefault();
     axios({
       method: 'post',
-      url: `https://localhost:4000/trainers/profile/changePtPoint/${loginedUser.id}`,
+      url: `https://fitme.p-e.kr:4000/trainers/profile/changePtPoint/${loginedUser.id}`,
       data: {
         pt_point: ptPrice,
       },
