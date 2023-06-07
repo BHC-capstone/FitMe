@@ -21,7 +21,7 @@ function RequestManage() {
             },
           )
         : await axios.get(
-            `https://localhost:4000/request/checklists/${loginedUser.id}`,
+            `https://localhost:4000/request/checklist/${loginedUser.id}`,
             {
               withCredentials: true,
             },

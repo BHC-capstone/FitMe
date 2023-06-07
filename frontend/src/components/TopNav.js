@@ -1,4 +1,4 @@
-import React from 'react';
+import { React, useEffect, useState } from 'react';
 import {
   Container,
   Nav,
@@ -8,6 +8,7 @@ import {
 } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
 import { logoutUser } from '../redux/_reducers/userSlice';
 
 export default function TopNav() {
@@ -20,6 +21,19 @@ export default function TopNav() {
     console.log(user);
     navigate('/mypage');
   };
+
+  const [point, setPoint] = useState(0);
+  useEffect(() => {
+    if (user.isTrainer === true) return;
+    axios({
+      method: 'get',
+      url: `https://localhost:4000/users/userpoint/${user.id}`,
+      withCredentials: true,
+    }).then(response => {
+      const { data } = response.data;
+      setPoint(data.user_point_amount);
+    });
+  }, []);
 
   return (
     <Navbar key="sm" expand="sm" bg="white">
@@ -48,6 +62,7 @@ export default function TopNav() {
             ) : (
               <Nav className="justify-content-start flex-grow-1 pe-3">
                 <Nav.Link href="/mypage">마이페이지</Nav.Link>
+                <Nav.Link href="/pointcharge">보유포인트:{point}</Nav.Link>
                 {user.isTrainer === false ? (
                   <NavDropdown
                     title="PT 관리"
@@ -59,7 +74,7 @@ export default function TopNav() {
                 ) : (
                   <Nav.Link href="/customer-list">관리 중인 수강생</Nav.Link>
                 )}
-                <Nav.Link onClick={handleLogout}>로그아웃</Nav.Link>
+                <Nav.Link onClick={handleLogout}>로그아웃</Nav.Link>\
               </Nav>
             )}
           </Offcanvas.Body>

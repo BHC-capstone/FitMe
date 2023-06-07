@@ -80,7 +80,7 @@ router.post('/ptrequest', async (req, res) => {
           );
 
           await user_points.update(
-            { amount: sequelize.literal(`amount - ${req.body.totalPrice}`) },
+            { amount: sequelize.literal(`amount - ${req.body.totalprice}`) },
             { where: { user_id: userId }, transaction },
           );
 
@@ -142,20 +142,28 @@ router.get('/price/:id', (req, res) => {
 });
 
 // user pt 요청 조회
-router.get('/checklist/:id', (req, res) => {
+router.get('/checklist/:id', async function (req, res) {
   if (req.session.loggedin) {
-    const { id } = req.params;
-    pt_requests
-      .findAll({
+    try {
+      const { id } = req.params;
+      const ptlist = await models.pt_requests.findAll({
         where: { user_id: id },
-      })
-      .then(requestInfo => {
-        if (requestInfo != undefined) {
-          res.status(200).json({ data: requestInfo, message: '' });
-        } else {
-          res.status(401).json({ data: null, message: '' });
-        }
+        include: [
+          {
+            model: users,
+            as: 'user',
+            attributes: ['name'],
+          },
+        ],
       });
+      const ptListNames = ptlist.map(item => {
+        const { name } = item.user;
+        return { ...item.toJSON(), name };
+      });
+      res.status(200).json({ data: ptListNames, message: '' });
+    } catch (err) {
+      console.log(err);
+    }
   } else {
     res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
   }
@@ -215,9 +223,6 @@ router.get('/checklists/:id/:user_id', async function (req, res) {
   if (req.session.loggedin) {
     try {
       const { id, user_id } = req.params;
-      const bodyInfo = await bodycheck.findOne({
-        where: { user_id: user_id, last: true },
-      });
       const requestInfo = await models.pt_requests.findOne({
         where: { trainer_id: id, user_id: user_id },
         include: {
@@ -231,7 +236,7 @@ router.get('/checklists/:id/:user_id', async function (req, res) {
         ...requestInfo.toJSON(),
         name: requestInfo.user.name,
       };
-      res.status(200).json({ data: [requestInfo, bodyInfo], message: '' });
+      res.status(200).json({ data: requestInfo, message: '' });
     } catch (err) {
       console.log(err);
     }
