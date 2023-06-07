@@ -7,7 +7,8 @@ const {
   pt_requests,
   trainer_manage,
   bodycheck,
-  user_point,
+  user_points,
+  dailyRequestCounts,
 } = require('../models');
 const initModels = require('../models/init-models');
 const models = initModels(sequelize);
@@ -37,7 +38,7 @@ router.post('/ptrequest', async (req, res) => {
         where: { trainer_id: trainerId },
       });
 
-      if (userInfo.user_point < totalPrice) {
+      if (userInfo.amount < totalPrice) {
         return res
           .status(401)
           .json({ data: null, message: '포인트가 부족합니다.' });
@@ -69,14 +70,34 @@ router.post('/ptrequest', async (req, res) => {
         );
 
         await user_points.update(
-          { user_point: sequelize.literal(`user_point - ${totalPrice}`) },
+          { amount: sequelize.literal(`amount - ${totalPrice}`) },
           { where: { user_id: userId }, transaction },
         );
-      });
 
-      res
-        .status(200)
-        .json({ data: null, message: '성공적으로 신청되었습니다.' });
+        const requestCount = await dailyRequestCounts.findOne({
+          where: { date: currentDate },
+          transaction,
+        });
+        if (requestCount) {
+          await dailyRequestCounts.update(
+            { count: requestCount.count + 1 },
+            { where: { date: currentDate }, transaction },
+          );
+        } else {
+          await dailyRequestCounts.create(
+            {
+              date: currentDate,
+              count: 1,
+            },
+            { transaction },
+          );
+        }
+
+        await transaction.commit();
+        res
+          .status(200)
+          .json({ data: null, message: '성공적으로 신청되었습니다.' });
+      });
     } catch (err) {
       console.log(err);
       res
@@ -269,7 +290,7 @@ router.post('/accept/:trainer_id/:id', (req, res) => {
             trainer_manage
               .create(trainerManage)
               .then(() => {
-                trainer_points // 추가된 부분
+                trainer_points
                   .findOne({ where: { trainer_id } })
                   .then(pointsInfo => {
                     if (pointsInfo != undefined) {

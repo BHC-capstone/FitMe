@@ -12,6 +12,7 @@ function TrainerProfile() {
   const navigate = useNavigate();
   const [certifications, setCertifications] = useState([]);
   const [introduction, setIntroduction] = useState('');
+  const [ptPrice, setPtPrice] = useState(0);
   const fileList = [];
   const handleFileUpload = event => {
     event.preventDefault();
@@ -21,7 +22,23 @@ function TrainerProfile() {
   useEffect(() => {
     fetchCertifications();
     fetchIntroduction();
+    fetchPtPrice();
   }, []);
+
+  const fetchPtPrice = async () => {
+    axios({
+      method: 'get',
+      url: `https://localhost:4000/trainers/getPrice/${loginedUser.id}`,
+      withCredentials: true,
+    })
+      .then(response => {
+        const { data } = response.data;
+        setPtPrice(data.pt_point);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   const fetchCertifications = async () => {
     try {
@@ -68,6 +85,23 @@ function TrainerProfile() {
         console.log(err);
       });
   };
+  const submitPtPrice = async e => {
+    e.preventDefault();
+    axios({
+      method: 'post',
+      url: `https://localhost:4000/trainers/profile/changePtPrice/${loginedUser.id}`,
+      data: {
+        pt_point: ptPrice,
+      },
+      withCredentials: true,
+    })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   const certificationDelete = async id => {
     axios({
@@ -87,6 +121,24 @@ function TrainerProfile() {
     <div className="trainer-profile">
       <Container1 fluid>
         <div className="profile">
+          <Head1>회당 PT 가격 설정</Head1>
+          <Form onSubmit={handleFileUpload}>
+            <FloatingLabel
+              controlId="floatingTextarea"
+              label="회당 PT 가격"
+              className="mb-3"
+            >
+              <Form.Control
+                type="number"
+                placeholder="회당 PT 가격을 입력해주세요."
+                value={ptPrice}
+                onChange={e => setPtPrice(e.target.value)}
+              />
+            </FloatingLabel>
+            <Button variant="primary" type="submit">
+              저장
+            </Button>
+          </Form>
           <Head1>자기 소개</Head1>
           <Form onSubmit={submitIntroduction}>
             <FloatingLabel

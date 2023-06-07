@@ -20,11 +20,11 @@ export default function TopNav() {
     if (user.isTrainer === true) return;
     axios({
       method: 'get',
-      url: `https://localhost:4000/users/profile/${user.id}`,
+      url: `https://localhost:4000/users/userpoint/${user.id}`,
       withCredentials: true,
     }).then(response => {
       const { data } = response.data;
-      setPoint(data.point);
+      setPoint(data.user_point_amount);
     });
   }, []);
 

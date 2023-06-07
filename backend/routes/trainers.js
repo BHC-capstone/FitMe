@@ -9,6 +9,7 @@ const {
   trainer_cert,
   trainer_sign_request,
   certification_auth_request,
+  dailytrainercounts,
 } = require('../models');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -97,6 +98,25 @@ router.post(
             },
             { transaction },
           );
+
+          const trainerCount = await dailytrainercounts.findOne({
+            where: { date: currentDate },
+            transaction,
+          });
+          if (trainerCount) {
+            await dailytrainercounts.update(
+              { count: trainerCount.count + 1 },
+              { where: { date: currentDate }, transaction },
+            );
+          } else {
+            await dailytrainercounts.create(
+              {
+                date: currentDate,
+                count: 1,
+              },
+              { transaction },
+            );
+          }
 
           await transaction.commit();
           res
@@ -634,5 +654,20 @@ router.post('/deleteCertification/:id', async function (req, res) {
     res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
   }
 });
+
+// trainer 회당 가격 가져오기
+router.get('/getPrice/:Id', async function (req, res) {
+  try {
+    const Id = req.body;
+    const price = await trainers.findOne({
+      where: { id: req.params.Id },
+      attributes: ['pt_point'],
+    });
+    res.status(200).json({ data: price, message: '' });
+  } catch (err) {
+    console.log(err);
+  }
+}
+);
 
 module.exports = router;
