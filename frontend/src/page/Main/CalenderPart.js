@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Calendar from 'react-calendar';
 import '../../scss/calendar.scss';
-import styled from 'styled-components';
 import { Container } from 'react-bootstrap';
+import TabMenu from '../../components/TabMenu';
 import DietTab from '../../components/DietTab';
 import ExerciseTab from '../../components/ExerciseTab';
 import FeedbackTab from '../../components/userCalendar/FeedbackTab';
@@ -35,13 +35,15 @@ function CalendarPart() {
       ),
     }, // dateinfo 정보를 통해 axios로 해당 날짜의 피드백 데이터 넣으면 완료
   ];
+
   const selectMenuHandler = index => {
     clickTab(index);
   };
+
   return (
     <Container fluid className="panel">
-      <Head1>캘린더</Head1>
-      <Div1>
+      <div className="head">캘린더</div>
+      <div className="mgauto mglf-5 mgbt">
         <Calendar
           formatDay={(location, date) =>
             date.toLocaleDateString('en', { day: 'numeric' })
@@ -49,9 +51,12 @@ function CalendarPart() {
           onChange={onChange}
           value={dateinfo}
         />
-      </Div1>
-      <Div />
-      <TabMenu>
+      </div>
+      <TabMenu
+        menuArr={menuArr}
+        currentTab={currentTab}
+        selectMenuHandler={selectMenuHandler}
+      >
         {menuArr.map((el, index) => (
           // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
           <li
@@ -65,69 +70,8 @@ function CalendarPart() {
           </li>
         ))}
       </TabMenu>
-      <Desc>
-        <div>{menuArr[currentTab].content}</div>
-      </Desc>
     </Container>
   );
 }
 
-const TabMenu = styled.ul`
-  background-color: #ffffff;
-  color: rgb(21, 20, 20);
-  font-weight: bold;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  list-style: none;
-  margin-bottom: 30px;
-  margin-top: 10px;
-  border-bottom: solid 1px;
-  border-bottom-color: #d1d1d1;
-
-  .submenu {
-    display: flex;
-    justify-content: space-around;
-    width: 390px;
-    height: 40px; */
-    width: calc(50% / 3);
-    padding: 10px;
-    font-size: 15px;
-    transition: 0.5s;
-    border-radius: 10px 10px 0px 0px;
-  }
-
-  .focused {
-    color: #fff;
-    background-color: #2ba5f7;
-  }
-
-  & div.desc {
-    text-align: center;
-  }
-`;
-const Head1 = styled.div`
-  color: rgb(21, 20, 20);
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 30px;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  width: fit-content;
-  margin: 0 auto;
-  padding: 10px;
-`;
-
-const Div = styled.div`
-  width: 100%;
-  margin-bottom: 20px;
-`;
-const Div1 = styled.div`
-  margin-left: 8%;
-`;
-
-const Desc = styled.div`
-  margin: auto 0;
-  text-align: center;
-`;
 export default CalendarPart;
