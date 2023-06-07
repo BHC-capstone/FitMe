@@ -40,7 +40,7 @@ function RequestDetailCertification({ request, fetch }) {
         fetch();
       })
       .catch(error => {
-        console.log(error);
+        alert(error.response.data.message);
       });
   };
 
@@ -54,7 +54,7 @@ function RequestDetailCertification({ request, fetch }) {
         fetch();
       })
       .catch(error => {
-        console.log(error);
+        alert(error.response.data.message);
       });
   };
   useEffect(() => {

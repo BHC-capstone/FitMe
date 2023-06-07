@@ -53,7 +53,7 @@ function ExerciseTab({ userid, date }) {
           });
       })
       .catch(err => {
-        console.log(err);
+        alert(err.response.data.message);
       });
   }
   function onVideoRemove(routineid) {
@@ -75,7 +75,7 @@ function ExerciseTab({ userid, date }) {
           });
       })
       .catch(err => {
-        console.log(err);
+        alert(err.response.data.message);
       });
   }
 

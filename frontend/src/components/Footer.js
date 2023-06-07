@@ -10,7 +10,7 @@ class Footer extends Component {
           <nav>
             <p className="copyright text-center">
               © {new Date().getFullYear()}{' '}
-              <a href="http://localhost:3000">BHC</a>, made with love for a
+              <a href="http://fitme.p-e.kr:4000">BHC</a>, made with love for a
               better web
             </p>
           </nav>

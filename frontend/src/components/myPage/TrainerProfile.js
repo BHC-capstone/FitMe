@@ -47,7 +47,7 @@ function TrainerProfile() {
         setIntroduction(data.introduction);
       })
       .catch(err => {
-        console.log(err);
+        alert(err.response.data.message);
       });
   };
 
@@ -65,7 +65,7 @@ function TrainerProfile() {
         console.log(response);
       })
       .catch(err => {
-        console.log(err);
+        alert(err.response.data.message);
       });
   };
 
@@ -79,7 +79,7 @@ function TrainerProfile() {
         fetchCertifications();
       })
       .catch(err => {
-        console.log(err);
+        alert(err.response.data.message);
       });
   };
 

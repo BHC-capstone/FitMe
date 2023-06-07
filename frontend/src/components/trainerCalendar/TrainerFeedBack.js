@@ -64,7 +64,7 @@ function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
         console.log(res);
       })
       .catch(err => {
-        console.log(err);
+        alert(err.response.data.message);
       });
     /// / */
   };
@@ -93,7 +93,7 @@ function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
         console.log(res);
       })
       .catch(err => {
-        console.log(err);
+        alert(err.response.data.message);
       });
     axios({
       url: `https://fitme.p-e.kr:4000/trainer_calender/updateFeedbackvideo/${feedbackid}`,
@@ -110,7 +110,7 @@ function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
         console.log(res);
       })
       .catch(err => {
-        console.log(err);
+        alert(err.response.data.message);
       });
   }
   const onChange = e => {

@@ -32,7 +32,7 @@ function ChargeSuccess() {
         console.log(response);
       })
       .catch(error => {
-        console.log(error);
+        alert(error.response.data.message);
       });
   }, []);
 
