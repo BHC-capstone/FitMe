@@ -39,11 +39,10 @@ function TrainerProfile({ trainerId }) {
       <Container fluid>
         <div className="certification-list">
           <div className="head">보유 자격증</div>
-          <br />
           {certifications.map(certification => (
             <div key={certification.id} className="certification-item">
               <img
-                style={{ width: '200px', height: 'auto' }}
+                style={{ width: '230px', height: 'auto' }}
                 src={certification.image_url}
                 alt="자격증"
               />

@@ -16,7 +16,6 @@ import Trainerdetail from './page/Trainer/Trainerdetail';
 import Ptrequest from './page/Trainer/Ptrequest';
 import UserEdit from './page/myPage/UserInfoEdit';
 import TopNav from './components/TopNav';
-import Footer from './components/Footer';
 import Tabs from './page/myPage/myPageTabs';
 import CustomerList from './page/Trainer/CustomerList';
 import CustomerDetail from './page/Trainer/CustomerDetail';
@@ -24,6 +23,11 @@ import WithdrawPage from './page/myPage/UserDeletePage';
 import CalendarPart from './page/Main/CalenderPart';
 import TrainerCalendar from './page/Trainer/TrainerCalendar';
 import CertificateManage from './page/myPage/Trainer/CertificateManage';
+// import MasterMain from './page/Master/MasterMain';
+// import PointCharge from './page/Payment/PointCharge';
+// import ChargeSuccess from './page/Payment/ChargeSuccess';
+// import ChargeFail from './page/Payment/ChargeFail';
+// import ChargeCancel from './page/Payment/ChargeCancel';
 
 const history = createBrowserHistory();
 
@@ -49,6 +53,11 @@ export default function App() {
         <Route path="/customer-management/:id" element={<CustomerDetail />} />
         <Route path="/calendar" element={<CalendarPart />} />
         <Route path="/trainercalendar/:userid" element={<TrainerCalendar />} />
+        {/* <Route path="/pointcharge" element={<PointCharge />} />
+        <Route path="/charge-success" element={<ChargeSuccess />} />
+        <Route path="/charge-fail" element={<ChargeFail />} />
+        <Route path="/charge-cancel" element={<ChargeCancel />} />
+        <Route path="/master" element={<MasterMain />} /> */}
       </Routes>
     </div>
   );

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   Container,
   Nav,
@@ -16,10 +17,41 @@ export default function TopNav() {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-    dispatch(logoutUser());
-    console.log(user);
-    navigate('/mypage');
+    if (user.isTrainer === false) {
+      axios.get('https://localhost:4000/users/logout').then(response => {
+        if (response.status === 200) {
+          alert(response.data.message);
+          dispatch(logoutUser());
+          navigate('user-login');
+        } else {
+          alert(response.data.message);
+        }
+      });
+    } else {
+      axios.get('https://localhost:4000/trainers/logout').then(response => {
+        if (response.status === 200) {
+          alert(response.data.message);
+          dispatch(logoutUser());
+          navigate('trainer-login');
+        } else {
+          alert(response.data.message);
+        }
+      });
+    }
   };
+
+  const [point, setPoint] = useState(0);
+  useEffect(() => {
+    if (user.isTrainer === true) return;
+    axios({
+      method: 'get',
+      url: `https://localhost:4000/users/userpoint/${user.id}`,
+      withCredentials: true,
+    }).then(response => {
+      const { data } = response.data;
+      setPoint(data.amount);
+    });
+  }, []);
 
   return (
     <Navbar key="sm" expand="sm" bg="white">
@@ -48,6 +80,7 @@ export default function TopNav() {
             ) : (
               <Nav className="justify-content-start flex-grow-1 pe-3">
                 <Nav.Link href="/mypage">마이페이지</Nav.Link>
+                <Nav.Link href="/pointcharge">보유포인트 : {point}</Nav.Link>
                 {user.isTrainer === false ? (
                   <NavDropdown
                     title="PT 관리"

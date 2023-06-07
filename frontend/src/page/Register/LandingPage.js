@@ -23,7 +23,7 @@ export default function LandingPage() {
           <Card body border="primary" className="text-center scard">
             <Card.Header className="h5">수강생 회원가입</Card.Header>
             <Card.Text className="c">
-              PT를 수강하고 싶은 수강생 회원가입
+              서비스를 이용하고 PT를 수강하고 싶은 수강생 회원가입
             </Card.Text>
             <div>
               <Button variant="primary" onClick={goUserSignUp}>
@@ -34,7 +34,7 @@ export default function LandingPage() {
         </Col>
         <Col>
           <Card body border="secondary" className="text-center scard">
-            <Card.Header className="h5">트레이너 회원가입</Card.Header>
+            <Card.Header className="h4">트레이너 회원가입</Card.Header>
             <Card.Text className="c">
               트레이너 자격에 대한 확인 및 승인이 필요한 회원가입
             </Card.Text>

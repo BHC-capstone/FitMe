@@ -16,6 +16,14 @@
     }
   }
 
+  .scard {
+    height: 220px;
+  }
+
+  .h4 {
+    font-size: 0.9rem;
+  }
+
   .user-info-tab {
     ul {
       li {
@@ -30,6 +38,10 @@
 
   .upbox {
     height: 450px;
+  }
+
+  .box1 {
+    margin-left: calc(100% / 14);
   }
 
   .box2 {
