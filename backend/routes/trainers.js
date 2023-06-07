@@ -85,6 +85,7 @@ router.post(
           const certification = await certification_auth_request.create(
             {
               trainer_request_id: trainer.id,
+              trainer_id: 0,
               name: req.file.originalname,
               image_url: result.Location,
               certification_s3_key: result.Key,
@@ -150,20 +151,13 @@ router.post('/login', async function (req, res) {
           trainerInfo.password,
         );
         if (isPasswordValid) {
-          if (trainerInfo.trainer_auth == 1) {
-            req.session.save(function () {
-              req.session.loggedin = true;
-              res.json({
-                data: trainerInfo,
-                message: '로그인에 성공하였습니다',
-              });
+          req.session.save(function () {
+            req.session.loggedin = true;
+            res.json({
+              data: trainerInfo,
+              message: '로그인에 성공하였습니다',
             });
-          } else {
-            res.status(401).json({
-              data: null,
-              message: '승인되지 않은 트레이너입니다.',
-            });
-          }
+          });
         } else {
           res
             .status(401)
@@ -649,7 +643,7 @@ router.post('/deleteCertification/:id', async function (req, res) {
       });
     } catch (err) {
       console.log(err);
-      res.status(500).json({ data: null, message: "서버에러" });
+      res.status(500).json({ data: null, message: '서버에러' });
     }
   } else {
     res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
