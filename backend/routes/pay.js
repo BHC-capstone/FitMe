@@ -37,7 +37,7 @@ router.post('/payment/callback', (req, res) => {
 // 결제 준비
 router.post('/payment', async (req, res) => {
   try {
-    const { userId, amount } = req.params;
+    const { userId, amount } = req.body;
 
     const paymentData = {
       cid: 'TC0ONETIME',
@@ -58,19 +58,26 @@ router.post('/payment', async (req, res) => {
       paymentData,
       {
         headers: {
-          Authorization: 'KakaoAK ebd206ac5d003ad23e3a33e7ebf28aa6',
+          Authorization: `KakaoAK ${'ebd206ac5d003ad23e3a33e7ebf28aa6'}`,
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
         },
       },
     );
 
     const { data } = response;
-
-    const pgToken = data.pg_token;
+    await payhistory.create({
+      user_id: userId,
+      tid: data.tid,
+      created: data.created_at,
+      approved: data.created_at,
+      amount: data.amount,
+      status: 'ready',
+    });
     const tId = data.tid;
+    const redirectUrl = data.next_redirect_pc_url;
     console.log(data);
 
-    res.status(200).json({ data: { pgToken, tId }, message: '결제 준비' });
+    res.status(200).json({ data: { tId, redirectUrl }, message: '결제 준비' });
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: '결제 에러' });
@@ -80,7 +87,7 @@ router.post('/payment', async (req, res) => {
 // 결제 승인
 router.post('/payment/approve', async (req, res) => {
   try {
-    const { pgToken, userId, tId } = req.params;
+    const { pgToken, userId, tId } = req.body;
 
     const approveData = {
       cid: 'TC0ONETIME',
@@ -95,7 +102,7 @@ router.post('/payment/approve', async (req, res) => {
       approveData,
       {
         headers: {
-          Authorization: 'KakaoAK ebd206ac5d003ad23e3a33e7ebf28aa6',
+          Authorization: `KakaoAK ${'ebd206ac5d003ad23e3a33e7ebf28aa6'}`,
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
         },
       },
@@ -103,28 +110,28 @@ router.post('/payment/approve', async (req, res) => {
 
     const { data } = response;
 
-    const isSuccess = data.is_approved;
-    const paymentId = data.partner_order_id;
-    const amount = data.amount;
-    console.log(data);
+    const point = data.amount.total;
 
-    if (isSuccess) {
-      const point = Math.floor(amount * 0.1);
-      await user_points.update(
-        { amount: user_points.sequelize.literal(`amount + ${point}`) },
-        { where: { userId } },
-      );
-      await payhistory.create({
+    const updatepoint = await user_points.findOne({
+      where: { user_id: userId },
+    });
+    await user_points.update(
+      { amount: updatepoint.amount + point },
+      { where: { user_id: userId } },
+    );
+    await payhistory.update(
+      {
         user_id: userId,
-        payment_Id: paymentId,
-        amount: amount,
-        point: point,
-        createdAt: new Date(),
-      });
-      res.status(200).json({ data: paymentId, amount, message: '결제 승인' });
-    } else {
-      res.status(200).json({ message: '결제 실패' });
-    }
+        tid: tId,
+        created: data.created_at,
+        approved: data.approved_at,
+        amount: point,
+        status: 'success',
+        payname: 'kakaopay',
+      },
+      { where: { tid: tId } },
+    );
+    res.status(200).json({ data: null, message: '결제 승인' });
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: '결제 승인 에러' });
@@ -134,11 +141,31 @@ router.post('/payment/approve', async (req, res) => {
 // user 결제 내역 조회
 router.get('/payment/user/:userId', async (req, res) => {
   try {
-    const { userId } = req.params;
-    const payhistory = await payhistory.findAll({
+    const { userId } = req.body;
+    const Payhistory = await payhistory.findAll({
       where: { user_id: userId },
     });
-    res.status(200).json({ data: payhistory, message: '결제 내역 조회' });
+    res.status(200).json({ data: Payhistory, message: '결제 내역 조회' });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: '결제 내역 조회 에러' });
+  }
+});
+
+router.get('/payment/status', async (req, res) => {
+  try {
+    const { status } = req.body;
+    if (status === 'fail') {
+      await payhistory.update({
+        status: 'fail',
+      });
+      res.status(200).json({ data: null, message: '결제 실패' });
+    } else if (status === 'cancel') {
+      await payhistory.update({
+        status: 'cancel',
+      });
+      res.status(200).json({ data: null, message: '결제 취소' });
+    }
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: '결제 내역 조회 에러' });

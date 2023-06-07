@@ -24,7 +24,7 @@ export default function TopNav() {
       withCredentials: true,
     }).then(response => {
       const { data } = response.data;
-      setPoint(data.user_point_amount);
+      setPoint(data.amount);
     });
   }, []);
 
