@@ -1,5 +1,5 @@
 var DataTypes = require("sequelize").DataTypes;
-var _adminstatistics = require("./adminstatistics");
+var _AdminStatistics = require("./AdminStatistics");
 var _ads = require("./ads");
 var _bodycheck = require("./bodycheck");
 var _certification_auth_request = require("./certification_auth_request");
@@ -7,9 +7,9 @@ var _certifications = require("./certifications");
 var _comments = require("./comments");
 var _community_comments = require("./community_comments");
 var _community_posts = require("./community_posts");
-var _dailyrequestcounts = require("./dailyrequestcounts");
-var _dailytrainercounts = require("./dailytrainercounts");
-var _dailyusercounts = require("./dailyusercounts");
+var _dailyRequestCounts = require("./dailyRequestCounts");
+var _dailyTrainerCounts = require("./dailyTrainerCounts");
+var _dailyUserCounts = require("./dailyUserCounts");
 var _exercise_routines = require("./exercise_routines");
 var _expertises = require("./expertises");
 var _feedbacks = require("./feedbacks");
@@ -28,7 +28,7 @@ var _user_tag = require("./user_tag");
 var _users = require("./users");
 
 function initModels(sequelize) {
-  var adminstatistics = _adminstatistics(sequelize, DataTypes);
+  var AdminStatistics = _AdminStatistics(sequelize, DataTypes);
   var ads = _ads(sequelize, DataTypes);
   var bodycheck = _bodycheck(sequelize, DataTypes);
   var certification_auth_request = _certification_auth_request(sequelize, DataTypes);
@@ -36,9 +36,9 @@ function initModels(sequelize) {
   var comments = _comments(sequelize, DataTypes);
   var community_comments = _community_comments(sequelize, DataTypes);
   var community_posts = _community_posts(sequelize, DataTypes);
-  var dailyrequestcounts = _dailyrequestcounts(sequelize, DataTypes);
-  var dailytrainercounts = _dailytrainercounts(sequelize, DataTypes);
-  var dailyusercounts = _dailyusercounts(sequelize, DataTypes);
+  var dailyRequestCounts = _dailyRequestCounts(sequelize, DataTypes);
+  var dailyTrainerCounts = _dailyTrainerCounts(sequelize, DataTypes);
+  var dailyUserCounts = _dailyUserCounts(sequelize, DataTypes);
   var exercise_routines = _exercise_routines(sequelize, DataTypes);
   var expertises = _expertises(sequelize, DataTypes);
   var feedbacks = _feedbacks(sequelize, DataTypes);
@@ -60,6 +60,8 @@ function initModels(sequelize) {
   certifications.hasMany(trainer_cert, { as: "trainer_certs", foreignKey: "certification_id"});
   exercise_routines.belongsTo(schedules, { as: "schedule", foreignKey: "schedule_id"});
   schedules.hasMany(exercise_routines, { as: "exercise_routines", foreignKey: "schedule_id"});
+  certification_auth_request.belongsTo(trainers, { as: "trainer", foreignKey: "trainer_id"});
+  trainers.hasMany(certification_auth_request, { as: "certification_auth_requests", foreignKey: "trainer_id"});
   certifications.belongsTo(trainers, { as: "trainer", foreignKey: "trainer_id"});
   trainers.hasMany(certifications, { as: "certifications", foreignKey: "trainer_id"});
   pt_requests.belongsTo(users, { as: "user", foreignKey: "user_id"});
@@ -68,7 +70,7 @@ function initModels(sequelize) {
   users.hasMany(trainer_manage, { as: "trainer_manages", foreignKey: "user_id"});
 
   return {
-    adminstatistics,
+    AdminStatistics,
     ads,
     bodycheck,
     certification_auth_request,
@@ -76,9 +78,9 @@ function initModels(sequelize) {
     comments,
     community_comments,
     community_posts,
-    dailyrequestcounts,
-    dailytrainercounts,
-    dailyusercounts,
+    dailyRequestCounts,
+    dailyTrainerCounts,
+    dailyUserCounts,
     exercise_routines,
     expertises,
     feedbacks,

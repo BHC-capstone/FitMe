@@ -649,6 +649,7 @@ router.post('/deleteCertification/:id', async function (req, res) {
       });
     } catch (err) {
       console.log(err);
+      res.status(500).json({ data: null, message: "서버에러" });
     }
   } else {
     res.status(401).json({ data: null, message: '로그인이 필요합니다.' });

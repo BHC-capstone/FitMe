@@ -55,7 +55,7 @@ function TrainerProfile() {
     e.preventDefault();
     axios({
       method: 'post',
-      url: `https://localhost:4000/trainers/profile/changeProfile/${loginedUser.id}`,
+      url: `https://localhost:4000/trainers/profile/changeIntroduction/${loginedUser.id}`,
       data: {
         introduction,
       },
@@ -71,7 +71,7 @@ function TrainerProfile() {
 
   const certificationDelete = async id => {
     axios({
-      method: 'delete',
+      method: 'post',
       url: `https://localhost:4000/trainers/deleteCertification/${id}`,
       withCredentials: true,
     })
@@ -123,7 +123,9 @@ function TrainerProfile() {
               <h3 className="certification-name">
                 {certification.name}
                 <div>
-                  <CloseOutlined onClick={certificationDelete} />
+                  <CloseOutlined
+                    onClick={() => certificationDelete(certification.id)}
+                  />
                 </div>
               </h3>
               <img src={certification.image_url} alt="자격증" />
