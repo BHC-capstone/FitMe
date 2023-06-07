@@ -42,7 +42,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: {
-      domain: 'fitme.p-e.kr',
+      domain: '.p-e.kr',
       path: '/',
       maxAge: 24 * 6 * 60 * 10000,
       sameSite: 'none',
