@@ -26,8 +26,13 @@ export default function TrainerStatics({}) {
   return (
     <VictoryChart height={300} width={300} theme={VictoryTheme.material}>
       <VictoryLine
+        animate={{
+          duration: 2000,
+          onLoad: { duration: 1000 },
+        }}
+        interpolation="natural"
         style={{
-          data: { stroke: '#c43a31' },
+          data: { stroke: '#f5a302', strokeWidth: 3, strokeLinecap: 'round' },
           parent: { border: '1px solid #ccc' },
         }}
         data={[

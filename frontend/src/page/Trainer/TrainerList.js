@@ -27,11 +27,7 @@ export default function TrainerList(props) {
   const filterTitle = trainers.filter(p => {
     return p.name.toLocaleLowerCase().includes(search.toLocaleLowerCase());
   });
-  // const sortStarFunc = () => {
-  //   const tempArray = Array.from(trainers);
-  //   tempArray.sort((b, a) => a.id - b.id);
-  //   setTrainers(tempArray);
-  // };
+
   return (
     <Container fluid className="panel">
       <div className="head">트레이너 목록</div>

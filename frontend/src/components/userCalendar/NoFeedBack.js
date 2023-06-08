@@ -16,11 +16,14 @@ const Flexcontainers = styled.div`
 `;
 const Textarea = styled.div`
   font-family: 'Gowun Dodum', sans-serif;
-  background-color: skyblue;
+  background-color: #2ba5f7;
   border-radius: 10px;
-  border: 2px solid black;
-  color: black;
+  border: 1px solid white;
+  font-size: 1.2rem;
+  color: white;
+  margin: auto;
   line-height: 50px;
+  width: 200px;
   height: 50px;
 `;
 export default NoFeedBack;

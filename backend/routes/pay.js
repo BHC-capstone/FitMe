@@ -26,11 +26,11 @@ router.post('/payment/callback', (req, res) => {
   const { paymentResult } = req.params;
 
   if (paymentResult === 'success') {
-    res.status(200).json({ data: null, message: '결제 에러' });
+    res.status(200).json({ data: null, message: '결제 에러!' });
   } else if (paymentResult === 'cancel') {
-    res.status(200).json({ data: null, message: '결제 취소' });
+    res.status(200).json({ data: null, message: '결제 취소!' });
   } else {
-    res.status(200).json({ data: null, message: '결제 실패' });
+    res.status(200).json({ data: null, message: '결제 실패!' });
   }
 });
 

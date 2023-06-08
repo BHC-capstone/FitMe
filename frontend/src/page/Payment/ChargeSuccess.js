@@ -42,7 +42,7 @@ function ChargeSuccess() {
 
   return (
     <Container fluid className="panel">
-      <div>결제가 완료되었습니다.</div>
+      <div className="head">결제가 완료되었습니다.</div>
       <Button variant="primary" onClick={() => navigate('/mypage')}>
         마이페이지로 돌아가기
       </Button>

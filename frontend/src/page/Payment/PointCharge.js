@@ -124,9 +124,12 @@ function PointCharge() {
 
   return (
     <Container fluid className="panel">
-      <TextTop>포인트 충전</TextTop>
+      <div className="head">포인트 충전</div>
       <Divider style={{ marginTop: '1px' }} />
-      <TextPoint>현재 포인트: {point}</TextPoint>
+      <div className="pointtext">
+        <span className="b g">현재 포인트 :</span>
+        {point}
+      </div>
       <form style={{ margin: '20px' }}>
         <Space direction="vertical">
           <Radio.Group
@@ -136,19 +139,19 @@ function PointCharge() {
             value={pointCharge}
           >
             <Space direction="vertical">
-              <Radio value={10000}>
+              <Radio value={10000} style={{ fontSize: '1rem' }}>
                 <FontAwesomeIcon icon={faCoins} /> 10,000
               </Radio>
               <Divider style={{ margin: '1px' }} />
-              <Radio value={50000}>
+              <Radio value={50000} style={{ fontSize: '1rem' }}>
                 <FontAwesomeIcon icon={faCoins} /> 50,000
               </Radio>
               <Divider style={{ margin: '1px' }} />
-              <Radio value={100000}>
+              <Radio value={100000} style={{ fontSize: '1rem' }}>
                 <FontAwesomeIcon icon={faCoins} /> 100,000
               </Radio>
               <Divider style={{ margin: '1px' }} />
-              <Radio value={-1}>
+              <Radio value={-1} style={{ fontSize: '1rem' }}>
                 {pointCharge === -1 ? (
                   <div>
                     <FontAwesomeIcon icon={faCoins} />
@@ -189,12 +192,6 @@ function PointCharge() {
     </Container>
   );
 }
-
-const TextTop = styled.text`
-  font-family: 'Gowun Dodum', sans-serif;
-  font-size: 28px;
-  color: #2ba5f7;
-`;
 
 const TextPoint = styled.text`
   font-family: 'Gowun Dodum', sans-serif;

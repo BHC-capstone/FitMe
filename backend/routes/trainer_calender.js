@@ -107,7 +107,7 @@ router.post('/createMealplan/:date/:userId/:id', async (req, res) => {
       await schedule.update({ meal_plan_id: mealPlan.id });
       res.status(200).json({
         data: mealPlan,
-        message: '식단이 생성되었습니다',
+        message: '식단이 생성되었습니다.',
       });
     } catch (err) {}
   } else {

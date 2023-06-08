@@ -62,7 +62,7 @@ router.get('/trainercount', async (req, res) => {
         count: trainerCount || 0,
       });
 
-      startDate.setDate(startDate.getDate() + 7); 
+      startDate.setDate(startDate.getDate() + 7);
     }
 
     res.status(200).json({
@@ -74,7 +74,6 @@ router.get('/trainercount', async (req, res) => {
     res.status(500).json({ data: null, message: 'Error' });
   }
 });
-
 
 // admin user countlist
 router.get('/usercount', async (req, res) => {
@@ -103,7 +102,7 @@ router.get('/usercount', async (req, res) => {
         count: userCount || 0,
       });
 
-      startDate.setDate(startDate.getDate() + 7); 
+      startDate.setDate(startDate.getDate() + 7);
     }
 
     res.status(200).json({
@@ -143,7 +142,7 @@ router.get('/requestcount', async (req, res) => {
         count: requestCount || 0,
       });
 
-      startDate.setDate(startDate.getDate() + 7); 
+      startDate.setDate(startDate.getDate() + 7);
     }
 
     res.status(200).json({
@@ -155,7 +154,6 @@ router.get('/requestcount', async (req, res) => {
     res.status(500).json({ data: null, message: 'Error' });
   }
 });
-
 
 // admin trainer signup auth list
 router.get('/trainerlist', async (req, res) => {

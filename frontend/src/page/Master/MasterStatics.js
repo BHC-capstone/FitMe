@@ -13,15 +13,15 @@ function MasterStatics() {
 
   const menuArr = [
     {
-      name: '유저 통계',
+      name: '유저',
       content: <UserStatics />,
     }, // dateinfo 정보를 통해 axios로 해당 날짜의 식단 데이터 넣으면 완료
     {
-      name: '트레이너 통계',
+      name: '트레이너',
       content: <TrainerStatics />,
     }, // dateinfo 정보를 통해 axios로 해당 날짜의 운동 루틴 데이터 넣으면 완료
     {
-      name: 'pt 회원수 통계',
+      name: 'pt 회원수',
       content: <PtStatics />,
     }, // dateinfo 정보를 통해 axios로 해당 날짜의 피드백 데이터 넣으면 완료
   ];
@@ -45,8 +45,8 @@ function MasterStatics() {
         ))}
       </TabMenu>
       <Desc>
-        <div>{menuArr[currentTab].name}</div>
-        <div>{menuArr[currentTab].content}</div>
+        <div className="head mgbt0">{menuArr[currentTab].name}</div>
+        <div className="mgauto">{menuArr[currentTab].content}</div>
       </Desc>
     </div>
   );
@@ -79,7 +79,7 @@ const TabMenu = styled.ul`
 
   .focused {
     color: #fff;
-    background-color: #2ba5f7;
+    background-color: #f5a302;
   }
 
   & div.desc {

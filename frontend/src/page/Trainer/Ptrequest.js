@@ -22,6 +22,7 @@ export default function Ptrequest() {
         <Boxc>
           <Head2>PT 시작일</Head2>
           <StyledDatePicker
+            className="datepicker"
             locale={ko}
             selected={startDate}
             dateFormat="yyyy/MM/dd"
@@ -90,7 +91,7 @@ const StyledDatePicker = styled(DatePicker)`
   font-weight: 400;
   font-size: 16px;
   line-height: 100%;
-  padding: 20px;
+  padding: 5%;
   background-color: white;
   color: black;
   border-radius: 10px;

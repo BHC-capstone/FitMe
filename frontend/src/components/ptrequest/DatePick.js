@@ -26,7 +26,7 @@ function DatePick({ getdata }) {
     // console.log(value1);
   };
   return (
-    <ToggleButtonGroup className="mgtp" type="checkbox" value={value1}>
+    <ToggleButtonGroup className="mgtp zi0" type="checkbox" value={value1}>
       <ToggleButton
         value={1}
         onClick={(e, value) =>

@@ -55,7 +55,6 @@ details[open] > summary {
   flex-direction: row;
   align-items: center;
   list-style: none;
-  margin-bottom: 30px;
   margin-top: 10px;
   border-bottom: solid 1px #d1d1d1;
 
@@ -83,25 +82,12 @@ span.b {
   font-weight: bold;
 }
 
+span.g {
+  color: #666;
+}
+
 th.style {
   min-width: 30%;
-}
-
-.h5 {
-  font-family: 'Gowun Dodum', sans-serif;
-  font-size: 1rem;
-  font-weight: bold;
-  margin-bottom: 10%;
-  border-radius: 10px;
-  background-color: rgb(233, 233, 233);
-}
-
-.c {
-  display: flex;
-  font-size: 0.9rem;
-  justify-content: center;
-  align-items: center;
-  height: 65px;
 }
 
 // page head text options
@@ -118,11 +104,45 @@ th.style {
   margin-bottom: 5%;
 }
 
+// landing page options
 .scard {
+  position: relative;
   width: fit-content;
   margin: 0 auto;
   border-radius: 20px;
   border: 1px solid;
+}
+
+.h5 {
+  font-family: 'Gowun Dodum', sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10%;
+  border-radius: 10px;
+  background-color: rgb(233, 233, 233);
+}
+
+.h4 {
+  font-family: 'Gowun Dodum', sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10%;
+  border-radius: 10px;
+  background-color: rgb(233, 233, 233);
+}
+
+.c {
+  display: flex;
+  font-size: 0.9rem;
+  justify-content: center;
+  align-items: center;
+  height: 65px;
 }
 
 .content {
@@ -243,7 +263,7 @@ th.style {
 .box1 {
   float: right;
   margin-top: calc(100% / 6);
-  margin-left: calc(100% / 15);
+  margin-left: calc(100% / 12);
   background-color: transparent;
   height: fit-content;
 }
@@ -340,6 +360,12 @@ th.style {
   color: #333;
 }
 
+.pointtext {
+  font-family: 'Gowun Dodum', sans-serif;
+  color: $primary;
+  font-size: 20px;
+}
+
 // margin options
 .mgauto {
   margin: 0 auto;
@@ -351,6 +377,10 @@ th.style {
 
 .mgbt {
   margin-bottom: 5%;
+}
+
+.mgbt0 {
+  margin-bottom: -5%;
 }
 
 .mglf-3 {
@@ -385,6 +415,10 @@ th.style {
   padding: 5%;
 }
 
+.pd0 {
+  padding: -5%;
+}
+
 // text-align options
 .tact {
   text-align: center;
@@ -398,6 +432,11 @@ th.style {
 // float options
 .flrg {
   float: right;
+}
+
+// z-index options
+.zi0 {
+  z-index: 0;
 }
 
 // .panel button + button {

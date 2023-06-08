@@ -26,6 +26,10 @@ export const userSlice = createSlice({
       state.isTrainer = false;
       return state;
     },
+    payUser: (state, action) => {
+      state.tid = action.payload.tId;
+      return state;
+    },
 
     loginTrainer: (state, action) => {
       state.id = action.payload.id;

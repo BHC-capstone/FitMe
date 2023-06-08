@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { Container } from 'react-bootstrap';
 import { Form, Upload } from 'antd';
-import { UploadOutlined, CloseOutlined } from '@ant-design/icons';
 
 function TrainerProfile({ trainerId }) {
   const loginedUser = useSelector(state => state.user);
@@ -16,7 +15,7 @@ function TrainerProfile({ trainerId }) {
   const fetchCertifications = async () => {
     try {
       const response = await axios.get(
-        `https://fitme.p-e.kr:4000/trainers/getListOfCertification/${trainerId}`,
+        `https://localhost:4000/trainers/getListOfCertification/${trainerId}`,
         { withCredentials: true },
       );
       const { data } = response.data;
@@ -39,11 +38,10 @@ function TrainerProfile({ trainerId }) {
       <Container fluid>
         <div className="certification-list">
           <div className="head">보유 자격증</div>
-          <br />
           {certifications.map(certification => (
             <div key={certification.id} className="certification-item">
               <img
-                style={{ width: '200px', height: 'auto' }}
+                style={{ width: '230px', height: 'auto' }}
                 src={certification.image_url}
                 alt="자격증"
               />

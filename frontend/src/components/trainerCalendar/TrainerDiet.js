@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'; //* ***
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
+
 // eslint-disable-next-line react/prop-types
 function Routine({ userid, date }) {
   const loginedUser = useSelector(state => state.user);
@@ -17,9 +18,6 @@ function Routine({ userid, date }) {
   const [dinnerOpen, setDinnerOpen] = useState(false);
   const imageInput = useRef();
 
-  const onCickImageUpload2 = () => {
-    imageInput.current.click();
-  };
   useEffect(() => {
     setDietdate([]);
     axios({

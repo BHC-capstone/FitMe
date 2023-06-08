@@ -5,7 +5,6 @@ import { Container, FloatingLabel, Form, Button } from 'react-bootstrap';
 import styled from 'styled-components';
 import { UploadOutlined, CloseOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import '../../scss/myPage/trainerProfile.scss';
 
 function TrainerProfile() {
   const loginedUser = useSelector(state => state.user);
@@ -13,6 +12,7 @@ function TrainerProfile() {
   const [certifications, setCertifications] = useState([]);
   const [introduction, setIntroduction] = useState('');
   const [ptPrice, setPtPrice] = useState(0);
+
   const fileList = [];
   const handleFileUpload = event => {
     event.preventDefault();
@@ -28,7 +28,7 @@ function TrainerProfile() {
   const fetchPtPrice = async () => {
     axios({
       method: 'get',
-      url: `https://fitme.p-e.kr:4000/trainers/getPrice/${loginedUser.id}`,
+      url: `https://localhost:4000/trainers/getPrice/${loginedUser.id}`,
       withCredentials: true,
     })
       .then(response => {
@@ -43,7 +43,7 @@ function TrainerProfile() {
   const fetchCertifications = async () => {
     try {
       const response = await axios.get(
-        `https://fitme.p-e.kr:4000/trainers/getListOfCertification/${loginedUser.id}`,
+        `https://localhost:4000/trainers/getListOfCertification/${loginedUser.id}`,
         { withCredentials: true },
       );
       const { data } = response.data;
@@ -56,7 +56,7 @@ function TrainerProfile() {
   const fetchIntroduction = async () => {
     axios({
       method: 'get',
-      url: `https://fitme.p-e.kr:4000/trainers/profile/${loginedUser.id}`,
+      url: `https://localhost:4000/trainers/profile/${loginedUser.id}`,
       withCredentials: true,
     })
       .then(response => {
@@ -64,7 +64,7 @@ function TrainerProfile() {
         setIntroduction(data.introduction);
       })
       .catch(err => {
-        alert(err.response.data.message);
+        console.log(err);
       });
   };
 
@@ -72,7 +72,7 @@ function TrainerProfile() {
     e.preventDefault();
     axios({
       method: 'post',
-      url: `https://fitme.p-e.kr:4000/trainers/profile/changeIntroduction/${loginedUser.id}`,
+      url: `https://localhost:4000/trainers/profile/changeIntroduction/${loginedUser.id}`,
       data: {
         introduction,
       },
@@ -82,14 +82,14 @@ function TrainerProfile() {
         console.log(response);
       })
       .catch(err => {
-        alert(err.response.data.message);
+        console.log(err);
       });
   };
   const submitPtPrice = async e => {
     e.preventDefault();
     axios({
       method: 'post',
-      url: `https://fitme.p-e.kr:4000/trainers/profile/changePtPoint/${loginedUser.id}`,
+      url: `https://localhost:4000/trainers/profile/changePtPoint/${loginedUser.id}`,
       data: {
         pt_point: ptPrice,
       },
@@ -106,14 +106,14 @@ function TrainerProfile() {
   const certificationDelete = async id => {
     axios({
       method: 'post',
-      url: `https://fitme.p-e.kr:4000/trainers/deleteCertification/${id}`,
+      url: `https://localhost:4000/trainers/deleteCertification/${id}`,
       withCredentials: true,
     })
       .then(response => {
         fetchCertifications();
       })
       .catch(err => {
-        alert(err.response.data.message);
+        console.log(err);
       });
   };
 
@@ -121,7 +121,7 @@ function TrainerProfile() {
     <div className="trainer-profile">
       <Container1 fluid>
         <div className="profile">
-          <Head1>회당 PT 가격 설정</Head1>
+          <div className="head">회당 PT 가격 설정</div>
           <Form onSubmit={submitPtPrice}>
             <FloatingLabel
               controlId="floatingTextarea"
@@ -139,7 +139,7 @@ function TrainerProfile() {
               저장
             </Button>
           </Form>
-          <Head1>자기 소개</Head1>
+          <div className="head">자기 소개</div>
           <Form onSubmit={submitIntroduction}>
             <FloatingLabel
               controlId="floatingTextarea"
@@ -163,7 +163,7 @@ function TrainerProfile() {
 
       <Container1 fluid>
         <div className="certification-list">
-          <Head1>보유 자격증</Head1>
+          <div className="head">보유 자격증</div>
           <Button
             variant="primary"
             onClick={() => navigate('/mypage/certificate')}
@@ -175,11 +175,20 @@ function TrainerProfile() {
               <h3 className="certification-name">
                 {certification.name}
                 <div>
+                  <CloseOutlined onClick={certificationDelete} />
+                </div>
+
+                <div>
                   <CloseOutlined
                     onClick={() => certificationDelete(certification.id)}
                   />
                 </div>
               </h3>
+              <img
+                src={certification.image_url}
+                style={{ width: '230px', height: 'auto' }}
+                alt="자격증"
+              />
               <img src={certification.image_url} alt="자격증" />
             </div>
           ))}
@@ -198,18 +207,6 @@ const Container1 = styled(Container)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  //border: 2px solid black;
-`;
-const Head1 = styled.div`
-  color: rgb(21, 20, 20);
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 30px;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  width: fit-content;
-  margin: 0 auto;
-  // padding: 10px;
 `;
 
 export default TrainerProfile;

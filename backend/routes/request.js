@@ -29,7 +29,7 @@ router.post('/ptrequest', async (req, res) => {
       if (existingRequest !== null) {
         return res
           .status(401)
-          .json({ data: null, message: '이미 신청한 trainer입니다' });
+          .json({ data: null, message: '이미 신청한 trainer입니다.' });
       }
 
       const userpoint = await user_points.findOne({
@@ -331,7 +331,7 @@ router.post('/accept/:trainer_id/:id', (req, res) => {
                         .catch(error => {
                           res.status(500).json({
                             data: null,
-                            message: 'trainer_points update 오류',
+                            message: 'trainer_points update 오류!',
                           });
                         });
                     } else {
@@ -344,14 +344,14 @@ router.post('/accept/:trainer_id/:id', (req, res) => {
                   .catch(error => {
                     res.status(500).json({
                       data: null,
-                      message: 'trainer_points findOne 오류',
+                      message: 'trainer_points findOne 오류!',
                     });
                   });
               })
               .catch(error => {
                 res
                   .status(500)
-                  .json({ data: null, message: 'trainerManage insert 오류' });
+                  .json({ data: null, message: 'trainerManage insert 오류!' });
               });
           })
           .catch(error => {
