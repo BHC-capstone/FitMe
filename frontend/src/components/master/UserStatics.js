@@ -11,14 +11,13 @@ import {
 import axios from 'axios';
 
 export default function UserStatics({}) {
-  const [requests, setRequests] = useState(null);
-
+  const [requests, setRequests] = useState([]);
+  const [data, setData] = useState([]);
   const fetchRequests = async () => {
     const response = await axios.get(
       `https://fitme.p-e.kr:4000/administrator/usercount`,
     );
     setRequests(response.data.data);
-    console.log(response.data.data);
   };
 
   useEffect(() => {
@@ -37,14 +36,9 @@ export default function UserStatics({}) {
           data: { stroke: '#2ba5f7', strokeWidth: 3, strokeLinecap: 'round' },
           parent: { border: '1px solid #ccc' },
         }}
-        data={[
-          { x: 1, y: 2 },
-          { x: 2, y: 3 },
-          { x: 3, y: 5 },
-          { x: 4, y: 4 },
-          { x: 5, y: 7 },
-          { x: 6, y: 7 },
-        ]}
+        data={requests.userCounts}
+        x="weekend"
+        y="count"
       />
       <VictoryAxis
         crossAxis

@@ -3,10 +3,10 @@ import { useSelector } from 'react-redux';
 import Calendar from 'react-calendar';
 import '../../scss/calendar.scss';
 import { Container } from 'react-bootstrap';
-import TabMenu from '../../components/TabMenu';
-import DietTab from '../../components/DietTab';
-import ExerciseTab from '../../components/ExerciseTab';
+import TabMenu from '../../components/myPage/TabMenu';
 import FeedbackTab from '../../components/userCalendar/FeedbackTab';
+import DietTab from '../../components/userCalendar/DietTab';
+import ExerciseTab from '../../components/userCalendar/ExerciseTab';
 
 function CalendarPart() {
   const loginedUser = useSelector(state => state.user);

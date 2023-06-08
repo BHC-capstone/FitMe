@@ -6,8 +6,8 @@ import { Button } from 'react-bootstrap';
 import propTypes from 'prop-types';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import UserInputForm from './ptrequest/UserInputForm';
-import DatePick from './ptrequest/DatePick';
+import UserInputForm from './UserInputForm';
+import DatePick from './DatePick';
 
 function Expectedpoint({ startDate, endDate, trainerid }) {
   const loginedUser = useSelector(state => state.user);
@@ -27,20 +27,16 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
       ),
     );
     diffDate += 1;
-    // console.log(diffDate);
+
     let counted = 0;
     for (let j = 0; j < 7; j += 1) {
       if (days.value1[j] !== 0) {
         counted += 1;
       }
     }
-    // console.log(counted);
     let dateBig = Math.floor(diffDate / 7) * counted;
-    // console.log('dateBig', dateBig);
     const dataSmall = diffDate % 7;
-    // console.log(dataSmall);
     let startDay = startDate.getDay();
-    // console.log('startDay', startDay);
     for (let i = 0; i < dataSmall; i += 1) {
       if (startDay > 7) {
         startDay -= 7;
@@ -51,21 +47,16 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
       startDay += 1;
     }
     setCount(dateBig);
-    // console.log(count, '총 날짜');
   }, [startDate, endDate, count, days]);
 
   useEffect(() => {
     fetchRequests();
   }, [count]);
-  /// userpoint/:id
 
   const fetchRequests = async () => {
-    // console.log('트레이너 아이디', trainerid);
     const response = await axios.get(
       `https://fitme.p-e.kr:4000/trainers/getPrice/${trainerid}`,
     );
-    // console.log(response.data.data);
-    // console.log('잘 되냐?');
     setPrice(response.data.data.pt_point);
     setTotalPrice(count * response.data.data.pt_point);
     const response1 = await axios.get(
@@ -99,13 +90,10 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
   };
   const onSubmitHandler = event => {
     event.preventDefault();
-    // console.log(trainerid);
     const body = {
       trainer_id: trainerid,
       id: userid,
       startDate,
-      // days: days.value1,
-      // requst //
       count,
       totalprice,
       height: detaildata.height,
@@ -184,7 +172,7 @@ const Head2 = styled.text`
   font-family: 'Gowun Dodum', sans-serif;
   color: rgb(21,20,20);
   font-weight: bold;
-  font-size:20px
+  font-size:18px
   text-align: center;
   width: fit-content;
   padding: 10px;

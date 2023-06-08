@@ -4,9 +4,9 @@ import { Container } from 'react-bootstrap';
 import UserInfoTab from '../../components/myPage/UserInfoTab';
 import StatisticsTab from '../../components/myPage/StatisticsTab';
 import PaymentHistoryTab from '../../components/myPage/PaymentHistoryTab';
-import TabMenu from '../../components/TabMenu';
 import RequestManage from '../../components/myPage/RequestManage';
 import TrainerProfile from '../../components/myPage/TrainerProfile';
+import TabMenu from '../../components/myPage/TabMenu';
 
 function Tabs() {
   const user = useSelector(state => state.user);

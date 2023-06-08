@@ -11,12 +11,12 @@ import {
 import axios from 'axios';
 
 export default function TrainerStatics({}) {
-  const [requests, setRequests] = useState(null);
-
+  const [requests, setRequests] = useState([]);
+  const [data, setData] = useState([]);
   const fetchRequests = async () => {
-    const response = await axios.get(``, {
-      withCredentials: true,
-    });
+    const response = await axios.get(
+      `https://localhost:4000/administrator/trainercount`,
+    );
     setRequests(response.data.data);
   };
 
@@ -35,14 +35,9 @@ export default function TrainerStatics({}) {
           data: { stroke: '#f5a302', strokeWidth: 3, strokeLinecap: 'round' },
           parent: { border: '1px solid #ccc' },
         }}
-        data={[
-          { x: 1, y: 2 },
-          { x: 2, y: 3 },
-          { x: 3, y: 5 },
-          { x: 4, y: 4 },
-          { x: 5, y: 7 },
-          { x: 6, y: 7 },
-        ]}
+        data={requests.trainerCounts}
+        x="weekend"
+        y="count"
       />
       <VictoryAxis
         crossAxis

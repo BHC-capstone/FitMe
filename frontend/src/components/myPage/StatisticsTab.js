@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Container, Card } from 'react-bootstrap';
 import styled from 'styled-components';
+import WeightStatics from './WeightStatistics';
 
 function StatisticsTab() {
   const [statistics, setStatistics] = useState(null);
   useEffect(() => {
     setStatistics({
-      weightGraph: '그래프',
+      weightGraph: <WeightStatics />,
       exerciseHistory: '운동기록',
-      mealHistory: '식단기록',
     });
   }, []);
 
@@ -38,7 +38,7 @@ function StatisticsTab() {
         </Card.Body>
       </StyledCard>
       <StyledCard>
-        <Card.Header as="h5">운동 기록</Card.Header>
+        <Card.Header as="h5">BMI 그래프</Card.Header>
         <Card.Body>
           <Card.Subtitle className="mb-2 text-muted">
             지난 한달간 추이
@@ -46,15 +46,7 @@ function StatisticsTab() {
           <Card.Text>{statistics.exerciseHistory}</Card.Text>
         </Card.Body>
       </StyledCard>
-      <StyledCard>
-        <Card.Header as="h5">식단 기록</Card.Header>
-        <Card.Body>
-          <Card.Subtitle className="mb-2 text-muted">
-            지난 한달간 추이
-          </Card.Subtitle>
-          <Card.Text>{statistics.mealHistory}</Card.Text>
-        </Card.Body>
-      </StyledCard>
+
       {/* <Card body>몸무게 그래프: {statistics.weightGraph}</Card>
       <Card body>운동 기록: {statistics.exerciseHistory}</Card>
       <Card body>식단 기록: {statistics.mealHistory}</Card> */}

@@ -36,7 +36,6 @@ function RequestDetailCertification({ request, fetch }) {
       url: `https://fitme.p-e.kr:4000/administrator/trainer/certificateauth/${requestId}`,
     })
       .then(response => {
-        console.log(response);
         fetch();
       })
       .catch(error => {
@@ -50,7 +49,6 @@ function RequestDetailCertification({ request, fetch }) {
       url: `https://fitme.p-e.kr:4000/administrator/trainer/certificatereject/${requestId}`,
     })
       .then(response => {
-        console.log(response);
         fetch();
       })
       .catch(error => {
