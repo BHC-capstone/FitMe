@@ -6,7 +6,7 @@ let users = require('../models').users;
 const sequelize = require('../models').sequelize;
 beforeAll(async () => {
   await sequelize.sync({});
-});
+}, 10000);
 
 describe('User Signup', () => {
   afterAll(async () => {
