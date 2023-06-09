@@ -86,7 +86,7 @@ router.post(
             ContentType: 'image/png',
             Bucket: 'fitme-s3',
             Body: req.file.buffer,
-            Key: `certifications/` + trainer.id + '.' + req.file.originalname,
+            Key: `certifications/` + trainer.id,
           };
 
           const result = await s3.upload(uploadParams).promise();
@@ -505,7 +505,7 @@ router.post(
           ContentType: 'image/png',
           Bucket: 'fitme-s3',
           Body: req.file.buffer,
-          Key: `certifications/` + `/${id}/` + req.file.originalname,
+          Key: `certifications/` + `/${id}/`,
         };
         const result = await s3.upload(uploadParams).promise();
         const certification = await certification_auth_request.create({
@@ -549,8 +549,7 @@ router.post(
           ContentType: 'image/png',
           Bucket: 'fitme-s3',
           Body: req.file.buffer,
-          Key:
-            `trainer_profile/` + trainerInfo.id + '.' + req.file.originalname,
+          Key: `trainer_profile/` + trainerInfo.id + '.',
         };
         const result = await s3.upload(uploadParams).promise();
 
