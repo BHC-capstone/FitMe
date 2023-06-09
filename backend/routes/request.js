@@ -16,112 +16,119 @@ const models = initModels(sequelize);
 
 // pt 요청
 router.post('/ptrequest', async (req, res) => {
-  if (req.session.loggedin) {
+  //if (req.session.loggedin) {
+  try {
+    const currentDate = new Date();
+    const trainerId = req.body.trainer_id;
+    const userId = req.body.id;
+    const totalPrice = req.body.totalprice;
+    const existingRequest = await pt_requests.findOne({
+      where: { user_id: userId },
+    });
+    const existingtraing = await trainer_manage.findOne({
+      where: { trainer_id: trainerId, user_id: userId },
+    });
+
+    if (existingRequest !== null) {
+      return res
+        .status(401)
+        .json({ data: null, message: '이미 pt를 요청하셨습니다' });
+    }
+
+    if (existingtraing !== null) {
+      return res
+        .status(401)
+        .json({ data: null, message: '이미 pt가 진행중입니다.' });
+    }
+
+    const userpoint = await user_points.findOne({
+      where: { id: userId },
+    });
+
+    const userInfo = await users.findOne({
+      where: { id: userId },
+    });
+
+    const trainerInfo = await trainers.findOne({
+      where: { id: trainerId },
+    });
+
+    if (userpoint.amount < req.body.totalprice) {
+      return res
+        .status(401)
+        .json({ data: null, message: '포인트가 부족합니다.' });
+    }
+
+    const transaction = await sequelize.transaction();
+
     try {
-      const currentDate = new Date();
-      const trainerId = req.body.trainer_id;
-      const userId = req.body.id;
-      const totalPrice = req.body.totalprice;
-      const existingRequest = await pt_requests.findOne({
-        where: { trainer_id: trainerId, user_id: userId },
-      });
+      if (req.body.height == '' || req.body.weight == '') {
+        throw new Error('키와 몸무게를 입력해주세요.');
+      } else {
+        await pt_requests.create(
+          {
+            user_id: userId,
+            trainer_id: trainerId,
+            date: req.body.startDate,
+            count: req.body.count,
+            price: req.body.price,
+            request: req.body.request,
+            days: req.body.days,
+            gender: userInfo.gender,
+            age: userInfo.age,
+            height: req.body.height,
+            weight: req.body.weight,
+            injury: req.body.injury,
+            career: req.body.career,
+            significant: req.body.significant,
+            bodyshape: req.body.bodyshape,
+            purpose: req.body.purpose,
+            lifestyle: req.body.lifestyle,
+            accept: false,
+          },
+          { transaction },
+        );
 
-      if (existingRequest !== null) {
-        return res
-          .status(401)
-          .json({ data: null, message: '이미 신청한 trainer입니다.' });
-      }
+        await user_points.update(
+          { amount: userpoint.amount - totalPrice },
+          { where: { user_id: userId }, transaction },
+        );
 
-      const userpoint = await user_points.findOne({
-        where: { id: userId },
-      });
-
-      const userInfo = await users.findOne({
-        where: { id: userId },
-      });
-
-      const trainerInfo = await trainers.findOne({
-        where: { id: trainerId },
-      });
-
-      if (userpoint.amount < req.body.totalprice) {
-        return res
-          .status(401)
-          .json({ data: null, message: '포인트가 부족합니다.' });
-      }
-
-      const transaction = await sequelize.transaction();
-
-      try {
-        if (req.body.height == '' || req.body.weight == '') {
-          throw new Error('키와 몸무게를 입력해주세요.');
+        const requestCount = await dailyrequestcounts.findOne({
+          where: { date: currentDate },
+          transaction,
+        });
+        if (requestCount) {
+          await dailyrequestcounts.update(
+            { count: requestCount.count + 1 },
+            { where: { date: currentDate }, transaction },
+          );
         } else {
-          await pt_requests.create(
+          await dailyrequestcounts.create(
             {
-              user_id: userId,
-              trainer_id: trainerId,
-              date: req.body.startDate,
-              count: req.body.count,
-              price: req.body.price,
-              request: req.body.request,
-              days: req.body.days,
-              gender: userInfo.gender,
-              age: userInfo.age,
-              height: req.body.height,
-              weight: req.body.weight,
-              injury: req.body.injury,
-              career: req.body.career,
-              significant: req.body.significant,
-              bodyshape: req.body.bodyshape,
-              purpose: req.body.purpose,
-              lifestyle: req.body.lifestyle,
-              accept: false,
+              date: currentDate,
+              count: 1,
             },
             { transaction },
           );
-
-          await user_points.update(
-            { amount: sequelize.literal(`amount - ${req.body.totalprice}`) },
-            { where: { user_id: userId }, transaction },
-          );
-
-          const requestCount = await dailyrequestcounts.findOne({
-            where: { date: currentDate },
-            transaction,
-          });
-          if (requestCount) {
-            await dailyrequestcounts.update(
-              { count: requestCount.count + 1 },
-              { where: { date: currentDate }, transaction },
-            );
-          } else {
-            await dailyrequestcounts.create(
-              {
-                date: currentDate,
-                count: 1,
-              },
-              { transaction },
-            );
-          }
-
-          await transaction.commit();
-          res
-            .status(200)
-            .json({ data: null, message: '성공적으로 신청되었습니다.' });
         }
-      } catch (err) {
-        await transaction.rollback();
-        throw err;
+
+        await transaction.commit();
+        res
+          .status(200)
+          .json({ data: null, message: '성공적으로 신청되었습니다.' });
       }
     } catch (err) {
-      console.log(err);
-      res
-        .status(500)
-        .json({ data: null, message: '서버 오류가 발생했습니다.' });
+      await transaction.rollback();
+      throw err;
     }
-  } else {
-    res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ data: null, message: '서버 오류가 발생했습니다.' });
   }
+  // } else {
+  //   res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
+  //}
 });
 
 // price per one pt

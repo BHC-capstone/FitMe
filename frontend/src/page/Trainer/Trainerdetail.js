@@ -3,8 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Button } from 'react-bootstrap';
 import axios from 'axios';
-import styled from 'styled-components';
-import Starpoint from '../../components/Starpoint';
+import TabMenu from '../../components/myPage/TabMenu';
 import TrainerProfileDisplay from './TrainerProfileDisplay';
 
 function Trainerdetail() {
@@ -74,17 +73,17 @@ function Trainerdetail() {
             style={{ zIndex: 2 }}
             alt="트레이너 프로필 이미지"
           />
-        </Imageposition>
-        <Box1>
-          <Nameblock className="a">{trainer.name}</Nameblock>
-          {/* <Nameblock>별점</Nameblock> */}
-          <Starpoint starpoint={star} />
-          <Nameblock className="b">
-            {trainer.gender} {trainer.age}세
-          </Nameblock>
-        </Box1>
-        <Box2>
-          <Emailblock>
+        </div>
+        <div className="box1">
+          <text className="nameblock">
+            <text className="nameblock a">{trainer.name}</text>
+            <text className="nameblock b">
+              {trainer.gender} {trainer.age}세
+            </text>
+          </text>
+        </div>
+        <div className="box2">
+          <text className="emailblock">
             <span className="b">E-mail :</span>
             {trainer.email}
           </text>

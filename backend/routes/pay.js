@@ -119,18 +119,33 @@ router.post('/payment/approve', async (req, res) => {
       { amount: updatepoint.amount + point },
       { where: { user_id: userId } },
     );
-    await payhistory.update(
-      {
-        user_id: userId,
-        tid: tId,
-        created: data.created_at,
-        approved: data.approved_at,
-        amount: point,
-        status: 'success',
-        payname: 'kakaopay',
-      },
-      { where: { tid: tId } },
-    );
+    if (data.card_info) {
+      await payhistory.update(
+        {
+          user_id: userId,
+          tid: tId,
+          created: data.created_at,
+          approved: data.approved_at,
+          amount: point,
+          status: 'success',
+          payname: data.card_info.purchase_corp,
+        },
+        { where: { tid: tId } },
+      );
+    } else {
+      await payhistory.update(
+        {
+          user_id: userId,
+          tid: tId,
+          created: data.created_at,
+          approved: data.approved_at,
+          amount: point,
+          status: 'success',
+          payname: 'kakaopay',
+        },
+        { where: { tid: tId } },
+      );
+    }
     res.status(200).json({ data: null, message: '결제 승인' });
   } catch (err) {
     console.log(err);
