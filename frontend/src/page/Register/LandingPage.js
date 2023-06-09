@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Col, Row, Card, Button } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 
 export default function LandingPage() {
   const navigate = useNavigate();
+  const user = useSelector(state => state.user);
 
   const goUserSignUp = () => {
     navigate('/user-signup');
@@ -14,6 +16,20 @@ export default function LandingPage() {
   const goLogin = () => {
     navigate('/user-login');
   };
+
+  const handleRedirect = () => {
+    if (user.isLogin) {
+      if (user.isTrainer) {
+        navigate('/customer-list');
+      } else {
+        navigate('/trainer-list');
+      }
+    }
+  };
+
+  useEffect(() => {
+    handleRedirect();
+  }, [user]);
 
   return (
     <Container fluid className="panel">
