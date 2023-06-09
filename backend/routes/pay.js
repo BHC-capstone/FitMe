@@ -141,7 +141,7 @@ router.post('/payment/approve', async (req, res) => {
 // user 결제 내역 조회
 router.get('/payment/user/:userId', async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { userId } = req.params;
     const Payhistory = await payhistory.findAll({
       where: { user_id: userId },
     });
