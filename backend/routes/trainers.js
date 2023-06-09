@@ -238,6 +238,7 @@ router.get('/profile/:id', async function (req, res) {
           'introduction',
           'career',
           'trainer_image_url',
+          'pt_point',
         ],
       });
       res.status(200).json({ data: trainerInfo, message: '' });
