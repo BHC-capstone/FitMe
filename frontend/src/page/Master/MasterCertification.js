@@ -13,7 +13,7 @@ function MasterCertification() {
 
   const fetchRequests = async () => {
     const response = await axios.get(
-      `https://fitme.p-e.kr:4000/administrator/trainer/certificatelist`,
+      `https://localhost:4000/administrator/trainer/certificatelist`,
     );
     setRequests(response.data.data);
   };

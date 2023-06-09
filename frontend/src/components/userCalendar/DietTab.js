@@ -9,7 +9,7 @@ function DietTab({ userid, date }) {
   useEffect(() => {
     setDietdate('');
     axios
-      .get(`https://fitme.p-e.kr:4000/calender/mealplan/${userid}/${date}`, {
+      .get(`https://localhost:4000/calender/mealplan/${userid}/${date}`, {
         withCredentials: true,
       })
       .then(res => {
@@ -19,11 +19,11 @@ function DietTab({ userid, date }) {
   function onImageChange(image, num) {
     let myUrl = null;
     if (num === 0)
-      myUrl = `https://fitme.p-e.kr:4000/calender/mealpicture/${userid}/${date}/breakfast`;
+      myUrl = `https://localhost:4000/calender/mealpicture/${userid}/${date}/breakfast`;
     else if (num === 1)
-      myUrl = `https://fitme.p-e.kr:4000/calender/mealpicture/${userid}/${date}/lunch`;
+      myUrl = `https://localhost:4000/calender/mealpicture/${userid}/${date}/lunch`;
     else
-      myUrl = `https://fitme.p-e.kr:4000/calender/mealpicture/${userid}/${date}/dinner`;
+      myUrl = `https://localhost:4000/calender/mealpicture/${userid}/${date}/dinner`;
 
     const formData = new FormData();
     formData.append('img', image);
@@ -39,12 +39,9 @@ function DietTab({ userid, date }) {
       .then(response => {
         alert(response.data.message);
         axios
-          .get(
-            `https://fitme.p-e.kr:4000/calender/mealplan/${userid}/${date}`,
-            {
-              withCredentials: true,
-            },
-          )
+          .get(`https://localhost:4000/calender/mealplan/${userid}/${date}`, {
+            withCredentials: true,
+          })
           .then(res => {
             setDietdate(res.data.data);
           });
@@ -55,11 +52,11 @@ function DietTab({ userid, date }) {
   function onImageRemove(num) {
     let myUrl = null;
     if (num === 0)
-      myUrl = `https://fitme.p-e.kr:4000/calender/mealPicturedelete/${userid}/${date}/breakfast`;
+      myUrl = `https://localhost:4000/calender/mealPicturedelete/${userid}/${date}/breakfast`;
     else if (num === 1)
-      myUrl = `https://fitme.p-e.kr:4000/calender/mealPicturedelete/${userid}/${date}/lunch`;
+      myUrl = `https://localhost:4000/calender/mealPicturedelete/${userid}/${date}/lunch`;
     else
-      myUrl = `https://fitme.p-e.kr:4000/calender/mealPicturedelete/${userid}/${date}/dinner`;
+      myUrl = `https://localhost:4000/calender/mealPicturedelete/${userid}/${date}/dinner`;
 
     axios({
       url: myUrl,
@@ -69,12 +66,9 @@ function DietTab({ userid, date }) {
       .then(response => {
         alert(response.data.message);
         axios
-          .get(
-            `https://fitme.p-e.kr:4000/calender/mealplan/${userid}/${date}`,
-            {
-              withCredentials: true,
-            },
-          )
+          .get(`https://localhost:4000/calender/mealplan/${userid}/${date}`, {
+            withCredentials: true,
+          })
           .then(res => {
             setDietdate(res.data.data);
           });
