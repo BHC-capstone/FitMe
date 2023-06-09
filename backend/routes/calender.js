@@ -123,11 +123,7 @@ router.post(
           ContentType: 'image/png',
           Bucket: 'fitme-s3',
           Body: req.file.buffer,
-          Key:
-            `mealplan/` +
-            trainer.trainer_id +
-            `/${req.params.id}/` +
-            req.file.originalname,
+          Key: `mealplan/` + trainer.trainer_id + `/${req.params.id}/`,
         };
 
         const result = await s3.upload(uploadParams).promise();
@@ -220,11 +216,7 @@ router.put(
             ContentType: 'image/png',
             Bucket: 'fitme-s3',
             Body: req.file.buffer,
-            Key:
-              `mealplan/` +
-              trainer.trainer_id +
-              `/${req.params.id}/` +
-              req.file.originalname,
+            Key: `mealplan/` + trainer.trainer_id + `/${req.params.id}/`,
           };
           const result = await s3.upload(uploadParams).promise();
           if (req.params.meal === 'breakfast') {
@@ -397,7 +389,7 @@ router.post(
           ContentType: req.file.mimetype,
           Bucket: 'fitme-s3',
           Body: req.file.buffer,
-          Key: `exerciseroutine/${id}/${routineid}/${req.file.originalname}`,
+          Key: `exerciseroutine/${id}/${routineid}`,
         };
         const result = await s3.upload(uploadParams).promise();
         await exercise_routines.update(
@@ -452,7 +444,7 @@ router.put(
             ContentType: req.file.mimetype,
             Bucket: 'fitme-s3',
             Body: req.file.buffer,
-            Key: `exerciseroutine/${id}/${routineid}/${req.file.originalname}`,
+            Key: `exerciseroutine/${id}/${routineid}`,
           };
           const result = await s3.upload(uploadParams).promise();
           await exercise_routines.update(

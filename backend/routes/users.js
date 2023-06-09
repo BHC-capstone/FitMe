@@ -301,7 +301,7 @@ router.post(
           ContentType: 'image/png',
           Bucket: 'fitme-s3',
           Body: req.file.buffer,
-          Key: `user_profile/` + userInfo.id + '.' + req.file.originalname,
+          Key: `user_profile/` + userInfo.id,
         };
         const result = await s3.upload(uploadParams).promise();
 
@@ -347,7 +347,7 @@ router.post(
           ContentType: 'image/png',
           Bucket: 'fitme-s3',
           Body: req.file.buffer,
-          Key: `user_profile/` + userInfo.id + '.' + req.file.originalname,
+          Key: `user_profile/` + userInfo.id,
         };
         const result = await s3.upload(uploadParams).promise();
 

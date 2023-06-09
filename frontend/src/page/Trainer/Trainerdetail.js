@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Button } from 'react-bootstrap';
 import axios from 'axios';
-import styled from 'styled-components';
 import TabMenu from '../../components/myPage/TabMenu';
 import TrainerProfileDisplay from './TrainerProfileDisplay';
 
@@ -67,12 +66,14 @@ function Trainerdetail() {
     <Container fluid className="panel">
       <div className="head">트레이너 소개</div>
       <div className="upbox">
-        <img
-          src={profImg}
-          className="imageposition"
-          style={{ zIndex: 2 }}
-          alt="트레이너 프로필 이미지"
-        />
+        <div>
+          <img
+            src={profImg}
+            className="imageposition"
+            style={{ zIndex: 2 }}
+            alt="트레이너 프로필 이미지"
+          />
+        </div>
         <div className="box1">
           <text className="nameblock">
             <text className="nameblock a">{trainer.name}</text>

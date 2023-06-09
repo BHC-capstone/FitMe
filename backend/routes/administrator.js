@@ -206,14 +206,20 @@ router.post('/trainerauth/:Id', async (req, res) => {
         career: trainer.career,
         pt_point: trainer.pt_point,
       });
+      const cert = await certifications.create({
+        trainer_id: Trainer.id,
+        name: Trainer.certification_name,
+        image_url: Trainer.image_url,
+        certification_s3_key: Trainer.s3_key,
+      });
+      const trainer_certs = await trainer_cert.create({
+        trainer_id: Trainer.id,
+        certification_id: cert.certification_id,
+      });
       await trainer_points.create({
         trainer_id: Trainer.id,
         amount: 0,
       });
-      await certification_auth_request.update(
-        { trainer_id: Trainer.id },
-        { where: { trainer_request_id: Id } },
-      );
       await trainer_sign_request.destroy({ where: { id: Id } });
       res.status(200).json({ data: null, message: '승인되었습니다.' });
     } else {
@@ -233,11 +239,14 @@ router.post('/trainerreject/:Id', async (req, res) => {
       where: { id: Id },
     });
     if (trainer_sign_request) {
+      const s3key = trainer.s3_key;
+      const deleteParams = {
+        Bucket: 'fitme-s3',
+        Key: s3key,
+      };
+      await s3.deleteObject(deleteParams).promise();
       await trainer_sign_request.destroy({
         where: { id: Id },
-      });
-      await certification_auth_request.destroy({
-        where: { trainer_request_id: Id },
       });
       res.status(200).json({ data: null, message: '거절되었습니다.' });
     } else {
