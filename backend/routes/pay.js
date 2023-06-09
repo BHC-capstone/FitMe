@@ -21,19 +21,6 @@ const { mod } = require('prelude-ls');
 const axios = require('axios');
 dotenv.config();
 
-// 결제 관련 엔드포인트
-router.post('/payment/callback', (req, res) => {
-  const { paymentResult } = req.params;
-
-  if (paymentResult === 'success') {
-    res.status(200).json({ data: null, message: '결제 에러!' });
-  } else if (paymentResult === 'cancel') {
-    res.status(200).json({ data: null, message: '결제 취소!' });
-  } else {
-    res.status(200).json({ data: null, message: '결제 실패!' });
-  }
-});
-
 // 결제 준비
 router.post('/payment', async (req, res) => {
   try {
@@ -70,7 +57,7 @@ router.post('/payment', async (req, res) => {
       tid: data.tid,
       created: data.created_at,
       approved: data.created_at,
-      amount: data.amount.total,
+      amount: amount,
       status: 'ready',
     });
     const tId = data.tid;
