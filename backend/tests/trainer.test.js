@@ -8,7 +8,7 @@ let path = require('path');
 const sequelize = require('../models').sequelize;
 beforeAll(async () => {
   await sequelize.sync({});
-});
+}, 60000);
 
 // 세션 mocking
 // const session = require('express-session');
