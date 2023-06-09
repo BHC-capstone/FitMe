@@ -22,7 +22,7 @@ describe('User Signup', () => {
       email: 'testUser@ajou.ac.kr',
       name: '박진명',
       password: '1234',
-      age: 25,
+      age: '25',
       gender: 'male',
       phonenumber: '01012341234',
     });

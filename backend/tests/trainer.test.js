@@ -1,6 +1,7 @@
 const request = require('supertest');
 const app = require('../app');
 let trainers = require('../models').trainers;
+let trainer_sign_request = require('../models').trainer_sign_request;
 let fs = require('fs');
 let path = require('path');
 
@@ -20,7 +21,7 @@ fs.writeFileSync(testFilePath, '테스트 파일');
 // trainer signup test
 describe('Trainer Signup', () => {
   afterAll(async () => {
-    await trainers.destroy({
+    await trainer_sign_request.destroy({
       where: {
         email: 'testTrainer@ajou.ac.kr',
       },
@@ -33,16 +34,16 @@ describe('Trainer Signup', () => {
       .field('email', 'testTrainer@ajou.ac.kr')
       .field('name', '박진명_tr')
       .field('password', '1234')
-      .field('age', 30)
+      .field('age', '30')
       .field('gender', 'male')
       .field('phonenumber', '01012345678')
       .field('introduction', '트레이너 소개')
-      .field('pt_point', 100)
+      .field('pt_point', '100')
       .field('Content-Type', 'multipart/form-data')
       .attach('certificationFile', testFilePath);
 
     expect(response.status).toBe(200);
-    expect(response.body.message).toBe('회원가입을 환영합니다.');
+    expect(response.body.message).toBe('회원가입 신청이 완료되었습니다.');
     expect(response.body.data).toBeNull();
   }, 10000);
 
