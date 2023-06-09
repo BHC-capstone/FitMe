@@ -14,7 +14,6 @@ const PORT = process.env.PORT || 4000;
 //   };
 
 //   server = https.createServer(option, app).listen(PORT, () => {
-//     console.log('HTTPS 서버가 실행되었습니다. ');
 //   });
 // } else {
 //   server = app.listen(PORT);
@@ -32,7 +31,6 @@ if (fs.existsSync('./key.pem') && fs.existsSync('./cert.pem')) {
       app,
     )
     .listen(PORT);
-  console.log('test1');
 } else {
   server = app.listen(PORT);
 }

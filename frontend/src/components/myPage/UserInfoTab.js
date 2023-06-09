@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Avatar } from 'antd';
-import '../../scss/userInfoTab.scss';
 import { Container, Button } from 'react-bootstrap';
 
 export default function UserInfoTab({ loginedUser }) {
@@ -10,6 +9,7 @@ export default function UserInfoTab({ loginedUser }) {
   const [user, setUser] = React.useState(null);
   const blankImg = `https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png`;
   const [profImg, setProfImg] = useState(blankImg);
+
   useEffect(() => {
     const fetchUser = async () => {
       if (!loginedUser.id) {
@@ -108,19 +108,22 @@ export default function UserInfoTab({ loginedUser }) {
               {user.data.phonenumber}
             </li>
           </ul>
-          <div>
-            <Button variant="primary" type="button" onClick={goEdit}>
-              회원정보 수정
-            </Button>
-            <Button
-              variant="danger"
-              type="button"
-              className="mglf-10"
-              onClick={goWithdraw}
-            >
-              회원 탈퇴
-            </Button>
-          </div>
+          <Button
+            variant="primary"
+            type="button"
+            className="mgtp"
+            onClick={goEdit}
+          >
+            회원정보 수정
+          </Button>
+          <Button
+            variant="danger"
+            type="button"
+            className="mglf-10 mgtp"
+            onClick={goWithdraw}
+          >
+            회원 탈퇴
+          </Button>
         </div>
       </div>
     </Container>

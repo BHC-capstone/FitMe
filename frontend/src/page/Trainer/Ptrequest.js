@@ -6,16 +6,14 @@ import styled from 'styled-components';
 import { ko } from 'date-fns/esm/locale';
 import { useParams } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
-import Expectedpoint from '../../components/Expectedpoint';
+import Expectedpoint from '../../components/ptrequest/Expectedpoint';
 import './Ptrequest.css';
 
 export default function Ptrequest() {
   const { trainerid } = useParams();
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  useEffect(() => {
-    console.log(trainerid, '수고하세요');
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <Container fluid className="panel">
@@ -24,6 +22,7 @@ export default function Ptrequest() {
         <Boxc>
           <Head2>PT 시작일</Head2>
           <StyledDatePicker
+            className="datepicker"
             locale={ko}
             selected={startDate}
             dateFormat="yyyy/MM/dd"
@@ -92,7 +91,7 @@ const StyledDatePicker = styled(DatePicker)`
   font-weight: 400;
   font-size: 16px;
   line-height: 100%;
-  padding: 20px;
+  padding: 5%;
   background-color: white;
   color: black;
   border-radius: 10px;

@@ -5,19 +5,18 @@ import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, Form, FloatingLabel } from 'react-bootstrap';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
 
 // eslint-disable-next-line react/prop-types
 function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
   const [Feedbacktext, setFeedBackText] = useState('');
   const [Feedbackurl, setFeedBackURL] = useState('');
-  const loginedUser = useSelector(state => state.user);
+
   const [file, setFile] = useState({
     fileObject: '',
     preview_URL: 'img/default_image.png',
     type: 'video',
   });
-  let inputRef;
+
   const videoInput = useRef();
   useEffect(() => {
     console.log('?', feedbackvideo);
@@ -64,7 +63,7 @@ function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
         console.log(res);
       })
       .catch(err => {
-        console.log(err);
+        alert(err.response.data.message);
       });
     /// / */
   };
@@ -90,10 +89,10 @@ function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
       withCredentials: true,
     })
       .then(res => {
-        console.log(res);
+        alert(res.data.message);
       })
       .catch(err => {
-        console.log(err);
+        alert(err.response.data.message);
       });
     axios({
       url: `https://fitme.p-e.kr:4000/trainer_calender/updateFeedbackvideo/${feedbackid}`,
@@ -107,10 +106,10 @@ function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
       withCredentials: true,
     })
       .then(res => {
-        console.log(res);
+        alert(res.data.message);
       })
       .catch(err => {
-        console.log(err);
+        alert(err.response.data.message);
       });
   }
   const onChange = e => {
@@ -153,7 +152,7 @@ function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
               placeholder="Leave a comment here"
               onChange={onChange}
               value={Feedbacktext}
-              style={{ height: '200px' }}
+              style={{ height: '100px', marginLeft: '5%' }}
             />
           </FloatingLabel>
         </div>
@@ -199,6 +198,7 @@ const Text0 = styled.text`
 const Flexcontainerg = styled.div`
   display: flex;
   flex-direction: row;
+  margin: auto;
 `;
 const Flexcontainers = styled.div`
   display: flex;
@@ -209,19 +209,19 @@ const Flexcontainers = styled.div`
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
   margin-bottom: 20px;
+  padding: 0 3%;
 `;
-const VideoTexture = styled.ul`
+const VideoTexture = styled.div`
   display: flex;
   justify-content: center;
-  margin-left: -3%;
   .file-wrapper {
     img,
     video {
       border: 1px solid #fff;
       border-radius: 10px;
-      width: 200px;
+      width: 150px;
       height: fit-content;
-      min-height: 100px;
+      height: 100px;
       object-fit: contain;
     }
   }

@@ -60,11 +60,12 @@ function RequestDetail({ request, fetch }) {
           },
         )
         .then(res => {
+          alert(res.data.message);
           navigate('/customer-list');
         });
       // fetchRequest();
     } catch (error) {
-      console.error(error);
+      alert(error.response.data.message);
     }
   };
 
@@ -81,25 +82,30 @@ function RequestDetail({ request, fetch }) {
           },
         )
         .then(res => {
+          alert(res.data.message);
           navigate('/mypage');
         });
       fetch();
     } catch (error) {
-      console.error(error);
+      alert(error.response.data.message);
     }
   };
 
   const handleReject = async (trainerId, requestId) => {
     try {
-      await axios.post(
-        `https://fitme.p-e.kr:4000/request/reject/${trainerId}/${requestId}`,
-        {
-          response: '거절',
-        },
-        {
-          withCredentials: true,
-        },
-      );
+      await axios
+        .post(
+          `https://fitme.p-e.kr:4000/request/reject/${trainerId}/${requestId}`,
+          {
+            response: '거절',
+          },
+          {
+            withCredentials: true,
+          },
+        )
+        .then(res => {
+          alert(res.data.message);
+        });
       fetch();
     } catch (error) {
       console.error(error);

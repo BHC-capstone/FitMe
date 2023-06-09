@@ -15,7 +15,6 @@ function DatePick({ getdata }) {
     temp[indexnum] = value;
     setValue(temp);
     getdata({ value1 });
-    // console.log(value1);
   };
   const onChangeSecond = ({ e, value }) => {
     const temp = value1;
@@ -23,10 +22,9 @@ function DatePick({ getdata }) {
     temp[indexnum] = 0;
     setValue(temp);
     getdata({ value1 });
-    // console.log(value1);
   };
   return (
-    <ToggleButtonGroup className="mgtp" type="checkbox" value={value1}>
+    <ToggleButtonGroup className="mgtp zi0" type="checkbox" value={value1}>
       <ToggleButton
         value={1}
         onClick={(e, value) =>

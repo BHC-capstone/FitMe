@@ -37,6 +37,7 @@ function DietTab({ userid, date }) {
       withCredentials: true,
     })
       .then(response => {
+        alert(response.data.message);
         axios
           .get(
             `https://fitme.p-e.kr:4000/calender/mealplan/${userid}/${date}`,
@@ -48,9 +49,7 @@ function DietTab({ userid, date }) {
             setDietdate(res.data.data);
           });
       })
-      .catch(err => {
-        console.log('fail');
-      });
+      .catch(err => {});
   }
 
   function onImageRemove(num) {
@@ -68,6 +67,7 @@ function DietTab({ userid, date }) {
       withCredentials: true,
     })
       .then(response => {
+        alert(response.data.message);
         axios
           .get(
             `https://fitme.p-e.kr:4000/calender/mealplan/${userid}/${date}`,
@@ -79,9 +79,7 @@ function DietTab({ userid, date }) {
             setDietdate(res.data.data);
           });
       })
-      .catch(err => {
-        console.log('fail');
-      });
+      .catch(err => {});
   }
   return (
     <Flexcontainers>

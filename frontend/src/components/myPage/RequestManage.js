@@ -21,7 +21,7 @@ function RequestManage() {
             },
           )
         : await axios.get(
-            `https://fitme.p-e.kr:4000/request/checklists/${loginedUser.id}`,
+            `https://fitme.p-e.kr:4000/request/checklist/${loginedUser.id}`,
             {
               withCredentials: true,
             },

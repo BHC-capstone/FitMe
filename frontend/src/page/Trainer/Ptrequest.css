@@ -8,9 +8,10 @@
   border-radius: 4px;
   overflow: hidden;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  z-index: 6;
 }
 
-.ui-datepicker-header {
+.react-datepicker-header {
   height: 50px;
   line-height: 50px;
   color: rgb(43, 165, 247);

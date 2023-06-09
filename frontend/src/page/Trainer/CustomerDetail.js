@@ -40,7 +40,7 @@ function CustomerDetail() {
         });
       })
       .catch(error => {
-        console.log(error);
+        alert(error.response.data.message);
       });
   }, []);
 
@@ -56,7 +56,7 @@ function CustomerDetail() {
         console.log(response);
       })
       .catch(error => {
-        console.log(error);
+        alert(error.response.data.message);
       });
   }
   const onColorChange = value => {
@@ -88,7 +88,7 @@ function CustomerDetail() {
         setTags(tags + 1);
       })
       .catch(error => {
-        console.log(error);
+        alert(error.response.data.message);
       });
   };
 

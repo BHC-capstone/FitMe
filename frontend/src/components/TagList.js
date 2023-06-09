@@ -12,7 +12,7 @@ function TagList({ userId, closeable, tagcount }) {
         console.log(res.data);
       })
       .catch(error => {
-        console.log(error);
+        alert(error.response.data.message);
       });
   }
 
@@ -24,7 +24,7 @@ function TagList({ userId, closeable, tagcount }) {
           setTags(res.data.data);
         })
         .catch(error => {
-          console.log(error);
+          alert(error.response.data.message);
         });
     };
     fetchTags();

@@ -44,7 +44,6 @@ router.get('/mealplan/:id/:date', async (req, res) => {
         });
       }
     } catch (err) {
-      console.log(err);
       res
         .status(400)
         .json({ data: null, message: '해당 날짜의 식단이 존재하지 않습니다.' });
@@ -59,7 +58,6 @@ router.get('/exerciseroutine/:id/:date', async (req, res) => {
   if (req.session.loggedin) {
     try {
       const { id, date } = req.params;
-      console.log('test' + date + date);
       const schedule_date = await schedules.findOne({
         where: { user_id: id, date: date },
       });
@@ -67,7 +65,6 @@ router.get('/exerciseroutine/:id/:date', async (req, res) => {
       const exerciseRoutine = await exercise_routines.findAll({
         where: { schedule_id: schedule_date.id },
       });
-      console.log(exerciseRoutine);
       if (exerciseRoutine) {
         res.status(200).json({ data: exerciseRoutine, message: '' });
       } else {
@@ -77,7 +74,6 @@ router.get('/exerciseroutine/:id/:date', async (req, res) => {
         });
       }
     } catch (err) {
-      console.log(err);
       res.status(400).json({
         data: null,
         message: '해당 날짜의 운동루틴이 존재하지 않습니다.',
@@ -173,7 +169,6 @@ router.post(
           message: '식사 사진 업로드가 완료되었습니다.',
         });
       } catch (err) {
-        console.log(err);
         res.status(500).json({
           data: null,
           message: '오류가 발생했습니다.',
@@ -284,9 +279,7 @@ router.put(
           data: null,
           message: '식사 사진 수정이 완료되었습니다.',
         });
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     } else {
       res.status(401).json({
         data: null,
@@ -372,9 +365,7 @@ router.delete('/mealPicturedelete/:id/:date/:meal', async (req, res) => {
         data: null,
         message: '식사 사진 삭제가 완료되었습니다.',
       });
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   } else {
     res.status(401).json({
       data: null,
@@ -424,7 +415,6 @@ router.post(
           message: '운동영상 업로드가 완료되었습니다.',
         });
       } catch (err) {
-        console.log(err);
         res.status(500).json({
           data: null,
           message: '서버 오류가 발생했습니다.',
@@ -486,7 +476,6 @@ router.put(
           return;
         }
       } catch (err) {
-        console.log(err);
         res.status(500).json({ data: null, message: err });
       }
     } else {
@@ -536,7 +525,6 @@ router.delete('/exerciseVideodelete/:id/:routineid', async (req, res) => {
           message: '운동 영상이 삭제되었습니다.',
         });
       } catch (err) {
-        console.log(err);
         res.status(500).json({ data: null, message: err });
       }
     } else {

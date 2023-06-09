@@ -37,10 +37,10 @@ function CustomerList() {
   return (
     <Container fluid className="panel">
       <div className="head">관리 중인 회원 목록</div>
-      <div className="mglf-3">
+      <div className="list mglf-3">
         <Stack gap={2}>
           <Row className="justify-content-md-center">
-            <Col xs="9">
+            <Col xs="8">
               <Form>
                 <Form.Control
                   type="text"
@@ -58,7 +58,7 @@ function CustomerList() {
           </Row>
         </Stack>
         {filterTitle.map(customer => (
-          <div className="mglf-8">
+          <div className="list">
             <Card
               onClick={() =>
                 navigate(`/customer-management/${customer.user_id}`)

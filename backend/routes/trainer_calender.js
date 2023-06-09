@@ -44,9 +44,7 @@ router.get('/mealplan/:userId/:date', async (req, res) => {
           message: '해당 날짜의 식단이 존재하지 않습니다.',
         });
       }
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   } else {
     res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
   }
@@ -78,9 +76,7 @@ router.get('/exerciseroutine/:userId/:date', async (req, res) => {
           message: '해당 날짜의 운동루틴이 존재하지 않습니다.',
         });
       }
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   } else {
     res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
   }
@@ -111,11 +107,9 @@ router.post('/createMealplan/:date/:userId/:id', async (req, res) => {
       await schedule.update({ meal_plan_id: mealPlan.id });
       res.status(200).json({
         data: mealPlan,
-        message: '식단이 생성되었습니다',
+        message: '식단이 생성되었습니다.',
       });
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   } else {
     res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
   }
@@ -123,7 +117,6 @@ router.post('/createMealplan/:date/:userId/:id', async (req, res) => {
 
 // exercise_routine 추가
 router.post('/createExercise/:date/:id/:userId', async (req, res) => {
-  console.log(req);
   if (req.session.loggedin) {
     try {
       const { userId, id, date } = req.params;
@@ -147,7 +140,6 @@ router.post('/createExercise/:date/:id/:userId', async (req, res) => {
         message: '운동루틴 추가가 완료되었습니다.',
       });
     } catch (err) {
-      console.log(err);
       res.status(500).json({ data: null, message: err });
     }
   } else {
@@ -187,7 +179,6 @@ router.put('/updateExercise/:exerciseId', async (req, res) => {
         message: '운동루틴이 수정되었습니다.',
       });
     } catch (err) {
-      console.log(err);
       res.status(500).json({ data: null, message: err });
     }
   } else {
@@ -229,7 +220,6 @@ router.delete('/deleteExercise/:exerciseId', async (req, res) => {
         message: '운동루틴이 삭제되었습니다.',
       });
     } catch (err) {
-      console.log(err);
       res.status(500).json({ data: null, message: err });
     }
   } else {
@@ -280,7 +270,6 @@ router.put(
           message: '가이드영상 업로드가 완료되었습니다.',
         });
       } catch (err) {
-        console.log(err);
         res.status(500).json({
           data: null,
           message: '서버 오류가 발생했습니다.',
@@ -328,7 +317,6 @@ router.delete('/deleteGuidevideo/:exerciseId', async (req, res) => {
         message: '운동루틴이 삭제되었습니다.',
       });
     } catch (err) {
-      console.log(err);
       res.status(500).json({ data: null, message: err });
     }
   } else {
@@ -391,7 +379,6 @@ router.put(
           return;
         }
       } catch (err) {
-        console.log(err);
         res.status(500).json({ data: null, message: err });
       }
     } else {
@@ -405,6 +392,11 @@ router.put(
 
 // feedback 작성
 router.post('/createFeedback/:date/:id/:userId', async (req, res) => {
+  const currentdate = new Date();
+  const year = currentdate.getFullYear();
+  const month = currentdate.getMonth() + 1;
+  const day = currentdate.getDate();
+  const newdate = year + '-' + month + '-' + day;
   if (req.session.loggedin) {
     try {
       const { userId, id, date } = req.params;
@@ -422,6 +414,7 @@ router.post('/createFeedback/:date/:id/:userId', async (req, res) => {
         schedule_id: schedule.id,
         user_id: userId,
         trainer_id: id,
+        date: newdate,
       });
       await schedules.update(
         {
@@ -443,7 +436,6 @@ router.post('/createFeedback/:date/:id/:userId', async (req, res) => {
         message: '피드백 업로드가 완료되었습니다.',
       });
     } catch (err) {
-      console.log(err);
       res.status(500).json({ data: null, message: err });
     }
   } else {
@@ -480,7 +472,6 @@ router.put('/updateFeedback/:feedbackId', async (req, res) => {
         message: '피드백이 수정되었습니다.',
       });
     } catch (err) {
-      console.log(err);
       res.status(500).json({ data: null, message: err });
     }
   } else {
@@ -522,7 +513,6 @@ router.delete('/deleteFeedback/:feedbackId', async (req, res) => {
         message: '피드백이 삭제되었습니다.',
       });
     } catch (err) {
-      console.log(err);
       res.status(500).json({ data: null, message: err });
     }
   } else {
@@ -575,7 +565,6 @@ router.post(
           return;
         }
       } catch (err) {
-        console.log(err);
         res.status(500).json({ data: null, message: err });
       }
     } else {
@@ -615,7 +604,6 @@ router.delete('/deleteFeedbackvideo/:feedbackId', async (req, res) => {
         message: '피드백 영상이 삭제되었습니다.',
       });
     } catch (err) {
-      console.log(err);
       res.status(500).json({ data: null, message: err });
     }
   } else {
@@ -642,7 +630,6 @@ router.put(
             data: null,
             message: '피드백을 찾을 수 없습니다.',
           });
-          console.log(req.file);
           return;
         }
         if (req.file != null) {
@@ -681,9 +668,7 @@ router.put(
           return;
         }
       } catch (err) {
-        console.log(err);
         res.status(500).json({ data: null, message: err });
-        console.log(req.file);
       }
     } else {
       res.status(401).json({

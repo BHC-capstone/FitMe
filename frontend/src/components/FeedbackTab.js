@@ -1,7 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { Button } from 'react-bootstrap';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 // eslint-disable-next-line react/prop-types
 

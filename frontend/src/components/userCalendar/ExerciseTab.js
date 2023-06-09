@@ -41,6 +41,7 @@ function ExerciseTab({ userid, date }) {
       withCredentials: true,
     })
       .then(response => {
+        alert(response.data.message);
         axios
           .get(
             `https://fitme.p-e.kr:4000/calender/exerciseroutine/${userid}/${date}`,
@@ -53,7 +54,7 @@ function ExerciseTab({ userid, date }) {
           });
       })
       .catch(err => {
-        console.log(err);
+        alert(err.response.data.message);
       });
   }
   function onVideoRemove(routineid) {
@@ -63,6 +64,7 @@ function ExerciseTab({ userid, date }) {
       withCredentials: true,
     })
       .then(response => {
+        alert(response.data.message);
         axios
           .get(
             `https://fitme.p-e.kr:4000/calender/exerciseroutine/${userid}/${date}`,
@@ -75,7 +77,7 @@ function ExerciseTab({ userid, date }) {
           });
       })
       .catch(err => {
-        console.log(err);
+        alert(err.response.data.message);
       });
   }
 

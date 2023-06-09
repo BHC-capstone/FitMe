@@ -20,7 +20,7 @@ module.exports = {
     eqeqeq: 'off',
     'no-alert': 'off',
     'jsx-a11y/alt-text': 'off',
-
+    'no-empty-pattern': 'off',
     'react/prop-types': 'off',
     'import/np-resolved': 'off',
     'import/no-extraneous-dependencies': 'off',

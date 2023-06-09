@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Input, Radio, Space, Divider } from 'antd';
 import axios from 'axios';
 import { Container } from 'react-bootstrap';
-import { CopyrightOutlined } from '@ant-design/icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCoins } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
 import payIcon from '../../images/payment_icon_yellow_small.png';
+import { payUser } from '../../redux/_reducers/userSlice';
 
 function PointCharge() {
+  const dispatch = useDispatch();
   const loginedUser = useSelector(state => state.user);
   const [point, setPoint] = useState(0);
   const [pointCharge, setPointCharge] = useState('');
@@ -21,7 +24,7 @@ function PointCharge() {
   const fetchPoint = async () => {
     axios({
       method: 'get',
-      url: `https://localhost:4000/users/profile/${loginedUser.id}`,
+      url: `https://fitme.p-e.kr:4000/users/profile/${loginedUser.id}`,
       withCredentials: true,
     })
       .then(response => {
@@ -39,7 +42,7 @@ function PointCharge() {
   function postChargeTry(tid, amount, createdAt) {
     axios({
       method: 'post',
-      url: 'https://localhost:4000/users/charge-success',
+      url: 'https://fitme.p-e.kr:4000/users/charge-success',
       data: {
         tid,
         uid: loginedUser.id,
@@ -70,42 +73,63 @@ function PointCharge() {
         return;
       }
     }
-    const params = {
-      cid: 'TC0ONETIME',
-      partner_order_id: 'FitMePointCharge',
-      partner_user_id: `user${loginedUser.id}`,
-      item_name: 'FitMe 포인트 충전',
-      quantity: 1,
-      total_amount: pointCharge === -1 ? pointChargeEtc : pointCharge,
-      vat_amount: 0,
-      tax_free_amount: 0,
-      approval_url: 'https://localhost:3000/charge-success',
-      fail_url: 'https://localhost:3000/charge-fail',
-      cancel_url: 'https://localhost:3000/charge-cancel',
-    };
     axios({
       method: 'post',
-      url: 'https://kapi.kakao.com/v1/payment/ready',
-      headers: {
-        Authorization: `KakaoAK ${MY_ADMIN_KEY}`,
-        'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+      url: 'https://fitme.p-e.kr:4000/pay/payment',
+      data: {
+        amount: pointCharge === -1 ? pointChargeEtc : pointCharge,
+        userId: loginedUser.id,
       },
-      params,
-    }).then(response => {
-      const createdAt = response.data.created_at;
-      const { tid } = response.data;
-      const { amount } = response.data;
-      postChargeTry(tid, amount, createdAt);
-      const redirectUrl = response.data.next_redirect_pc_url;
-      window.location.href = redirectUrl;
-    });
+    })
+      .then(response => {
+        const { data } = response.data;
+        const { redirectUrl } = data;
+        dispatch(payUser(data));
+        window.location.href = redirectUrl;
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+    // const params = {
+    //   cid: 'TC0ONETIME',
+    //   partner_order_id: 'FitMePointCharge',
+    //   partner_user_id: `user${loginedUser.id}`,
+    //   item_name: 'FitMe 포인트 충전',
+    //   quantity: 1,
+    //   total_amount: pointCharge === -1 ? pointChargeEtc : pointCharge,
+    //   vat_amount: 0,
+    //   tax_free_amount: 0,
+    //   approval_url: 'https://fitme.p-e.kr:3000/charge-success',
+    //   fail_url: 'https://fitme.p-e.kr:3000/charge-fail',
+    //   cancel_url: 'https://fitme.p-e.kr:3000/charge-cancel',
+    // };
+    // axios({
+    //   method: 'post',
+    //   url: 'https://kapi.kakao.com/v1/payment/ready',
+    //   headers: {
+    //     Authorization: `KakaoAK ${MY_ADMIN_KEY}`,
+    //     'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+    //   },
+    //   params,
+    // }).then(response => {
+    //   const createdAt = response.data.created_at;
+    //   const { tid } = response.data;
+    //   const { amount } = response.data;
+    //   postChargeTry(tid, amount, createdAt);
+    //   const redirectUrl = response.data.next_redirect_pc_url;
+    //   window.location.href = redirectUrl;
+    // });
   };
 
   return (
     <Container fluid className="panel">
-      <TextTop>포인트 충전</TextTop>
+      <div className="head">포인트 충전</div>
       <Divider style={{ marginTop: '1px' }} />
-      <TextPoint>현재 포인트: {point}</TextPoint>
+      <div className="pointtext">
+        <span className="b g">현재 포인트 :</span>
+        {point}
+      </div>
       <form style={{ margin: '20px' }}>
         <Space direction="vertical">
           <Radio.Group
@@ -115,31 +139,35 @@ function PointCharge() {
             value={pointCharge}
           >
             <Space direction="vertical">
-              <Radio value={10000}>
-                <CopyrightOutlined /> 10,000
+              <Radio value={10000} style={{ fontSize: '1rem' }}>
+                <FontAwesomeIcon icon={faCoins} /> 10,000
               </Radio>
               <Divider style={{ margin: '1px' }} />
-              <Radio value={50000}>
-                <CopyrightOutlined /> 50,000
+              <Radio value={50000} style={{ fontSize: '1rem' }}>
+                <FontAwesomeIcon icon={faCoins} /> 50,000
               </Radio>
               <Divider style={{ margin: '1px' }} />
-              <Radio value={100000}>
-                <CopyrightOutlined /> 100,000
+              <Radio value={100000} style={{ fontSize: '1rem' }}>
+                <FontAwesomeIcon icon={faCoins} /> 100,000
               </Radio>
               <Divider style={{ margin: '1px' }} />
-              <Radio value={-1}>
-                <CopyrightOutlined /> 직접 입력
+              <Radio value={-1} style={{ fontSize: '1rem' }}>
                 {pointCharge === -1 ? (
-                  <Input
-                    style={{
-                      width: 100,
-                      marginLeft: 10,
-                    }}
-                    onChange={e => {
-                      setPointChargeEtc(e.target.value);
-                    }}
-                  />
-                ) : null}
+                  <div>
+                    <FontAwesomeIcon icon={faCoins} />
+                    <Input
+                      style={{
+                        width: 100,
+                        marginLeft: 10,
+                      }}
+                      onChange={e => {
+                        setPointChargeEtc(e.target.value);
+                      }}
+                    />
+                  </div>
+                ) : (
+                  '직접 입력'
+                )}
               </Radio>
             </Space>
           </Radio.Group>
@@ -164,12 +192,6 @@ function PointCharge() {
     </Container>
   );
 }
-
-const TextTop = styled.text`
-  font-family: 'Gowun Dodum', sans-serif;
-  font-size: 28px;
-  color: #2ba5f7;
-`;
 
 const TextPoint = styled.text`
   font-family: 'Gowun Dodum', sans-serif;

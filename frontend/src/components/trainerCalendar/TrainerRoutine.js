@@ -9,6 +9,7 @@ import {
 } from '@ant-design/icons';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+
 // eslint-disable-next-line react/prop-types
 function TrainerRoutine({
   num,
@@ -63,10 +64,10 @@ function TrainerRoutine({
       withCredentials: true,
     })
       .then(res => {
-        console.log(res);
+        alert(res.data.message);
       })
       .catch(err => {
-        console.log(err);
+        alert(err.response.data.message);
       });
   }
 

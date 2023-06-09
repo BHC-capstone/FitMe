@@ -6,6 +6,7 @@ const initialState = {
     isTrainer: false,
     id: '',
     isLogin: false,
+    tid: '',
   },
 };
 
@@ -25,6 +26,10 @@ export const userSlice = createSlice({
       state.isTrainer = false;
       return state;
     },
+    payUser: (state, action) => {
+      state.tid = action.payload.tId;
+      return state;
+    },
 
     loginTrainer: (state, action) => {
       state.id = action.payload.id;
@@ -38,10 +43,14 @@ export const userSlice = createSlice({
       state.isTrainer = false;
       return state;
     },
+    payUser: (state, action) => {
+      state.tid = action.payload.tId;
+      return state;
+    },
   },
 });
 
-export const { loginUser, logoutUser, loginTrainer, logoutTrainer } =
+export const { loginUser, logoutUser, loginTrainer, logoutTrainer, payUser } =
   userSlice.actions;
 
 export default userSlice.reducer;

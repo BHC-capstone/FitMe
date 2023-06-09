@@ -18,16 +18,23 @@ function UserEdit({ props }) {
   const blankImg =
     'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
   const [profImg, setProfImg] = useState(blankImg);
+  const [PasswordVisible, setPasswordVisible] = useState(false);
   const imgRef = useRef(null);
   const [formData, setFormData] = useState({
-    email: '',
     name: '',
     age: '',
     gender: '',
     phonenumber: '',
-    password: '',
-    password2: '',
+    currentPassword: '',
   });
+  const [passwordData, setPasswordData] = useState({
+    currentPassword: '',
+    newPassword: '',
+    newPasswordCheck: '',
+  });
+  const TogglePasswordVisible = () => {
+    setPasswordVisible(!PasswordVisible);
+  };
 
   useEffect(() => {
     async function fetchUserData() {
@@ -47,12 +54,11 @@ function UserEdit({ props }) {
 
         const { data } = response.data;
         setFormData({
-          email: data.email,
           name: data.name,
           age: data.age,
           gender: data.gender,
           phonenumber: data.phonenumber,
-          password: '',
+          currentPassword: '',
         });
       } catch (error) {
         console.error(error);
@@ -97,40 +103,71 @@ function UserEdit({ props }) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    if (formData.password !== formData.password2) {
-      alert('비밀번호가 일치하지 않습니다.');
-    } else {
-      let url = null;
-      {
-        loginedUser.isTrainer === false
-          ? (url = `https://fitme.p-e.kr:4000/users/profile/changeProfile/${loginedUser.id}`)
-          : (url = `https://fitme.p-e.kr:4000/trainers/profile/changeProfile/${loginedUser.id}`);
-      }
-      axios
-        .post(
-          url,
-          {
-            email: formData.email,
-            name: formData.name,
-            age: formData.age,
-            gender: formData.gender,
-            phonenumber: formData.phonenumber,
-            password: formData.password,
-            password2: formData.password2,
-          },
-          {
-            withCredentials: true,
-          },
-        )
-        .then(response => {
-          if (imgRef !== null) handleImgSubmit(event);
-          alert(response.data.message);
-          navigate('/mypage');
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
+    let url = null;
+    {
+      loginedUser.isTrainer === false
+        ? (url = `https://fitme.p-e.kr:4000/users/profile/changeProfile/${loginedUser.id}`)
+        : (url = `https://fitme.p-e.kr:4000/trainers/profile/changeProfile/${loginedUser.id}`);
     }
+    axios
+      .post(
+        url,
+        {
+          name: formData.name,
+          age: formData.age,
+          gender: formData.gender,
+          phonenumber: formData.phonenumber,
+          currentPassword: formData.currentPassword,
+        },
+        {
+          withCredentials: true,
+        },
+      )
+      .then(response => {
+        if (response.status === 200) {
+          alert('회원정보가 수정되었습니다.');
+          if (imgRef !== null) handleImgSubmit(event);
+          navigate('/mypage');
+        } else alert(response.data.message);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
+
+  function handlePasswordSubmit(event) {
+    event.preventDefault();
+    if (passwordData.newPassword !== passwordData.newPasswordCheck) {
+      alert('새 비밀번호가 일치하지 않습니다.');
+      return;
+    }
+    let url = null;
+    {
+      loginedUser.isTrainer === false
+        ? (url = `https://fitme.p-e.kr:4000/users/profile/changePassword/${loginedUser.id}`)
+        : (url = `https://fitme.p-e.kr:4000/trainers/profile/changePassword/${loginedUser.id}`);
+    }
+    axios
+      .post(
+        url,
+        {
+          currentPassword: passwordData.currentPassword,
+          newPassword: passwordData.newPassword,
+          newPassword2: passwordData.newPasswordCheck,
+        },
+        {
+          withCredentials: true,
+        },
+      )
+      .then(response => {
+        if (response.status === 200) {
+          alert('비밀번호가 수정되었습니다.');
+          navigate('/mypage');
+        } else alert(response.data.message);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
   }
 
   function handleImgSubmit(event) {
@@ -176,7 +213,7 @@ function UserEdit({ props }) {
         <div className="head">회원 정보 수정</div>
         <Avatar
           src={profImg}
-          style={{ margin: '20px' }}
+          style={{ margin: '20px', cursor: 'pointer' }}
           size={200}
           onClick={() => {
             imgRef.current.click();
@@ -191,20 +228,6 @@ function UserEdit({ props }) {
           ref={imgRef}
         />
         <Form onSubmit={handleSubmit}>
-          <FloatingLabel
-            controlId="floatingInput"
-            label="이메일"
-            className="mb-3"
-          >
-            <Form.Control
-              type="email"
-              id="email"
-              name="email"
-              placeholder="Enter email"
-              value={formData.email}
-              onChange={handleChange}
-            />
-          </FloatingLabel>
           <Row>
             <Col xs="5">
               <FloatingLabel
@@ -254,8 +277,8 @@ function UserEdit({ props }) {
                   onChange={handleChange}
                 >
                   <option>선택하세요</option>
-                  <option value="male">남성</option>
-                  <option value="female">여성</option>
+                  <option value="남성">남성</option>
+                  <option value="여성">여성</option>
                 </Form.Select>
               </FloatingLabel>
             </Col>
@@ -278,46 +301,120 @@ function UserEdit({ props }) {
           </Row>
           <FloatingLabel
             controlId="floatingInput"
-            label="비밀번호"
+            label="현재 비밀번호 입력"
             className="mb-3"
           >
             <Form.Control
               type="password"
-              placeholder="Password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </FloatingLabel>
-          <FloatingLabel
-            controlId="floatingInput"
-            label="비밀번호 재입력"
-            className="mb-3"
-          >
-            <Form.Control
-              type="password"
-              placeholder="Password Check"
-              id="password2"
-              name="password2"
-              value={formData.password2}
+              placeholder="currentPassword"
+              id="currentPassword"
+              name="currentPassword"
+              value={formData.currentPassword}
               onChange={handleChange}
               required
             />
           </FloatingLabel>
           <Button type="submit" variant="primary" onClick={handleSubmit}>
-            변경
+            회원정보 제출
           </Button>
+          {PasswordVisible === false && (
+            <Button
+              type="button"
+              variant="secondary"
+              className="mglf-3"
+              onClick={TogglePasswordVisible}
+            >
+              비밀번호 변경
+            </Button>
+          )}
           <Button
             type="button"
             variant="danger"
             className="mglf-3"
             onClick={goBack}
           >
-            취소
+            돌아가기
           </Button>
         </Form>
+        {PasswordVisible && (
+          <Form onSubmit={handlePasswordSubmit}>
+            <FloatingLabel
+              controlId="floatingInput"
+              label="현재 비밀번호 입력"
+              className="mb-3"
+            >
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                id="currentPassword"
+                name="currentPassword"
+                value={passwordData.currentPassword}
+                onChange={e => {
+                  setPasswordData({
+                    ...passwordData,
+                    currentPassword: e.target.value,
+                  });
+                }}
+                required
+              />
+            </FloatingLabel>
+            <FloatingLabel
+              controlId="floatingInput"
+              label="새 비밀번호 입력"
+              className="mb-3"
+            >
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                id="newPassword"
+                name="newPassword"
+                value={passwordData.newPassword}
+                onChange={e => {
+                  setPasswordData({
+                    ...passwordData,
+                    newPassword: e.target.value,
+                  });
+                }}
+                required
+              />
+            </FloatingLabel>
+            <FloatingLabel
+              controlId="floatingInput"
+              label="새 비밀번호 확인"
+              className="mb-3"
+            >
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                id="newPasswordCheck"
+                name="newPasswordCheck"
+                value={passwordData.newPasswordCheck}
+                onChange={e => {
+                  setPasswordData({
+                    ...passwordData,
+                    newPasswordCheck: e.target.value,
+                  });
+                }}
+                required
+              />
+            </FloatingLabel>
+            <Button
+              type="submit"
+              variant="secondary"
+              onClick={handlePasswordSubmit}
+            >
+              비밀번호 변경
+            </Button>
+            <Button
+              type="button"
+              variant="danger"
+              className="mglf-3"
+              onClick={TogglePasswordVisible}
+            >
+              비밀번호 변경 취소
+            </Button>
+          </Form>
+        )}
       </Container>
     </div>
   );

@@ -48,7 +48,7 @@ export default function UserLoginPage(props) {
         }
       })
       .catch(err => {
-        console.log(err);
+        alert(err.response.data.message);
       });
   };
 

@@ -17,6 +17,9 @@ var calenderRouter = require('./routes/calender');
 var trainer_calenderRouter = require('./routes/trainer_calender');
 var feedbackRouter = require('./routes/feedback');
 var payRouter = require('./routes/pay');
+var adminRouter = require('./routes/administrator');
+
+const PORT = process.env.PORT || 4000;
 
 var app = express();
 app.use(logger('dev'));
@@ -27,7 +30,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: 'https://localhost:3000',
+    origin: 'https://fitme.p-e.kr:4000',
     methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
     credentials: true,
   }),
@@ -39,7 +42,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: {
-      domain: 'localhost',
+      domain: '.p-e.kr',
       path: '/',
       maxAge: 24 * 6 * 60 * 10000,
       sameSite: 'none',
@@ -58,13 +61,12 @@ app.use('/calender', calenderRouter);
 app.use('/trainer_calender', trainer_calenderRouter);
 app.use('/feedback', feedbackRouter);
 app.use('/pay', payRouter);
+app.use('/administrator', adminRouter);
 
 //frontend와 연동
 app.use(express.static(path.join(__dirname, '../frontend/build')));
 app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
 });
-
-//back end ci test
 
 module.exports = app;

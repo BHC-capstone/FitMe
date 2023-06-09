@@ -2,10 +2,7 @@ import { React, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { Container } from 'react-bootstrap';
-import { Form, Upload, Button } from 'antd';
-import styled from 'styled-components';
-import { UploadOutlined, CloseOutlined } from '@ant-design/icons';
-import '../../scss/myPage/trainerProfile.scss';
+import { Form, Upload } from 'antd';
 
 function TrainerProfile({ trainerId }) {
   const loginedUser = useSelector(state => state.user);
@@ -18,7 +15,7 @@ function TrainerProfile({ trainerId }) {
   const fetchCertifications = async () => {
     try {
       const response = await axios.get(
-        `https://fitme.p-e.kr:4000/trainers/getListOfCertification/${trainerId}`,
+        `https://localhost:4000/trainers/getListOfCertification/${trainerId}`,
         { withCredentials: true },
       );
       const { data } = response.data;
@@ -38,46 +35,22 @@ function TrainerProfile({ trainerId }) {
         </Form>
       ) : null}
 
-      <Container1 fluid>
+      <Container fluid>
         <div className="certification-list">
-          <Head1>보유 자격증</Head1>
-          <br />
+          <div className="head">보유 자격증</div>
           {certifications.map(certification => (
             <div key={certification.id} className="certification-item">
               <img
-                style={{ width: '200px', height: '300px' }}
+                style={{ width: '230px', height: 'auto' }}
                 src={certification.image_url}
                 alt="자격증"
               />
             </div>
           ))}
         </div>
-      </Container1>
+      </Container>
     </div>
   );
 }
-
-const Container1 = styled(Container)`
-  margin-top: 10%;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  padding: 25px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  //border: 2px solid black;
-`;
-const Head1 = styled.div`
-  color: rgb(21, 20, 20);
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 30px;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  width: fit-content;
-  margin: 0 auto;
-  // padding: 10px;
-`;
 
 export default TrainerProfile;

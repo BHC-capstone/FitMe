@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import TrainerNoFeedBack from './TrainerNoFeedBack';
 import Comments from './Comments';
 import TrainerFeedBack from './TrainerFeedBack';
+
 // eslint-disable-next-line react/prop-types
 function TrainerFeedBackTab({ userid, date }) {
   const [Feedbackdate, setFeedBackdate] = useState([]);
@@ -75,7 +76,7 @@ function TrainerFeedBackTab({ userid, date }) {
               date={date}
               userid={userid}
             />
-            <details className="mgtp">
+            {/* <details className="mgtp">
               <summary className="mgbt">회원 신체정보</summary>
               <Container fluid className="content">
                 <div className="mgtp">
@@ -106,7 +107,7 @@ function TrainerFeedBackTab({ userid, date }) {
                   </div>
                 </div>
               </Container>
-            </details>
+            </details> */}
 
             <details className="mgtp">
               <summary className="mgbt">추가 요청사항</summary>
@@ -160,18 +161,5 @@ const Flexcontainerg = styled.div`
   flex-direction: row;
   justify-content: space-between;
 `;
-// const StyledButton = styled(Button)`
-//   padding-left: 5%;
-//   text-align: left;
-//   border-radius: 30px;
-//   border: 1px solid
-//     ${props => ((props.num + props.count) % 2 === 1 ? '#2ba5f7' : 'white')};
-//   width: 90%;
-//   background-color: ${props =>
-//     (props.num + props.count) % 2 === 1 ? 'white' : '#2ba5f7'};
-//   margin: auto;
-//   line-height: 60px;
-//   height: 60px;
-//   color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
-// `;
+
 export default TrainerFeedBackTab;

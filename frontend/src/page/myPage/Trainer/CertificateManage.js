@@ -1,11 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { Container, Button } from 'react-bootstrap';
 import axios from 'axios';
-import styled from 'styled-components';
 import sampleImg from '../../../images/sample_certificate.png';
-import '../../../scss/certificateManage.css';
 
 function CertificateManage() {
   const loginedUser = useSelector(state => state.user);
@@ -57,7 +54,7 @@ function CertificateManage() {
 
   return (
     <Container fluid className="panel">
-      <Head1>자격증 파일 관리</Head1>
+      <div className="head">자격증 파일 관리</div>
       <form className="upload-form" onSubmit={handleSubmit}>
         <button
           type="button"
@@ -77,10 +74,6 @@ function CertificateManage() {
               display: 'none',
             }}
           />
-          {/* <label htmlFor="file-input" className="file-input-label">
-            파일 선택
-          </label> */}
-
           <div
             className="preview-wrapper"
             style={{
@@ -97,27 +90,12 @@ function CertificateManage() {
             파일 선택
           </Button>
         </button>
-        <Button1 variant="primary" type="submit">
+        <Button variant="primary" type="submit" className="mgtp">
           업로드
-        </Button1>
+        </Button>
       </form>
     </Container>
   );
 }
-
-const Head1 = styled.div`
-  color: rgb(21, 20, 20);
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 30px;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  width: fit-content;
-  margin: 0 auto;
-  padding: 10px;
-`;
-const Button1 = styled(Button)`
-  margin-top: 3%;
-`;
 
 export default CertificateManage;

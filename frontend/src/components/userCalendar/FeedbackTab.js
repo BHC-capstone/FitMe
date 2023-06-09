@@ -57,7 +57,7 @@ function FeedBackTab({ userid, date }) {
 
   const onChangeFile = e => {
     axios({
-      url: `https://localhost:4000/feedback/uploadImage/${userid}/${Feedbackdate.id}`,
+      url: `https://fitme.p-e.kr:4000/feedback/uploadImage/${userid}/${Feedbackdate.id}`,
       data: e.target.files[0],
       headers: {
         'Content-Type': 'multipart/form-data',

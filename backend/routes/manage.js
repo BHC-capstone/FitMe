@@ -30,7 +30,6 @@ router.get('/checkptuserlist/:id', async function (req, res) {
       });
       res.status(200).json({ data: userListWithNames, message: '' });
     } catch (err) {
-      console.log(err);
     }
   } else {
     res.status(401).json({ data: null, message: '로그인이 필요합니다.' });
@@ -54,9 +53,7 @@ router.get('/checkptuserdetail/:user_id/:id', async function (req, res) {
       name: check_pt_user_detail.user.name,
     };
     res.status(200).json({ data: userWithNames, message: '' });
-    res.status(200).json({ data: check_pt_user_detail, message: '' });
   } catch (err) {
-    console.log(err);
   }
 });
 
@@ -72,7 +69,6 @@ router.get('/tag/:user_id', async function (req, res) {
       res.status(401).json({ data: null, message: '' });
     }
   } catch (err) {
-    console.log(err);
   }
 });
 
@@ -89,7 +85,6 @@ router.post('/updatememo/:user_id/:id', async function (req, res) {
     );
     res.status(200).json({ data: null, message: '메모가 수정되었습니다.' });
   } catch (err) {
-    console.log(err);
   }
 });
 
@@ -117,7 +112,6 @@ router.post('/maketag/:user_id/:trainer_id', async function (req, res) {
       });
     }
   } catch (err) {
-    console.log(err);
   }
 });
 
@@ -140,7 +134,6 @@ router.post('/deletetag/:id', async function (req, res) {
         .json({ data: null, message: '존재하지 않는 태그입니다.' });
     }
   } catch (err) {
-    console.log(err);
   }
 });
 

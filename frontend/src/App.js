@@ -23,6 +23,7 @@ import WithdrawPage from './page/myPage/UserDeletePage';
 import CalendarPart from './page/Main/CalenderPart';
 import TrainerCalendar from './page/Trainer/TrainerCalendar';
 import CertificateManage from './page/myPage/Trainer/CertificateManage';
+import MasterMain from './page/Master/MasterMain';
 import PointCharge from './page/Payment/PointCharge';
 import ChargeSuccess from './page/Payment/ChargeSuccess';
 import ChargeFail from './page/Payment/ChargeFail';
@@ -56,6 +57,7 @@ export default function App() {
         <Route path="/charge-success" element={<ChargeSuccess />} />
         <Route path="/charge-fail" element={<ChargeFail />} />
         <Route path="/charge-cancel" element={<ChargeCancel />} />
+        <Route path="/master" element={<MasterMain />} />
       </Routes>
     </div>
   );

@@ -24,7 +24,7 @@ function TrainerExerciseTab({ userid, date }) {
         setExerdate(res.data.data);
       })
       .catch(err => {
-        console.log(err);
+        alert(err.response.data.message);
       });
   }, [userid, date]);
 
@@ -47,7 +47,7 @@ function TrainerExerciseTab({ userid, date }) {
           });
       })
       .catch(err => {
-        console.log(err);
+        alert(err.response.data.message);
       });
   };
   function onRemove(routineid) {
@@ -69,7 +69,7 @@ function TrainerExerciseTab({ userid, date }) {
           });
       })
       .catch(err => {
-        console.log(err);
+        alert(err.response.data.message);
       });
   }
   function onVideoSubmit(videoInput, routineid) {
@@ -98,7 +98,7 @@ function TrainerExerciseTab({ userid, date }) {
           });
       })
       .catch(err => {
-        console.log(err);
+        alert(err.response.data.message);
       });
   }
   function onVideoRemove(routineid) {
@@ -121,7 +121,7 @@ function TrainerExerciseTab({ userid, date }) {
           });
       })
       .catch(err => {
-        console.log(err);
+        alert(err.response.data.message);
       });
   }
 
