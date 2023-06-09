@@ -43,7 +43,6 @@ function Trainerdetail() {
         );
         const { data: trainerData } = trainerResponse.data;
         const { data: imgData } = imgResponse.data;
-        console.log(trainerData);
         setTrainer(trainerData);
         if (imgData === null) {
           setProfImg(blankImg);

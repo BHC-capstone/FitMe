@@ -16,15 +16,15 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     name: {
-      type: DataTypes.STRING(1024),
+      type: DataTypes.STRING(255),
       allowNull: true
     },
     image_url: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING(1024),
       allowNull: true
     },
     certification_s3_key: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING(1024),
       allowNull: true
     }
   }, {
