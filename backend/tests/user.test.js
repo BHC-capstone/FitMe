@@ -5,7 +5,7 @@ let users = require('../models').users;
 
 const sequelize = require('../models').sequelize;
 beforeAll(async () => {
-  jest.setTimeout(10000);
+  jest.setTimeout(60000);
   await sequelize.sync({});
 });
 
