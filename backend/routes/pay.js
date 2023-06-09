@@ -48,9 +48,9 @@ router.post('/payment', async (req, res) => {
       total_amount: amount,
       vat_amount: 0,
       tax_free_amount: 0,
-      approval_url: 'https://fitme.p-e.kr:4000/charge-success',
-      fail_url: 'https://fitme.p-e.kr:4000/charge-fail',
-      cancel_url: 'https://fitme.p-e.kr:4000/charge-cancel',
+      approval_url: 'https://localhost:3000/charge-success',
+      fail_url: 'https://localhost:3000/charge-fail',
+      cancel_url: 'https://localhost:3000/charge-cancel',
     };
 
     const response = await axios.post(
@@ -70,7 +70,7 @@ router.post('/payment', async (req, res) => {
       tid: data.tid,
       created: data.created_at,
       approved: data.created_at,
-      amount: data.amount.total,
+      amount: amount,
       status: 'ready',
     });
     const tId = data.tid;

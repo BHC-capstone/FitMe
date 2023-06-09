@@ -38,7 +38,7 @@ function PaymentHistoryTab() {
             <ListGroup.Item>결제일자: {payment.approved}</ListGroup.Item>
             <ListGroup.Item>결제금액: {payment.amount}</ListGroup.Item>
             <ListGroup.Item>결제수단: {payment.payname}</ListGroup.Item>
-            <ListGroup.Item>결제상태: {payment.status}</ListGroup.Item>
+            <ListGroup.Item>결제결과: {payment.status}</ListGroup.Item>
           </ListGroup>
         </StyledCard>
       ))}
