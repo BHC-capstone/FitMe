@@ -90,6 +90,10 @@ function Trainerdetail() {
             <span className="b">H.P :</span>
             {trainer.phonenumber}
           </text>
+          <text className="emailblock">
+            <span className="b">PT 회 당 가격 :</span>
+            {trainer.pt_point}
+          </text>
           <Button
             variant="secondary"
             className="flrg mgtp"
