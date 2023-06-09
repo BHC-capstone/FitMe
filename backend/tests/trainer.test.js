@@ -43,7 +43,7 @@ describe('Trainer Signup', () => {
       .attach('certificationFile', testFilePath);
 
     expect(response.status).toBe(200);
-    expect(response.body.message).toBe('회원가입을 환영합니다.');
+    expect(response.body.message).toBe('회원가입 신청이 완료되었습니다.');
     expect(response.body.data).toBeNull();
   }, 10000);
 

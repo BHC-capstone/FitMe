@@ -4,7 +4,7 @@ import Calendar from 'react-calendar';
 import '../../scss/calendar.scss';
 import styled from 'styled-components';
 import { Container } from 'react-bootstrap';
-import TabMenu from '../../components/TabMenu';
+import TabMenu from '../../components/myPage/TabMenu';
 import MasterCertification from './MasterCertification';
 import MasterTrainerRequest from './MasterTrainerRequest';
 import MasterStatics from './MasterStatics';
