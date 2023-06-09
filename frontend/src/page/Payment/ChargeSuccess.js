@@ -25,19 +25,13 @@ function ChargeSuccess() {
     console.log(loginedUser.tid);
     axios({
       method: 'post',
-      url: 'https://fitme.p-e.kr:4000/pay/payment/approve',
+      url: 'https://localhost:4000/pay/payment/approve',
       data: {
         pgToken,
         userId: loginedUser.id,
         tId: loginedUser.tid,
       },
-    })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        alert(error.response.data.message);
-      });
+    });
   }, []);
 
   return (

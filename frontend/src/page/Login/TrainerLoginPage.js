@@ -36,7 +36,7 @@ export default function LoginPage(props) {
     };
 
     axios
-      .post('https://fitme.p-e.kr:4000/trainers/login', body, {
+      .post('https://localhost:4000/trainers/login', body, {
         withCredentials: true,
       })
       .then(res => {

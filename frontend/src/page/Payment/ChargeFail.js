@@ -8,17 +8,11 @@ function ChargeFail() {
   useEffect(() => {
     axios({
       method: 'post',
-      url: 'https://fitme.p-e.kr:4000/pay/payment/status',
+      url: 'https://localhost:4000/pay/payment/status',
       data: {
         status: 'fail',
       },
-    })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    });
   }, []);
   return (
     <Container fluid className="panel">
