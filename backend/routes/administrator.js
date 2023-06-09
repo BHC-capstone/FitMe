@@ -191,26 +191,26 @@ router.get('/trainer/certificatelist', async (req, res) => {
 router.post('/trainerauth/:Id', async (req, res) => {
   try {
     const { Id } = req.params;
-    const trainer = await trainer_sign_request.findOne({
+    const trainer_request = await trainer_sign_request.findOne({
       where: { id: Id },
     });
     if (trainer_sign_request) {
       const Trainer = await trainers.create({
-        email: trainer.email,
-        name: trainer.name,
-        password: trainer.password,
-        age: trainer.age,
-        gender: trainer.gender,
-        phonenumber: trainer.phonenumber,
-        introduction: trainer.introduction,
-        career: trainer.career,
-        pt_point: trainer.pt_point,
+        email: trainer_request.email,
+        name: trainer_request.name,
+        password: trainer_request.password,
+        age: trainer_request.age,
+        gender: trainer_request.gender,
+        phonenumber: trainer_request.phonenumber,
+        introduction: trainer_request.introduction,
+        career: trainer_request.career,
+        pt_point: trainer_request.pt_point,
       });
       const cert = await certifications.create({
-        trainer_id: Trainer.id,
-        name: Trainer.certification_name,
-        image_url: Trainer.image_url,
-        certification_s3_key: Trainer.s3_key,
+        trainer_id: trainer_request.id,
+        name: trainer_request.certification_name,
+        image_url: trainer_request.image_url,
+        certification_s3_key: trainer_request.s3_key,
       });
       const trainer_certs = await trainer_cert.create({
         trainer_id: Trainer.id,

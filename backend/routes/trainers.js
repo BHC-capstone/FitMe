@@ -399,6 +399,7 @@ router.get('/trainerlist', async function (req, res) {
           'gender',
           'introduction',
           'phonenumber',
+          'pt_point',
         ],
       });
       res.status(200).json({ data: trainerInfo, message: '' });
@@ -423,6 +424,7 @@ router.get('/trainerlist/:id', async function (req, res) {
         'introduction',
         'career',
         'trainer_image_url',
+        'pt_point',
       ],
       include: {
         model: models.certifications,
