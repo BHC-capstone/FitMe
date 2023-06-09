@@ -5,8 +5,9 @@ let users = require('../models').users;
 
 const sequelize = require('../models').sequelize;
 beforeAll(async () => {
+  jest.setTimeout(10000);
   await sequelize.sync({});
-}, 10000);
+});
 
 describe('User Signup', () => {
   afterAll(async () => {
