@@ -6,9 +6,10 @@ let fs = require('fs');
 let path = require('path');
 
 const sequelize = require('../models').sequelize;
+
 beforeAll(async () => {
   await sequelize.sync({});
-}, 60000);
+});
 
 const testDir = path.join(__dirname, 'files');
 const testFilePath = path.join(testDir, 'test-file.jpg');
@@ -16,12 +17,16 @@ fs.writeFileSync(testFilePath, '테스트 파일');
 
 // trainer signup test
 describe('Trainer Signup', () => {
-  afterAll(async () => {
+  beforeEach(async () => {
     await trainer_sign_request.destroy({
       where: {
         email: 'testTrainer@ajou.ac.kr',
       },
     });
+  });
+
+  beforeAll(async () => {
+    await sequelize.sync({});
   });
 
   it('정상적인 요청이 들어와 회원가입되는 경우', async () => {
@@ -65,7 +70,7 @@ describe('Trainer Signup', () => {
     });
 
     expect(response.status).toBe(409);
-    expect(response.body.message).toBe('이미 존재하는 이메일입니다.');
+    expect(response.body.message).toBe('이미 신청된 이메일입니다.');
     expect(response.body.data).toStrictEqual({ email: 'trainer@ajou.ac.kr' });
   });
 });

@@ -1,5 +1,4 @@
 const request = require('supertest');
-const session = require('supertest-session');
 const app = require('../app');
 const fs = require('fs');
 let users = require('../models').users;
@@ -181,7 +180,6 @@ describe('User Withdrawal', () => {
       .timeout(10000);
 
     cookies = loginResponse.header['set-cookie'];
-    console.log(loginResponse);
 
     const response = await superagent
       .post(
