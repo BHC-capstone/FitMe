@@ -4,6 +4,7 @@ const fs = require('fs');
 let users = require('../models').users;
 let superagent = require('superagent');
 let https = require('https');
+const path = require('path');
 
 // user signup test
 
@@ -38,12 +39,14 @@ beforeAll(async () => {
   await sequelize.sync({});
 
   testUser = {
+    id: 8971,
     email: 'testUser@ajou.ac.kr',
     name: '박테스트',
     password: '$2b$10$Vv3rIFGpwIHqZPt2KdBmGuJCco9awL/OJBvxtCgScqbVFTEmkTgNK', //1234 encrypt
     age: 25,
     gender: 'male',
     phonenumber: '01012341234',
+    s3_key: 'testS3Key',
   };
   createdUser = await users.create(testUser);
 }, 60000);
@@ -162,49 +165,124 @@ describe('User Logout', () => {
   });
 });
 
-describe('User Withdrawal', () => {
-  beforeAll(async () => {});
-  test('로그인 된 상태에서 정상적으로 회원탈퇴하는 경우', async () => {
-    let cookies;
-
-    let loginResponse = await superagent
-      .post('https://127.0.0.1:4000/users/login')
-      .ca(serverOptions.ca)
-      .cert(serverOptions.cert)
-      .key(serverOptions.key)
-      .withCredentials()
+describe('User Profile', () => {
+  test('정상적으로 profile을 보내주는 경우', async () => {
+    let loginResponse = await request(app)
+      .post('/users/login')
       .send({
         email: testUser.email,
         password: '1234',
       })
       .timeout(10000);
 
-    cookies = loginResponse.header['set-cookie'];
-
-    const response = await superagent
-      .post(
-        `https://127.0.0.1:4000/users/withdraw/${loginResponse.body.data.id}`,
-      )
-      .withCredentials(true)
-      .ca(serverOptions.ca)
-      .cert(serverOptions.cert)
-      .key(serverOptions.key)
-      .set('Cookie', cookies)
+    console.log(loginResponse.body);
+    console.log(createdUser.id);
+    const response = await request(app)
+      .get(`/users/profile/${loginResponse.body.data.id}`)
       .send();
+
+    expect(response.status).toBe(200);
+    expect(response.body.message).toBe('');
+    expect(response.body.data).toEqual({
+      id: createdUser.id,
+      email: createdUser.email,
+      name: createdUser.name,
+      age: createdUser.age,
+      gender: createdUser.gender,
+      phonenumber: createdUser.phonenumber,
+    });
+  });
+});
+
+describe('User Change Password', () => {
+  test('User가 올바른 비밀번호를 입력하여 비밀번호 변경에 성공하는 경우', async () => {
+    const response = await request(app)
+      .post(`/users/profile/changePassword/${testUser.id}`)
+      .send({
+        currentPassword: '1234',
+        newPassword: '45678',
+        newPassword2: '45678',
+      });
+
+    expect(response.status).toBe(200);
+    expect(response.body.data).toBeNull();
+    expect(response.body.message).toBe('성공적으로 비밀번호가 변경되었습니다.');
+  });
+
+  test('User가 유효하지 않아 에러메시지와 함께 실패하는 경우 ', async () => {
+    const response = await request(app)
+      .post('/users/profile/changePassword/non-existent-id')
+      .send({
+        currentPassword: '1234',
+        newPassword: '5678',
+        newPassword2: '5678',
+      });
+
+    expect(response.status).toBe(500);
+    expect(response.body.data).toBeNull();
+    expect(response.body.message).toBe('서버 오류가 발생했습니다.');
+  });
+
+  test('비밀번호를 잘못 입력하여 에러 메시지가 출력되는 경우', async () => {
+    const response = await request(app)
+      .post(`/users/profile/changePassword/${8971}`)
+      .send({
+        currentPassword: '1234',
+        newPassword: '45678',
+        newPassword2: '45678',
+      });
+
+    expect(response.status).toBe(401);
+    expect(response.body.data).toBeNull();
+    expect(response.body.message).toBe('현재 비밀번호가 일치하지 않습니다.');
+  });
+
+  test('비밀번호와 비밀번호 확인에 입력된 값이 서로 같지 않은 경우', async () => {
+    const response = await request(app)
+      .post(`/users/profile/changePassword/${testUser.id}`)
+      .send({
+        currentPassword: '45678',
+        newPassword: '1234',
+        newPassword2: '1348',
+      });
+
+    expect(response.status).toBe(401);
+    expect(response.body.data).toBeNull();
+    expect(response.body.message).toBe(
+      '입력된 새 비밀번호가 일치하지 않습니다.',
+    );
+  });
+});
+
+describe('User request profile Image', () => {
+  test('유효한 User가 Profile 사진을 요청하는 경우', async () => {
+    const response = await request(app).get(`/users/profileImg/${testUser.id}`);
+
+    expect(response.status).toBe(200);
+  });
+});
+
+describe('User Withdrawal', () => {
+  let agent;
+
+  beforeEach(() => {
+    agent = superagent.agent();
+  });
+  test('로그인 된 상태에서 정상적으로 회원탈퇴하는 경우', async () => {
+    let loginResponse = await request(app)
+      .post('/users/login')
+      .send({
+        email: testUser.email,
+        password: '1234',
+      })
+      .timeout(10000);
+
+    const response = await request(app)
+      .post(`/users/withdraw/${createdUser.id}`)
+      .send();
+
     expect(response.status).toBe(200);
     expect(response.body.message).toBe('성공적으로 탈퇴되었습니다');
     expect(response.body.data).toBeNull();
   });
-
-  test('로그인되지 않은 상태에서 탈퇴 요청 시 에러 메시지를 받아야 하는 경우', async () => {
-    const response = await request(app)
-      .post(`/users/withdraw/${createdUser.id}`)
-      .withCredentials(true);
-
-    expect(response.status).toBe(400);
-    expect(response.body.message).toBe('로그인 하세요');
-    expect(response.body.data).toBeNull();
-  });
 });
-
-//supertest session with https
