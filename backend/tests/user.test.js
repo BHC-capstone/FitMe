@@ -3,7 +3,7 @@ const session = require('supertest-session');
 const app = require('../app');
 const fs = require('fs');
 let users = require('../models').users;
-let agent = require('supertest').agent(app);
+let superagent = require('superagent');
 let https = require('https');
 
 // user signup test
@@ -12,8 +12,16 @@ const sequelize = require('../models').sequelize;
 let createdUser = null;
 let testUser = null;
 let server;
+let agent = null;
+
+let serverOptions;
 
 beforeAll(async () => {
+  serverOptions = {
+    ca: fs.readFileSync(__dirname + '/../ca.pem'),
+    key: fs.readFileSync(__dirname + '/../key.pem'),
+    cert: fs.readFileSync(__dirname + '/../cert.pem'),
+  };
   server = https
     .createServer(
       {
@@ -22,8 +30,11 @@ beforeAll(async () => {
         cert: fs.readFileSync(__dirname + '/../cert.pem'),
       },
       app,
+      () => {
+        agent = superagent.agent(server);
+      },
     )
-    .listen(PORT);
+    .listen(4000);
 
   await sequelize.sync({});
 
@@ -37,10 +48,6 @@ beforeAll(async () => {
   };
   createdUser = await users.create(testUser);
 }, 60000);
-
-beforeEach(() => {
-  agent = request.agent(server);
-});
 
 afterAll(async () => {
   await users.destroy({
@@ -161,8 +168,11 @@ describe('User Withdrawal', () => {
   test('로그인 된 상태에서 정상적으로 회원탈퇴하는 경우', async () => {
     let cookies;
 
-    let loginResponse = await request(server)
-      .post('/users/login')
+    let loginResponse = await superagent
+      .post('https://127.0.0.1:4000/users/login')
+      .ca(serverOptions.ca)
+      .cert(serverOptions.cert)
+      .key(serverOptions.key)
       .withCredentials()
       .send({
         email: testUser.email,
@@ -170,14 +180,17 @@ describe('User Withdrawal', () => {
       })
       .timeout(10000);
 
-    cookies = loginResponse.header['Set-Cookie'];
+    cookies = loginResponse.header['set-cookie'];
     console.log(loginResponse);
 
-    const response = await request(server)
+    const response = await superagent
       .post(
         `https://127.0.0.1:4000/users/withdraw/${loginResponse.body.data.id}`,
       )
       .withCredentials(true)
+      .ca(serverOptions.ca)
+      .cert(serverOptions.cert)
+      .key(serverOptions.key)
       .set('Cookie', cookies)
       .send();
     expect(response.status).toBe(200);
@@ -186,7 +199,7 @@ describe('User Withdrawal', () => {
   });
 
   test('로그인되지 않은 상태에서 탈퇴 요청 시 에러 메시지를 받아야 하는 경우', async () => {
-    const response = await agent
+    const response = await request(app)
       .post(`/users/withdraw/${createdUser.id}`)
       .withCredentials(true);
 
