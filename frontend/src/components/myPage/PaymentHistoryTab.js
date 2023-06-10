@@ -1,25 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Container, Card, ListGroup } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 function PaymentHistoryTab() {
+  const loginedUser = useSelector(state => state.user);
   const [payments, setPayments] = useState([]);
   useEffect(() => {
-    setPayments([
-      {
-        id: 1,
-        date: '2021-01-01',
-        amount: 10000,
-        method: '신용카드',
-      },
-      {
-        id: 2,
-        date: '2021-01-02',
-        amount: 20000,
-        method: '신용카드',
-      },
-    ]);
+    axios({
+      method: 'get',
+      url: `https://localhost:4000/pay/payment/user/${loginedUser.id}`,
+      withCredentials: true,
+    }).then(res => {
+      setPayments(res.data.data);
+    });
   }, []);
 
   //   useEffect(() => {
@@ -30,7 +25,7 @@ function PaymentHistoryTab() {
   //     fetchPayments();
   //   }, []);
 
-  if (payments.length === 0) {
+  if (payments === null) {
     return <div>결제내역 Loading...</div>;
   }
 
@@ -40,9 +35,10 @@ function PaymentHistoryTab() {
         <StyledCard>
           <Card.Header as="h5">결제 내역 {payment.id}</Card.Header>
           <ListGroup variant="flush" key={payment.id}>
-            <ListGroup.Item>결제일자: {payment.date}</ListGroup.Item>
+            <ListGroup.Item>결제일자: {payment.approved}</ListGroup.Item>
             <ListGroup.Item>결제금액: {payment.amount}</ListGroup.Item>
-            <ListGroup.Item>결제수단: {payment.method}</ListGroup.Item>
+            <ListGroup.Item>결제수단: {payment.payname}</ListGroup.Item>
+            <ListGroup.Item>결제결과: {payment.status}</ListGroup.Item>
           </ListGroup>
         </StyledCard>
       ))}

@@ -11,6 +11,7 @@ function ChargeSuccess() {
   const loginedUser = useSelector(state => state.user);
   const params = new URLSearchParams(location.search);
   const pgToken = params.get('pg_token');
+  const reload = params.get('reload');
   // const MY_ADMIN_KEY = 'ebd206ac5d003ad23e3a33e7ebf28aa6';
   // const params = {
   //   cid: 'TC0ONETIME',
@@ -21,23 +22,19 @@ function ChargeSuccess() {
   // };
 
   useEffect(() => {
-    console.log(pgToken);
-    console.log(loginedUser.tid);
-    axios({
-      method: 'post',
-      url: 'https://localhost:4000/pay/payment/approve',
-      data: {
-        pgToken,
-        userId: loginedUser.id,
-        tId: loginedUser.tid,
-      },
-    })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        alert(error.response.data.message);
+    if (reload !== 'true') {
+      axios({
+        method: 'post',
+        url: 'https://localhost:4000/pay/payment/approve',
+        data: {
+          pgToken,
+          userId: loginedUser.id,
+          tId: loginedUser.tid,
+        },
+      }).then(res => {
+        window.location.replace('/charge-success?reload=true');
       });
+    }
   }, []);
 
   return (

@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import { Button, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 
 function ChargeFail() {
+  const loginedUser = useSelector(state => state.user);
   const navigate = useNavigate();
   useEffect(() => {
     axios({
@@ -11,14 +13,9 @@ function ChargeFail() {
       url: 'https://localhost:4000/pay/payment/status',
       data: {
         status: 'fail',
+        tid: loginedUser.tid,
       },
-    })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    });
   }, []);
   return (
     <Container fluid className="panel">
