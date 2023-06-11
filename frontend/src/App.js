@@ -28,6 +28,7 @@ import PointCharge from './page/Payment/PointCharge';
 import ChargeSuccess from './page/Payment/ChargeSuccess';
 import ChargeFail from './page/Payment/ChargeFail';
 import ChargeCancel from './page/Payment/ChargeCancel';
+import MasterLogin from './page/Master/MasterLogIn';
 
 const history = createBrowserHistory();
 
@@ -57,7 +58,8 @@ export default function App() {
         <Route path="/charge-success" element={<ChargeSuccess />} />
         <Route path="/charge-fail" element={<ChargeFail />} />
         <Route path="/charge-cancel" element={<ChargeCancel />} />
-        <Route path="/master" element={<MasterMain />} />
+        <Route path="/master" element={<MasterLogin />} />
+        <Route path="/master-main" element={<MasterMain />} />
       </Routes>
     </div>
   );
