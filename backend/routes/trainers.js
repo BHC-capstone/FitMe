@@ -10,6 +10,12 @@ const {
   trainer_sign_request,
   certification_auth_request,
   dailytrainercounts,
+  meal_plan,
+  schedules,
+  exercise_routines,
+  user_tag,
+  feedbacks,
+  trainer_manage,
 } = require('../models');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -188,30 +194,73 @@ router.get('/logout', function (req, res) {
 });
 
 // trainer delete
-router.post('/withdraw/:id', async function (req, res) {
+router.post('/trainer/withdraw/:id', async function (req, res) {
   if (req.session.loggedin) {
     try {
       const trainerInfo = await trainers.findOne({
         where: { id: req.params.id },
       });
       if (trainerInfo != undefined) {
-        if (req.body.password == trainerInfo.password) {
+        await sequelize.transaction(async transaction => {
+          await pt_requests.destroy({
+            where: { trainer_id: req.params.id },
+            transaction,
+          });
+          await meal_plan.destroy({
+            where: { trainer_id: req.params.id },
+            transaction,
+          });
+          await feedbacks.destroy({
+            where: { trainer_id: req.params.id },
+            transaction,
+          });
+          await exercise_routines.destroy({
+            where: { trainer_id: req.params.id },
+            transaction,
+          });
+          await schedules.destroy({
+            where: { trainer_id: req.params.id },
+            transaction,
+          });
+          await trainer_manage.destroy({
+            where: { trainer_id: req.params.id },
+            transaction,
+          });
+          await trainer_points.destroy({
+            where: { trainer_id: req.params.id },
+            transaction,
+          });
+          await certifications.destroy({
+            where: { trainer_id: req.params.id },
+            transaction,
+          });
+          await certification_auth_request.destroy({
+            where: { trainer_id: req.params.id },
+            transaction,
+          });
+          await trainer_cert.destroy({
+            where: { trainer_id: req.params.id },
+            transaction,
+          });
+          await user_tag.destroy({
+            where: { trainer_id: req.params.id },
+            transaction,
+          });
           await trainers.destroy({
             where: { id: req.params.id },
+            transaction,
           });
-          res.status(200).json({
-            data: null,
-            message: '성공적으로 탈퇴되었습니다',
-          });
-        } else {
-          res.status(401).json({
-            data: null,
-            message: '비밀번호가 일치하지 않습니다.',
-          });
-        }
+        });
+
+        res
+          .status(200)
+          .json({ data: null, message: '성공적으로 탈퇴되었습니다' });
       }
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }
   } else {
+    res.status(400).json({ data: null, message: '로그인 하세요' });
   }
 });
 

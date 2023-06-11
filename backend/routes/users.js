@@ -1,6 +1,18 @@
 var express = require('express');
 var router = express.Router();
-const { users, user_points, feedbacks, dailyusercounts } = require('../models');
+const {
+  users,
+  user_points,
+  feedbacks,
+  dailyusercounts,
+  exercise_routines,
+  schedules,
+  meal_plan,
+  pt_requests,
+  payhistory,
+  trainer_manage,
+  user_tag,
+} = require('../models');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const { sequelize } = require('../models');
@@ -143,18 +155,63 @@ router.post('/withdraw/:id', async function (req, res) {
         where: { id: req.params.id },
       });
       if (userInfo != undefined) {
-        await users.destroy({
-          where: { id: req.params.id },
+        await sequelize.transaction(async transaction => {
+          await exercise_routines.destroy({
+            where: { user_id: req.params.id },
+            transaction,
+          });
+          await schedules.destroy({
+            where: { user_id: req.params.id },
+            transaction,
+          });
+          await meal_plan.destroy({
+            where: { user_id: req.params.id },
+            transaction,
+          });
+          await feedbacks.destroy({
+            where: { user_id: req.params.id },
+            transaction,
+          });
+          await pt_requests.destroy({
+            where: { user_id: req.params.id },
+            transaction,
+          });
+          await user_points.destroy({
+            where: { user_id: req.params.id },
+            transaction,
+          });
+          await payhistory.destroy({
+            where: { user_id: req.params.id },
+            transaction,
+          });
+          await trainer_manage.destroy({
+            where: { user_id: req.params.id },
+            transaction,
+          });
+          await user_tag.destroy({
+            where: { user_id: req.params.id },
+            transaction,
+          });
+          await users.destroy({
+            where: { id: req.params.id },
+            transaction,
+          });
         });
+
         res
           .status(200)
-          .json({ data: null, message: '성공적으로 탈퇴되었습니다' });
+          .json({ data: null, message: '성공적으로 탈퇴되었습니다.' });
+      } else {
+        res
+          .status(400)
+          .json({ data: null, message: '사용자를 찾을 수 없습니다.' });
       }
     } catch (err) {
       console.log(err);
+      res.status(500).json({ data: null, message: '오류가 발생했습니다.' });
     }
   } else {
-    res.status(400).json({ data: null, message: '로그인 하세요' });
+    res.status(400).json({ data: null, message: '로그인 하세요.' });
   }
 });
 
