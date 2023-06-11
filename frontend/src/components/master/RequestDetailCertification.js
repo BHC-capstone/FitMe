@@ -52,6 +52,7 @@ function RequestDetailCertification({ request, fetch }) {
         alert(error.response.data.message);
       });
   };
+
   useEffect(() => {
     fetch();
   }, []);

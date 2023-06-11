@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { Container, FloatingLabel, Form, Button } from 'react-bootstrap';
 import styled from 'styled-components';
-import { UploadOutlined, CloseOutlined } from '@ant-design/icons';
+import { CloseOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 
 function TrainerProfile() {
@@ -173,6 +173,10 @@ function TrainerProfile() {
             <div key={certification.id} className="certification-item">
               <h3 className="certification-name">
                 {certification.name}
+                <div>
+                  <CloseOutlined onClick={certificationDelete} />
+                </div>
+
                 <div>
                   <CloseOutlined
                     onClick={() => certificationDelete(certification.id)}

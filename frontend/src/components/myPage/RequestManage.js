@@ -6,6 +6,7 @@ import Request from './Request';
 import RequestDetail from './RequestDetail';
 
 const { Panel } = Collapse;
+
 function RequestManage() {
   const [requests, setRequests] = useState(null);
   const loginedUser = useSelector(state => state.user);

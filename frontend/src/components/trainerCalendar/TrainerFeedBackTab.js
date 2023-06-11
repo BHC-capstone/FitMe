@@ -129,7 +129,7 @@ function TrainerFeedBackTab({ userid, date }) {
                     onBlur={onChangeText}
                     style={{
                       textAlign: 'left',
-                      width: '80%',
+                      width: '100%',
                       borderRadius: '5px',
                       border: '1px solid gray',
                       background: 'transparent',

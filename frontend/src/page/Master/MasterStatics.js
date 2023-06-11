@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import Calendar from 'react-calendar';
-import '../../scss/calendar.scss';
 import styled from 'styled-components';
-import { Container } from 'react-bootstrap';
 import UserStatics from '../../components/master/UserStatics';
 import TrainerStatics from '../../components/master/TrainerStatics';
 import PtStatics from '../../components/master/PtStatics';
@@ -61,7 +57,6 @@ const TabMenu = styled.ul`
   align-items: center;
   list-style: none;
   margin-bottom: 30px;
-  margin-top: 10px;
   border-bottom: solid 1px;
   border-bottom-color: #d1d1d1;
 

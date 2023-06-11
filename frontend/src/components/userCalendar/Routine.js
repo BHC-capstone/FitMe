@@ -1,13 +1,13 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
 import ReactPlayer from 'react-player/lazy';
-import { Link } from 'react-router-dom'; //* ***
 import {
   ArrowDownOutlined,
   ArrowUpOutlined,
   CloseOutlined,
 } from '@ant-design/icons';
+
 // eslint-disable-next-line react/prop-types
 function Routine({
   num,

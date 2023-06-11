@@ -71,7 +71,7 @@ export default function TrainerSignUpPage() {
       .then(res => {
         console.log(res.data.data);
         if (res.status === 200) {
-          navigate('/user-login');
+          navigate('/login');
           alert(res.data.message);
         } else {
           alert(res.data.message);
@@ -82,8 +82,8 @@ export default function TrainerSignUpPage() {
       });
   };
 
-  const goUserLogin = () => {
-    navigate('/user-login');
+  const goLogin = () => {
+    navigate('/login');
   };
   const goTrainerSignUp = () => {
     navigate('/trainer-signup');
@@ -194,7 +194,7 @@ export default function TrainerSignUpPage() {
             제출
           </Button>
         </Form>
-        <Button variant="link" type="button" onClick={goUserLogin}>
+        <Button variant="link" type="button" onClick={goLogin}>
           이미 계정이 있나요?
         </Button>
         <hr />

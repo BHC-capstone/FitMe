@@ -10,7 +10,6 @@ import {
   Button,
   FloatingLabel,
 } from 'react-bootstrap';
-import styled from 'styled-components';
 import { loginUser } from '../../redux/_reducers/userSlice';
 
 export default function UserLoginPage(props) {
@@ -60,56 +59,53 @@ export default function UserLoginPage(props) {
   };
 
   return (
-    <div>
-      <Container fluid className="panel">
-        <div className="head">수강생 로그인</div>
-        <Form onSubmit={onSubmitHandler}>
-          <FloatingLabel
-            controlId="floatingInput"
-            label="이메일"
-            className="mb-3"
-          >
-            <Form.Control
-              id="email"
-              type="email"
-              placeholder="이메일을 입력하세요."
-              value={email}
-              onChange={onEmailHandler}
-              required
-            />
-          </FloatingLabel>
-          <FloatingLabel
-            controlId="floatingInput"
-            label="비밀번호"
-            className="mb-3"
-          >
-            <Form.Control
-              id="password"
-              type="password"
-              placeholder="비밀번호를 입력하세요."
-              value={password}
-              onChange={onPasswordHandler}
-              required
-            />
-          </FloatingLabel>
-          <Row>
-            <Col>
-              <Button type="submit" variant="primary">
-                로그인
-              </Button>
-            </Col>
-          </Row>
-          <Row>
-            <Button variant="link" type="button" onClick={goLandingPage}>
-              회원가입이 필요하신가요?
+    <Container>
+      <Form onSubmit={onSubmitHandler}>
+        <FloatingLabel
+          controlId="floatingInput"
+          label="이메일"
+          className="mb-3"
+        >
+          <Form.Control
+            id="email"
+            type="email"
+            placeholder="이메일을 입력하세요."
+            value={email}
+            onChange={onEmailHandler}
+            required
+          />
+        </FloatingLabel>
+        <FloatingLabel
+          controlId="floatingInput"
+          label="비밀번호"
+          className="mb-3"
+        >
+          <Form.Control
+            id="password"
+            type="password"
+            placeholder="비밀번호를 입력하세요."
+            value={password}
+            onChange={onPasswordHandler}
+            required
+          />
+        </FloatingLabel>
+        <Row>
+          <Col>
+            <Button type="submit" variant="primary" className="mgtp">
+              로그인
             </Button>
-          </Row>
-        </Form>
-        <hr />
-        <Button type="button" variant="secondary" onClick={goTrainerLogin}>
-          트레이너 로그인
-        </Button>
-      </Container>
-    </div>
+          </Col>
+        </Row>
+        <Row>
+          <Button variant="link" type="button" onClick={goLandingPage}>
+            회원가입이 필요하신가요?
+          </Button>
+        </Row>
+      </Form>
+      <hr />
+      <Button type="button" variant="secondary" onClick={goTrainerLogin}>
+        트레이너 로그인
+      </Button>
+    </Container>
   );
 }

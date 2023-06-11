@@ -52,6 +52,7 @@ function RequestDetailTrainer({ request, fetch }) {
         console.log(error);
       });
   };
+
   useEffect(() => {
     fetch();
   }, []);
@@ -77,7 +78,7 @@ function RequestDetailTrainer({ request, fetch }) {
             <Descriptions.Item label=" 트레이너 자격증">
               <img
                 style={{ width: '200px', height: '300px' }}
-                src={request.image_url}
+                src={request.trainer_image_url}
                 alt="자격증"
               />
             </Descriptions.Item>

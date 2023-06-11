@@ -144,12 +144,12 @@ function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
           </VideoTexture>
           <FloatingLabel
             controlId="floatingTextarea"
-            label="Comments"
+            label="feedbacks"
             className="mb-3"
           >
             <Form.Control
               as="textarea"
-              placeholder="Leave a comment here"
+              placeholder="Leave a feedbacks here"
               onChange={onChange}
               value={Feedbacktext}
               style={{ height: '100px', marginLeft: '5%' }}

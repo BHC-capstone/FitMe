@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Container, Col, Row, Card, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 
-export default function LandingPage() {
+export default function SignUpPage() {
   const navigate = useNavigate();
   const user = useSelector(state => state.user);
 
@@ -14,7 +14,7 @@ export default function LandingPage() {
     navigate('/trainer-signup');
   };
   const goLogin = () => {
-    navigate('/user-login');
+    navigate('/login');
   };
 
   const handleRedirect = () => {

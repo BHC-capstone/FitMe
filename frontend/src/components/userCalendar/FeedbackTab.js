@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Container, Row, Col, Form, Button, InputGroup } from 'react-bootstrap';
+import { Container, Form, Button, InputGroup } from 'react-bootstrap';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import Comments from '../trainerCalendar/Comments';
 import NoFeedBack from './NoFeedBack';
 import ExistFeedBack from './ExistFeedBack';
-import InputBox from '../ptrequest/InputBox';
 
 // eslint-disable-next-line react/prop-types
 function FeedBackTab({ userid, date }) {
@@ -15,11 +14,9 @@ function FeedBackTab({ userid, date }) {
   const [FeedbackExist, setFeedbackExist] = useState(false);
   const [textData, setTextData] = useState([]);
   const [repage, setRePage] = useState(0);
-  const [bodyData, setBodyData] = useState({ height: 0, weight: 0 });
   const loginedUser = useSelector(state => state.user);
 
   useEffect(() => {
-    // console.log('새로고침 실행');
     setFeedBackdate([]);
     setCommentdate([]);
     axios({
@@ -71,19 +68,6 @@ function FeedBackTab({ userid, date }) {
       setRePage(repage + 1);
     });
   };
-
-  const onSubmitBody = () => {
-    axios({
-      url: `https://localhost:4000/feedback/bodyinfo/${Feedbackdate.id}`,
-      data: {
-        height: bodyData.height,
-        weight: bodyData.weight,
-      },
-      method: 'POST',
-      withCredentials: true,
-    });
-  };
-
   // 운동 루틴이 배열로 제공 된다고 가정하면 map 함수를 상위에 추가하여 밑의 컴포넌트들을 본문으로 사용할 예정
   return (
     <Flexcontainers>
@@ -108,40 +92,18 @@ function FeedBackTab({ userid, date }) {
               <div className="head">오늘의 신체 정보</div>
               <InputGroup className="mb-3 jcct">
                 <InputGroup.Text className="textlabel">키</InputGroup.Text>
-                <Form.Control
-                  type="number"
-                  min={0}
-                  className="textcontrol"
-                  onChange={e => {
-                    setBodyData({ ...bodyData, height: e.target.value });
-                  }}
-                />
+                <Form.Control type="number" min={0} className="textcontrol" />
                 <InputGroup.Text className="textlabel">cm</InputGroup.Text>
               </InputGroup>
               <InputGroup className="mb-3 jcct">
                 <InputGroup.Text className="textlabel">몸무게</InputGroup.Text>
-                <Form.Control
-                  type="number"
-                  min={0}
-                  className="textcontrol"
-                  onChange={e => {
-                    setBodyData({ ...bodyData, weight: e.target.value });
-                  }}
-                />
+                <Form.Control type="number" min={0} className="textcontrol" />
                 <InputGroup.Text className="textlabel">kg</InputGroup.Text>
               </InputGroup>
               <div className="mgbt btn-upload">
                 <label htmlFor="imageupload">신체 사진 업로드</label>
                 <input type="file" id="imageupload" onChange={onChangeFile} />
               </div>
-              <Button
-                variant="primary"
-                type="button"
-                className="mgtp"
-                onClick={onSubmitBody}
-              >
-                입력 완료
-              </Button>
             </Container>
           </details>
 
@@ -164,7 +126,7 @@ function FeedBackTab({ userid, date }) {
                   onBlur={onChangeText}
                   style={{
                     textAlign: 'left',
-                    width: '80%',
+                    width: '100%',
                     borderRadius: '5px',
                     border: '1px solid gray',
                     background: 'transparent',
