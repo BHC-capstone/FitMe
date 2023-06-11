@@ -42,16 +42,26 @@ export default function TopNav() {
 
   const [point, setPoint] = useState(0);
   useEffect(() => {
-    if (user.isTrainer === true) return;
-    axios({
-      method: 'get',
-      url: `https://localhost:4000/users/userpoint/${user.id}`,
-      withCredentials: true,
-    }).then(response => {
-      const { data } = response.data;
-      setPoint(data.amount);
-    });
-  }, []);
+    if (user.isTrainer === true) {
+      axios({
+        method: 'get',
+        url: `https://localhost:4000/trainers/revenue/${user.id}`,
+        withCredentials: true,
+      }).then(response => {
+        const { data } = response.data;
+        setPoint(data.amount);
+      });
+    } else {
+      axios({
+        method: 'get',
+        url: `https://localhost:4000/users/userpoint/${user.id}`,
+        withCredentials: true,
+      }).then(response => {
+        const { data } = response.data;
+        setPoint(data.amount);
+      });
+    }
+  }, [user.id, user.isTrainer]);
 
   return (
     <Navbar key="sm" expand="sm" bg="white">

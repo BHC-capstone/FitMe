@@ -150,7 +150,11 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
         <Button type="submit" variant="primary" onClick={onSubmitHandler}>
           신청
         </Button>
-        <Button type="submit" variant="secondary">
+        <Button
+          type="submit"
+          variant="secondary"
+          onClick={() => navigate('/pointcharge')}
+        >
           충전
         </Button>
       </Boxr>
