@@ -137,25 +137,25 @@ router.get('/logout', function (req, res) {
 
 // user delete
 router.post('/withdraw/:id', async function (req, res) {
-  //  if (req.session.loggedin) {
-  try {
-    const userInfo = await users.findOne({
-      where: { id: req.params.id },
-    });
-    if (userInfo != undefined) {
-      await users.destroy({
+  if (req.session.loggedin) {
+    try {
+      const userInfo = await users.findOne({
         where: { id: req.params.id },
       });
-      res
-        .status(200)
-        .json({ data: null, message: '성공적으로 탈퇴되었습니다' });
+      if (userInfo != undefined) {
+        await users.destroy({
+          where: { id: req.params.id },
+        });
+        res
+          .status(200)
+          .json({ data: null, message: '성공적으로 탈퇴되었습니다' });
+      }
+    } catch (err) {
+      console.log(err);
     }
-  } catch (err) {
-    console.log(err);
+  } else {
+    res.status(400).json({ data: null, message: '로그인 하세요' });
   }
-  //  } else {
-  //    res.status(400).json({ data: null, message: '로그인 하세요' });
-  //  }
 });
 
 // user info
