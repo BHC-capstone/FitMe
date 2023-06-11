@@ -339,6 +339,20 @@ th.style {
   margin: 0 auto;
 }
 
+.request-detail-container .ant-descriptions-item-label {
+  font-family: 'Gowun Dodum', sans-serif;
+  font-weight: bold;
+  width: fit-content;
+}
+
+.request-detail-container .ant-descriptions-item-content {
+  /* font-family: 'Gowun Dodum', sans-serif;
+  font-weight: bold; */
+  /* display: inline-block; */
+  word-break: break-all;
+  width: calc(100% - 100px);
+}
+
 .upload-list-inline .ant-upload-list-item {
   float: left;
   width: 200px;
@@ -350,10 +364,6 @@ th.style {
 }
 
 // certifrcation page options
-.certification-list {
-  margin-top: 20px;
-}
-
 .certification-item {
   margin-bottom: 10px;
 }
@@ -367,6 +377,63 @@ th.style {
   font-family: 'Gowun Dodum', sans-serif;
   color: $primary;
   font-size: 20px;
+}
+
+// upload button options
+
+.textlabel {
+  font-family: 'Gowun Dodum', sans-serif;
+  background: #2ba5f7;
+  color: #fff;
+  border-radius: 10px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.textcontrol {
+  font-family: 'Gowun Dodum', sans-serif;
+  background-color: rgb(233, 233, 233);
+  text-align: center;
+  border: none;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 100px;
+}
+
+.btn-upload {
+  label {
+    font-family: 'Gowun Dodum', sans-serif;
+    width: 100%;
+    height: 40px;
+    background: #2ba5f7;
+    border: 1px solid white;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: auto;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    line-height: 40px;
+  }
+
+  input[type='file'] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+
+  &:hover {
+    border-radius: 10px;
+    background: #158edf;
+    color: #fff;
+  }
 }
 
 // margin options

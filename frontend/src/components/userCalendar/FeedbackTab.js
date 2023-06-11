@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Container, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, InputGroup } from 'react-bootstrap';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import Comments from '../trainerCalendar/Comments';
 import NoFeedBack from './NoFeedBack';
 import ExistFeedBack from './ExistFeedBack';
+import InputBox from '../ptrequest/InputBox';
+
 // eslint-disable-next-line react/prop-types
 function FeedBackTab({ userid, date }) {
   const [Feedbackdate, setFeedBackdate] = useState([]);
@@ -89,50 +91,20 @@ function FeedBackTab({ userid, date }) {
           <details className="mgtp">
             <summary className="mgbt">신체정보 입력</summary>
             <Container fluid className="content">
-              <div className="mgtp">
-                <div className="mgbt">키</div>
-                <input
-                  type="number"
-                  className="mgbt"
-                  min={0}
-                  style={{
-                    textAlign: 'left',
-                    width: '50%',
-                    borderRadius: '5px',
-                    border: '1px solid gray',
-                    background: 'transparent',
-                  }}
-                />
-              </div>
-              <div className="mgtp">
-                <div className="mgbt">몸무게</div>
-                <input
-                  type="number"
-                  min={0}
-                  className="mgbt"
-                  style={{
-                    textAlign: 'left',
-                    width: '50%',
-                    borderRadius: '5px',
-                    border: '1px solid gray',
-                    background: 'transparent',
-                  }}
-                />
-              </div>
-              <div className="mgtp">
-                <div className="mgbt">신체 사진</div>
-                <input
-                  type="file"
-                  className="mgbt"
-                  onChange={onChangeFile}
-                  style={{
-                    textAlign: 'left',
-                    width: '80%',
-                    borderRadius: '5px',
-                    border: '1px solid gray',
-                    background: 'transparent',
-                  }}
-                />
+              <div className="head">오늘의 신체 정보</div>
+              <InputGroup className="mb-3 jcct">
+                <InputGroup.Text className="textlabel">키</InputGroup.Text>
+                <Form.Control type="number" min={0} className="textcontrol" />
+                <InputGroup.Text className="textlabel">cm</InputGroup.Text>
+              </InputGroup>
+              <InputGroup className="mb-3 jcct">
+                <InputGroup.Text className="textlabel">몸무게</InputGroup.Text>
+                <Form.Control type="number" min={0} className="textcontrol" />
+                <InputGroup.Text className="textlabel">kg</InputGroup.Text>
+              </InputGroup>
+              <div className="mgbt btn-upload">
+                <label htmlFor="imageupload">신체 사진 업로드</label>
+                <input type="file" id="imageupload" onChange={onChangeFile} />
               </div>
             </Container>
           </details>
@@ -152,7 +124,6 @@ function FeedBackTab({ userid, date }) {
                 <input
                   className="mgtp"
                   type="text"
-                  // value={textData}
                   onChange={onChangeText}
                   onBlur={onChangeText}
                   style={{
@@ -161,6 +132,7 @@ function FeedBackTab({ userid, date }) {
                     borderRadius: '5px',
                     border: '1px solid gray',
                     background: 'transparent',
+                    marginRight: '3%',
                   }}
                 />
                 <Button
@@ -185,8 +157,23 @@ const Flexcontainers = styled.div`
   flex-direction: column;
   justify-content: space-between;
 `;
+
 const Flexcontainerg = styled.div`
   flex-direction: row;
   justify-content: space-between;
 `;
+
+const StyledButton = styled(Button)`
+  font-family: 'Gowun Dodum', sans-serif;
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid #2ba5f7;
+  width: 100%;
+  background-color: #2ba5f7;
+  margin: auto;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  color: white;
+`;
+
 export default FeedBackTab;

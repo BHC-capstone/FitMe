@@ -1,7 +1,6 @@
 import { Card, Form, Input, Select } from 'antd';
 import { Container, Button, Row, Col } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -91,7 +90,7 @@ function CustomerDetail() {
 
   return (
     <Container className="panel">
-      <Head1>회원 메모</Head1>
+      <div className="head">회원 메모</div>
       <Card>
         <Card.Meta
           title={customer.name}
@@ -184,17 +183,5 @@ function CustomerDetail() {
     </Container>
   );
 }
-
-const Head1 = styled.div`
-  color: rgb(21, 20, 20);
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 30px;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  width: fit-content;
-  margin: 0 auto;
-  padding: 10px;
-`;
 
 export default CustomerDetail;

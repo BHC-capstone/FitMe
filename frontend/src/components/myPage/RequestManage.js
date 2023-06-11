@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Collapse, Button, Avatar } from 'antd';
+import { Collapse } from 'antd';
 import axios from 'axios';
-import styled from 'styled-components';
 import Request from './Request';
 import RequestDetail from './RequestDetail';
 
@@ -39,7 +38,7 @@ function RequestManage() {
 
   return (
     <div>
-      <Head1>PT요청 관리</Head1>
+      <div className="head">PT요청 관리</div>
       {requests.map(request => (
         <Collapse style={{ marginBottom: 10 }}>
           <Panel
@@ -57,17 +56,5 @@ function RequestManage() {
     </div>
   );
 }
-
-const Head1 = styled.div`
-  color: rgb(21, 20, 20);
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 30px;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  width: fit-content;
-  margin: 0 auto;
-  padding: 10px;
-`;
 
 export default RequestManage;

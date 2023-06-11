@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Collapse, Button, Avatar } from 'antd';
+import { Collapse } from 'antd';
 import axios from 'axios';
-import styled from 'styled-components';
-import Request from '../../components/myPage/Request';
-import RequestDetail from '../../components/myPage/RequestDetail';
 import RequestDetailTrainer from '../../components/master/RequestDetailTrainer';
 import RequestTrainer from '../../components/master/RequestTrainer';
 
 const { Panel } = Collapse;
+
 function MasterTrainerRequest() {
   const [requests, setRequests] = useState(null);
-  const loginedUser = useSelector(state => state.user);
 
   const fetchRequests = async () => {
     const response = await axios.get(
@@ -30,7 +26,7 @@ function MasterTrainerRequest() {
 
   return (
     <div>
-      <Head1> 트레이너 회원가입 요청</Head1>
+      <div className="head">트레이너 회원가입 요청</div>
       {requests.map(request => (
         <Collapse style={{ marginBottom: 10 }}>
           <Panel
@@ -48,17 +44,5 @@ function MasterTrainerRequest() {
     </div>
   );
 }
-
-const Head1 = styled.div`
-  color: rgb(21, 20, 20);
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 30px;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  width: fit-content;
-  margin: 0 auto;
-  padding: 10px;
-`;
 
 export default MasterTrainerRequest;

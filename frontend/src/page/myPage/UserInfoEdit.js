@@ -211,7 +211,6 @@ function UserEdit({ props }) {
     <div>
       <Container fluid className="panel">
         <div className="head">회원 정보 수정</div>
-        <hr />
         <Avatar
           src={profImg}
           style={{ margin: '20px', cursor: 'pointer' }}
@@ -343,7 +342,7 @@ function UserEdit({ props }) {
           {PasswordVisible && (
             <Form onSubmit={handlePasswordSubmit}>
               <hr />
-              <div className="mgtp-10 mgbt-10">
+              <div className="mgtp mgbt">
                 <FloatingLabel
                   controlId="floatingInput"
                   label="현재 비밀번호 입력"

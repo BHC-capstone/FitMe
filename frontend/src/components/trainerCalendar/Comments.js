@@ -24,7 +24,7 @@ const Textarea = styled.div`
   background-color: white;
   color: #878fa6;
   border: 1px solid ${props => (props.check != false ? '#f5a302' : '#2ba5f7')};
-  border-radius: 20px;
+  border-radius: 15px;
   padding: 7px 12px;
   margin-bottom: 10px;
   max-width: 230px;

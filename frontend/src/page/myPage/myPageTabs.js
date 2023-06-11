@@ -22,11 +22,6 @@ function Tabs() {
         { elid: 2, name: '프로필', content: <TrainerProfile /> },
         {
           elid: 3,
-          name: '포인트',
-          content: '포인트 정산 기능 Loading...',
-        },
-        {
-          elid: 4,
           name: 'PT요청',
           content: <RequestManage isTrainer={user.isTrainer} />,
         },

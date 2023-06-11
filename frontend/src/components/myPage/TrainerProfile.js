@@ -133,11 +133,12 @@ function TrainerProfile() {
                 onChange={e => setPtPrice(e.target.value)}
               />
             </FloatingLabel>
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" className="mgbt">
               저장
             </Button>
           </Form>
-          <div className="head">자기 소개</div>
+          <hr />
+          <div className="head mgtp">자기 소개</div>
           <Form onSubmit={submitIntroduction}>
             <FloatingLabel
               controlId="floatingTextarea"
@@ -160,7 +161,7 @@ function TrainerProfile() {
       </Container1>
 
       <Container1 fluid>
-        <div className="certification-list">
+        <div>
           <div className="head">보유 자격증</div>
           <Button
             variant="primary"
