@@ -25,10 +25,16 @@ function WithdrawPage() {
           ? (url = `https://localhost:4000/users/withdraw/${loginedUser.id}`)
           : (url = `https://localhost:4000/trainers/withdraw/${loginedUser.id}`);
       }
-      const response = await axios.post(url, {
-        password,
-      });
-      console.log(response.data.message);
+      const response = await axios.post(
+        url,
+        {
+          password,
+        },
+        {
+          withCredentials: true,
+        },
+      );
+      alert(response.data.message);
       dispatch(logoutUser());
       navigate('/login');
     } catch (err) {
