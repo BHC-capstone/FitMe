@@ -7,7 +7,7 @@ import { Container } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoins } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
-import payIcon from '../../images/payment_icon_yellow_small.png';
+import payIcon from '../../components/images/payment_icon_yellow_small.png';
 import { payUser } from '../../redux/_reducers/userSlice';
 
 function PointCharge() {

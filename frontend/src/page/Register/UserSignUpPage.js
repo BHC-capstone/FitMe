@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -8,18 +8,23 @@ import {
   Form,
   Button,
   FloatingLabel,
+  Alert,
 } from 'react-bootstrap';
 
 export default function TrainerSignUpPage() {
   const navigate = useNavigate();
 
-  const [email, setEmail] = React.useState('');
-  const [name, setName] = React.useState('');
-  const [phonenumber, setPhonenumber] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [passwordCheck, setPasswordCheck] = React.useState('');
-  const [gender, setGender] = React.useState('');
-  const [age, setAge] = React.useState('');
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [phonenumber, setPhonenumber] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordCheck, setPasswordCheck] = useState('');
+  const [gender, setGender] = useState('');
+  const [age, setAge] = useState('');
+
+  // const [validated, setValidated] = useState(false);
+  // const [nameMessage, setNameMessage] = useState('');
+  // const [isName, setIsName] = useState(false);
 
   const onChangeEmail = e => {
     setEmail(e.target.value);
@@ -27,6 +32,7 @@ export default function TrainerSignUpPage() {
   const onChangeName = e => {
     setName(e.target.value);
   };
+
   const onChangePassword = e => {
     setPassword(e.target.value);
   };
@@ -94,7 +100,6 @@ export default function TrainerSignUpPage() {
             className="mb-3"
           >
             <Form.Control
-              id="email"
               type="email"
               placeholder="Enter email"
               value={email}
@@ -133,7 +138,7 @@ export default function TrainerSignUpPage() {
             <Col xs="5">
               <FloatingLabel
                 controlId="floatingInput"
-                label="이름"
+                label="이름 (7글자 이하)"
                 className="mb-3"
                 required
               >
@@ -142,6 +147,7 @@ export default function TrainerSignUpPage() {
                   placeholder="Enter name"
                   value={name}
                   onChange={onChangeName}
+                  maxLength="7"
                   required
                 />
               </FloatingLabel>
