@@ -13,6 +13,7 @@ function FeedBackTab({ userid, date }) {
   const [FeedbackExist, setFeedbackExist] = useState(false);
   const [textData, setTextData] = useState([]);
   const [repage, setRePage] = useState(0);
+  const [bodyData, setBodyData] = useState({ height: 0, weight: 0 });
   const loginedUser = useSelector(state => state.user);
 
   useEffect(() => {
@@ -68,6 +69,19 @@ function FeedBackTab({ userid, date }) {
       setRePage(repage + 1);
     });
   };
+
+  const onSubmitBody = () => {
+    axios({
+      url: `https://localhost:4000/feedback/bodyinfo/${Feedbackdate.id}`,
+      data: {
+        height: bodyData.height,
+        weight: bodyData.weight,
+      },
+      method: 'POST',
+      withCredentials: true,
+    });
+  };
+
   // 운동 루틴이 배열로 제공 된다고 가정하면 map 함수를 상위에 추가하여 밑의 컴포넌트들을 본문으로 사용할 예정
   return (
     <Flexcontainers>
@@ -95,6 +109,9 @@ function FeedBackTab({ userid, date }) {
                   type="number"
                   className="mgbt"
                   min={0}
+                  onChange={e => {
+                    setBodyData({ ...bodyData, height: e.target.value });
+                  }}
                   style={{
                     textAlign: 'left',
                     width: '50%',
@@ -110,6 +127,9 @@ function FeedBackTab({ userid, date }) {
                   type="number"
                   min={0}
                   className="mgbt"
+                  onChange={e => {
+                    setBodyData({ ...bodyData, weight: e.target.value });
+                  }}
                   style={{
                     textAlign: 'left',
                     width: '50%',
@@ -119,21 +139,14 @@ function FeedBackTab({ userid, date }) {
                   }}
                 />
               </div>
-              <div className="mgtp">
-                <div className="mgbt">신체 사진</div>
-                <input
-                  type="file"
-                  className="mgbt"
-                  onChange={onChangeFile}
-                  style={{
-                    textAlign: 'left',
-                    width: '80%',
-                    borderRadius: '5px',
-                    border: '1px solid gray',
-                    background: 'transparent',
-                  }}
-                />
-              </div>
+              <Button
+                variant="primary"
+                type="button"
+                className="mgtp"
+                onClick={onSubmitBody}
+              >
+                입력 완료
+              </Button>
             </Container>
           </details>
 
