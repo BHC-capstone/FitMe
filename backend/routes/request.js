@@ -419,11 +419,11 @@ router.post('/reject/:trainer_id/:id', (req, res) => {
 });
 
 // pt 시작, 종료 날짜
-router.post('/date/:trainer_id/:id', (req, res) => {
-  const { trainer_id, id } = req.params;
+router.get('/date/:id', (req, res) => {
+  const { id } = req.params;
   trainer_manage
     .findOne({
-      where: { trainer_id: trainer_id, user_id: id },
+      where: { user_id: id },
     })
     .then(requestInfo => {
       if (requestInfo != undefined) {
