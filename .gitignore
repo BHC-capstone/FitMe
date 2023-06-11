@@ -4,7 +4,6 @@
 *.pem
 *.crt
 
-
 ### Database ###
 *.accdb
 *.db
