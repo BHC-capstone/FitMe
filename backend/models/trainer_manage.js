@@ -31,6 +31,14 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DATEONLY,
       allowNull: true
     },
+    startdate: {
+      type: DataTypes.DATEONLY,
+      allowNull: true
+    },
+    enddate: {
+      type: DataTypes.DATEONLY,
+      allowNull: true
+    },
     total_pt_count: {
       type: DataTypes.INTEGER,
       allowNull: true
