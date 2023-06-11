@@ -23,6 +23,8 @@ const {
 const initModels = require('../models/init-models');
 const { Op } = require('sequelize');
 const models = initModels(sequelize);
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 const dotenv = require('dotenv');
 const multer = require('multer');
 const AWS = require('aws-sdk');
@@ -35,6 +37,37 @@ const videoupload = require('../modules/s3upload').videoUpload;
 const s3 = require('../modules/s3upload').s3;
 
 dotenv.config();
+
+// admin login
+router.post('/login', async (req, res) => {
+  if (req.body.password) {
+    try {
+      const admin = await master.findOne({
+        where: { id: 1 },
+      });
+      const isPasswordValid = await bcrypt.compare(
+        req.body.password,
+        admin.password,
+      );
+      if (isPasswordValid) {
+        res.status(200).json({
+          data: admin,
+          message: '로그인 성공',
+        });
+      } else {
+        res.status(400).json({
+          data: null,
+          message: '로그인 실패',
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ data: null, message: 'Error' });
+    }
+  } else {
+    res.status(400).json({ data: null, message: '비밀번호를 입력해주세요' });
+  }
+});
 
 // admin trainer countlist
 router.get('/trainercount', async (req, res) => {
