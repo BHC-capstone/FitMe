@@ -11,7 +11,7 @@ import {
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
-export default function WeightStatics({}) {
+export default function BmiStatics({}) {
   const loginedUser = useSelector(state => state.user);
   const [requests, setRequests] = useState([]);
   const fetchRequests = async () => {
@@ -34,18 +34,13 @@ export default function WeightStatics({}) {
   return (
     <VictoryChart height={300} width={300} theme={VictoryTheme.material}>
       <VictoryLine
-        animate={{
-          duration: 2000,
-          onLoad: { duration: 1000 },
-        }}
-        interpolation="natural"
         style={{
-          data: { stroke: '#2ba5f7', strokeWidth: 3, strokeLinecap: 'round' },
+          data: { stroke: '#c43a31' },
           parent: { border: '1px solid #ccc' },
         }}
         data={requests}
         x="date"
-        y="weight"
+        y="bmi"
       />
       <VictoryAxis
         crossAxis

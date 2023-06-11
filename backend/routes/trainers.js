@@ -63,13 +63,14 @@ router.post(
         if (trainerInfo != undefined)
           res.status(409).json({
             data: trainerInfo,
-            message: '이미 존재하는 이메일입니다.',
+            message: '이미 신청된 이메일입니다.',
           });
         else {
           const hashedPassword = await bcrypt.hash(
             req.body.password,
             saltRounds,
           );
+
           const trainer = await trainer_sign_request.create({
             name: req.body.name,
             password: hashedPassword,
@@ -91,23 +92,13 @@ router.post(
 
           const result = await s3.upload(uploadParams).promise();
 
-          const certification = await certification_auth_request.create(
+          await trainer_sign_request.update(
             {
-              trainer_request_id: trainer.id,
-              trainer_id: 0,
-              name: req.file.originalname,
+              certification_name: req.file.originalname,
               image_url: result.Location,
-              certification_s3_key: result.Key,
+              s3_key: result.Key,
             },
-            { transaction },
-          );
-
-          const trainerPoint = await trainer_points.create(
-            {
-              trainer_id: trainer.id,
-              amount: 0,
-            },
-            { transaction },
+            { where: { id: trainer.id }, transaction },
           );
 
           const trainerCount = await dailytrainercounts.findOne({
@@ -135,6 +126,7 @@ router.post(
             .json({ data: null, message: '회원가입 신청이 완료되었습니다.' });
         }
       } catch (err) {
+        console.log('err : ', err);
         if (transaction) {
           await transaction.rollback();
         }
@@ -239,6 +231,7 @@ router.get('/profile/:id', async function (req, res) {
           'introduction',
           'career',
           'trainer_image_url',
+          'pt_point',
         ],
       });
       res.status(200).json({ data: trainerInfo, message: '' });
@@ -400,6 +393,7 @@ router.get('/trainerlist', async function (req, res) {
           'gender',
           'introduction',
           'phonenumber',
+          'pt_point',
         ],
       });
       res.status(200).json({ data: trainerInfo, message: '' });
@@ -424,6 +418,7 @@ router.get('/trainerlist/:id', async function (req, res) {
         'introduction',
         'career',
         'trainer_image_url',
+        'pt_point',
       ],
       include: {
         model: models.certifications,
@@ -549,8 +544,7 @@ router.post(
           ContentType: 'image/png',
           Bucket: 'fitme-s3',
           Body: req.file.buffer,
-          Key:
-            `trainer_profile/` + trainerInfo.id + '.' + req.file.originalname,
+          Key: `trainer_profile/` + trainerInfo.id + '.',
         };
         const result = await s3.upload(uploadParams).promise();
 

@@ -21,19 +21,6 @@ const { mod } = require('prelude-ls');
 const axios = require('axios');
 dotenv.config();
 
-// 결제 관련 엔드포인트
-router.post('/payment/callback', (req, res) => {
-  const { paymentResult } = req.params;
-
-  if (paymentResult === 'success') {
-    res.status(200).json({ data: null, message: '결제 에러!' });
-  } else if (paymentResult === 'cancel') {
-    res.status(200).json({ data: null, message: '결제 취소!' });
-  } else {
-    res.status(200).json({ data: null, message: '결제 실패!' });
-  }
-});
-
 // 결제 준비
 router.post('/payment', async (req, res) => {
   try {
@@ -48,9 +35,9 @@ router.post('/payment', async (req, res) => {
       total_amount: amount,
       vat_amount: 0,
       tax_free_amount: 0,
-      approval_url: 'https://localhost:4000/charge-success',
-      fail_url: 'https://localhost:4000/charge-fail',
-      cancel_url: 'https://localhost:4000/charge-cancel',
+      approval_url: 'https://localhost:3000/charge-success',
+      fail_url: 'https://localhost:3000/charge-fail',
+      cancel_url: 'https://localhost:3000/charge-cancel',
     };
 
     const response = await axios.post(
@@ -70,16 +57,14 @@ router.post('/payment', async (req, res) => {
       tid: data.tid,
       created: data.created_at,
       approved: data.created_at,
-      amount: data.amount,
+      amount: amount,
       status: 'ready',
     });
     const tId = data.tid;
     const redirectUrl = data.next_redirect_pc_url;
-    console.log(data);
 
     res.status(200).json({ data: { tId, redirectUrl }, message: '결제 준비' });
   } catch (err) {
-    console.log(err);
     res.status(500).json({ error: '결제 에러' });
   }
 });
@@ -119,18 +104,33 @@ router.post('/payment/approve', async (req, res) => {
       { amount: updatepoint.amount + point },
       { where: { user_id: userId } },
     );
-    await payhistory.update(
-      {
-        user_id: userId,
-        tid: tId,
-        created: data.created_at,
-        approved: data.approved_at,
-        amount: point,
-        status: 'success',
-        payname: 'kakaopay',
-      },
-      { where: { tid: tId } },
-    );
+    if (data.card_info) {
+      await payhistory.update(
+        {
+          user_id: userId,
+          tid: tId,
+          created: data.created_at,
+          approved: data.approved_at,
+          amount: point,
+          status: '성공',
+          payname: data.card_info.purchase_corp,
+        },
+        { where: { tid: tId } },
+      );
+    } else {
+      await payhistory.update(
+        {
+          user_id: userId,
+          tid: tId,
+          created: data.created_at,
+          approved: data.approved_at,
+          amount: point,
+          status: '성공',
+          payname: '카카오페이',
+        },
+        { where: { tid: tId } },
+      );
+    }
     res.status(200).json({ data: null, message: '결제 승인' });
   } catch (err) {
     console.log(err);
@@ -141,7 +141,7 @@ router.post('/payment/approve', async (req, res) => {
 // user 결제 내역 조회
 router.get('/payment/user/:userId', async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { userId } = req.params;
     const Payhistory = await payhistory.findAll({
       where: { user_id: userId },
     });
@@ -152,18 +152,15 @@ router.get('/payment/user/:userId', async (req, res) => {
   }
 });
 
-router.get('/payment/status', async (req, res) => {
+// 결제 endpoint
+router.post('/payment/status', async (req, res) => {
   try {
-    const { status } = req.body;
+    const { status, tid } = req.body;
     if (status === 'fail') {
-      await payhistory.update({
-        status: 'fail',
-      });
+      await payhistory.update({ status: '실패' }, { where: { tid: tid } });
       res.status(200).json({ data: null, message: '결제 실패' });
     } else if (status === 'cancel') {
-      await payhistory.update({
-        status: 'cancel',
-      });
+      await payhistory.update({ status: '취소' }, { where: { tid: tid } });
       res.status(200).json({ data: null, message: '결제 취소' });
     }
   } catch (err) {

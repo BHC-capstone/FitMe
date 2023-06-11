@@ -85,10 +85,11 @@ export default function TrainerList(props) {
                 title={trainer.name}
                 description={
                   <>
-                    <p>Name : {trainer.name}</p>
-                    <p>Age: {trainer.age}</p>
-                    <p>Gender: {trainer.gender}</p>
-                    <p>Introduction: {trainer.introduction}</p>
+                    <p>트레이너 이름 : {trainer.name}</p>
+                    <p>트레이너 나이: {trainer.age}세</p>
+                    <p>트레이너 성별: {trainer.gender}</p>
+                    <p>소개: {trainer.introduction}</p>
+                    <p>PT 회당 가격:{trainer.pt_point}</p>
                   </>
                 }
               />

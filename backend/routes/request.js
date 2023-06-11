@@ -23,13 +23,22 @@ router.post('/ptrequest', async (req, res) => {
       const userId = req.body.id;
       const totalPrice = req.body.totalprice;
       const existingRequest = await pt_requests.findOne({
+        where: { user_id: userId },
+      });
+      const existingtraing = await trainer_manage.findOne({
         where: { trainer_id: trainerId, user_id: userId },
       });
 
       if (existingRequest !== null) {
         return res
           .status(401)
-          .json({ data: null, message: '이미 신청한 trainer입니다.' });
+          .json({ data: null, message: '이미 pt를 요청하셨습니다' });
+      }
+
+      if (existingtraing !== null) {
+        return res
+          .status(401)
+          .json({ data: null, message: '이미 pt가 진행중입니다.' });
       }
 
       const userpoint = await user_points.findOne({
@@ -54,15 +63,19 @@ router.post('/ptrequest', async (req, res) => {
 
       try {
         if (req.body.height == '' || req.body.weight == '') {
-          throw new Error('키와 몸무게를 입력해주세요.');
+          return res.status(401).json({
+            data: null,
+            message: '키와 몸무게를 입력해주세요.',
+          });
         } else {
           await pt_requests.create(
             {
               user_id: userId,
               trainer_id: trainerId,
-              date: req.body.startDate,
+              startdate: req.body.startDate,
+              enddate: req.body.endDate,
               count: req.body.count,
-              price: req.body.price,
+              price: totalPrice,
               request: req.body.request,
               days: req.body.days,
               gender: userInfo.gender,
@@ -81,7 +94,7 @@ router.post('/ptrequest', async (req, res) => {
           );
 
           await user_points.update(
-            { amount: sequelize.literal(`amount - ${req.body.totalprice}`) },
+            { amount: userpoint.amount - totalPrice },
             { where: { user_id: userId }, transaction },
           );
 
@@ -258,8 +271,7 @@ router.post('/accept/:trainer_id/:id', (req, res) => {
     })
     .then(requestInfo => {
       if (requestInfo != undefined) {
-        const { price } = requestInfo; // 추가된 부분
-
+        const totalprice = requestInfo.price;
         pt_requests
           .update(
             {
@@ -304,6 +316,8 @@ router.post('/accept/:trainer_id/:id', (req, res) => {
               trainer_id: requestInfo.trainer_id,
               total_pt_count: requestInfo.count,
               remain_pt_count: requestInfo.count,
+              startdate: requestInfo.startdate,
+              enddate: requestInfo.enddate,
               manage_memo: memo,
             };
 
@@ -312,17 +326,18 @@ router.post('/accept/:trainer_id/:id', (req, res) => {
               .then(() => {
                 trainer_points
                   .findOne({ where: { trainer_id } })
-                  .then(pointsInfo => {
+                  .then(async pointsInfo => {
                     if (pointsInfo != undefined) {
                       const currentAmount = pointsInfo.amount;
-                      const newAmount = currentAmount + price;
+                      const newAmount = currentAmount + totalprice;
 
-                      trainer_points
+                      await trainer_points
                         .update(
                           { amount: newAmount },
                           { where: { trainer_id } },
                         )
                         .then(() => {
+                          console.log(newAmount);
                           res.status(200).json({
                             data: null,
                             message: '성공적으로 수락되었습니다.',
@@ -399,6 +414,29 @@ router.post('/reject/:trainer_id/:id', (req, res) => {
         res
           .status(401)
           .json({ data: null, message: 'pt request가 존재하지 않습니다.' });
+      }
+    })
+    .catch(error => {
+      res.status(500).json({ data: null, message: error.message });
+    });
+});
+
+// pt 시작, 종료 날짜
+router.get('/date/:id', (req, res) => {
+  const { id } = req.params;
+  trainer_manage
+    .findOne({
+      where: { user_id: id },
+    })
+    .then(requestInfo => {
+      if (requestInfo != undefined) {
+        const start = requestInfo.startdate;
+        const end = requestInfo.enddate;
+        res.status(200).json({ data: { start, end }, message: '' });
+      } else {
+        res
+          .status(401)
+          .json({ data: null, message: 'trainer manage가 존재하지 않습니다.' });
       }
     })
     .catch(error => {

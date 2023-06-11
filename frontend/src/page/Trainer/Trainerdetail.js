@@ -43,7 +43,6 @@ function Trainerdetail() {
         );
         const { data: trainerData } = trainerResponse.data;
         const { data: imgData } = imgResponse.data;
-        console.log(trainerData);
         setTrainer(trainerData);
         if (imgData === null) {
           setProfImg(blankImg);
@@ -90,6 +89,10 @@ function Trainerdetail() {
           <text className="emailblock">
             <span className="b">H.P :</span>
             {trainer.phonenumber}
+          </text>
+          <text className="emailblock">
+            <span className="b">PT 회 당 가격 :</span>
+            {trainer.pt_point}
           </text>
           <Button
             variant="secondary"

@@ -5,13 +5,23 @@
   "scripts": {
     "start": "node server.js",
     "lint": "./node_modules/.bin/eslint $PWD",
-    "test": "./node_modules/.bin/jest --verbose ./tests --forceExit"
+    "test": "jest --verbose ./tests --forceExit"
+  },
+  "jest": {
+    "testEnvironmentOptions": {
+      "server": {
+        "protocol": "https",
+        "host": "127.0.0.1",
+        "port": 4000
+      }
+    }
   },
   "dependencies": {
     "aws-sdk": "^2.1366.0",
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
+    "connect-session-sequelize": "^7.1.7",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
@@ -30,8 +40,11 @@
     "react-datepicker": "^4.11.0",
     "sequelize": "^6.31.0",
     "sequelize-auto": "^0.8.8",
+    "sinon": "^15.1.0",
     "stripe": "^12.8.0",
+    "superagent": "^8.0.9",
     "supertest": "^6.3.3",
+    "supertest-session": "^4.1.0",
     "yarn": "^1.22.19"
   },
   "devDependencies": {

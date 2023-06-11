@@ -252,7 +252,7 @@ router.put(
           ContentType: req.file.mimetype,
           Bucket: 'fitme-s3',
           Body: req.file.buffer,
-          Key: `exerciseroutine/${id}/${exerciseId}/${req.file.originalname}`,
+          Key: `exerciseroutine/${id}/${exerciseId}`,
         };
         const result = await s3.upload(uploadParams).promise();
         await exercise_routines.update(
@@ -357,7 +357,7 @@ router.put(
             ContentType: req.file.mimetype,
             Bucket: 'fitme-s3',
             Body: req.file.buffer,
-            Key: `exerciseroutine/${id}/${exerciseId}/${req.file.originalname}`,
+            Key: `exerciseroutine/${id}/${exerciseId}`,
           };
           const result = await s3.upload(uploadParams).promise();
           await exercise_routines.update(
@@ -543,7 +543,7 @@ router.post(
             ContentType: req.file.mimetype,
             Bucket: 'fitme-s3',
             Body: req.file.buffer,
-            Key: `feedbacks/${id}/${Feedback.id}/${req.file.originalname}`,
+            Key: `feedbacks/${id}/${Feedback.id}`,
           };
           const result = await s3.upload(uploadParams).promise();
           await feedbacks.update(
@@ -646,7 +646,7 @@ router.put(
             ContentType: req.file.mimetype,
             Bucket: 'fitme-s3',
             Body: req.file.buffer,
-            Key: `feedbacks/${Feedback.id}/${req.file.originalname}`,
+            Key: `feedbacks/${Feedback.id}`,
           };
           const result = await s3.upload(uploadParams).promise();
           await feedbacks.update(

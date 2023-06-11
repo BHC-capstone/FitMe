@@ -3,13 +3,14 @@ import axios from 'axios';
 import { Container, Card } from 'react-bootstrap';
 import styled from 'styled-components';
 import WeightStatics from './WeightStatistics';
+import BmiStatics from './BmiStatistics';
 
 function StatisticsTab() {
   const [statistics, setStatistics] = useState(null);
   useEffect(() => {
     setStatistics({
       weightGraph: <WeightStatics />,
-      exerciseHistory: '운동기록',
+      exerciseHistory: <BmiStatics />,
     });
   }, []);
 

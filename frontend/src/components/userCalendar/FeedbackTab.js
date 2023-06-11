@@ -15,6 +15,7 @@ function FeedBackTab({ userid, date }) {
   const [FeedbackExist, setFeedbackExist] = useState(false);
   const [textData, setTextData] = useState([]);
   const [repage, setRePage] = useState(0);
+  const [bodyData, setBodyData] = useState({ height: 0, weight: 0 });
   const loginedUser = useSelector(state => state.user);
 
   useEffect(() => {
@@ -70,6 +71,19 @@ function FeedBackTab({ userid, date }) {
       setRePage(repage + 1);
     });
   };
+
+  const onSubmitBody = () => {
+    axios({
+      url: `https://localhost:4000/feedback/bodyinfo/${Feedbackdate.id}`,
+      data: {
+        height: bodyData.height,
+        weight: bodyData.weight,
+      },
+      method: 'POST',
+      withCredentials: true,
+    });
+  };
+
   // 운동 루틴이 배열로 제공 된다고 가정하면 map 함수를 상위에 추가하여 밑의 컴포넌트들을 본문으로 사용할 예정
   return (
     <Flexcontainers>
@@ -94,18 +108,40 @@ function FeedBackTab({ userid, date }) {
               <div className="head">오늘의 신체 정보</div>
               <InputGroup className="mb-3 jcct">
                 <InputGroup.Text className="textlabel">키</InputGroup.Text>
-                <Form.Control type="number" min={0} className="textcontrol" />
+                <Form.Control
+                  type="number"
+                  min={0}
+                  className="textcontrol"
+                  onChange={e => {
+                    setBodyData({ ...bodyData, height: e.target.value });
+                  }}
+                />
                 <InputGroup.Text className="textlabel">cm</InputGroup.Text>
               </InputGroup>
               <InputGroup className="mb-3 jcct">
                 <InputGroup.Text className="textlabel">몸무게</InputGroup.Text>
-                <Form.Control type="number" min={0} className="textcontrol" />
+                <Form.Control
+                  type="number"
+                  min={0}
+                  className="textcontrol"
+                  onChange={e => {
+                    setBodyData({ ...bodyData, weight: e.target.value });
+                  }}
+                />
                 <InputGroup.Text className="textlabel">kg</InputGroup.Text>
               </InputGroup>
               <div className="mgbt btn-upload">
                 <label htmlFor="imageupload">신체 사진 업로드</label>
                 <input type="file" id="imageupload" onChange={onChangeFile} />
               </div>
+              <Button
+                variant="primary"
+                type="button"
+                className="mgtp"
+                onClick={onSubmitBody}
+              >
+                입력 완료
+              </Button>
             </Container>
           </details>
 
@@ -161,19 +197,6 @@ const Flexcontainers = styled.div`
 const Flexcontainerg = styled.div`
   flex-direction: row;
   justify-content: space-between;
-`;
-
-const StyledButton = styled(Button)`
-  font-family: 'Gowun Dodum', sans-serif;
-  text-align: center;
-  border-radius: 10px;
-  border: 1px solid #2ba5f7;
-  width: 100%;
-  background-color: #2ba5f7;
-  margin: auto;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  color: white;
 `;
 
 export default FeedBackTab;

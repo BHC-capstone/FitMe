@@ -19,10 +19,13 @@ const {
   dailytrainercounts,
   dailyusercounts,
   dailyrequestcounts,
+  master,
 } = require('../models');
 const initModels = require('../models/init-models');
 const { Op } = require('sequelize');
 const models = initModels(sequelize);
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 const dotenv = require('dotenv');
 const multer = require('multer');
 const AWS = require('aws-sdk');
@@ -35,6 +38,37 @@ const videoupload = require('../modules/s3upload').videoUpload;
 const s3 = require('../modules/s3upload').s3;
 
 dotenv.config();
+
+// admin login
+router.post('/login', async (req, res) => {
+  if (req.body.password) {
+    try {
+      const admin = await master.findOne({
+        where: { id: 1 },
+      });
+      const isPasswordValid = await bcrypt.compare(
+        req.body.password,
+        admin.password,
+      );
+      if (isPasswordValid) {
+        res.status(200).json({
+          data: admin,
+          message: '로그인 성공',
+        });
+      } else {
+        res.status(400).json({
+          data: null,
+          message: '로그인 실패',
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ data: null, message: 'Error' });
+    }
+  } else {
+    res.status(400).json({ data: null, message: '비밀번호를 입력해주세요' });
+  }
+});
 
 // admin trainer countlist
 router.get('/trainercount', async (req, res) => {
@@ -191,29 +225,35 @@ router.get('/trainer/certificatelist', async (req, res) => {
 router.post('/trainerauth/:Id', async (req, res) => {
   try {
     const { Id } = req.params;
-    const trainer = await trainer_sign_request.findOne({
+    const trainer_request = await trainer_sign_request.findOne({
       where: { id: Id },
     });
     if (trainer_sign_request) {
       const Trainer = await trainers.create({
-        email: trainer.email,
-        name: trainer.name,
-        password: trainer.password,
-        age: trainer.age,
-        gender: trainer.gender,
-        phonenumber: trainer.phonenumber,
-        introduction: trainer.introduction,
-        career: trainer.career,
-        pt_point: trainer.pt_point,
+        email: trainer_request.email,
+        name: trainer_request.name,
+        password: trainer_request.password,
+        age: trainer_request.age,
+        gender: trainer_request.gender,
+        phonenumber: trainer_request.phonenumber,
+        introduction: trainer_request.introduction,
+        career: trainer_request.career,
+        pt_point: trainer_request.pt_point,
+      });
+      const cert = await certifications.create({
+        trainer_id: trainer_request.id,
+        name: trainer_request.certification_name,
+        image_url: trainer_request.image_url,
+        certification_s3_key: trainer_request.s3_key,
+      });
+      const trainer_certs = await trainer_cert.create({
+        trainer_id: Trainer.id,
+        certification_id: cert.certification_id,
       });
       await trainer_points.create({
         trainer_id: Trainer.id,
         amount: 0,
       });
-      await certification_auth_request.update(
-        { trainer_id: Trainer.id },
-        { where: { trainer_request_id: Id } },
-      );
       await trainer_sign_request.destroy({ where: { id: Id } });
       res.status(200).json({ data: null, message: '승인되었습니다.' });
     } else {
@@ -233,11 +273,14 @@ router.post('/trainerreject/:Id', async (req, res) => {
       where: { id: Id },
     });
     if (trainer_sign_request) {
+      const s3key = trainer.s3_key;
+      const deleteParams = {
+        Bucket: 'fitme-s3',
+        Key: s3key,
+      };
+      await s3.deleteObject(deleteParams).promise();
       await trainer_sign_request.destroy({
         where: { id: Id },
-      });
-      await certification_auth_request.destroy({
-        where: { trainer_request_id: Id },
       });
       res.status(200).json({ data: null, message: '거절되었습니다.' });
     } else {

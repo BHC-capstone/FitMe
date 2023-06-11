@@ -16,7 +16,7 @@
 
 이 프로젝트는 캡스톤 디자인 과목의 일환으로 5인으로 구성된 BHC팀이 개발하였습니다.
 
-서비스 URL: https://fitme.p-e.kr:4000
+서비스 URL: https://localhost:4000
 
 시연 영상: https://drive.google.com/file/d/1enToxOaYWihNmt2jZmU92L42E3bCudiq/view?usp=share_link
 
