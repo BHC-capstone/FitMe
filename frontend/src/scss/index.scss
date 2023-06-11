@@ -308,27 +308,6 @@ th.style {
   font-size: 1.2rem;
 }
 
-// .star {
-//   position: relative;
-//   font-size: 2rem;
-//   color: #ddd;
-//   // text-align: left;
-//   // padding-left: 50px;
-//   // display: flex;
-//   margin: auto 0;
-// }
-
-// .star span {
-//   width: 0%;
-//   position: absolute;
-//   left: 0;
-//   color: #ffc107;
-//   overflow: hidden;
-//   pointer-events: none;
-//   // padding-left: 50px;
-//   margin: auto 0;
-// }
-
 .cardLayout {
   display: flex;
   flex-direction: column;
@@ -347,6 +326,7 @@ th.style {
   float: right;
 }
 
+// certifrcation page options
 .certification-list {
   margin-top: 20px;
 }
@@ -411,6 +391,7 @@ th.style {
   margin-right: 5%;
 }
 
+// padding options
 .pd {
   padding: 5%;
 }
@@ -438,14 +419,5 @@ th.style {
 .zi0 {
   z-index: 0;
 }
-
-// .panel button + button {
-//   margin-left: 10%;
-// }
-
-// .panel h2 {
-//   text-align: center;
-//   margin-bottom: 30px;
-// }
 
 @import 'responsive';

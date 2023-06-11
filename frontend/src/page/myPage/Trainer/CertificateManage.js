@@ -2,11 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Container, Button } from 'react-bootstrap';
 import axios from 'axios';
-import sampleImg from '../../../images/sample_certificate.png';
 
 function CertificateManage() {
   const loginedUser = useSelector(state => state.user);
-  const [certFile, setCertFile] = useState(sampleImg);
+  const [certFile, setCertFile] = useState(
+    '/assets/images/sample_certificate.png',
+  );
   const [previewSize, setPreviewSize] = useState(200);
   const imgRef = useRef();
 
@@ -22,7 +23,7 @@ function CertificateManage() {
     }
   };
   const handleImageLoad = () => {
-    if (certFile !== sampleImg) {
+    if (certFile !== '/sample_certificate.png') {
       setPreviewSize('100%');
     }
   };
