@@ -6,7 +6,8 @@ import axios from 'axios';
 import { Container } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoins } from '@fortawesome/free-solid-svg-icons';
-// import payIcon from '../../images/payment_icon_yellow_small.png';
+import styled from 'styled-components';
+import payIcon from '../../components/images/payment_icon_yellow_small.png';
 import { payUser } from '../../redux/_reducers/userSlice';
 
 function PointCharge() {
@@ -179,11 +180,7 @@ function PointCharge() {
               marginTop: '30px',
             }}
           >
-            <img
-              src="/assets/images/payment_icon_yellow_small.png"
-              width="70%"
-              height="70%"
-            />
+            <img src={payIcon} width="70%" height="70%" />
           </button>
           {alertDisplay === 1 ? (
             <div style={{ color: 'red', fontSize: '13px' }}>
@@ -195,5 +192,11 @@ function PointCharge() {
     </Container>
   );
 }
+
+const TextPoint = styled.text`
+  font-family: 'Gowun Dodum', sans-serif;
+  font-size: 20px;
+  color: #2ba5f7;
+`;
 
 export default PointCharge;

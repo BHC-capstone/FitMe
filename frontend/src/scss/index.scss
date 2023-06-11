@@ -8,11 +8,11 @@
   padding: 25px;
   max-width: 500px;
   // min-height: 50%;
-  max-height: 80%;
+  max-height: 85%;
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: 50%;
+  top: 54%;
   left: 50%;
   transform: translate(-50%, -50%);
   margin: 0 auto;
@@ -86,6 +86,10 @@ span.g {
   color: #666;
 }
 
+span.i {
+  color: $primary;
+}
+
 th.style {
   min-width: 30%;
 }
@@ -155,6 +159,13 @@ th.style {
   justify-content: space-between;
 }
 
+.react-datepicker-header {
+  height: 50px;
+  line-height: 50px;
+  color: rgb(43, 165, 247);
+  margin-bottom: 10px;
+}
+
 // user-info page options
 .user-info-tab {
   display: flex;
@@ -199,6 +210,11 @@ th.style {
   }
 }
 
+// canlendar options
+.calendarmg {
+  margin-left: 8%;
+}
+
 // feedback tab options
 .feedback {
   display: flex;
@@ -210,8 +226,7 @@ th.style {
   border-style: dashed;
   border-radius: 10px;
   border-width: 2px;
-  margin-left: 10%;
-  margin-right: 10%;
+  width: 400px;
   padding: 5%;
   padding-bottom: 1%;
 }
@@ -266,6 +281,7 @@ th.style {
   margin-left: calc(100% / 12);
   background-color: transparent;
   height: fit-content;
+  width: 145px;
 }
 
 .box2 {
@@ -306,6 +322,13 @@ th.style {
   display: flex;
   font-family: 'Gowun Dodum', sans-serif;
   font-size: 1.2rem;
+}
+
+.flexcol {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  justify-content: space-between;
 }
 
 .cardLayout {
@@ -355,8 +378,16 @@ th.style {
   margin-top: 5%;
 }
 
+.mgtp-10 {
+  margin-top: 10%;
+}
+
 .mgbt {
   margin-bottom: 5%;
+}
+
+.mgbt-10 {
+  margin-bottom: 10%;
 }
 
 .mgbt0 {
@@ -385,6 +416,10 @@ th.style {
 
 .mglf-0 {
   margin-left: -5%;
+}
+
+.mglf-02 {
+  margin-left: -7%;
 }
 
 .mgrg {

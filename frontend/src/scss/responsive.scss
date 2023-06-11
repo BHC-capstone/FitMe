@@ -25,6 +25,10 @@
     height: 60px;
   }
 
+  .calendarmg {
+    margin-left: 4%;
+  }
+
   .user-info-tab {
     ul {
       li {
@@ -42,7 +46,8 @@
   }
 
   .box1 {
-    margin-left: calc(100% / 14);
+    margin-left: calc(100% / 11);
+    width: 130px;
   }
 
   .box2 {
@@ -79,6 +84,10 @@
   .emailblock {
     font-size: 1.1rem;
   }
+
+  .file-upload {
+    width: 350px;
+  }
 }
 
 // 해상도 380px ~ 419px
@@ -87,6 +96,10 @@
     .submenu {
       font-size: 0.8rem;
     }
+  }
+
+  .calendarmg {
+    margin-left: 3%;
   }
 
   .user-info-tab {
@@ -102,7 +115,12 @@
   }
 
   .upbox {
-    height: 380px;
+    height: 400px;
+  }
+
+  .box1 {
+    margin-left: calc(100% / 10);
+    width: 120px;
   }
 
   .box2 {
@@ -139,6 +157,10 @@
   .emailblock {
     font-size: 1rem;
   }
+
+  .file-upload {
+    width: 300px;
+  }
 }
 
 // 해상도 ~ 379px
@@ -151,6 +173,10 @@
 
   .c {
     height: 90px;
+  }
+
+  .calendarmg {
+    margin-left: 2%;
   }
 
   .user-info-tab {
@@ -173,6 +199,11 @@
 
   .upbox {
     height: 350px;
+  }
+
+  .box1 {
+    margin-left: calc(100% / 14);
+    width: 120px;
   }
 
   .box2 {
@@ -206,5 +237,9 @@
 
   .emailblock {
     font-size: 0.9rem;
+  }
+
+  .file-upload {
+    width: 275px;
   }
 }

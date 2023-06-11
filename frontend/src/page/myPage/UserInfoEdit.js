@@ -211,6 +211,7 @@ function UserEdit({ props }) {
     <div>
       <Container fluid className="panel">
         <div className="head">회원 정보 수정</div>
+        <hr />
         <Avatar
           src={profImg}
           style={{ margin: '20px', cursor: 'pointer' }}
@@ -228,92 +229,94 @@ function UserEdit({ props }) {
           ref={imgRef}
         />
         <Form onSubmit={handleSubmit}>
-          <Row>
-            <Col xs="5">
-              <FloatingLabel
-                controlId="floatingInput"
-                label="이름"
-                className="mb-3"
-              >
-                <Form.Control
-                  type="text"
-                  placeholder="Enter name"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                />
-              </FloatingLabel>
-            </Col>
-            <Col xs="7">
-              <FloatingLabel
-                controlId="floatingInput"
-                label="전화번호"
-                className="mb-3"
-              >
-                <Form.Control
-                  type="text"
-                  placeholder="Enter Phonenumber"
-                  id="phonenumber"
-                  name="phonenumber"
-                  value={formData.phonenumber}
-                  onChange={handleChange}
-                  required
-                />
-              </FloatingLabel>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <FloatingLabel
-                controlId="floatingInput"
-                label="성별"
-                className="mb-3"
-              >
-                <Form.Select
-                  id="gender"
-                  name="gender"
-                  value={formData.gender}
-                  onChange={handleChange}
+          <div className="mgtp mgbt">
+            <Row>
+              <Col xs="5">
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label="이름"
+                  className="mb-3"
                 >
-                  <option>선택하세요</option>
-                  <option value="남성">남성</option>
-                  <option value="여성">여성</option>
-                </Form.Select>
-              </FloatingLabel>
-            </Col>
-            <Col>
-              <FloatingLabel
-                controlId="floatingSelect"
-                label="나이"
-                className="mb-3"
-              >
-                <Form.Control
-                  type="number"
-                  placeholder="Enter age"
-                  id="age"
-                  name="age"
-                  value={formData.age}
-                  onChange={handleChange}
-                />
-              </FloatingLabel>
-            </Col>
-          </Row>
-          <FloatingLabel
-            controlId="floatingInput"
-            label="현재 비밀번호 입력"
-            className="mb-3"
-          >
-            <Form.Control
-              type="password"
-              placeholder="currentPassword"
-              id="currentPassword"
-              name="currentPassword"
-              value={formData.currentPassword}
-              onChange={handleChange}
-              required
-            />
-          </FloatingLabel>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter name"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                  />
+                </FloatingLabel>
+              </Col>
+              <Col xs="7">
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label="전화번호"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Phonenumber"
+                    id="phonenumber"
+                    name="phonenumber"
+                    value={formData.phonenumber}
+                    onChange={handleChange}
+                    required
+                  />
+                </FloatingLabel>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label="성별"
+                  className="mb-3"
+                >
+                  <Form.Select
+                    id="gender"
+                    name="gender"
+                    value={formData.gender}
+                    onChange={handleChange}
+                  >
+                    <option>선택하세요</option>
+                    <option value="남성">남성</option>
+                    <option value="여성">여성</option>
+                  </Form.Select>
+                </FloatingLabel>
+              </Col>
+              <Col>
+                <FloatingLabel
+                  controlId="floatingSelect"
+                  label="나이"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="number"
+                    placeholder="Enter age"
+                    id="age"
+                    name="age"
+                    value={formData.age}
+                    onChange={handleChange}
+                  />
+                </FloatingLabel>
+              </Col>
+            </Row>
+            <FloatingLabel
+              controlId="floatingInput"
+              label="현재 비밀번호 입력"
+              className="mb-3"
+            >
+              <Form.Control
+                type="password"
+                placeholder="currentPassword"
+                id="currentPassword"
+                name="currentPassword"
+                value={formData.currentPassword}
+                onChange={handleChange}
+                required
+              />
+            </FloatingLabel>
+          </div>
           <Button type="submit" variant="primary" onClick={handleSubmit}>
             회원정보 제출
           </Button>
@@ -336,85 +339,90 @@ function UserEdit({ props }) {
             돌아가기
           </Button>
         </Form>
-        {PasswordVisible && (
-          <Form onSubmit={handlePasswordSubmit}>
-            <FloatingLabel
-              controlId="floatingInput"
-              label="현재 비밀번호 입력"
-              className="mb-3"
-            >
-              <Form.Control
-                type="password"
-                placeholder="Password"
-                id="currentPassword"
-                name="currentPassword"
-                value={passwordData.currentPassword}
-                onChange={e => {
-                  setPasswordData({
-                    ...passwordData,
-                    currentPassword: e.target.value,
-                  });
-                }}
-                required
-              />
-            </FloatingLabel>
-            <FloatingLabel
-              controlId="floatingInput"
-              label="새 비밀번호 입력"
-              className="mb-3"
-            >
-              <Form.Control
-                type="password"
-                placeholder="Password"
-                id="newPassword"
-                name="newPassword"
-                value={passwordData.newPassword}
-                onChange={e => {
-                  setPasswordData({
-                    ...passwordData,
-                    newPassword: e.target.value,
-                  });
-                }}
-                required
-              />
-            </FloatingLabel>
-            <FloatingLabel
-              controlId="floatingInput"
-              label="새 비밀번호 확인"
-              className="mb-3"
-            >
-              <Form.Control
-                type="password"
-                placeholder="Password"
-                id="newPasswordCheck"
-                name="newPasswordCheck"
-                value={passwordData.newPasswordCheck}
-                onChange={e => {
-                  setPasswordData({
-                    ...passwordData,
-                    newPasswordCheck: e.target.value,
-                  });
-                }}
-                required
-              />
-            </FloatingLabel>
-            <Button
-              type="submit"
-              variant="secondary"
-              onClick={handlePasswordSubmit}
-            >
-              비밀번호 변경
-            </Button>
-            <Button
-              type="button"
-              variant="danger"
-              className="mglf-3"
-              onClick={TogglePasswordVisible}
-            >
-              비밀번호 변경 취소
-            </Button>
-          </Form>
-        )}
+        <div className="mgtp">
+          {PasswordVisible && (
+            <Form onSubmit={handlePasswordSubmit}>
+              <hr />
+              <div className="mgtp-10 mgbt-10">
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label="현재 비밀번호 입력"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="password"
+                    placeholder="Password"
+                    id="currentPassword"
+                    name="currentPassword"
+                    value={passwordData.currentPassword}
+                    onChange={e => {
+                      setPasswordData({
+                        ...passwordData,
+                        currentPassword: e.target.value,
+                      });
+                    }}
+                    required
+                  />
+                </FloatingLabel>
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label="새 비밀번호 입력"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="password"
+                    placeholder="Password"
+                    id="newPassword"
+                    name="newPassword"
+                    value={passwordData.newPassword}
+                    onChange={e => {
+                      setPasswordData({
+                        ...passwordData,
+                        newPassword: e.target.value,
+                      });
+                    }}
+                    required
+                  />
+                </FloatingLabel>
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label="새 비밀번호 확인"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="password"
+                    placeholder="Password"
+                    id="newPasswordCheck"
+                    name="newPasswordCheck"
+                    value={passwordData.newPasswordCheck}
+                    onChange={e => {
+                      setPasswordData({
+                        ...passwordData,
+                        newPasswordCheck: e.target.value,
+                      });
+                    }}
+                    required
+                  />
+                </FloatingLabel>
+              </div>
+              <Button
+                type="submit"
+                variant="secondary"
+                onClick={handlePasswordSubmit}
+              >
+                비밀번호 변경
+              </Button>
+              <Button
+                type="button"
+                variant="danger"
+                className="mglf-3"
+                onClick={TogglePasswordVisible}
+              >
+                비밀번호 변경 취소
+              </Button>
+            </Form>
+          )}
+        </div>
       </Container>
     </div>
   );

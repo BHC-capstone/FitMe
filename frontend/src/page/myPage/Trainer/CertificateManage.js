@@ -5,9 +5,7 @@ import axios from 'axios';
 
 function CertificateManage() {
   const loginedUser = useSelector(state => state.user);
-  const [certFile, setCertFile] = useState(
-    '/assets/images/sample_certificate.png',
-  );
+  const [certFile, setCertFile] = useState('/sample_certificate.png');
   const [previewSize, setPreviewSize] = useState(200);
   const imgRef = useRef();
 
@@ -56,45 +54,51 @@ function CertificateManage() {
   return (
     <Container fluid className="panel">
       <div className="head">자격증 파일 관리</div>
-      <form className="upload-form" onSubmit={handleSubmit}>
-        <button
-          type="button"
-          className="file-upload"
-          onClick={() => {
-            imgRef.current.click();
-          }}
-        >
-          <input
-            type="file"
-            className="certificate-file-input"
-            id="file-input"
-            accept="image/*"
-            onChange={saveCertFile}
-            ref={imgRef}
-            style={{
-              display: 'none',
-            }}
-          />
-          <div
-            className="preview-wrapper"
-            style={{
-              width: previewSize,
-              height: previewSize,
+      <div className="flexcol">
+        <form className="upload-form" onSubmit={handleSubmit}>
+          <button
+            type="button"
+            className="file-upload"
+            onClick={() => {
+              imgRef.current.click();
             }}
           >
-            <img src={certFile} alt="자격증 이미지" onLoad={handleImageLoad} />
-          </div>
-          <div className="upload-text">
-            <p>자격증 파일을 업로드 해주세요.</p>
-          </div>
-          <Button variant="primary" type="button">
-            파일 선택
+            <input
+              type="file"
+              className="certificate-file-input"
+              id="file-input"
+              accept="image/*"
+              onChange={saveCertFile}
+              ref={imgRef}
+              style={{
+                display: 'none',
+              }}
+            />
+            <div
+              className="preview-wrapper"
+              style={{
+                width: previewSize,
+                height: previewSize,
+              }}
+            >
+              <img
+                src={certFile}
+                alt="자격증 이미지"
+                onLoad={handleImageLoad}
+              />
+            </div>
+            <div className="upload-text">
+              <p>자격증 파일을 업로드 해주세요.</p>
+            </div>
+            <Button variant="primary" type="button" className="mgbt">
+              파일 선택
+            </Button>
+          </button>
+          <Button variant="primary" type="submit" className="mgtp">
+            업로드
           </Button>
-        </button>
-        <Button variant="primary" type="submit" className="mgtp">
-          업로드
-        </Button>
-      </form>
+        </form>
+      </div>
     </Container>
   );
 }
