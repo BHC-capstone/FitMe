@@ -19,6 +19,7 @@ const {
   dailytrainercounts,
   dailyusercounts,
   dailyrequestcounts,
+  master,
 } = require('../models');
 const initModels = require('../models/init-models');
 const { Op } = require('sequelize');
