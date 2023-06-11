@@ -62,7 +62,6 @@ router.post('/payment', async (req, res) => {
     });
     const tId = data.tid;
     const redirectUrl = data.next_redirect_pc_url;
-    console.log(data);
 
     res.status(200).json({ data: { tId, redirectUrl }, message: '결제 준비' });
   } catch (err) {

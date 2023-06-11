@@ -268,7 +268,7 @@ router.post('/accept/:trainer_id/:id', (req, res) => {
     })
     .then(requestInfo => {
       if (requestInfo != undefined) {
-        const { totalprice } = requestInfo.price;
+        const totalprice = requestInfo.price;
 
         pt_requests
           .update(

@@ -142,7 +142,7 @@ router.post('/bodyinfo/:feedbackId', async function (req, res) {
       }
       res
         .status(200)
-        .json({ data: bodyInfo, message: '성공적으로 등록되었습니다.' });
+        .json({ data: null, message: '성공적으로 등록되었습니다.' });
     } catch (err) {
       console.log(err);
     }
