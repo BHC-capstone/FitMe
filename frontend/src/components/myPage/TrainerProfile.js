@@ -173,10 +173,6 @@ function TrainerProfile() {
               <h3 className="certification-name">
                 {certification.name}
                 <div>
-                  <CloseOutlined onClick={certificationDelete} />
-                </div>
-
-                <div>
                   <CloseOutlined
                     onClick={() => certificationDelete(certification.id)}
                   />
@@ -187,7 +183,6 @@ function TrainerProfile() {
                 style={{ width: '230px', height: 'auto' }}
                 alt="자격증"
               />
-              <img src={certification.image_url} alt="자격증" />
             </div>
           ))}
         </div>

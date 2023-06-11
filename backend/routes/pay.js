@@ -35,9 +35,9 @@ router.post('/payment', async (req, res) => {
       total_amount: amount,
       vat_amount: 0,
       tax_free_amount: 0,
-      approval_url: 'https://localhost:4000/charge-success',
-      fail_url: 'https://localhost:4000/charge-fail',
-      cancel_url: 'https://localhost:4000/charge-cancel',
+      approval_url: 'https://localhost:3000/charge-success',
+      fail_url: 'https://localhost:3000/charge-fail',
+      cancel_url: 'https://localhost:3000/charge-cancel',
     };
 
     const response = await axios.post(
@@ -62,11 +62,9 @@ router.post('/payment', async (req, res) => {
     });
     const tId = data.tid;
     const redirectUrl = data.next_redirect_pc_url;
-    console.log(data);
 
     res.status(200).json({ data: { tId, redirectUrl }, message: '결제 준비' });
   } catch (err) {
-    console.log(err);
     res.status(500).json({ error: '결제 에러' });
   }
 });
