@@ -3,11 +3,11 @@ import { useSelector } from 'react-redux';
 import { Container, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import sampleImg from '../../../images/sample_certificate.png';
 
 function CertificateManage() {
   const loginedUser = useSelector(state => state.user);
-  const [certFile, setCertFile] = useState(sampleImg);
+
+  const [certFile, setCertFile] = useState('/sample_certificate.png');
   const [previewSize, setPreviewSize] = useState(200);
   const imgRef = useRef();
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ function CertificateManage() {
     }
   };
   const handleImageLoad = () => {
-    if (certFile !== sampleImg) {
+    if (certFile !== '/sample_certificate.png') {
       setPreviewSize('100%');
     }
   };
