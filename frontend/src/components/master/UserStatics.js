@@ -15,7 +15,7 @@ export default function UserStatics({}) {
   const [data, setData] = useState([]);
   const fetchRequests = async () => {
     const response = await axios.get(
-      `https://fitme.p-e.kr:4000/administrator/usercount`,
+      `https://localhost:4000/administrator/usercount`,
     );
     setRequests(response.data.data);
   };

@@ -18,7 +18,7 @@ export default function TopNav() {
 
   const handleLogout = () => {
     if (user.isTrainer === false) {
-      axios.get('https://fitme.p-e.kr:4000/users/logout').then(response => {
+      axios.get('https://localhost:4000/users/logout').then(response => {
         if (response.status === 200) {
           alert(response.data.message);
           dispatch(logoutUser());
@@ -28,7 +28,7 @@ export default function TopNav() {
         }
       });
     } else {
-      axios.get('https://fitme.p-e.kr:4000/trainers/logout').then(response => {
+      axios.get('https://localhost:4000/trainers/logout').then(response => {
         if (response.status === 200) {
           alert(response.data.message);
           dispatch(logoutUser());
@@ -42,16 +42,26 @@ export default function TopNav() {
 
   const [point, setPoint] = useState(0);
   useEffect(() => {
-    if (user.isTrainer === true) return;
-    axios({
-      method: 'get',
-      url: `https://fitme.p-e.kr:4000/users/userpoint/${user.id}`,
-      withCredentials: true,
-    }).then(response => {
-      const { data } = response.data;
-      setPoint(data.amount);
-    });
-  }, []);
+    if (user.isTrainer === true) {
+      axios({
+        method: 'get',
+        url: `https://localhost:4000/trainers/revenue/${user.id}`,
+        withCredentials: true,
+      }).then(response => {
+        const { data } = response.data;
+        setPoint(data.amount);
+      });
+    } else {
+      axios({
+        method: 'get',
+        url: `https://localhost:4000/users/userpoint/${user.id}`,
+        withCredentials: true,
+      }).then(response => {
+        const { data } = response.data;
+        setPoint(data.amount);
+      });
+    }
+  }, [user.id, user.isTrainer]);
 
   return (
     <Navbar key="sm" expand="sm" bg="white">

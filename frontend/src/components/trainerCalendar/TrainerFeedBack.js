@@ -51,7 +51,7 @@ function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
     const formData = new FormData();
     formData.append('video', videoInput.current.files[0]);
     axios({
-      url: `https://fitme.p-e.kr:4000/trainer_calender//uploadFeedbackvideo/${date}/${loginedUser.id}/${userid}`,
+      url: `https://localhost:4000/trainer_calender//uploadFeedbackvideo/${date}/${loginedUser.id}/${userid}`,
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -83,7 +83,7 @@ function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
     // formData.append('video', file.fileObject);
     // console.log('video', file.fileObject);
     axios({
-      url: `https://fitme.p-e.kr:4000/trainer_calender/updateFeedback/${feedbackid}`,
+      url: `https://localhost:4000/trainer_calender/updateFeedback/${feedbackid}`,
       data: { feedback_message: Feedbacktext },
       method: 'PUT',
       withCredentials: true,
@@ -95,8 +95,8 @@ function TrainerFeedBack({ feedbackvideo, feedbacktext, feedbackid }) {
         alert(err.response.data.message);
       });
     axios({
-      url: `https://fitme.p-e.kr:4000/trainer_calender/updateFeedbackvideo/${feedbackid}`,
-      // url: `https://fitme.p-e.kr:4000/trainer_calender/uploadFeedbackvideo/${date}/${loginedUser.id}/${userid}`,
+      url: `https://localhost:4000/trainer_calender/updateFeedbackvideo/${feedbackid}`,
+      // url: `https://localhost:4000/trainer_calender/uploadFeedbackvideo/${date}/${loginedUser.id}/${userid}`,
       headers: {
         'Content-Type': 'multipart/form-data',
       },

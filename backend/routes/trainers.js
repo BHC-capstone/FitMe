@@ -63,7 +63,7 @@ router.post(
         if (trainerInfo != undefined)
           res.status(409).json({
             data: trainerInfo,
-            message: '이미 존재하는 이메일입니다.',
+            message: '이미 신청된 이메일입니다.',
           });
         else {
           const hashedPassword = await bcrypt.hash(
@@ -101,6 +101,7 @@ router.post(
             { where: { id: trainer.id }, transaction },
           );
 
+          console.log('trainer certificate');
           const trainerPoint = await trainer_points.create(
             {
               trainer_id: trainer.id,
@@ -134,6 +135,7 @@ router.post(
             .json({ data: null, message: '회원가입 신청이 완료되었습니다.' });
         }
       } catch (err) {
+        console.log('err : ', err);
         if (transaction) {
           await transaction.rollback();
         }

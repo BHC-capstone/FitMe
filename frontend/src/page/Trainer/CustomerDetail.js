@@ -26,7 +26,7 @@ function CustomerDetail() {
   useEffect(() => {
     axios
       .get(
-        `https://fitme.p-e.kr:4000/manage/checkptuserdetail/${id}/${loginedUser.id}`,
+        `https://localhost:4000/manage/checkptuserdetail/${id}/${loginedUser.id}`,
         {
           withCredentials: true,
         },
@@ -47,7 +47,7 @@ function CustomerDetail() {
   function handleMemoSubmit(event) {
     axios
       .post(
-        `https://fitme.p-e.kr:4000/manage/updatememo/${id}/${loginedUser.id}`,
+        `https://localhost:4000/manage/updatememo/${id}/${loginedUser.id}`,
         {
           memo: customer.memo,
         },
@@ -76,13 +76,10 @@ function CustomerDetail() {
 
   const onFinish = values => {
     axios
-      .post(
-        `https://fitme.p-e.kr:4000/manage/maketag/${id}/${loginedUser.id}`,
-        {
-          tag_name: values['tag name'],
-          tag_color: color,
-        },
-      )
+      .post(`https://localhost:4000/manage/maketag/${id}/${loginedUser.id}`, {
+        tag_name: values['tag name'],
+        tag_color: color,
+      })
       .then(response => {
         console.log(response);
         setTags(tags + 1);

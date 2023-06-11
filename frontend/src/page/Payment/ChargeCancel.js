@@ -1,24 +1,21 @@
 import React, { useEffect } from 'react';
 import { Button, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 
 function ChargeCancel() {
+  const loginedUser = useSelector(state => state.user);
   const navigate = useNavigate();
   useEffect(() => {
     axios({
       method: 'post',
-      url: 'https://fitme.p-e.kr:4000/pay/payment/status',
+      url: 'https://localhost:4000/pay/payment/status',
       data: {
         status: 'cancel',
+        tid: loginedUser.tid,
       },
-    })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    });
   }, []);
   return (
     <Container fluid className="panel">

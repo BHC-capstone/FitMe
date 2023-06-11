@@ -24,7 +24,7 @@ function PointCharge() {
   const fetchPoint = async () => {
     axios({
       method: 'get',
-      url: `https://fitme.p-e.kr:4000/users/profile/${loginedUser.id}`,
+      url: `https://localhost:4000/users/profile/${loginedUser.id}`,
       withCredentials: true,
     })
       .then(response => {
@@ -42,7 +42,7 @@ function PointCharge() {
   function postChargeTry(tid, amount, createdAt) {
     axios({
       method: 'post',
-      url: 'https://fitme.p-e.kr:4000/users/charge-success',
+      url: 'https://localhost:4000/users/charge-success',
       data: {
         tid,
         uid: loginedUser.id,
@@ -75,7 +75,7 @@ function PointCharge() {
     }
     axios({
       method: 'post',
-      url: 'https://fitme.p-e.kr:4000/pay/payment',
+      url: 'https://localhost:4000/pay/payment',
       data: {
         amount: pointCharge === -1 ? pointChargeEtc : pointCharge,
         userId: loginedUser.id,
@@ -100,9 +100,9 @@ function PointCharge() {
     //   total_amount: pointCharge === -1 ? pointChargeEtc : pointCharge,
     //   vat_amount: 0,
     //   tax_free_amount: 0,
-    //   approval_url: 'https://fitme.p-e.kr:3000/charge-success',
-    //   fail_url: 'https://fitme.p-e.kr:3000/charge-fail',
-    //   cancel_url: 'https://fitme.p-e.kr:3000/charge-cancel',
+    //   approval_url: 'https://localhost:3000/charge-success',
+    //   fail_url: 'https://localhost:3000/charge-fail',
+    //   cancel_url: 'https://localhost:3000/charge-cancel',
     // };
     // axios({
     //   method: 'post',

@@ -29,13 +29,18 @@ jobs:
           echo "MYSQL_PORT=${{ secrets.MYSQL_PORT }}" >> .env
           echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env
           cat .env
-   
+
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+      - run: npx prettier -w **/*.js
+        working-directory: backend
+      - run: npx prettier -w **/*.js
+        working-directory: frontend
+
       - run: npm ci
         working-directory: backend
       - run: npm run build --if-present
