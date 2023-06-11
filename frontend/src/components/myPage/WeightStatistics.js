@@ -34,8 +34,13 @@ export default function WeightStatics({}) {
   return (
     <VictoryChart height={400} width={400} theme={VictoryTheme.material}>
       <VictoryLine
+        animate={{
+          duration: 2000,
+          onLoad: { duration: 1000 },
+        }}
+        interpolation="natural"
         style={{
-          data: { stroke: '#c43a31' },
+          data: { stroke: '#2ba5f7', strokeWidth: 3, strokeLinecap: 'round' },
           parent: { border: '1px solid #ccc' },
         }}
         data={requests}

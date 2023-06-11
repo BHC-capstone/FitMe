@@ -2,13 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Container, Button } from 'react-bootstrap';
 import axios from 'axios';
-import sampleImg from '../../../images/sample_certificate.png';
+import { useNavigate } from 'react-router-dom';
 
 function CertificateManage() {
   const loginedUser = useSelector(state => state.user);
-  const [certFile, setCertFile] = useState(sampleImg);
+
+  const [certFile, setCertFile] = useState('/sample_certificate.png');
   const [previewSize, setPreviewSize] = useState(200);
   const imgRef = useRef();
+  const navigate = useNavigate();
 
   const saveCertFile = event => {
     event.preventDefault();
@@ -22,7 +24,7 @@ function CertificateManage() {
     }
   };
   const handleImageLoad = () => {
-    if (certFile !== sampleImg) {
+    if (certFile !== '/sample_certificate.png') {
       setPreviewSize('100%');
     }
   };
@@ -45,7 +47,8 @@ function CertificateManage() {
       withCredentials: true,
     })
       .then(response => {
-        console.log(response);
+        alert(response.data.message);
+        navigate('/mypage');
       })
       .catch(error => {
         console.error(error);

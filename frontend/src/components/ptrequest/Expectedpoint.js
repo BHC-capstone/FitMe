@@ -123,6 +123,10 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
       });
   };
 
+  const goCharge = () => {
+    navigate('/pointcharge');
+  };
+
   return (
     <div>
       <DatePick getdata={setDays} />
@@ -148,10 +152,20 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
         </Boxc>
       </Boxr>
       <Boxr>
-        <Button type="submit" variant="primary" onClick={onSubmitHandler}>
+        <Button
+          type="submit"
+          variant="primary"
+          className="mglf-02"
+          onClick={onSubmitHandler}
+        >
           신청
         </Button>
-        <Button type="submit" variant="secondary">
+        <Button
+          type="button"
+          variant="secondary"
+          className="mglf-02"
+          onClick={goCharge}
+        >
           충전
         </Button>
       </Boxr>
@@ -195,7 +209,7 @@ const Boxc = styled.div`
   align-items: center;
   font-weight: bold;
   text-align: left;
-  width: 162px;
+  width: fit-content;
   border-radius: 10px;
   background-color: rgb(233, 233, 233);
   padding: 10px;
@@ -213,7 +227,8 @@ const Boxep1 = styled.div`
   margin: auto 0;
 `;
 const Boxep2 = styled.div`
-  width: 90px;
+  min-width: 90px;
+  width: fit-content;
   height: 24px;
   font-weight: 400;
   font-size: 16px;
@@ -222,6 +237,8 @@ const Boxep2 = styled.div`
   border-radius: 10px;
   text-align: center;
   margin: auto 0;
+  padding-left: 10%;
+  padding-right: 10%;
 `;
 
 export default Expectedpoint;

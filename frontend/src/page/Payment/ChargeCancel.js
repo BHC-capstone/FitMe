@@ -19,8 +19,8 @@ function ChargeCancel() {
   }, []);
   return (
     <Container fluid className="panel">
-      <div>결제가 취소되었습니다.</div>
-      <Button variant="primary" onClick={() => navigate('/pointCharge')}>
+      <div className="head">결제가 실패하였습니다.</div>
+      <Button variant="secondary" onClick={() => navigate('/pointCharge')}>
         포인트 충전으로 돌아가기
       </Button>
     </Container>

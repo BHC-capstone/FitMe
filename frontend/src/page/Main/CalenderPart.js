@@ -59,7 +59,7 @@ function CalendarPart() {
   return (
     <Container fluid className="panel">
       <div className="head">캘린더</div>
-      <div className="mgauto mglf-5 mgbt">
+      <div className="calendarmg mgbt">
         <Calendar
           formatDay={(location, date) =>
             date.toLocaleDateString('en', { day: 'numeric' })

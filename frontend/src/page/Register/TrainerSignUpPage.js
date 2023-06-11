@@ -146,7 +146,7 @@ export default function TrainerSignUpPage() {
             <Col xs="5">
               <FloatingLabel
                 controlId="floatingInput"
-                label="이름"
+                label="이름 (7글자 이하)"
                 className="mb-3"
               >
                 <Form.Control
@@ -154,6 +154,7 @@ export default function TrainerSignUpPage() {
                   placeholder="Enter name"
                   value={name}
                   onChange={onChangeName}
+                  maxLength="7"
                   required
                 />
               </FloatingLabel>
@@ -175,7 +176,7 @@ export default function TrainerSignUpPage() {
             </Col>
           </Row>
           <Row>
-            <Col>
+            <Col xs="4">
               <FloatingLabel
                 controlId="floatingSelect"
                 label="성별"
@@ -189,7 +190,7 @@ export default function TrainerSignUpPage() {
                 </Form.Select>
               </FloatingLabel>
             </Col>
-            <Col>
+            <Col xs="3">
               <FloatingLabel
                 controlId="floatingSelect"
                 label="나이"
@@ -203,6 +204,8 @@ export default function TrainerSignUpPage() {
                   required
                 />
               </FloatingLabel>
+            </Col>
+            <Col xs="5">
               <FloatingLabel
                 controlId="floatingSelect"
                 label="회당 PT 가격 (원)"

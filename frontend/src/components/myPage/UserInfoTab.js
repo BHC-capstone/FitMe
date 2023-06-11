@@ -108,22 +108,24 @@ export default function UserInfoTab({ loginedUser }) {
               {user.data.phonenumber}
             </li>
           </ul>
-          <Button
-            variant="primary"
-            type="button"
-            className="mgtp"
-            onClick={goEdit}
-          >
-            회원정보 수정
-          </Button>
-          <Button
-            variant="danger"
-            type="button"
-            className="mglf-10 mgtp"
-            onClick={goWithdraw}
-          >
-            회원 탈퇴
-          </Button>
+          <div className="mgtp">
+            <Button
+              variant="primary"
+              type="button"
+              className="mgtp"
+              onClick={goEdit}
+            >
+              회원정보 수정
+            </Button>
+            <Button
+              variant="danger"
+              type="button"
+              className="mglf-10 mgtp"
+              onClick={goWithdraw}
+            >
+              회원 탈퇴
+            </Button>
+          </div>
         </div>
       </div>
     </Container>

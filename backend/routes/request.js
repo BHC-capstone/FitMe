@@ -63,7 +63,10 @@ router.post('/ptrequest', async (req, res) => {
 
       try {
         if (req.body.height == '' || req.body.weight == '') {
-          throw new Error('키와 몸무게를 입력해주세요.');
+          return res.status(401).json({
+            data: null,
+            message: '키와 몸무게를 입력해주세요.',
+          });
         } else {
           await pt_requests.create(
             {
@@ -268,8 +271,7 @@ router.post('/accept/:trainer_id/:id', (req, res) => {
     })
     .then(requestInfo => {
       if (requestInfo != undefined) {
-        const { totalprice } = requestInfo.price;
-
+        const totalprice = requestInfo.price;
         pt_requests
           .update(
             {
@@ -324,17 +326,18 @@ router.post('/accept/:trainer_id/:id', (req, res) => {
               .then(() => {
                 trainer_points
                   .findOne({ where: { trainer_id } })
-                  .then(pointsInfo => {
+                  .then(async pointsInfo => {
                     if (pointsInfo != undefined) {
                       const currentAmount = pointsInfo.amount;
                       const newAmount = currentAmount + totalprice;
 
-                      trainer_points
+                      await trainer_points
                         .update(
                           { amount: newAmount },
                           { where: { trainer_id } },
                         )
                         .then(() => {
+                          console.log(newAmount);
                           res.status(200).json({
                             data: null,
                             message: '성공적으로 수락되었습니다.',

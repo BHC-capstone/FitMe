@@ -101,15 +101,6 @@ router.post(
             { where: { id: trainer.id }, transaction },
           );
 
-          console.log('trainer certificate');
-          const trainerPoint = await trainer_points.create(
-            {
-              trainer_id: trainer.id,
-              amount: 0,
-            },
-            { transaction },
-          );
-
           const trainerCount = await dailytrainercounts.findOne({
             where: { date: currentDate },
             transaction,
