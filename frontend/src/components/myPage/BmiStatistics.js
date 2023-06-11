@@ -32,7 +32,7 @@ export default function BmiStatics({}) {
     fetchRequests();
   }, []);
   return (
-    <VictoryChart height={300} width={300} theme={VictoryTheme.material}>
+    <VictoryChart height={400} width={400} theme={VictoryTheme.material}>
       <VictoryLine
         style={{
           data: { stroke: '#c43a31' },
@@ -46,7 +46,7 @@ export default function BmiStatics({}) {
         crossAxis
         width={300}
         height={300}
-        domain={[0, requests.length]}
+        domain={[0, requests.length * 1.3]}
         theme={VictoryTheme.material}
         offsetY={30}
         standalone={false}
