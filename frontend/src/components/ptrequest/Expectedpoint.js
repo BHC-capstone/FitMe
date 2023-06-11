@@ -58,7 +58,7 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
       `https://localhost:4000/trainers/getPrice/${trainerid}`,
     );
     setPrice(response.data.data.pt_point);
-    setTotalPrice(count * response.data.data.pt_point);
+    setTotalPrice(Math.ceil(count).toFixed() * response.data.data.pt_point);
     const response1 = await axios.get(
       `https://localhost:4000/users/userpoint/${userid}`,
       {
@@ -94,6 +94,7 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
       trainer_id: trainerid,
       id: userid,
       startDate,
+      endDate,
       count,
       totalprice,
       height: detaildata.height,
@@ -150,11 +151,7 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
         <Button type="submit" variant="primary" onClick={onSubmitHandler}>
           신청
         </Button>
-        <Button
-          type="submit"
-          variant="secondary"
-          onClick={() => navigate('/pointcharge')}
-        >
+        <Button type="submit" variant="secondary">
           충전
         </Button>
       </Boxr>

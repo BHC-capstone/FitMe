@@ -11,7 +11,7 @@ import {
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
-export default function WeightStatics({}) {
+export default function BmiStatics({}) {
   const loginedUser = useSelector(state => state.user);
   const [requests, setRequests] = useState([]);
   const fetchRequests = async () => {
@@ -40,7 +40,7 @@ export default function WeightStatics({}) {
         }}
         data={requests}
         x="date"
-        y="weight"
+        y="bmi"
       />
       <VictoryAxis
         crossAxis

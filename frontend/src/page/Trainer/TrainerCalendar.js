@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import '../../scss/calendar.scss';
 import styled from 'styled-components';
 import { Container } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 import TrainerDietTab from '../../components/trainerCalendar/TrainerDietTab';
 import TrainerExerciseTab from '../../components/trainerCalendar/TrainerExerTab';
 import TrainerFeedBackTab from '../../components/trainerCalendar/TrainerFeedBackTab';
@@ -12,6 +13,24 @@ function TrainerCalendar() {
   const { userid } = useParams();
   const [dateinfo, onChange] = useState(new Date());
   const [currentTab, clickTab] = useState(0);
+  const [startdateinfo, onChangeStart] = useState(new Date());
+  const [enddateinfo, onChangeEnd] = useState(new Date());
+  const [ptinfo, setPtInfo] = useState([]);
+
+  useEffect(() => {
+    axios({
+      method: 'get',
+      url: `https://localhost:4000/request/date/${userid}`,
+      withCredentials: true,
+    }).then(response => {
+      const { data } = response.data;
+      setPtInfo(data);
+      const tempday1 = new Date(data.start);
+      const tempday2 = new Date(data.start);
+      onChangeEnd(new Date(data.end));
+      onChangeStart(tempday2.setDate(tempday1.getDate() - 1));
+    });
+  }, []);
   const menuArr = [
     {
       name: '식단',
@@ -52,6 +71,9 @@ function TrainerCalendar() {
           }
           onChange={onChange}
           value={dateinfo}
+          tileDisabled={({ date }) =>
+            date < startdateinfo || date > enddateinfo
+          }
         />
       </Div1>
       <Div />
