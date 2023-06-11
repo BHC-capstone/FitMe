@@ -7,6 +7,7 @@ let https = require('https');
 const path = require('path');
 let trainers = require('../models').trainers;
 let trainer_sign_request = require('../models').trainer_sign_request;
+let bcrypt = require('bcrypt');
 
 const sequelize = require('../models').sequelize;
 
@@ -123,18 +124,18 @@ describe('Trainer Login', () => {
     expect(response.body.data.email).toBe(testTrainer.email);
   });
 
-  it('should return an error for incorrect password', async () => {
+  it('잘못된 패스워드를 입력하여 에러메시지를 출력하는 경우', async () => {
     // Send login request with incorrect password
     const response = await request(app)
       .post('/trainers/login')
-      .send({ email: testTrainer.email, password: 'incorrectPassword' });
+      .send({ email: testTrainer.email, password: '87456' });
 
     expect(response.status).toBe(401);
     expect(response.body.message).toBe('비밀번호가 일치하지 않습니다');
     expect(response.body.data).toBeNull();
   });
 
-  it('should return an error for non-existent trainer', async () => {
+  it('해당하는 트레이너가 없어 에러메시지를 출력하는 경우', async () => {
     const response = await request(app)
       .post('/trainers/login')
       .send({ email: 'nonexistent@ajou.ac.kr', password: 'password123' });
@@ -144,7 +145,7 @@ describe('Trainer Login', () => {
     expect(response.body.data).toBeNull();
   });
 
-  it('should return an error for missing email or password', async () => {
+  it('이메일 혹은 비밀번호를 입력하지 않아 에러메시지를 출력하는 경우', async () => {
     let response = await request(app)
       .post('/trainers/login')
       .send({ password: 'password123' });
@@ -152,14 +153,65 @@ describe('Trainer Login', () => {
     expect(response.status).toBe(400);
     expect(response.body.message).toBe('이메일과 비밀번호를 입력하세요');
     expect(response.body.data).toBeNull();
+  });
+});
 
-    // Send login request without password
-    response = await request(app)
-      .post('/trainers/login')
-      .send({ email: 'testTrainer@ajou.ac.kr' });
+describe('Trainers Logout', () => {
+  it('성공적으로 로그아웃에 성공하는 경우', async () => {
+    const response = await request(app).get('/trainers/logout');
 
-    expect(response.status).toBe(400);
-    expect(response.body.message).toBe('이메일과 비밀번호를 입력하세요');
+    expect(response.status).toBe(200);
     expect(response.body.data).toBeNull();
+    expect(response.body.message).toBe('성공적으로 로그아웃되었습니다');
+  });
+});
+
+describe('Trainer withdraw', () => {
+  let agent;
+
+  const hashedPassword = bcrypt.hashSync('1234', 10);
+  let testTrainer;
+  beforeAll(async () => {
+    testTrainer = {
+      id: 8971,
+      email: 'testTrainer@ajou.ac.kr',
+      name: '박테스트',
+      password: hashedPassword, //1234 encrypt
+      age: 25,
+      gender: 'male',
+      phonenumber: '01012341234',
+    };
+    createdUser = await trainers.create(testTrainer);
+  });
+
+  afterAll(async () => {
+    await trainers.destroy({
+      where: {
+        email: testTrainer.email,
+      },
+    });
+  });
+
+  beforeEach(() => {
+    agent = superagent.agent();
+  });
+  it('비밀번호가 잘못 입력되었을 경우', async () => {
+    const response = await request(app)
+      .post(`/trainers/withdraw/${testTrainer.id}`)
+      .send({ password: 'wrongpassword' });
+
+    expect(response.status).toBe(401);
+    expect(response.body.data).toBeNull();
+    expect(response.body.message).toBe('비밀번호가 일치하지 않습니다.');
+  });
+
+  it('성공적으로 회원탈퇴에 성공하는 경우 ', async () => {
+    const response = await request(app)
+      .post(`/trainers/withdraw/${testTrainer.id}`)
+      .send({ password: hashedPassword });
+
+    expect(response.status).toBe(200);
+    expect(response.body.data).toBeNull();
+    expect(response.body.message).toBe('성공적으로 탈퇴되었습니다');
   });
 });
