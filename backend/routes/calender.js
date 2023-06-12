@@ -373,6 +373,11 @@ router.post(
   async (req, res) => {
     if (req.session.loggedin) {
       try {
+        const currentdate = new Date();
+        const year = currentdate.getFullYear();
+        const month = currentdate.getMonth() + 1;
+        const day = currentdate.getDate();
+        const newdate = year + '-' + month + '-' + day;
         const { routineid, id } = req.params;
         const exerciseRoutine = await exercise_routines.findOne({
           where: { id: routineid },
@@ -401,7 +406,14 @@ router.post(
             where: { id: routineid },
           },
         );
-
+        await trainer_manage.update(
+          {
+            last_exercise_date: newdate,
+          },
+          {
+            where: { user_id: id },
+          },
+        );
         res.status(200).json({
           data: null,
           message: '운동영상 업로드가 완료되었습니다.',

@@ -553,6 +553,12 @@ router.post(
             },
             { where: { id: Feedback.id } },
           );
+          await trainer_manage.update(
+            {
+              last_feedback_date: date,
+            },
+            { where: { user_id: userId, trainer_id: id } },
+          );
           res.status(200).json({
             data: Feedback,
             message: '피드백 영상 업로드가 완료되었습니다.',
