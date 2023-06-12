@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import {
   Text,
   TextSize,
@@ -15,7 +16,7 @@ export default function PtStatics({}) {
   const [requests, setRequests] = useState([]);
   const fetchRequests = async () => {
     axios
-      .get(`https://fitme.p-e.kr:4000/administrator/requestcount`)
+      .get(`https://localhost:4000/administrator/requestcount`)
       .then(response => {
         setRequests(response.data.data);
         console.log('잘 가져옴', response.data.data);
@@ -25,21 +26,14 @@ export default function PtStatics({}) {
       });
     console.log('저장 ', requests);
   };
-
   useEffect(() => {
     fetchRequests();
   }, []);
-
   return (
     <VictoryChart height={300} width={300} theme={VictoryTheme.material}>
       <VictoryLine
-        animate={{
-          duration: 2000,
-          onLoad: { duration: 1000 },
-        }}
-        interpolation="natural"
         style={{
-          data: { stroke: '#0bb7af', strokeWidth: 3, strokeLinecap: 'round' },
+          data: { stroke: '#c43a31' },
           parent: { border: '1px solid #ccc' },
         }}
         data={requests.requestCounts}
@@ -57,7 +51,7 @@ export default function PtStatics({}) {
         label="주차"
         style={{
           axis: { stroke: '#756f6a' },
-          axisLabel: { fontSize: 12, padding: 20, fontWeight: 'bold' },
+          axisLabel: { fontSize: 10, padding: 20 },
         }}
       />
       <VictoryAxis
@@ -72,7 +66,7 @@ export default function PtStatics({}) {
         label="가입 인원 수"
         style={{
           axis: { stroke: '#756f6a' },
-          axisLabel: { fontSize: 10, padding: 20, fontWeight: 'bold' },
+          axisLabel: { fontSize: 10, padding: 20 },
         }}
       />
     </VictoryChart>
