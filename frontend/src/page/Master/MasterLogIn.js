@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Button } from 'react-bootstrap';
-import { Input } from 'antd';
+import { Container, Button, Form, FloatingLabel } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,16 +29,26 @@ function MasterLogin() {
       <div className="head">관리자 로그인</div>
       <div className="body">
         <div className="input">
-          <Input
-            type="password"
-            placeholder="인증번호를 입력하세요"
-            value={password}
-            style={{
-              width: '40%',
-              margin: '3%',
-            }}
-            onChange={e => setPassword(e.target.value)}
-          />
+          <Form>
+            <FloatingLabel
+              controlId="floatingInput"
+              label="인증번호"
+              className="mb-3"
+              style={{
+                width: '40%',
+                margin: 'auto',
+              }}
+            >
+              <Form.Control
+                id="password"
+                type="password"
+                placeholder="인증번호를 입력하세요."
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                required
+              />
+            </FloatingLabel>
+          </Form>
         </div>
         <div className="button">
           <Button type="submit" onClick={onSubmit}>

@@ -1,35 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
 import { Container, Button } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Avatar, Descriptions } from 'antd';
-import '../myPage/RequestDetail.css';
-import styled from 'styled-components';
+import { Descriptions } from 'antd';
 
 function ButtonDisplay({ requestId, handleAccept, handleReject }) {
   return (
     <>
-      <StyledButton1
+      <Button
         variant="primary"
         type="button"
+        className="mgauto mgtp"
         onClick={() => handleAccept({ requestId })}
       >
         수락
-      </StyledButton1>
-      <StyledButton2
+      </Button>
+      <Button
         variant="danger"
         type="button"
+        className="mglf-5 mgtp"
         onClick={() => handleReject({ requestId })}
       >
         거절
-      </StyledButton2>
+      </Button>
     </>
   );
 }
 
 function RequestDetailCertification({ request, fetch }) {
-  const navigate = useNavigate();
   const handleAccept = async ({ requestId }) => {
     axios({
       method: 'post',
@@ -55,6 +52,7 @@ function RequestDetailCertification({ request, fetch }) {
         alert(error.response.data.message);
       });
   };
+
   useEffect(() => {
     fetch();
   }, []);
@@ -72,7 +70,7 @@ function RequestDetailCertification({ request, fetch }) {
             </Descriptions.Item>
             <Descriptions.Item label="추가할 트레이너 자격증">
               <img
-                style={{ width: '200px', height: '300px' }}
+                style={{ width: '200px', height: 'auto' }}
                 src={request.image_url}
                 alt="자격증"
               />
@@ -89,16 +87,5 @@ function RequestDetailCertification({ request, fetch }) {
     </Container>
   );
 }
-const StyledButton1 = styled(Button)`
-  // width: 20%;
-  margin: auto;
-  margin-top: 20px;
-`;
-
-const StyledButton2 = styled(Button)`
-  // width: 20%;
-  margin-left: 10px;
-  margin-top: 20px;
-`;
 
 export default RequestDetailCertification;

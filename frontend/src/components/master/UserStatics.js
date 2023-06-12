@@ -26,14 +26,21 @@ export default function UserStatics({}) {
       });
     console.log('저장 ', requests);
   };
+
   useEffect(() => {
     fetchRequests();
   }, []);
+
   return (
     <VictoryChart height={300} width={300} theme={VictoryTheme.material}>
       <VictoryLine
+        animate={{
+          duration: 2000,
+          onLoad: { duration: 1000 },
+        }}
+        interpolation="natural"
         style={{
-          data: { stroke: '#c43a31' },
+          data: { stroke: '#2ba5f7', strokeWidth: 3, strokeLinecap: 'round' },
           parent: { border: '1px solid #ccc' },
         }}
         data={requests.userCounts}
@@ -51,7 +58,7 @@ export default function UserStatics({}) {
         label="주차"
         style={{
           axis: { stroke: '#756f6a' },
-          axisLabel: { fontSize: 10, padding: 20 },
+          axisLabel: { fontSize: 12, padding: 20, fontWeight: 'bold' },
         }}
       />
       <VictoryAxis
@@ -66,7 +73,7 @@ export default function UserStatics({}) {
         label="가입 인원 수"
         style={{
           axis: { stroke: '#756f6a' },
-          axisLabel: { fontSize: 10, padding: 20 },
+          axisLabel: { fontSize: 10, padding: 20, fontWeight: 'bold' },
         }}
       />
     </VictoryChart>

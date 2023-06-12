@@ -22,7 +22,7 @@ export default function TopNav() {
         if (response.status === 200) {
           alert(response.data.message);
           dispatch(logoutUser());
-          navigate('user-login');
+          navigate('/login');
         } else {
           alert(response.data.message);
         }
@@ -32,7 +32,7 @@ export default function TopNav() {
         if (response.status === 200) {
           alert(response.data.message);
           dispatch(logoutUser());
-          navigate('trainer-login');
+          navigate('/login');
         } else {
           alert(response.data.message);
         }
@@ -85,7 +85,7 @@ export default function TopNav() {
             {user.isLogin === false ? (
               <Nav className="justify-content-start flex-grow-1 pe-3">
                 <Nav.Link href="/signup">회원가입</Nav.Link>
-                <Nav.Link href="/user-login">로그인</Nav.Link>
+                <Nav.Link href="/login">로그인</Nav.Link>
               </Nav>
             ) : (
               <Nav className="justify-content-start flex-grow-1 pe-3">

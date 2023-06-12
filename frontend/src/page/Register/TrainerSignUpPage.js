@@ -9,7 +9,6 @@ import {
   Button,
   FloatingLabel,
 } from 'react-bootstrap';
-import styled from 'styled-components';
 
 export default function TrainerSignUpPage() {
   const navigate = useNavigate();
@@ -84,15 +83,15 @@ export default function TrainerSignUpPage() {
     })
       .then(res => {
         alert(res.data.message);
-        navigate('/trainer-login');
+        navigate('/login');
       })
       .catch(err => {
         alert(err.response.data.message);
       });
   };
 
-  const goTrainerLogin = () => {
-    navigate('/trainer-login');
+  const goLogin = () => {
+    navigate('/login');
   };
   const goUserSignUp = () => {
     navigate('/user-signup');
@@ -245,7 +244,7 @@ export default function TrainerSignUpPage() {
             제출
           </Button>
         </Form>
-        <Button variant="link" type="button" onClick={goTrainerLogin}>
+        <Button variant="link" type="button" onClick={goLogin}>
           이미 계정이 있나요?
         </Button>
         <hr />

@@ -37,20 +37,10 @@ export const userSlice = createSlice({
       state.isTrainer = true;
       return state;
     },
-    logoutTrainer: (state, action) => {
-      state.id = '';
-      state.isLogin = false;
-      state.isTrainer = false;
-      return state;
-    },
-    payUser: (state, action) => {
-      state.tid = action.payload.tId;
-      return state;
-    },
   },
 });
 
-export const { loginUser, logoutUser, loginTrainer, logoutTrainer, payUser } =
+export const { loginUser, logoutUser, loginTrainer, payUser } =
   userSlice.actions;
 
 export default userSlice.reducer;

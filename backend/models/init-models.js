@@ -12,6 +12,7 @@ var _dailyusercounts = require("./dailyusercounts");
 var _exercise_routines = require("./exercise_routines");
 var _expertises = require("./expertises");
 var _feedbacks = require("./feedbacks");
+var _master = require("./master");
 var _meal_plan = require("./meal_plan");
 var _payhistory = require("./payhistory");
 var _pt_requests = require("./pt_requests");
@@ -40,6 +41,7 @@ function initModels(sequelize) {
   var exercise_routines = _exercise_routines(sequelize, DataTypes);
   var expertises = _expertises(sequelize, DataTypes);
   var feedbacks = _feedbacks(sequelize, DataTypes);
+  var master = _master(sequelize, DataTypes);
   var meal_plan = _meal_plan(sequelize, DataTypes);
   var payhistory = _payhistory(sequelize, DataTypes);
   var pt_requests = _pt_requests(sequelize, DataTypes);
@@ -79,6 +81,7 @@ function initModels(sequelize) {
     exercise_routines,
     expertises,
     feedbacks,
+    master,
     meal_plan,
     payhistory,
     pt_requests,

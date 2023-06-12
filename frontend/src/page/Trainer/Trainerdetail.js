@@ -87,11 +87,11 @@ function Trainerdetail() {
             {trainer.email}
           </text>
           <text className="emailblock">
-            <span className="b">H.P :</span>
+            <span className="b">H.P : </span>
             {trainer.phonenumber}
           </text>
           <text className="emailblock">
-            <span className="b">PT 회 당 가격 :</span>
+            <span className="b">PT 회당 가격 :</span>
             {trainer.pt_point}
           </text>
           <Button

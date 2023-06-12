@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { Container, FloatingLabel, Form, Button } from 'react-bootstrap';
 import styled from 'styled-components';
-import { UploadOutlined, CloseOutlined } from '@ant-design/icons';
+import { CloseOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 
 function TrainerProfile() {
@@ -133,11 +133,12 @@ function TrainerProfile() {
                 onChange={e => setPtPrice(e.target.value)}
               />
             </FloatingLabel>
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" className="mgbt">
               저장
             </Button>
           </Form>
-          <div className="head">자기 소개</div>
+          <hr />
+          <div className="head mgtp">자기 소개</div>
           <Form onSubmit={submitIntroduction}>
             <FloatingLabel
               controlId="floatingTextarea"
@@ -160,7 +161,7 @@ function TrainerProfile() {
       </Container1>
 
       <Container1 fluid>
-        <div className="certification-list">
+        <div>
           <div className="head">보유 자격증</div>
           <Button
             variant="primary"
@@ -172,6 +173,10 @@ function TrainerProfile() {
             <div key={certification.id} className="certification-item">
               <h3 className="certification-name">
                 {certification.name}
+                <div>
+                  <CloseOutlined onClick={certificationDelete} />
+                </div>
+
                 <div>
                   <CloseOutlined
                     onClick={() => certificationDelete(certification.id)}

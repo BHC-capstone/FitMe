@@ -1,11 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Input } from 'antd';
-// import { Button } from 'react-bootstrap';
-// import { useParams, useNavigate } from 'react-router-dom';
-// import axios from 'axios';
 
 const { TextArea } = Input;
+
 function InputBox({ text1, text2, height, datap }) {
   const [textData, setTextData] = useState([]);
   const onChangeText = e => {
@@ -39,7 +37,6 @@ const Flexcontainer = styled.div`
   width: 100%;
   margin-top: 10px;
   border-radius: 10px;
-  // border: 1px solid black;
   background-color: rgb(233, 233, 233);
   height: ${props => (props.height === '20px' ? '20px' : props.height)};
 `;

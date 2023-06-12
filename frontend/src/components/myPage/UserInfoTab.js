@@ -68,6 +68,7 @@ export default function UserInfoTab({ loginedUser }) {
   if (!user) {
     return <div>회원정보 Loading...</div>;
   }
+
   const goEdit = () => {
     navigate('/mypage/edit');
   };
@@ -90,7 +91,7 @@ export default function UserInfoTab({ loginedUser }) {
           />
           <ul className="user-info-list">
             <li className="user-info-item">
-              <span className="user-info-label b">이메일:</span>{' '}
+              <span className="user-info-label b">이메일:</span>
               {user.data.email}
             </li>
             <li className="user-info-item">
@@ -100,7 +101,7 @@ export default function UserInfoTab({ loginedUser }) {
               <span className="user-info-label b">나이:</span> {user.data.age}
             </li>
             <li className="user-info-item">
-              <span className="user-info-label b">성별:</span>{' '}
+              <span className="user-info-label b">성별:</span>
               {user.data.gender === 'female' ? '여성' : '남성'}
             </li>
             <li className="user-info-item">

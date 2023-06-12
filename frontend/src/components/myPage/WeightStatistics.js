@@ -40,7 +40,7 @@ export default function WeightStatics({}) {
         }}
         interpolation="natural"
         style={{
-          data: { stroke: '#2ba5f7', strokeWidth: 3, strokeLinecap: 'round' },
+          data: { stroke: '#f5a302', strokeWidth: 3, strokeLinecap: 'round' },
           parent: { border: '1px solid #ccc' },
         }}
         data={requests}

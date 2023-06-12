@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Container, Button } from 'react-bootstrap';
-import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import InputBox from './InputBox';
 
@@ -14,6 +13,7 @@ function UserInputForm({ datatransform }) {
   const [bodyshape, setBodyShape] = useState('');
   const [purpose, setPurpose] = useState('');
   const [lifestyle, setLifeStyle] = useState('');
+
   useEffect(() => {
     datatransform({
       height,
@@ -35,12 +35,13 @@ function UserInputForm({ datatransform }) {
     purpose,
     lifestyle,
   ]);
+
   return (
     <Container fluid className="mgtp">
       <Flexcontainers>
-        <Head1>PT 신청서</Head1>
-        <InputBox text1="키" text2="cm" datap={setHeight} />
-        <InputBox text1="몸무게" text2="kg" datap={setWeight} />
+        <div className="head">PT 신청서</div>
+        <InputBox text1="키" text2="cm" datap={setHeight} required />
+        <InputBox text1="몸무게" text2="kg" datap={setWeight} required />
         <InputBox text1="지병 혹은 부상" height="60px" datap={setInjury} />
         <InputBox text1="운동 경력" height="60px" datap={setCareer} />
         <InputBox text1="특이사항" height="60px" datap={setSignificant} />
@@ -64,22 +65,6 @@ const Flexcontainers = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  //border: 2px solid black;
 `;
-const Head1 = styled.div`
-  color: rgb(21, 20, 20);
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 30px;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  width: fit-content;
-  margin: 0 auto;
-  padding: 10px 10px 10px 10px;
-`;
-const StyledButton = styled(Button)`
-  // width: 20%;
-  margin: auto;
-  margin-top: 20px;
-`;
+
 export default UserInputForm;

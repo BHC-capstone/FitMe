@@ -1,13 +1,13 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
 import ReactPlayer from 'react-player/lazy';
-import { Link } from 'react-router-dom'; //* ***
 import {
   ArrowDownOutlined,
   ArrowUpOutlined,
   CloseOutlined,
 } from '@ant-design/icons';
+
 // eslint-disable-next-line react/prop-types
 function Routine({
   num,
@@ -133,21 +133,7 @@ const Text2 = styled.text`
   margin-bottom: 5px;
   color: ${props => (props.num % 2 === 1 ? '#2ba5f7' : 'white')};
 `;
-const TextBox = styled.div`
-  padding-left: 5%;
-  text-align: left;
-  border-radius: 30px;
-  border: thin solid
-    ${props => ((props.num + props.count) % 2 === 1 ? '#2ba5f7' : 'white')};
-  width: 90%;
-  background-color: ${props =>
-    (props.num + props.count) % 2 === 1 ? '#fff' : '#2ba5f7'};
-  margin: auto;
-  margin-bottom: 5px;
-  line-height: 60px;
-  height: 60px;
-  color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
-`;
+
 const StyledButton = styled(Button)`
   padding-left: 5%;
   text-align: left;
@@ -179,10 +165,6 @@ const StyledVideoContainer = styled.button`
   line-height: 60px;
   height: 250px;
   color: ${props => ((props.num + props.count) % 2 === 1 ? 'gray' : 'white')};
-`;
-const StyledLink = styled(Link)`
-  width: 100%;
-  margin: auto;
 `;
 
 const Div = styled.div`
