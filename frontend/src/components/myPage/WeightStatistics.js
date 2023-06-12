@@ -16,7 +16,7 @@ export default function WeightStatics({}) {
   const [requests, setRequests] = useState([]);
   const fetchRequests = async () => {
     axios
-      .get(`https://localhost:4000/users/checkbodyinfo/${loginedUser.id}`, {
+      .get(`https://fitme.p-e.kr:4000/users/checkbodyinfo/${loginedUser.id}`, {
         withCredentials: true,
       })
       .then(response => {

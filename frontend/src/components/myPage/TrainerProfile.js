@@ -28,7 +28,7 @@ function TrainerProfile() {
   const fetchPtPrice = async () => {
     axios({
       method: 'get',
-      url: `https://localhost:4000/trainers/getPrice/${loginedUser.id}`,
+      url: `https://fitme.p-e.kr:4000/trainers/getPrice/${loginedUser.id}`,
       withCredentials: true,
     })
       .then(response => {
@@ -43,7 +43,7 @@ function TrainerProfile() {
   const fetchCertifications = async () => {
     try {
       const response = await axios.get(
-        `https://localhost:4000/trainers/getListOfCertification/${loginedUser.id}`,
+        `https://fitme.p-e.kr:4000/trainers/getListOfCertification/${loginedUser.id}`,
         { withCredentials: true },
       );
       const { data } = response.data;
@@ -56,7 +56,7 @@ function TrainerProfile() {
   const fetchIntroduction = async () => {
     axios({
       method: 'get',
-      url: `https://localhost:4000/trainers/profile/${loginedUser.id}`,
+      url: `https://fitme.p-e.kr:4000/trainers/profile/${loginedUser.id}`,
       withCredentials: true,
     })
       .then(response => {
@@ -72,7 +72,7 @@ function TrainerProfile() {
     e.preventDefault();
     axios({
       method: 'post',
-      url: `https://localhost:4000/trainers/profile/changeIntroduction/${loginedUser.id}`,
+      url: `https://fitme.p-e.kr:4000/trainers/profile/changeIntroduction/${loginedUser.id}`,
       data: {
         introduction,
       },
@@ -87,7 +87,7 @@ function TrainerProfile() {
     e.preventDefault();
     axios({
       method: 'post',
-      url: `https://localhost:4000/trainers/profile/changePtPoint/${loginedUser.id}`,
+      url: `https://fitme.p-e.kr:4000/trainers/profile/changePtPoint/${loginedUser.id}`,
       data: {
         pt_point: ptPrice,
       },
@@ -104,7 +104,7 @@ function TrainerProfile() {
   const certificationDelete = async id => {
     axios({
       method: 'post',
-      url: `https://localhost:4000/trainers/deleteCertification/${id}`,
+      url: `https://fitme.p-e.kr:4000/trainers/deleteCertification/${id}`,
       withCredentials: true,
     })
       .then(response => {

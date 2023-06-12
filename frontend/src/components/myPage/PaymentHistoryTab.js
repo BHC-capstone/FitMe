@@ -10,7 +10,7 @@ function PaymentHistoryTab() {
   useEffect(() => {
     axios({
       method: 'get',
-      url: `https://localhost:4000/pay/payment/user/${loginedUser.id}`,
+      url: `https://fitme.p-e.kr:4000/pay/payment/user/${loginedUser.id}`,
       withCredentials: true,
     }).then(res => {
       setPayments(res.data.data);

@@ -21,7 +21,7 @@ function Routine({ userid, date }) {
   useEffect(() => {
     setDietdate([]);
     axios({
-      url: `https://localhost:4000/calender/mealplan/${userid}/${date}`,
+      url: `https://fitme.p-e.kr:4000/calender/mealplan/${userid}/${date}`,
       method: 'GET',
       withCredentials: true,
     })
@@ -59,7 +59,7 @@ function Routine({ userid, date }) {
     };
     axios
       .post(
-        `https://localhost:4000/trainer_calender/createMealplan/${date}/${userid}/${loginedUser.id}`,
+        `https://fitme.p-e.kr:4000/trainer_calender/createMealplan/${date}/${userid}/${loginedUser.id}`,
         body,
         {
           withCredentials: true,

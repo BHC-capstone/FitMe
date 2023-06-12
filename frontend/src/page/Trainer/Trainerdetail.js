@@ -30,13 +30,13 @@ function Trainerdetail() {
     const fetchData = async () => {
       try {
         const trainerResponse = await axios.get(
-          `https://localhost:4000/trainers/profile/${id}`,
+          `https://fitme.p-e.kr:4000/trainers/profile/${id}`,
           {
             withCredentials: true,
           },
         );
         const imgResponse = await axios.get(
-          `https://localhost:4000/trainers/profileimg/${id}`,
+          `https://fitme.p-e.kr:4000/trainers/profileimg/${id}`,
           {
             withCredentials: true,
           },

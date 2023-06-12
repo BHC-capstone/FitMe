@@ -55,12 +55,12 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
 
   const fetchRequests = async () => {
     const response = await axios.get(
-      `https://localhost:4000/trainers/getPrice/${trainerid}`,
+      `https://fitme.p-e.kr:4000/trainers/getPrice/${trainerid}`,
     );
     setPrice(response.data.data.pt_point);
     setTotalPrice(count * response.data.data.pt_point);
     const response1 = await axios.get(
-      `https://localhost:4000/users/userpoint/${userid}`,
+      `https://fitme.p-e.kr:4000/users/userpoint/${userid}`,
       {
         withCredentials: true,
       },
@@ -106,7 +106,7 @@ function Expectedpoint({ startDate, endDate, trainerid }) {
       lifestyle: detaildata.lifestyle,
     };
     axios
-      .post(`https://localhost:4000/request/ptrequest`, body, {
+      .post(`https://fitme.p-e.kr:4000/request/ptrequest`, body, {
         withCredentials: true,
       })
       .then(res => {

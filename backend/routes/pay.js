@@ -35,9 +35,9 @@ router.post('/payment', async (req, res) => {
       total_amount: amount,
       vat_amount: 0,
       tax_free_amount: 0,
-      approval_url: 'https://localhost:3000/charge-success',
-      fail_url: 'https://localhost:3000/charge-fail',
-      cancel_url: 'https://localhost:3000/charge-cancel',
+      approval_url: 'https://fitme.p-e.kr:3000/charge-success',
+      fail_url: 'https://fitme.p-e.kr:3000/charge-fail',
+      cancel_url: 'https://fitme.p-e.kr:3000/charge-cancel',
     };
 
     const response = await axios.post(

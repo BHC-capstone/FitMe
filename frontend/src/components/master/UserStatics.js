@@ -16,7 +16,7 @@ export default function UserStatics({}) {
   const [requests, setRequests] = useState([]);
   const fetchRequests = async () => {
     axios
-      .get(`https://localhost:4000/administrator/usercount`)
+      .get(`https://fitme.p-e.kr:4000/administrator/usercount`)
       .then(response => {
         setRequests(response.data.data);
         console.log('잘 가져옴', response.data.data);

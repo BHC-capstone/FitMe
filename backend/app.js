@@ -30,7 +30,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: 'https://localhost:3000',
+    origin: 'https://fitme.p-e.kr:4000',
     methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
     credentials: true,
   }),
@@ -42,7 +42,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: {
-      domain: 'localhost',
+      domain: '.p-e.kr',
       path: '/',
       maxAge: 24 * 6 * 60 * 10000,
       sameSite: 'none',

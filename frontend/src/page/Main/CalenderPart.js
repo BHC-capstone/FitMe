@@ -41,7 +41,7 @@ function CalendarPart() {
   useEffect(() => {
     axios({
       method: 'get',
-      url: `https://localhost:4000/request/date/${userid}`,
+      url: `https://fitme.p-e.kr:4000/request/date/${userid}`,
       withCredentials: true,
     }).then(response => {
       const { data } = response.data;

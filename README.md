@@ -16,7 +16,7 @@
 
 이 프로젝트는 캡스톤 디자인 과목의 일환으로 5인으로 구성된 BHC팀이 개발하였습니다.
 
-서비스 URL: https://localhost:4000
+서비스 URL: https://fitme.p-e.kr:4000
 
 시연 영상: https://drive.google.com/file/d/1enToxOaYWihNmt2jZmU92L42E3bCudiq/view?usp=share_link
 
@@ -111,22 +111,22 @@ https://docs.google.com/spreadsheets/d/124Tb08xdwcXLAvX0HUlZS1Pkdn-8BDyxjXWtX4-o
 
 ### 프로젝트 구조(프론트엔드)
 
-- components : 여러 곳에서 사용되는 컴포넌트 파일들을 모아놓은 폴더
-- images : 프로젝트에서 사용되는 이미지 파일을 모아놓은 폴더
-- page : 라우팅될 페이지 파일을 모아놓은 폴더
-- redux : redux를 사용하기 위해 스토어 및 모듈을 모아놓은 폴더
-- scss : 스타일에 사용될 scss 파일을 모아놓은 폴더
+-   components : 여러 곳에서 사용되는 컴포넌트 파일들을 모아놓은 폴더
+-   images : 프로젝트에서 사용되는 이미지 파일을 모아놓은 폴더
+-   page : 라우팅될 페이지 파일을 모아놓은 폴더
+-   redux : redux를 사용하기 위해 스토어 및 모듈을 모아놓은 폴더
+-   scss : 스타일에 사용될 scss 파일을 모아놓은 폴더
 
 ### 프로젝트 구조(백엔드)
 
-- config : 설정파일
-- bin : 실행가능한 파일들
-- models : sequelize로 생성된 model 파일
-- node modules : node.js에서 프로젝트에서 사용되는 외부 패키지들
-- public : 정적파일 (js, css)
-- routes : router
-- modules : module 파일
-  - s3upload : amazons3 upload 파일
+-   config : 설정파일
+-   bin : 실행가능한 파일들
+-   models : sequelize로 생성된 model 파일
+-   node modules : node.js에서 프로젝트에서 사용되는 외부 패키지들
+-   public : 정적파일 (js, css)
+-   routes : router
+-   modules : module 파일
+    -   s3upload : amazons3 upload 파일
 
 ### 전체 프로젝트 구조
 

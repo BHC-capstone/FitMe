@@ -10,7 +10,7 @@ function MasterLogin() {
   const onSubmit = () => {
     axios({
       method: 'post',
-      url: 'https://localhost:4000/administrator/login',
+      url: 'https://fitme.p-e.kr:4000/administrator/login',
       data: {
         password,
       },
